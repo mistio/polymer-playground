@@ -1,0 +1,155 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="add-cloud">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+        margin-bottom: 50px;
+      }
+
+      paper-dropdown-menu {
+        display: block;
+      }
+
+      iron-label {
+        display: block;
+      }
+    </style>
+
+    <paper-card heading="Select Provider">
+      <div class="card-content">
+        <!-- <template is="dom-if" if="[[!provider]]"> -->
+        <paper-dropdown-menu label="Providers">
+          <paper-menu attr-for-selected="value" selected="{{provider}}" class="dropdown-content">
+            <template is="dom-repeat" items="[[providersItems]]" as="provider">
+              <paper-item value="[[provider]]">[[provider]]</paper-item>
+            </template>
+          </paper-menu>
+        </paper-dropdown-menu>
+        <!-- </template> -->
+
+        <template is="dom-if" if="[[provider]]">
+          <p>Do you want to reset it?
+            <paper-button raised on-tap="_providerReset">Reset Provider</paper-button>
+          </p>
+        </template>
+      </div>
+    </paper-card>
+
+    <paper-card heading="Add Cloud">
+      <div class="card-content">
+        <template is="dom-if" if="[[!provider]]">
+          <p>Select a provider above first!!</p>
+        </template>
+
+        <template is="dom-if" if="[[provider]]">
+          <iron-form id="form" method="post" action="/form/handler">
+            <template is="dom-repeat" items="[[providerFields]]" as="field">
+              <paper-input placeholder="[[field.placeholder]]" label="[[field.label]]" value="[[field.defaultValue]]" required="[[field.required]]" error-message="[[field.errorMessage]]" autoValidate></paper-input>
+            </template>
+            <paper-button raised on-tap="_submitForm">Submit</paper-button>
+          </iron-form>
+        </template>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'add-cloud',
+
+        properties: {
+          provider: {
+            type: String,
+            value: null,
+            observer: '_providerChanged',
+            notify: true
+          },
+          providersItems: {
+            type: Array,
+            value: [],
+            computed: '_computeProvidersItems(options)'
+          },
+          providerFields: {
+            type: Array,
+            value: []
+          },
+          options: {
+            type: Array,
+            value: {
+              azure: [{
+                name: 'title',
+                label: 'Title',
+                type: 'text',
+                defaultValue: 'Azure',
+                required: true,
+                errorMessage: 'Title is required'
+              }],
+              coreos: [{
+                name: 'title',
+                label: 'Title',
+                type: 'text',
+                defaultValue: 'CoreOS',
+                required: true,
+                errorMessage: 'Title is required'
+              }, {
+                name: 'machine_ip',
+                label: 'Hostname',
+                type: 'text',
+                placeholder: 'DNS or IP ',
+                required: true,
+                errorMessage: 'IP is required'
+              }]
+            }
+          }
+        },
+        ready: function() {
+
+        },
+        _computeProvidersItems: function(options) {
+          var data = [],
+            el;
+
+          for (el in options) {
+            data.push(el);
+          }
+
+          return data;
+        },
+        _providerReset: function() {
+          this.set('provider', null);
+        },
+        _providerChanged: function(newValue, oldValue) {
+          if (newValue) {
+            var providerFields = [],
+              options = this.options,
+              el;
+
+            for (el in options) {
+              if (el == newValue) {
+                providerFields = options[el];
+              }
+            }
+
+            this.set('providerFields', providerFields);
+          } else {
+            this.set('providerFields', []);
+          }
+        },
+        _submitForm: function(e) {
+          //   e.preventDefault();
+          var form = document.getElementById('form');
+          //   console.log(form.serialize(), form.validate());
+        }
+      });
+    })();
+  </script>
+</dom-module>

@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+<dom-module id="users-list">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <paper-material elevation="1">
+      <h2 class="page-title">Users</h2>
+      <p>This is the users section</p>
+      <a href$="{{baseUrl}}users/Addy">Addy</a>
+      <br>
+      <a href$="{{baseUrl}}users/Rob">Rob</a>
+      <br>
+      <a href$="{{baseUrl}}users/Chuck">Chuck</a>
+      <br>
+      <a href$="{{baseUrl}}users/Sam">Sam</a>
+    </paper-material>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'users-list',
+
+        properties: {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>
