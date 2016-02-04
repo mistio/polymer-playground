@@ -47,9 +47,9 @@
     <template is="dom-if" if="[[!pageSecond]]">
       <paper-card heading="Feedback (Page 1 of 2)">
         <div class="card-content">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}" autoValidate></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
+          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}" autoValidate></paper-input>
 
           <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
 
@@ -78,20 +78,16 @@
           </paper-dropdown-menu>
 
           <iron-label>Where do you host your servers?</iron-label>
-          <paper-checkbox>AWS</paper-checkbox>
-          <paper-checkbox>Google Compute Engine</paper-checkbox>
-          <paper-checkbox>Azure</paper-checkbox>
-          <paper-checkbox>Softlayer</paper-checkbox>
-          <paper-checkbox>Rackspace</paper-checkbox>
-          <paper-checkbox>Digital Ocean</paper-checkbox>
-          <paper-checkbox>Linode</paper-checkbox>
-          <paper-checkbox>Private Data Center</paper-checkbox>
-          <paper-checkbox>Other</paper-checkbox>
+          <template is="dom-repeat" items="[[hostedOptions]]" as="host">
+            <paper-checkbox value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
+          </template>
 
-          <paper-input label="Please specify where do you host your servers?" value="{{user.lastname}}"></paper-input>
+          <template is="dom-if" if="[[user.hasExtraHosted]]">
+            <paper-input label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
+          </template>
 
           <div class="clearfix">
-            <paper-button class="pull-right" disabled$="[[!_computeFirstFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+            <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
           </div>
           <p class="text-center">* All fields are considered to be mandatory</p>
         </div>
@@ -137,12 +133,14 @@
 
           <div class="clearfix">
             <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
-            <paper-button class="pull-right" disabled$="[[!_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve)]]" raised on-tap="_submitForm">Submit</paper-button>
+            <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_submitForm">Submit</paper-button>
           </div>
           <p class="text-center">* All fields are considered to be mandatory</p>
         </div>
       </paper-card>
     </template>
+
+    <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -155,25 +153,30 @@
         properties: {
           pageSecond: {
             type: Boolean,
-            value: true
+            value: false
           },
           user: {
             type: Object,
-            value: {
-              firstName: null,
-              lastName: null,
-              country: null,
-              companyName: null,
-              numberOfPeople: null,
-              numberOfServers: null,
-              discover: null,
-              hasExtraDiscover: false,
-              extraDiscover: null,
-              satisfaction: null,
-              alternative: null,
-              hasExtraAlternative: false,
-              extraAlternative: null,
-              improve: null
+            value: function() {
+              return {
+                'firstName': null,
+                'lastName': null,
+                'country': null,
+                'companyName': null,
+                'numberOfPeople': null,
+                'numberOfServers': null,
+                'discover': null,
+                'hosted': [],
+                'hasExtraHosted': false,
+                'extraHosted': null,
+                'hasExtraDiscover': false,
+                'extraDiscover': null,
+                'satisfaction': null,
+                'alternative': null,
+                'hasExtraAlternative': false,
+                'extraAlternative': null,
+                'improve': null
+              };
             },
             notify: true
           },
@@ -188,6 +191,37 @@
           numberOfServersOptions: {
             type: Array,
             value: ['1-5', '6-20', '21-100', '100+']
+          },
+          hostedOptions: {
+            type: Array,
+            value: [{
+              title: 'AWS',
+              val: 'AWS'
+            }, {
+              title: 'Google Compute Engine',
+              val: 'Compute'
+            }, {
+              title: 'Azure',
+              val: 'Azure'
+            }, {
+              title: 'SoftLayer',
+              val: 'SoftLayer'
+            }, {
+              title: 'Rackspace',
+              val: 'Rackspace'
+            }, {
+              title: 'Digital Ocean',
+              val: 'Ocean'
+            }, {
+              title: 'Linode',
+              val: 'Linode'
+            }, {
+              title: 'Private Data Center',
+              val: 'Private'
+            }, {
+              title: 'Other',
+              val: 'other'
+            }]
           },
           discoverOptions: {
             type: Array,
@@ -234,36 +268,53 @@
             type: Array,
             value: [{
               title: "No",
-              val: "no"
+              val: "none"
             }, {
               title: "Yes",
-              val: "yes"
+              val: "other"
             }]
+          },
+          firstFormReady: {
+            type: Boolean,
+            computed: '_computeFirstFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, user.hosted.*, user.hasExtraHosted, user.extraHosted)'
+          },
+          secondFormReady: {
+            type: Boolean,
+            computed: '_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve, sendingData)'
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
           }
         },
         observers: [
+          '_hostedChanged(user.hosted.*)',
           '_discoverChanged(user.discover)',
           '_alternativeChanged(user.alternative)'
         ],
         ready: function() {
-          this.set('user.firstname', FIRST_NAME);
-          this.set('user.lastname', LAST_NAME);
+          this.set('user.firstName', FIRST_NAME);
+          this.set('user.lastName', LAST_NAME);
           this.set('user.country', COUNTRY);
           this.set('user.companyName', COMPANY_NAME);
           this.set('user.numberOfPeople', NUMBER_OF_PEOPLE);
           this.set('user.numberOfServers', NUMBER_OF_SERVERS);
           this.set('countriesOptions', COUNTRIES);
         },
-        _computeFirstFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
+        _computeFirstFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers, hosted, hasExtraHosted, extraHosted) {
           var formReady = false;
 
-          if (firstname && lastname && country && companyName && numberOfPeople && numberOfServers) {
+          if (firstName && lastName && country && companyName && numberOfPeople && numberOfServers && hosted.base.length) {
             formReady = true;
+          }
+
+          if (hasExtraHosted && !extraHosted) {
+            formReady = false;
           }
 
           return formReady;
         },
-        _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve) {
+        _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve, sendingData) {
           var formReady = false;
 
           if (discover && satisfaction && alternative && improve) {
@@ -278,20 +329,84 @@
             formReady = false;
           }
 
+          if (sendingData) {
+            formReady = false;
+          }
+
           return formReady;
         },
+        _hostedChanged: function(changeRecord) {
+          var hasExtraHosted = changeRecord.base.indexOf('other') != -1;
+
+          if (hasExtraHosted) {
+            this.set('user.extraHosted', null);
+          }
+
+          this.set('user.hasExtraHosted', hasExtraHosted);
+        },
         _discoverChanged: function(discover) {
+          this.set('user.extraDiscover', null);
           this.set('user.hasExtraDiscover', discover == 'other');
         },
         _alternativeChanged: function(alternative) {
-          this.set('user.hasExtraAlternative', alternative == 'yes');
+          this.set('user.extraAlternative', null);
+          this.set('user.hasExtraAlternative', alternative == 'other');
         },
         _pageChange: function(e) {
           var page = e.currentTarget.getAttribute('page');
           this.set('pageSecond', page == 'second');
         },
+        _toggleChecked: function(e) {
+          var checkbox = e.currentTarget,
+            checked = checkbox.checked,
+            val = checkbox.value;
+
+          if (checked) {
+            this.push('user.hosted', val);
+          } else {
+            var index = this.user.hosted.indexOf(val);
+            this.splice('user.hosted', index, 1);
+          }
+        },
         _submitForm: function() {
-          comnsole.log('submit form');
+          console.log(this.user);
+          var hosted = this.user.hosted,
+            index = hosted.indexOf('other');
+
+          if (index > -1) {
+            hosted.splice(index, 1);
+            hosted.push(this.user.extraHosted);
+          }
+
+          var discover = this.user.hasExtraDiscover ? this.user.extraDiscover : this.user.discover,
+            alternatives = this.user.hasExtraAlternative ? this.user.extraAlternative : this.user.alternative;
+
+          var payload = {
+            action: 'update_details',
+            first_name: this.user.firstName,
+            last_name: this.user.lastName,
+            company_name: this.user.companyName,
+            country: this.user.country,
+            number_of_servers: this.user.numberOfServers,
+            number_of_people: this.user.numberOfPeople,
+            hosted: hosted,
+            discover: discover,
+            satisfied: this.user.satisfaction,
+            alternatives: alternatives,
+            improve: this.user.improve,
+            feedback: true
+          };
+
+          console.log(payload)
+
+          //   this.$.ajax.body = payload;
+          //   this.$.ajax.generateRequest();
+        },
+        _ajaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _ajaxResponse: function() {
+          this.set('sendingData', false);
         }
       });
     })();
