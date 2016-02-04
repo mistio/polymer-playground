@@ -19,16 +19,10 @@
       iron-form paper-dropdown-menu {
         display: block;
       }
-
-      .card-content:after {
-        clear: both;
-        display: table;
-        content: '';
-      }
     </style>
 
     <paper-card heading="Billing">
-      <div class="card-content">
+      <div class="card-content clearfix">
         <template is="dom-repeat" items=[[plans]] as="plan">
           <plan-element plan="[[plan]]"></plan-element>
         </template>

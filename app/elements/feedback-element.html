@@ -12,58 +12,135 @@
         display: block;
       }
 
-      iron-form paper-button {
-        margin: 20px 0 0;
+      paper-menu,
+      paper-dropdown-menu {
+        width: 100%;
       }
 
-      iron-form paper-dropdown-menu {
+      paper-button {
+        margin: 20px 0 0;
+        background-color: #3f51b5;
+        color: #fff;
+      }
+
+      paper-button[disabled] {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+      }
+
+      paper-dropdown-menu {
         display: block;
+      }
+
+      iron-label {
+        display: block;
+        margin-top: 20px;
+      }
+
+      paper-checkbox {
+        display: block;
+        margin-top: 20px;
       }
     </style>
 
-    <template is="dom-if" if="[[!pageChange]]">
+    <template is="dom-if" if="[[!pageSecond]]">
       <paper-card heading="Feedback (Page 1 of 2)">
         <div class="card-content">
-          <iron-form id="form" method="post" action="/account">
-            <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
 
-            <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
+          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
 
-            <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
+          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
 
-            <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
-              <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
-                <template is="dom-repeat" items="[[countriesOptions]]" as="location">
-                  <paper-item value="[[location]]">[[location]]</paper-item>
-                </template>
-              </paper-menu>
-            </paper-dropdown-menu>
+          <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[countriesOptions]]" as="location">
+                <paper-item value="[[location]]">[[location]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
 
-            <paper-dropdown-menu label="How many people work there?" horizontal-align="left">
-              <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
-                <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
-                  <paper-item value="[[people]]">[[people]]</paper-item>
-                </template>
-              </paper-menu>
-            </paper-dropdown-menu>
+          <paper-dropdown-menu label="How many people work there?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
+                <paper-item value="[[people]]">[[people]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
 
-            <paper-dropdown-menu label="How many servers do you have?" horizontal-align="left">
-              <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
-                <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
-                  <paper-item value="[[servers]]">[[servers]]</paper-item>
-                </template>
-              </paper-menu>
-            </paper-dropdown-menu>
+          <paper-dropdown-menu label="How many servers do you have?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
+                <paper-item value="[[servers]]">[[servers]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
 
-            <paper-button disabled$="[[!_computeFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_submitForm">Submit</paper-button>
-          </iron-form>
+          <iron-label>Where do you host your servers?</iron-label>
+          <paper-checkbox>AWS</paper-checkbox>
+          <paper-checkbox>Google Compute Engine</paper-checkbox>
+          <paper-checkbox>Azure</paper-checkbox>
+          <paper-checkbox>Softlayer</paper-checkbox>
+          <paper-checkbox>Rackspace</paper-checkbox>
+          <paper-checkbox>Digital Ocean</paper-checkbox>
+          <paper-checkbox>Linode</paper-checkbox>
+          <paper-checkbox>Private Data Center</paper-checkbox>
+          <paper-checkbox>Other</paper-checkbox>
+
+          <paper-input label="Please specify where do you host your servers?" value="{{user.lastname}}"></paper-input>
+
+          <div class="clearfix">
+            <paper-button class="pull-right" disabled$="[[!_computeFirstFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+          </div>
+          <p class="text-center">* All fields are considered to be mandatory</p>
         </div>
       </paper-card>
     </template>
 
-    <template is="dom-if" if="[[pageChange]]">
+    <template is="dom-if" if="[[pageSecond]]">
       <paper-card heading="Feedback (Page 2 of 2)">
+        <div class="card-content">
+          <paper-dropdown-menu label="How did you discover mist.io?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[discoverOptions]]" as="discover">
+                <paper-item value="[[discover.val]]">[[discover.title]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
 
+          <template is="dom-if" if="[[hasExtraDiscover]]">
+            <paper-input label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}" autoValidate></paper-input>
+          </template>
+
+          <paper-dropdown-menu label="How satisfied are you with mist.io?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[satisfactionOptions]]" as="satisfaction">
+                <paper-item value="[[satisfaction.val]]">[[satisfaction.title]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+
+          <paper-dropdown-menu label="Have you considered using similar services?" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{user.alternative}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[alternativeOptions]]" as="alternative">
+                <paper-item value="[[alternative.val]]">[[alternative.title]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+
+          <template is="dom-if" if="[[hasExtraAletrnative]]">
+            <paper-input label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAletrnative}}" autoValidate></paper-input>
+          </template>
+
+          <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
+
+          <div class="clearfix">
+            <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
+            <paper-button class="pull-right" raised on-tap="_submitForm">Submit</paper-button>
+          </div>
+          <p class="text-center">* All fields are considered to be mandatory</p>
+        </div>
       </paper-card>
     </template>
   </template>
@@ -76,9 +153,9 @@
         is: 'feedback-element',
 
         properties: {
-          pageChange: {
+          pageSecond: {
             type: Boolean,
-            value: false
+            value: true
           },
           user: {
             type: Object,
@@ -88,7 +165,18 @@
               country: null,
               companyName: null,
               numberOfPeople: null,
-              numberOfServers: null
+              numberOfServers: null,
+              discover: null,
+              hasExtraDiscover: {
+                type: Boolean,
+                value: '_computeHasExtraDiscover(user.discover)'
+              },
+              extraDiscover: null,
+              satisfaction: null,
+              alternative: null,
+              hasExtraAlternative: '_computeHasExtraAlternative(user.alternative)',
+              extraAlternative: null,
+              improve: null
             },
             notify: true
           },
@@ -103,6 +191,57 @@
           numberOfServersOptions: {
             type: Array,
             value: ['1-5', '6-20', '21-100', '100+']
+          },
+          discoverOptions: {
+            type: Array,
+            value: [{
+              title: "Blog",
+              val: "blog"
+            }, {
+              title: "Friend or colleague",
+              val: "friend"
+            }, {
+              title: "Search engine (e.g. Google, Yahoo!)",
+              val: "search"
+            }, {
+              title: "Facebook",
+              val: "facebook"
+            }, {
+              title: "Twitter",
+              val: "twitter"
+            }, {
+              title: "Other",
+              val: "other"
+            }]
+          },
+          satisfactionOptions: {
+            type: Array,
+            value: [{
+              title: "Excited!",
+              val: "excited"
+            }, {
+              title: "It works",
+              val: "itworks"
+            }, {
+              title: "Not sure yet",
+              val: "notsureyet"
+            }, {
+              title: "Disappointed",
+              val: "disappointed"
+            }, {
+              title: "Very disappointed - I no longer use mist.io",
+              val: "verydissapointed"
+            }]
+          },
+          alternativeOptions: {
+            type: Array,
+            value: [{
+              title: "No",
+              val: "no"
+            }, {
+              title: "Yes",
+              val: "yes"
+            }]
           }
         },
         ready: function() {
@@ -114,8 +253,22 @@
           this.set('user.numberOfServers', NUMBER_OF_SERVERS);
           this.set('countriesOptions', COUNTRIES);
         },
-        _computeFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
+        _computeFirstFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
           return firstname && lastname && country && companyName && numberOfPeople && numberOfServers;
+        },
+        _computeHasExtraDiscover: function(discover) {
+          console.log(discover);
+          return discover == 'other';
+        },
+        _computeHasExtraAlternative: function(alternative) {
+          return alternative == 'yes';
+        },
+        _pageChange: function(e) {
+          var page = e.currentTarget.getAttribute('page');
+          this.set('pageSecond', page == 'second');
+        },
+        _submitForm: function() {
+          comnsole.log('submit form');
         }
       });
     })();

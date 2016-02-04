@@ -12,3 +12,23 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
 }
+paper-button[disabled],
+iron-form paper-button[disabled] {
+  background-color: #ccc;
+  color: #fff;
+  cursor: not-allowed;
+}
+.text-center {
+  text-align: center;
+}
+.pull-right {
+    float: right;
+}
+.pull-left {
+    float: left;
+}
+.clearfix:after {
+    display: table;
+    clear: both;
+    content: '';
+}
