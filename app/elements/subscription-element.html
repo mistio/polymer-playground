@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="subscription-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      tr {
+        display: block;
+        width: 100%;
+      }
+
+      iron-form paper-button {
+        margin: 20px 0 0;
+      }
+
+      iron-form paper-dropdown-menu {
+        display: block;
+      }
+    </style>
+
+    <tr>
+      <td width="33%">[[dateText]]</td>
+      <td width="33%">[[titleText]]</td>
+      <td width="33%">[[subscription.action]]</td>
+    </tr>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'subscription-element',
+
+        properties: {
+          subscription: {
+            type: Object
+          },
+          titleText: {
+            type: String,
+            computed: '_computeTitleText(subscription.title, subscription.isTrial, subscription.promo_code)'
+          },
+          dateText: {
+            type: String,
+            computed: '_computeDateText(subscription.time)'
+          }
+        },
+        ready: function() {
+
+        },
+        _computeTitleText: function(title, isTrial, promoCode) {
+          return title + (isTrial ? ' (trial)' : (promoCode ? ' (promo)' : null));
+        },
+        _computeDateText: function(time) {
+          var date = new Date(time * 1000);
+          return date.getMonthName() + ' ' + date.getDate() + ', ' + date.getFullYear();
+        }
+      });
+    })();
+  </script>
+</dom-module>

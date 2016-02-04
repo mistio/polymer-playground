@@ -212,6 +212,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="communication:comment"></iron-icon>
             <span>Feedback</span>
           </a>
+
+          <a data-route="subscriptions" href="/subscriptions">
+            <iron-icon icon="today"></iron-icon>
+            <span>Subscriptions</span>
+          </a>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -314,6 +319,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <billing-element data-route="billing"></billing-element>
 
             <feedback-element data-route="feedback"></feedback-element>
+
+            <subscriptions-element data-route="subscriptions"></subscriptions-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
@@ -345,6 +352,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/common.js"></script>
   <!-- endbuild-->
 </body>
 

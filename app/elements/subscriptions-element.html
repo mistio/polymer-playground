@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="subscriptions-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      table,
+      table > * {
+          display: block;
+      }
+    </style>
+
+    <paper-card heading="Subscription History">
+      <div class="card-content">
+        <table>
+          <thead>
+            <th width="33%">Date</th>
+            <th width="33%">Plan</th>
+            <th width="33%">Action</th>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items=[[subscriptions]] as="subscription">
+              <subscription-element subscription="[[subscription]]"></subscription-element>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'subscriptions-element',
+
+        properties: {
+          subscriptions: {
+            type: Array,
+            value: []
+          }
+        },
+        ready: function() {
+          this.set('subscriptions', USER_PLANS);
+        }
+      });
+    })();
+  </script>
+</dom-module>
