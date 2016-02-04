@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="details-element">
+<dom-module id="feedback-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -21,43 +21,51 @@
       }
     </style>
 
-    <paper-card heading="Account Details">
-      <div class="card-content">
-        <iron-form id="form" method="post" action="/account">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
+    <template is="dom-if" if="[[!pageChange]]">
+      <paper-card heading="Feedback (Page 1 of 2)">
+        <div class="card-content">
+          <iron-form id="form" method="post" action="/account">
+            <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
+            <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
 
-          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
+            <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
 
-          <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[countriesOptions]]" as="location">
-                <paper-item value="[[location]]">[[location]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
+            <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+              <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
+                <template is="dom-repeat" items="[[countriesOptions]]" as="location">
+                  <paper-item value="[[location]]">[[location]]</paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
 
-          <paper-dropdown-menu label="How many people work there?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
-                <paper-item value="[[people]]">[[people]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
+            <paper-dropdown-menu label="How many people work there?" horizontal-align="left">
+              <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
+                <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
+                  <paper-item value="[[people]]">[[people]]</paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
 
-          <paper-dropdown-menu label="How many servers do you have?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
-                <paper-item value="[[servers]]">[[servers]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
+            <paper-dropdown-menu label="How many servers do you have?" horizontal-align="left">
+              <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
+                <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
+                  <paper-item value="[[servers]]">[[servers]]</paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
 
-          <paper-button disabled$="[[!_computeFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_submitForm">Submit</paper-button>
-        </iron-form>
-      </div>
-    </paper-card>
+            <paper-button disabled$="[[!_computeFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_submitForm">Submit</paper-button>
+          </iron-form>
+        </div>
+      </paper-card>
+    </template>
+
+    <template is="dom-if" if="[[pageChange]]">
+      <paper-card heading="Feedback (Page 2 of 2)">
+
+      </paper-card>
+    </template>
   </template>
 
   <script>
@@ -65,9 +73,13 @@
       'use strict';
 
       Polymer({
-        is: 'details-element',
+        is: 'feedback-element',
 
         properties: {
+          pageChange: {
+            type: Boolean,
+            value: false
+          },
           user: {
             type: Object,
             value: {
@@ -104,11 +116,6 @@
         },
         _computeFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
           return firstname && lastname && country && companyName && numberOfPeople && numberOfServers;
-        },
-        _submitForm: function(e) {
-          //   e.preventDefault();
-          var form = document.getElementById('form');
-          //   console.log(form.serialize(), form.validate());
         }
       });
     })();
