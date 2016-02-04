@@ -109,7 +109,7 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <template is="dom-if" if="[[hasExtraDiscover]]">
+          <template is="dom-if" if="[[user.hasExtraDiscover]]">
             <paper-input label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}" autoValidate></paper-input>
           </template>
 
@@ -129,15 +129,15 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <template is="dom-if" if="[[hasExtraAletrnative]]">
-            <paper-input label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAletrnative}}" autoValidate></paper-input>
+          <template is="dom-if" if="[[user.hasExtraAlternative]]">
+            <paper-input label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}" autoValidate></paper-input>
           </template>
 
           <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
 
           <div class="clearfix">
             <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
-            <paper-button class="pull-right" raised on-tap="_submitForm">Submit</paper-button>
+            <paper-button class="pull-right" disabled$="[[!_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve)]]" raised on-tap="_submitForm">Submit</paper-button>
           </div>
           <p class="text-center">* All fields are considered to be mandatory</p>
         </div>
@@ -167,14 +167,11 @@
               numberOfPeople: null,
               numberOfServers: null,
               discover: null,
-              hasExtraDiscover: {
-                type: Boolean,
-                value: '_computeHasExtraDiscover(user.discover)'
-              },
+              hasExtraDiscover: false,
               extraDiscover: null,
               satisfaction: null,
               alternative: null,
-              hasExtraAlternative: '_computeHasExtraAlternative(user.alternative)',
+              hasExtraAlternative: false,
               extraAlternative: null,
               improve: null
             },
@@ -244,6 +241,10 @@
             }]
           }
         },
+        observers: [
+          '_discoverChanged(user.discover)',
+          '_alternativeChanged(user.alternative)'
+        ],
         ready: function() {
           this.set('user.firstname', FIRST_NAME);
           this.set('user.lastname', LAST_NAME);
@@ -254,14 +255,36 @@
           this.set('countriesOptions', COUNTRIES);
         },
         _computeFirstFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
-          return firstname && lastname && country && companyName && numberOfPeople && numberOfServers;
+          var formReady = false;
+
+          if (firstname && lastname && country && companyName && numberOfPeople && numberOfServers) {
+            formReady = true;
+          }
+
+          return formReady;
         },
-        _computeHasExtraDiscover: function(discover) {
-          console.log(discover);
-          return discover == 'other';
+        _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve) {
+          var formReady = false;
+
+          if (discover && satisfaction && alternative && improve) {
+            formReady = true;
+          }
+
+          if (hasExtraDiscover && !extraDiscover) {
+            formReady = false;
+          }
+
+          if (hasExtraAlternative && !extraAlternative) {
+            formReady = false;
+          }
+
+          return formReady;
         },
-        _computeHasExtraAlternative: function(alternative) {
-          return alternative == 'yes';
+        _discoverChanged: function(discover) {
+          this.set('user.hasExtraDiscover', discover == 'other');
+        },
+        _alternativeChanged: function(alternative) {
+          this.set('user.hasExtraAlternative', alternative == 'yes');
         },
         _pageChange: function(e) {
           var page = e.currentTarget.getAttribute('page');
