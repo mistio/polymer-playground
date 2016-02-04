@@ -47,10 +47,12 @@
         <iron-form id="form" method="post" action="/login">
           <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}" autoValidate></paper-input>
           <paper-input type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" autoValidate></paper-input>
-          <paper-button disabled$="[[!_computeFormReady(user.email, user.password)]]" raised on-tap="_submitForm">Submit</paper-button>
+          <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
         </iron-form>
       </div>
     </paper-dialog>
+
+    <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -68,6 +70,14 @@
               password: null
             },
             notify: true
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
+          },
+          formReady: {
+            type: Boolean,
+            computed: '_computeFormReady(user.email, user.password, sendingData)'
           }
         },
         listeners: {
@@ -76,8 +86,18 @@
         ready: function() {
 
         },
-        _computeFormReady: function(email, password) {
-          return email && password;
+        _computeFormReady: function(email, password, sendingData) {
+          var formReady = false;
+
+          if (email && password) {
+            formReady = true;
+          }
+
+          if (sendingData) {
+            formReady = false;
+          }
+
+          return formReady;
         },
         _openLoginModal: function(e) {
           this.$.loginModal.open();
@@ -96,6 +116,13 @@
         _formReset: function() {
           this.set('user.email', null);
           this.set('user.password', null);
+        },
+        _ajaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _ajaxResponse: function() {
+          this.set('sendingData', false);
+          this._formReset();
         }
       });
     })();
