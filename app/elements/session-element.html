@@ -13,6 +13,10 @@
         display: block;
       }
 
+      paper-item:hover {
+        cursor: pointer;
+      }
+
       .revoke {
         background-color: #d96557;
         color: #fff;
@@ -38,14 +42,14 @@
       <div class="flexchild">[[createdTimeText]]</div>
       <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild">
-        <span class="session-active" hidden$="[[isActive]]">Current Session</span>
-        <span class="session-action" hidden$="[[!isActive]]">
+        <span class="session-active" hidden$="[[!isActive]]">Current Session</span>
+        <span class="session-action" hidden$="[[isActive]]">
           <paper-button class="revoke" raised on-tap="_revokeSession">Terminate</paper-button>
         </span>
       </div>
       <div class="flexchild text-right">
-        <iron-icon icon="expand-more" class="expand" hidden$="[[!isOpen]]"></iron-icon>
-        <iron-icon icon="expand-less" class="expand" hidden$="[[isOpen]]"></iron-icon>
+        <iron-icon icon="expand-more" class="expand" hidden$="[[isOpen]]"></iron-icon>
+        <iron-icon icon="expand-less" class="expand" hidden$="[[!isOpen]]"></iron-icon>
       </div>
     </paper-item>
     <iron-collapse class="sub-items" id="collapse">
