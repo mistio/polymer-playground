@@ -8,9 +8,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 body {
-  background: #fafafa;
+  background: #f2f2f2;
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
+}
+paper-card {
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
 }
 paper-button[disabled],
 iron-form paper-button[disabled] {
@@ -20,6 +25,12 @@ iron-form paper-button[disabled] {
 }
 .text-center {
   text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
 }
 .pull-right {
     float: right;
@@ -31,4 +42,22 @@ iron-form paper-button[disabled] {
     display: table;
     clear: both;
     content: '';
+}
+.info-head > * {
+    font-weight: 700;
+    padding: 16px 0;
+}
+.info-head {
+    border-bottom: 1px solid #444;
+}
+.info-body .info-item {
+    border-bottom: 1px solid #d4d4d4;
+    padding: 16px 0;
+}
+
+.info-body .info-item.even {
+    background-color: #f2f2f2;
+}
+.info-body .info-item.last {
+    border: none;
 }

@@ -12,26 +12,29 @@
         display: block;
       }
 
-      table,
-      table > * {
-          display: block;
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
       }
     </style>
 
     <paper-card heading="Subscription History">
       <div class="card-content">
-        <table>
-          <thead>
-            <th width="33%">Date</th>
-            <th width="33%">Plan</th>
-            <th width="33%">Action</th>
-          </thead>
-          <tbody>
+        <div class="info-list">
+          <div class="info-head flex-horizontal-with-ratios">
+            <div class="flexchild">Date</div>
+            <div class="flexchild text-center">Plan</div>
+            <div class="flexchild text-right">Action</div>
+          </div>
+          <div class="info-body">
             <template is="dom-repeat" items=[[subscriptions]] as="subscription">
-              <subscription-element subscription="[[subscription]]"></subscription-element>
+              <subscription-element subscription="[[subscription]]" index="[[index]]" count="[[subscriptions.length]]"></subscription-element>
             </template>
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     </paper-card>
   </template>

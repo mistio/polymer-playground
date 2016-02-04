@@ -6,19 +6,11 @@
     <style include="shared-styles">
       :host {
         display: block;
+        width: 100%;
       }
 
       paper-card {
         display: block;
-      }
-
-      tr {
-        display: block;
-        width: 100%;
-      }
-
-      tr {
-        border-bottom: 1px solid #d4d4d4;
       }
 
       iron-form paper-button {
@@ -36,13 +28,21 @@
       .plan-end .plan-action {
         color: #d96557;
       }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
     </style>
 
-    <tr class$="plan-record [[isExpiringClass]]">
-      <td class="plan-date">[[dateText]]</td>
-      <td class="plan-title">[[titleText]]</td>
-      <td class="plan-action">[[subscription.action]]</td>
-    </tr>
+    <div class$="info-item flex-horizontal-with-ratios plan-record [[isExpiringClass]] [[indexClass]]">
+      <div class="flexchild plan-date">[[dateText]]</div>
+      <div class="flexchild plan-title text-center">[[titleText]]</div>
+      <div class="flexchild plan-action text-right">[[subscription.action]]</div>
+    </div>
   </template>
 
   <script>
@@ -56,6 +56,12 @@
           subscription: {
             type: Object
           },
+          index: {
+            type: Number
+          },
+          count: {
+            type: Number
+          },
           titleText: {
             type: String,
             computed: '_computeTitleText(subscription.title, subscription.isTrial, subscription.promo_code)'
@@ -67,10 +73,19 @@
           isExpiringClass: {
             type: String,
             computed: '_computeIsExpiringClass(subscription.action)'
+          },
+          indexClass: {
+            type: String,
+            computed: '_computeIsIndexClass(index, count)'
           }
         },
         ready: function() {
 
+        },
+        _computeIsIndexClass: function(index, count) {
+            var classes = [];
+            classes.push(index % 2 != 0 ? 'even' : 'odd', index + 1 == count ? 'last' : null);
+            return classes.join(' ');
         },
         _computeTitleText: function(title, isTrial, promoCode) {
           return title + (isTrial ? ' (trial)' : (promoCode ? ' (promo)' : null));
