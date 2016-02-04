@@ -19,14 +19,26 @@
       iron-form paper-dropdown-menu {
         display: block;
       }
+
+      paper-button {
+        margin: 20px 0 0;
+        background-color: #3f51b5;
+        color: #fff;
+      }
+
+      paper-button[disabled] {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+      }
     </style>
 
     <paper-card heading="Account Details">
       <div class="card-content">
         <iron-form id="form" method="post" action="/account">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstname}}" autoValidate></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}" autoValidate></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastname}}" autoValidate></paper-input>
+          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}" autoValidate></paper-input>
 
           <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
 
@@ -54,10 +66,12 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <paper-button disabled$="[[!_computeFormReady(user.firstname, user.lastname, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)]]" raised on-tap="_submitForm">Submit</paper-button>
+          <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
         </iron-form>
       </div>
     </paper-card>
+
+    <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -91,24 +105,51 @@
           numberOfServersOptions: {
             type: Array,
             value: ['1-5', '6-20', '21-100', '100+']
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
+          },
+          formReady: {
+            type: Boolean,
+            computed: '_computeFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, sendingData)'
           }
         },
         ready: function() {
-          this.set('user.firstname', FIRST_NAME);
-          this.set('user.lastname', LAST_NAME);
+          this.set('user.firstName', FIRST_NAME);
+          this.set('user.lastName', LAST_NAME);
           this.set('user.country', COUNTRY);
           this.set('user.companyName', COMPANY_NAME);
           this.set('user.numberOfPeople', NUMBER_OF_PEOPLE);
           this.set('user.numberOfServers', NUMBER_OF_SERVERS);
           this.set('countriesOptions', COUNTRIES);
         },
-        _computeFormReady: function(firstname, lastname, country, companyName, numberOfPeople, numberOfServers) {
-          return firstname && lastname && country && companyName && numberOfPeople && numberOfServers;
+        _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
+          return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
         },
         _submitForm: function(e) {
-          //   e.preventDefault();
           var form = document.getElementById('form');
-          //   console.log(form.serialize(), form.validate());
+          var payload = {
+            action: 'update_details',
+            first_name: this.user.firstName,
+            last_name: this.user.lastName,
+            last_name: this.user.lastName,
+            company_name: this.user.companyName,
+            country: this.user.country,
+            number_of_servers: this.user.numberOfServers,
+            number_of_people: this.user.numberOfPeople
+          };
+
+          console.log(payload);
+
+          //   this.$.ajax.body = payload;
+          //   this.$.ajax.generateRequest();
+        },
+        _ajaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _ajaxResponse: function() {
+          this.set('sendingData', false);
         }
       });
     })();
