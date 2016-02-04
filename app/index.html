@@ -144,7 +144,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "description": "100% off for 1 year",
       "stripe_coupon_id": "",
       "expiration": "2016-12-31"
-    }]
+    }];
+    var SESSIONS = [{
+      "created_at": "2016-01-05 16:02:07.981000",
+      "ip_address": "94.69.109.117",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+      "last_accessed_at": "2016-01-07 16:03:26.556000",
+      "id": "568be8ff32604922c061e78d"
+    }, {
+      "created_at": "2016-01-11 12:02:27.523000",
+      "ip_address": "94.65.70.242",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+      "last_accessed_at": "2016-01-11 13:01:32.452000",
+      "id": "569399d3326049380f5d7e3c"
+    }, {
+      "created_at": "2016-01-12 15:35:57.448000",
+      "ip_address": "2.84.64.76",
+      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36",
+      "last_accessed_at": "2016-01-14 14:43:53.923000",
+      "id": "56951d5d32604920810d071b"
+    }, {
+      "created_at": "2016-01-25 18:29:48.169000",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+      "last_accessed_at": "2016-02-03 19:53:39.023000",
+      "active": true,
+      "ip_address": "94.67.32.252",
+      "id": "56a6699c32604944d70d08b0"
+    }, {
+      "created_at": "2016-01-26 11:43:07.110000",
+      "ip_address": "94.67.32.252",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+      "last_accessed_at": "2016-01-27 14:47:44.944000",
+      "id": "56a75bcb32604978e75d8014"
+    }, {
+      "created_at": "2016-01-27 20:08:24.257000",
+      "ip_address": "94.67.32.252",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+      "last_accessed_at": "2016-01-27 23:18:26.254000",
+      "id": "56a923b832604935fa5d7ea3"
+    }, {
+      "created_at": "2016-01-29 14:48:20.145000",
+      "ip_address": "94.68.119.227",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+      "last_accessed_at": "2016-01-30 19:57:54.125000",
+      "id": "56ab7bb4326049785a0d071c"
+    }];
   </script>
 </head>
 
@@ -216,6 +260,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="subscriptions" href="/subscriptions">
             <iron-icon icon="today"></iron-icon>
             <span>Subscriptions</span>
+          </a>
+
+          <a data-route="sessions" href="/sessions">
+            <iron-icon icon="account-circle"></iron-icon>
+            <span>Sessions</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -321,6 +370,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <feedback-element data-route="feedback"></feedback-element>
 
             <subscriptions-element data-route="subscriptions"></subscriptions-element>
+
+            <sessions-element data-route="sessions"></sessions-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>

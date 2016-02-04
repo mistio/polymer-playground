@@ -13,12 +13,11 @@ body {
   color: #333;
 }
 paper-card {
-    max-width: 940px;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
 }
-paper-button[disabled],
-iron-form paper-button[disabled] {
+paper-button[disabled], iron-form paper-button[disabled] {
   background-color: #ccc;
   color: #fff;
   cursor: not-allowed;
@@ -33,31 +32,37 @@ iron-form paper-button[disabled] {
   text-align: left;
 }
 .pull-right {
-    float: right;
+  float: right;
 }
 .pull-left {
-    float: left;
+  float: left;
 }
 .clearfix:after {
-    display: table;
-    clear: both;
-    content: '';
+  display: table;
+  clear: both;
+  content: '';
 }
 .info-head > * {
-    font-weight: 700;
-    padding: 16px 0;
+  font-weight: 700;
+  padding: 16px 0;
 }
 .info-head {
-    border-bottom: 1px solid #444;
+  border-bottom: 1px solid #333;
 }
 .info-body .info-item {
-    border-bottom: 1px solid #d4d4d4;
-    padding: 16px 0;
+  border-bottom: 1px solid #d4d4d4;
+  padding: 16px 0;
+  min-height: inherit;
 }
-
+.info-body .sub-items .info-item {
+  color: #7f7f7f;
+}
+.info-body .info-item iron-icon {
+  margin-right: 10px;
+}
 .info-body .info-item.even {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 .info-body .info-item.last {
-    border: none;
+  border: none;
 }

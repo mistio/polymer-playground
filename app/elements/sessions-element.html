@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="sessions-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-card heading="Active Sessions">
+      <div class="card-content">
+        <div class="info-list">
+          <div class="info-head flex-horizontal-with-ratios">
+            <div class="flexchild">Created At</div>
+            <div class="flexchild">Last Accessed</div>
+            <div class="flexchild"></div>
+            <div class="flexchild"></div>
+          </div>
+          <div class="info-body">
+            <template is="dom-repeat" items=[[sessions]] as="session">
+              <session-element session="[[session]]" index="[[index]]" count="[[sessions.length]]"></session-element>
+            </template>
+          </div>
+        </div>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'sessions-element',
+
+        properties: {
+          sessions: {
+            type: Array,
+            value: []
+          }
+        },
+        listeners: {
+          'revokeSession': '_revokeSession'
+        },
+        ready: function() {
+          this.set('sessions', SESSIONS);
+        },
+        _revokeSession: function(e) {
+          var session = e.detail.session,
+            index = this.sessions.indexOf(session);
+
+          this.splice('sessions', index, 1);
+        }
+      });
+    })();
+  </script>
+</dom-module>

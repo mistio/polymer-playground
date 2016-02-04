@@ -1,0 +1,138 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="session-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        width: 100%;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .revoke {
+        background-color: #d96557;
+        color: #fff;
+        padding: 2px 6px;
+      }
+
+      .expand {
+        padding: 0;
+        width: 20px;
+        height: 20px;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-item on-tap="_expandSession" class$="info-item flex-horizontal-with-ratios session-item [[indexClass]]">
+      <div class="flexchild">[[createdTimeText]]</div>
+      <div class="flexchild">[[accessedTimeText]]</div>
+      <div class="flexchild">
+        <span class="session-active" hidden$="[[isActive]]">Current Session</span>
+        <span class="session-action" hidden$="[[!isActive]]">
+          <paper-button class="revoke" raised on-tap="_revokeSession">Terminate</paper-button>
+        </span>
+      </div>
+      <div class="flexchild text-right">
+        <iron-icon icon="expand-more" class="expand" hidden$="[[!isOpen]]"></iron-icon>
+        <iron-icon icon="expand-less" class="expand" hidden$="[[isOpen]]"></iron-icon>
+      </div>
+    </paper-item>
+    <iron-collapse class="sub-items" id="collapse">
+      <div class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">ID</div>
+        <div class="flexchild">[[session.id]]</div>
+      </div>
+      <div class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">IP Address</div>
+        <div class="flexchild">[[session.ip_address]]</div>
+      </div>
+      <div class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">User Agent</div>
+        <div class="flexchild">[[session.user_agent]]</div>
+      </div>
+    </iron-collapse>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'session-element',
+
+        properties: {
+          session: {
+            type: Object
+          },
+          index: {
+            type: Number
+          },
+          count: {
+            type: Number
+          },
+          indexClass: {
+            type: String,
+            computed: '_computeIsIndexClass(index, count)'
+          },
+          createdTimeText: {
+            type: String,
+            computed: '_computeCreatedTimeText(session.created_at)'
+          },
+          accessedTimeText: {
+            type: String,
+            computed: '_computeAccessedTimeText(session.last_accessed_at)'
+          },
+          isActive: {
+            type: Boolean,
+            computed: '_computeIsActive(session.active)'
+          },
+          isOpen: {
+            type: Boolean,
+            value: false
+          }
+        },
+        ready: function() {
+
+        },
+        _computeIsIndexClass: function(index, count) {
+          var classes = [];
+          classes.push(index % 2 != 0 ? 'even' : 'odd', index + 1 == count ? 'last' : null);
+          return classes.join(' ');
+        },
+        _computeCreatedTimeText: function(createdAt) {
+          var accessed_at = createdAt.split(" ").join("T") + "Z";
+          return new Date(new Date(accessed_at).toString()).getTimeFromNow();
+        },
+        _computeAccessedTimeText: function(accessedAt) {
+          var accessed_at = accessedAt.split(" ").join("T") + "Z";
+          return new Date(new Date(accessed_at).toString()).getTimeFromNow();
+        },
+        _computeIsActive: function(active) {
+          console.log(active, active == true);
+          return active == true;
+        },
+        _expandSession: function(e) {
+          this.$.collapse.toggle();
+          this.set('isOpen', !this.isOpen);
+          console.log(this.isOpen);
+        },
+        _revokeSession: function(e) {
+          this.fire('revokeSession', {
+            session: this.session
+          });
+        }
+      });
+    })();
+  </script>
+</dom-module>
