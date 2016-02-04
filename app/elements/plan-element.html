@@ -75,16 +75,16 @@
         _computePriceText: function(price) {
           return price != null ? '$' + price + '/month' : '';
         },
-        _computeDiscountedPriceText: function(plan.promo) {
-          if (this.plan.promo) {
-            var newPrice = Math.round(this.plan.price * (1 - (this.plan.promo.discount / 100)));
+        _computeDiscountedPriceText: function(promo) {
+          if (promo) {
+            var newPrice = Math.round(price * (1 - (promo.discount / 100)));
             return '$' + newPrice + '/month';
           }
           return '';
         },
         _computeExpirationDate: function(expiration) {
-          if (this.plan.expiration) {
-            var d = new Date(this.plan.expiration * 1000);
+          if (expiration) {
+            var d = new Date(expiration * 1000);
             return d.getMonthName() + " " + d.getDate() + ", " + d.getFullYear();
           }
           return '';
