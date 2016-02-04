@@ -44,7 +44,7 @@
       <div class="flexchild">
         <span class="session-active" hidden$="[[!isActive]]">Current Session</span>
         <span class="session-action" hidden$="[[isActive]]">
-          <paper-button class="revoke" raised on-tap="_revokeSession">Terminate</paper-button>
+          <paper-button disabled$="[[deletingSession]]" class="revoke" raised on-tap="_revokeSession">Terminate</paper-button>
         </span>
       </div>
       <div class="flexchild text-right">
@@ -66,6 +66,8 @@
         <div class="flexchild">[[session.user_agent]]</div>
       </div>
     </iron-collapse>
+
+    <iron-ajax id="revokeSessionAjax" url="/sessions/[[session.id]]" method="DELETE" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -104,6 +106,10 @@
           isOpen: {
             type: Boolean,
             value: false
+          },
+          deletingSession: {
+            type: Boolean,
+            value: false
           }
         },
         ready: function() {
@@ -123,18 +129,24 @@
           return new Date(new Date(accessed_at).toString()).getTimeFromNow();
         },
         _computeIsActive: function(active) {
-          console.log(active, active == true);
           return active == true;
         },
         _expandSession: function(e) {
           this.$.collapse.toggle();
           this.set('isOpen', !this.isOpen);
-          console.log(this.isOpen);
         },
         _revokeSession: function(e) {
+          e.stopPropagation();
+          //   this.$.revokeSessionAjax.generateRequest();
+        },
+        _ajaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _ajaxResponse: function() {
           this.fire('revokeSession', {
             session: this.session
           });
+          this.set('sendingData', false);
         }
       });
     })();
