@@ -17,6 +17,10 @@
         width: 100%;
       }
 
+      tr {
+        border-bottom: 1px solid #d4d4d4;
+      }
+
       iron-form paper-button {
         margin: 20px 0 0;
       }
@@ -24,12 +28,20 @@
       iron-form paper-dropdown-menu {
         display: block;
       }
+
+      .plan-action {
+        color: #64b247;
+      }
+
+      .plan-end .plan-action {
+        color: #d96557;
+      }
     </style>
 
-    <tr>
-      <td width="33%">[[dateText]]</td>
-      <td width="33%">[[titleText]]</td>
-      <td width="33%">[[subscription.action]]</td>
+    <tr class$="plan-record [[isExpiringClass]]">
+      <td class="plan-date">[[dateText]]</td>
+      <td class="plan-title">[[titleText]]</td>
+      <td class="plan-action">[[subscription.action]]</td>
     </tr>
   </template>
 
@@ -51,6 +63,10 @@
           dateText: {
             type: String,
             computed: '_computeDateText(subscription.time)'
+          },
+          isExpiringClass: {
+            type: String,
+            computed: '_computeIsExpiringClass(subscription.action)'
           }
         },
         ready: function() {
@@ -62,6 +78,9 @@
         _computeDateText: function(time) {
           var date = new Date(time * 1000);
           return date.getMonthName() + ' ' + date.getDate() + ', ' + date.getFullYear();
+        },
+        _computeIsExpiringClass: function(action) {
+          return action == 'started' ? null : 'plan-end';
         }
       });
     })();
