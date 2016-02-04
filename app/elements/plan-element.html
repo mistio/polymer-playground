@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="plan-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      iron-form paper-button {
+        margin: 20px 0 0;
+      }
+
+      paper-card {
+        display: block;
+        width: 25%;
+        float: left;
+        text-align: center;
+      }
+
+      iron-form paper-dropdown-menu {
+        display: block;
+      }
+
+      paper-button {
+          display: block;
+          margin: 0;
+      }
+
+      hr {
+          border: none;
+          border-bottom: 1px solid #ccc;
+      }
+    </style>
+
+    <paper-card>
+      <div class="card-content">
+        [[plan.title]]
+        <hr>
+        <paper-button raised on-tap="_selectPlan" plan="[[plan]]">Select</paper-button>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'plan-element',
+
+        properties: {
+          plan: {
+            type: Object
+          }
+        },
+        ready: function() {
+
+        },
+        _selectPlan: function(e) {
+            var plan = e.currentTarget.plan;
+            console.log(plan);
+        }
+      });
+    })();
+  </script>
+</dom-module>
