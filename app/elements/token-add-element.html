@@ -1,0 +1,104 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="token-add-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        width: 100%;
+      }
+    </style>
+
+    <paper-dialog id="addTokenModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+      <h2>Create Token</h2>
+      <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
+      <div>
+        <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}" autoValidate></paper-input>
+
+        <paper-dropdown-menu label="Expires after" horizontal-align="left">
+          <paper-menu attr-for-selected="value" selected="{{token.expiration}}" class="dropdown-content">
+            <template is="dom-repeat" items="[[expirationOptions]]" as="expiration">
+              <paper-item value="[[expiration.val]]">[[expiration.title]]</paper-item>
+            </template>
+          </paper-menu>
+        </paper-dropdown-menu>
+
+        <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
+      </div>
+    </paper-dialog>
+
+    <iron-ajax id="addTokenAjax" url="/tokens/[[token.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'token-add-element',
+
+        properties: {
+          token: {
+            type: Object,
+            value: {
+              name: null,
+              expiration: null
+            }
+          },
+          expirationOptions: {
+            type: Array,
+            value: [{
+              title: "1 Day",
+              val: 3600 * 24
+            }, {
+              title: "1 Week",
+              val: 3600 * 24 * 7
+            }, {
+              title: "1 Month",
+              val: 3600 * 24 * 7 * 30
+            }, {
+              title: "1 Year",
+              val: 3600 * 24 * 7 * 30 * 12
+            }, {
+              title: "Never",
+              val: '0'
+            }]
+          },
+          firstFormReady: {
+            type: Boolean,
+            computed: '_computeFirstFormReady(token.name, token.expiration)'
+          }
+        },
+        listeners: {
+          'iron-overlay-closed': '_modalClosed'
+        },
+        ready: function() {
+
+        },
+        _computeFirstFormReady: function(name, expiration) {
+          var formReady = false;
+
+          if (name && expiration) {
+            formReady = true;
+          }
+
+          return formReady;
+        },
+        _modalClosed: function(e) {
+          this._formReset();
+        },
+        _formReset: function() {
+          this.set('token.name', null);
+          this.set('token.expiration', null);
+        },
+        _submitFirstForm: function(e) {
+
+        },
+        _submitSecondForm: function(e) {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>

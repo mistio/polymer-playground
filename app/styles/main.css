@@ -22,6 +22,11 @@ paper-button[disabled], iron-form paper-button[disabled] {
   color: #fff;
   cursor: not-allowed;
 }
+paper-fab {
+  position: fixed;
+  bottom: 200px;
+  right: 100px;
+}
 .text-center {
   text-align: center;
 }
@@ -47,7 +52,7 @@ paper-button[disabled], iron-form paper-button[disabled] {
   padding: 16px 0;
 }
 .info-head {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #7f7f7f;
 }
 .info-body .info-item {
   border-bottom: 1px solid #d4d4d4;

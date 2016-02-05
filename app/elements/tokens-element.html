@@ -38,6 +38,9 @@
         </div>
       </div>
     </paper-card>
+
+    <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
+    <token-add-element></token-add-element>
   </template>
 
   <script>
@@ -58,6 +61,9 @@
         },
         ready: function() {
           this.set('tokens', TOKENS);
+        },
+        _openAddTokenModal: function(e) {
+          console.log(e);
         },
         _revokeToken: function(e) {
           var token = e.detail.token,
