@@ -44,8 +44,8 @@
 
           <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[countriesOptions]]" as="location">
-                <paper-item value="[[location]]">[[location]]</paper-item>
+              <template is="dom-repeat" items="[[countriesOptions]]" as="country">
+                <paper-item value="[[country]]">[[country]]</paper-item>
               </template>
             </paper-menu>
           </paper-dropdown-menu>
@@ -84,19 +84,23 @@
         properties: {
           user: {
             type: Object,
-            value: {
-              firstName: null,
-              lastName: null,
-              country: null,
-              companyName: null,
-              numberOfPeople: null,
-              numberOfServers: null
+            value: function() {
+              return {
+                firstName: FIRST_NAME,
+                lastName: LAST_NAME,
+                country: COUNTRY,
+                companyName: COMPANY_NAME,
+                numberOfPeople: NUMBER_OF_PEOPLE,
+                numberOfServers: NUMBER_OF_SERVERS
+              }
             },
             notify: true
           },
           countriesOptions: {
             type: Array,
-            value: []
+            value: function() {
+              return COUNTRIES;
+            }
           },
           numberOfPeopleOptions: {
             type: Array,
@@ -116,13 +120,7 @@
           }
         },
         ready: function() {
-          this.set('user.firstName', FIRST_NAME);
-          this.set('user.lastName', LAST_NAME);
-          this.set('user.country', COUNTRY);
-          this.set('user.companyName', COMPANY_NAME);
-          this.set('user.numberOfPeople', NUMBER_OF_PEOPLE);
-          this.set('user.numberOfServers', NUMBER_OF_SERVERS);
-          this.set('countriesOptions', COUNTRIES);
+
         },
         _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
           return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;

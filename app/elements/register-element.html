@@ -77,9 +77,11 @@
         properties: {
           user: {
             type: Object,
-            value: {
-              name: null,
-              email: null
+            value: function() {
+              return {
+                name: null,
+                email: null
+              }
             },
             notify: true
           },
