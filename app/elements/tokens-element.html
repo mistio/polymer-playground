@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="tokens-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-card heading="Active Tokens">
+      <div class="card-content">
+        <div class="info-list">
+          <div class="info-head flex-horizontal-with-ratios">
+            <div class="flexchild">Name</div>
+            <div class="flexchild">Last Accessed</div>
+            <div class="flexchild"></div>
+            <div class="flexchild"></div>
+          </div>
+          <div class="info-body">
+            <template is="dom-repeat" items=[[tokens]] as="token">
+              <token-element token="[[token]]" index="[[index]]" count="[[tokens.length]]"></token-element>
+            </template>
+          </div>
+        </div>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'tokens-element',
+
+        properties: {
+          tokens: {
+            type: Array,
+            value: []
+          }
+        },
+        listeners: {
+          'revokeToken': '_revokeToken'
+        },
+        ready: function() {
+          this.set('tokens', TOKENS);
+        },
+        _revokeToken: function(e) {
+          var token = e.detail.token,
+            index = this.tokens.indexOf(token);
+
+          this.splice('tokens', index, 1);
+        }
+      });
+    })();
+  </script>
+</dom-module>

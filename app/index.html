@@ -189,6 +189,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "last_accessed_at": "2016-01-30 19:57:54.125000",
       "id": "56ab7bb4326049785a0d071c"
     }];
+    var TOKENS = [{
+      "token": "be9e...",
+      "name": "api_token_87594",
+      "last_accessed_at": "2016-02-03 10:14:28.599000",
+      "ttl": 0,
+      "created_at": "2015-12-28 15:46:26.643000",
+      "ip_address": "94.69.102.20",
+      "id": "568159523260490d7461e63c",
+      "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
+    }];
   </script>
 </head>
 
@@ -265,6 +275,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="sessions" href="/sessions">
             <iron-icon icon="account-circle"></iron-icon>
             <span>Sessions</span>
+          </a>
+
+          <a data-route="tokens" href="/tokens">
+            <iron-icon icon="communication:vpn-key"></iron-icon>
+            <span>Tokens</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -372,6 +387,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <subscriptions-element data-route="subscriptions"></subscriptions-element>
 
             <sessions-element data-route="sessions"></sessions-element>
+
+            <tokens-element data-route="tokens"></tokens-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
