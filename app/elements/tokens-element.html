@@ -26,7 +26,7 @@
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox on-tap="_selectAll">Νame</paper-checkbox>
+              <paper-checkbox checked="{{selectAll}}">Νame</paper-checkbox>
             </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
@@ -55,26 +55,67 @@
         properties: {
           tokens: {
             type: Array,
+            value: function() {
+              return TOKENS;
+            }
+          },
+          selectedTokens: {
+            type: Array,
             value: []
+          },
+          selectAll: {
+            type: Boolean,
+            value: false,
+            notify: true
           }
         },
+        observers: [
+          '_tokensChanged(tokens.*, selectedTokens.*)'
+        ],
         listeners: {
-          'revokeToken': '_revokeToken'
+          'select-all-changed': '_selectAllChanged',
+          'revokeToken': '_revokeToken',
+          'toggleSelectedToken': '_toggleSelectedToken'
         },
-        ready: function() {
-          this.set('tokens', TOKENS);
+        _tokensChanged: function(tokens, selectedTokens) {
+          if (selectedTokens.base.length < tokens.base.length) {
+            // this.set('selectAll', false);
+            console.log(1);
+          }
+
+          if (selectedTokens.base.length == tokens.base.length && selectedTokens.base.length != 0) {
+            // this.set('selectAll', true);
+            console.log(2);
+          }
         },
         _openAddTokenModal: function(e) {
-          console.log(e);
+          console.log(this.selectedTokens);
         },
-        _selectAll: function(e) {
-          console.log(e);
+        _selectAllChanged: function(e) {
+          var selectAll = e.detail.value;
+          console.log(e, 'select all', selectAll);
+          var els = this.querySelectorAll('token-element');
+          [].forEach.call(els, function(el, index) {
+            el.selected = selectAll;
+          }, this);
+          console.log(3);
         },
         _revokeToken: function(e) {
           var token = e.detail.token,
             index = this.tokens.indexOf(token);
-
           this.splice('tokens', index, 1);
+        },
+        _toggleSelectedToken: function(e) {
+          var token = e.detail.token;
+          console.log(41);
+          if (e.detail.selected) {
+            this.push('selectedTokens', token);
+            console.log(42);
+          } else {
+            var index = this.selectedTokens.indexOf(token);
+            this.splice('selectedTokens', index, 1);
+            console.log(43);
+          }
         }
       });
     })();

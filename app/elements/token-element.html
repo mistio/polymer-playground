@@ -40,14 +40,11 @@
 
     <paper-item on-tap="_expandToken" class$="info-item flex-horizontal-with-ratios token-item [[indexClass]]">
       <div class="flexchild">
-        <paper-checkbox on-tap="_selectToken">[[token.name]]</paper-checkbox>
+        <paper-checkbox checked="{{selected}}" on-tap="_selectToken">[[token.name]]</paper-checkbox>
       </div>
       <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild text-center">
-        <span class="token-active" hidden$="[[!isActive]]">Current Token</span>
-        <span class="token-action" hidden$="[[isActive]]">
-          <paper-button disabled$="[[deletingToken]]" class="revoke" raised on-tap="_revokeToken">Revoke</paper-button>
-        </span>
+        <paper-button disabled$="[[deletingToken]]" class="revoke" raised on-tap="_revokeToken">Revoke</paper-button>
       </div>
       <div class="flexchild text-right">
         <iron-icon icon="expand-more" class="expand" hidden$="[[isOpen]]"></iron-icon>
@@ -96,6 +93,12 @@
           token: {
             type: Object
           },
+          selected: {
+            type: Boolean,
+            value: false,
+            // notify: true,
+            observer: '_selectTokenChanged'
+          },
           index: {
             type: Number
           },
@@ -114,10 +117,6 @@
             type: String,
             computed: '_computeAccessedTimeText(token.last_accessed_at)'
           },
-          isActive: {
-            type: Boolean,
-            computed: '_computeIsActive(token.active)'
-          },
           isOpen: {
             type: Boolean,
             value: false
@@ -130,25 +129,33 @@
         ready: function() {
 
         },
+        _selectTokenChanged: function(newValue, oldValue) {
+          if (oldValue !== undefined) {
+            console.log(newValue);
+            this.fire('toggleSelectedToken', {
+              token: this.token,
+              selected: newValue
+            });
+          }
+        },
         _computeIsIndexClass: function(index, count) {
           var classes = [];
-          classes.push(index % 2 != 0 ? 'even' : 'odd', index + 1 == count ? 'last' : null);
+          classes.push(
+            (index + 1) % 2 == 0 ? 'even' : 'odd',
+            index + 1 == count ? 'last' : null
+          );
           return classes.join(' ');
         },
         _computeCreatedTimeText: function(createdAt) {
-          var accessed_at = createdAt.split(" ").join("T") + "Z";
-          return new Date(new Date(accessed_at).toString()).getTimeFromNow();
+          var createdAt = createdAt.split(" ").join("T") + "Z";
+          return new Date(new Date(createdAt).toString()).getTimeFromNow();
         },
         _computeAccessedTimeText: function(accessedAt) {
           var accessed_at = accessedAt.split(" ").join("T") + "Z";
           return new Date(new Date(accessed_at).toString()).getTimeFromNow();
         },
-        _computeIsActive: function(active) {
-          return active == true;
-        },
         _selectToken: function(e) {
           e.stopPropagation();
-          console.log(e);
         },
         _expandToken: function(e) {
           this.$.collapse.toggle();
@@ -156,7 +163,11 @@
         },
         _revokeToken: function(e) {
           e.stopPropagation();
-          console.log(e);
+          console.log(this.selected);
+          this.fire('revokeToken', {
+            token: this.token,
+            selected: this.selected
+          });
           //   this.$.revokeTokenAjax.generateRequest();
         },
         _ajaxRequest: function(e) {
@@ -164,7 +175,8 @@
         },
         _ajaxResponse: function(e) {
           this.fire('revokeToken', {
-            token: this.token
+            token: this.token,
+            selected: this.selected
           });
           this.set('sendingData', false);
         }
