@@ -39,9 +39,11 @@
     </style>
 
     <paper-item on-tap="_expandSession" class$="info-item flex-horizontal-with-ratios session-item [[indexClass]]">
-      <div class="flexchild">[[createdTimeText]]</div>
-      <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild">
+        <paper-checkbox disabled$="[[isActive]]" on-tap="_selectSession">[[createdTimeText]]</paper-checkbox>
+      </div>
+      <div class="flexchild">[[accessedTimeText]]</div>
+      <div class="flexchild text-center">
         <span class="session-active" hidden$="[[!isActive]]">Current Session</span>
         <span class="session-action" hidden$="[[isActive]]">
           <paper-button disabled$="[[deletingSession]]" class="revoke" raised on-tap="_revokeSession">Terminate</paper-button>
@@ -52,6 +54,7 @@
         <iron-icon icon="expand-less" class="expand" hidden$="[[!isOpen]]"></iron-icon>
       </div>
     </paper-item>
+
     <iron-collapse class="sub-items" id="collapse">
       <div class="info-item flex-horizontal-with-ratios">
         <div class="flexchild">ID</div>
@@ -130,6 +133,9 @@
         },
         _computeIsActive: function(active) {
           return active == true;
+        },
+        _selectSession: function(e) {
+          e.stopPropagation();
         },
         _expandSession: function(e) {
           this.$.collapse.toggle();

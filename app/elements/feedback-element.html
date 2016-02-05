@@ -82,9 +82,7 @@
             <paper-checkbox value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
           </template>
 
-          <template is="dom-if" if="[[user.hasExtraHosted]]">
-            <paper-input label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
-          </template>
+          <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
 
           <div class="clearfix">
             <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
@@ -105,9 +103,7 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <template is="dom-if" if="[[user.hasExtraDiscover]]">
-            <paper-input label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}" autoValidate></paper-input>
-          </template>
+          <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}" autoValidate></paper-input>
 
           <paper-dropdown-menu label="How satisfied are you with mist.io?" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
@@ -125,9 +121,7 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <template is="dom-if" if="[[user.hasExtraAlternative]]">
-            <paper-input label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}" autoValidate></paper-input>
-          </template>
+          <paper-input hidden$="[[!user.hasExtraAlternative]]" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}" autoValidate></paper-input>
 
           <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
 

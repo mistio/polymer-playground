@@ -25,7 +25,9 @@
       <div class="card-content">
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
-            <div class="flexchild">Name</div>
+            <div class="flexchild">
+              <paper-checkbox on-tap="_selectAll">Νame</paper-checkbox>
+            </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
             <div class="flexchild"></div>
@@ -63,6 +65,9 @@
           this.set('tokens', TOKENS);
         },
         _openAddTokenModal: function(e) {
+          console.log(e);
+        },
+        _selectAll: function(e) {
           console.log(e);
         },
         _revokeToken: function(e) {

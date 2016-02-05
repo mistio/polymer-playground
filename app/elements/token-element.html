@@ -39,9 +39,11 @@
     </style>
 
     <paper-item on-tap="_expandToken" class$="info-item flex-horizontal-with-ratios token-item [[indexClass]]">
-      <div class="flexchild">[[token.name]]</div>
-      <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild">
+        <paper-checkbox on-tap="_selectToken">[[token.name]]</paper-checkbox>
+      </div>
+      <div class="flexchild">[[accessedTimeText]]</div>
+      <div class="flexchild text-center">
         <span class="token-active" hidden$="[[!isActive]]">Current Token</span>
         <span class="token-action" hidden$="[[isActive]]">
           <paper-button disabled$="[[deletingToken]]" class="revoke" raised on-tap="_revokeToken">Revoke</paper-button>
@@ -52,6 +54,7 @@
         <iron-icon icon="expand-less" class="expand" hidden$="[[!isOpen]]"></iron-icon>
       </div>
     </paper-item>
+
     <iron-collapse class="sub-items" id="collapse">
       <div class="info-item flex-horizontal-with-ratios">
         <div class="flexchild">ID</div>
@@ -143,12 +146,17 @@
         _computeIsActive: function(active) {
           return active == true;
         },
+        _selectToken: function(e) {
+          e.stopPropagation();
+          console.log(e);
+        },
         _expandToken: function(e) {
           this.$.collapse.toggle();
           this.set('isOpen', !this.isOpen);
         },
         _revokeToken: function(e) {
           e.stopPropagation();
+          console.log(e);
           //   this.$.revokeTokenAjax.generateRequest();
         },
         _ajaxRequest: function(e) {

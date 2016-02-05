@@ -25,7 +25,9 @@
       <div class="card-content">
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
-            <div class="flexchild">Created At</div>
+            <div class="flexchild">
+              <paper-checkbox on-tap="_selectAll">Created At</paper-checkbox>
+            </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
             <div class="flexchild"></div>
@@ -58,6 +60,9 @@
         },
         ready: function() {
           this.set('sessions', SESSIONS);
+        },
+        _selectAll: function(e) {
+          console.log(e);
         },
         _revokeSession: function(e) {
           var session = e.detail.session,
