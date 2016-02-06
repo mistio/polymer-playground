@@ -13,8 +13,8 @@
     <paper-dialog id="addTokenModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Create Token</h2>
       <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
-      <div>
-        <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}" autoValidate></paper-input>
+      <paper-dialog-scrollable>
+        <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
 
         <paper-dropdown-menu label="Expires after" horizontal-align="left">
           <paper-menu attr-for-selected="value" selected="{{token.expiration}}" class="dropdown-content">
@@ -25,7 +25,7 @@
         </paper-dropdown-menu>
 
         <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
-      </div>
+        <paper-dialog-scrollable>
     </paper-dialog>
 
     <iron-ajax id="addTokenAjax" url="/tokens/[[token.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>

@@ -36,11 +36,11 @@
     <paper-card heading="Account Details">
       <div class="card-content">
         <iron-form id="form" method="post" action="/account">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}" autoValidate></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}" autoValidate></paper-input>
+          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
 
-          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
+          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
 
           <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">

@@ -27,7 +27,8 @@
       }
 
       paper-dialog {
-        min-width: 400px;
+        width: 100%;
+        max-width: 800px;
         position: relative;
       }
 
@@ -61,13 +62,13 @@
     <paper-dialog id="addKeyModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Add Key</h2>
       <paper-icon-button icon="clear" on-tap="_closeAddKeyModal"></paper-icon-button>
-      <div>
+      <paper-dialog-scrollable>
         <iron-form id="form" method="post" action="/login">
-          <paper-input label="Name" required error-message="Please enter key's name" value="{{key.name}}" autoValidate></paper-input>
+          <paper-input label="Name" required error-message="Please enter key's name" value="{{key.name}}"></paper-input>
 
-          <paper-textarea label="Private Key" rows="5" required error-message="Please enter privateKey key" value="{{key.privateKey}}" autoValidate></paper-textarea>
+          <paper-textarea label="Private Key" rows="5" required error-message="Please enter private key" value="{{key.privateKey}}" max-rows="5"></paper-textarea>
 
-          <paper-textarea hidden$="[[!showPublicKey]]" label="Public Key" rows="5" value="{{key.publicKey}}"></paper-textarea>
+          <paper-textarea hidden$="[[!showPublicKey]]" label="Public Key" rows="5" value="{{key.publicKey}}" max-rows="5"></paper-textarea>
 
           <div class="clearfix btn-group">
             <paper-button raised on-tap="_generateKey">Generate</paper-button>
@@ -76,8 +77,10 @@
 
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
         </iron-form>
-      </div>
+      </paper-dialog-scrollable>
     </paper-dialog>
+
+    <iron-ajax id="generateKeyAjax" url="/keys" method="POST" on-request="_generateKeyAjaxRequest" on-response="_generateKeyAjaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -101,7 +104,7 @@
           },
           showPublicKey: {
             type: Boolean,
-            computed: '_computeShowPublicKey(key.privateKey)'
+            value: false
           },
           sendingData: {
             type: Boolean,
@@ -117,9 +120,6 @@
         },
         ready: function() {
 
-        },
-        _computeShowPublicKey: function(privateKey) {
-          return privateKey ? true : false;
         },
         _computeFormReady: function(name, publicKey, privateKey, sendingData) {
           var formReady = false;
@@ -140,9 +140,6 @@
         _closeAddKeyModal: function(e) {
           this.$.addKeyModal.close();
         },
-        _generateKey: function(e) {
-          console.log('generate');
-        },
         _uploadKey: function(e) {
           console.log('upload');
         },
@@ -153,6 +150,22 @@
           this.set('key.name', null);
           this.set('key.publicKey', null);
           this.set('key.privateKey', null);
+          this.set('showPublicKey', false);
+        },
+
+        // Generate Key Request
+        _generateKey: function(e) {
+          //   this.$.generateKeyAjax.generateRequest();
+        },
+        _generateKeyAjaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _generateKeyAjaxResponse: function(e) {
+          var response = e.detail;
+          this.set('key.publicKey', response.public.trim());
+          this.set('key.privateKey', response.priv);
+          this.set('sendingData', false);
+          this.set('showPublicKey', true);
         }
       });
     })();

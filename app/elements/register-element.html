@@ -55,13 +55,13 @@
     <paper-dialog id="registerModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Register</h2>
       <paper-icon-button icon="clear" on-tap="_closeRegisterModal"></paper-icon-button>
-      <div>
+      <paper-dialog-scrollable>
         <iron-form id="form" method="post" action="/register">
-          <paper-input label="Name" required error-message="Please enter your name" value="{{user.name}}" autoValidate></paper-input>
-          <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}" autoValidate></paper-input>
+          <paper-input label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
+          <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}"></paper-input>
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
         </iron-form>
-      </div>
+      </paper-dialog-scrollable>
     </paper-dialog>
 
     <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>

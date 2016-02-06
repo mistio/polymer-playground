@@ -51,13 +51,13 @@
     <paper-dialog id="loginModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Sign In</h2>
       <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
-      <div>
+      <paper-dialog-scrollable>
         <iron-form id="form" method="post" action="/login">
-          <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}" autoValidate></paper-input>
-          <paper-input type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" autoValidate></paper-input>
+          <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}"></paper-input>
+          <paper-input type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
         </iron-form>
-      </div>
+      </paper-dialog-scrollable>
     </paper-dialog>
 
     <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>

@@ -47,11 +47,11 @@
     <template is="dom-if" if="[[!pageSecond]]">
       <paper-card heading="Feedback (Page 1 of 2)">
         <div class="card-content">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}" autoValidate></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}" autoValidate></paper-input>
+          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
 
-          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}" autoValidate></paper-input>
+          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
 
           <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
@@ -103,7 +103,7 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}" autoValidate></paper-input>
+          <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
 
           <paper-dropdown-menu label="How satisfied are you with mist.io?" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
@@ -121,7 +121,7 @@
             </paper-menu>
           </paper-dropdown-menu>
 
-          <paper-input hidden$="[[!user.hasExtraAlternative]]" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}" autoValidate></paper-input>
+          <paper-input hidden$="[[!user.hasExtraAlternative]]" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}"></paper-input>
 
           <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
 
