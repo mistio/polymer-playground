@@ -30,7 +30,7 @@
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox checked="{{selectAll}}">Νame</paper-checkbox>
+              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
             </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
@@ -67,8 +67,7 @@
           },
           selectAll: {
             type: Boolean,
-            value: false,
-            notify: true
+            value: false
           },
           showOptions: {
             type: Boolean,
@@ -79,27 +78,29 @@
           '_tokensChanged(tokens.*, selectedTokens.*)'
         ],
         listeners: {
-          'select-all-changed': '_selectAllChanged',
+          //   'select-all-changed': '_selectAllChanged',
           'revokeToken': '_revokeToken',
           'toggleSelectedToken': '_toggleSelectedToken'
         },
         _tokensChanged: function(tokens, selectedTokens) {
-          this.set('showOptions', selectedTokens.base.length);
+          this.set('showOptions', selectedTokens.base.length > 0);
 
           if (selectedTokens.base.length < tokens.base.length) {
-            // this.set('selectAll', false);
+            this.set('selectAll', false);
           }
 
           if (selectedTokens.base.length == tokens.base.length && selectedTokens.base.length != 0) {
-            // this.set('selectAll', true);
+            this.set('selectAll', true);
           }
         },
         _openAddTokenModal: function(e) {
           console.log(this.selectedTokens);
         },
         _selectAllChanged: function(e) {
-          var selectAll = e.detail.value,
-            els = this.querySelectorAll('token-item-element');
+          var selectAll = !this.selectAll;
+          this.set('selectAll', selectAll);
+
+          var els = this.querySelectorAll('token-item-element');
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
           }, this);
