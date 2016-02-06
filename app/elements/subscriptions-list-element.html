@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="subscriptions-element">
+<dom-module id="subscriptions-list-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -31,7 +31,7 @@
           </div>
           <div class="info-body">
             <template is="dom-repeat" items=[[subscriptions]] as="subscription">
-              <subscription-element subscription="[[subscription]]" index="[[index]]" count="[[subscriptions.length]]"></subscription-element>
+              <subscription-item-element subscription="[[subscription]]" index="[[index]]" count="[[subscriptions.length]]"></subscription-item-element>
             </template>
           </div>
         </div>
@@ -44,7 +44,7 @@
       'use strict';
 
       Polymer({
-        is: 'subscriptions-element',
+        is: 'subscriptions-list-element',
 
         properties: {
           subscriptions: {

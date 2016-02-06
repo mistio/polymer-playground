@@ -230,12 +230,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Drawer Toolbar -->
         <paper-toolbar id="drawerToolbar">
-          <span class="menu-name">Menu</span>
+          <span class="menu-name">Mist.io</span>
         </paper-toolbar>
 
         <!-- Drawer Content -->
         <paper-menu attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="{{baseUrl}}">
+          <!-- <a data-route="home" href="{{baseUrl}}">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
@@ -248,7 +248,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="contact" href="{{baseUrl}}contact">
             <iron-icon icon="mail"></iron-icon>
             <span>Contact</span>
-          </a>
+          </a> -->
 
           <a data-route="add-cloud" href="/add-cloud">
             <iron-icon icon="device:storage"></iron-icon>
@@ -275,9 +275,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Password Reset</span>
           </a>
 
-          <a data-route="billing" href="/billing">
+          <a data-route="plans" href="/plans">
             <iron-icon icon="account-balance-wallet"></iron-icon>
-            <span>Billing</span>
+            <span>Plans</span>
           </a>
 
           <a data-route="feedback" href="/feedback">
@@ -398,15 +398,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <password-element data-route="password"></password-element>
 
-            <billing-element data-route="billing"></billing-element>
+            <plans-list-element data-route="plans"></plans-list-element>
 
-            <feedback-element data-route="feedback"></feedback-element>
+            <feedback-page-element data-route="feedback"></feedback-page-element>
 
-            <subscriptions-element data-route="subscriptions"></subscriptions-element>
+            <subscriptions-list-element data-route="subscriptions"></subscriptions-list-element>
 
-            <sessions-element data-route="sessions"></sessions-element>
+            <sessions-list-element data-route="sessions"></sessions-list-element>
 
-            <tokens-element data-route="tokens"></tokens-element>
+            <tokens-list-element data-route="tokens"></tokens-list-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>

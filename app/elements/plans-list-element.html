@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="billing-element">
+<dom-module id="plans-list-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -24,7 +24,7 @@
     <paper-card heading="Billing">
       <div class="card-content clearfix">
         <template is="dom-repeat" items=[[plans]] as="plan">
-          <plan-element plan="[[plan]]"></plan-element>
+          <plan-item-element plan="[[plan]]"></plan-item-element>
         </template>
       </div>
     </paper-card>
@@ -35,7 +35,7 @@
       'use strict';
 
       Polymer({
-        is: 'billing-element',
+        is: 'plans-list-element',
 
         properties: {
           plans: {

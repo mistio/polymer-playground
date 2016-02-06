@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="token-element">
+<dom-module id="token-item-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -40,7 +40,7 @@
 
     <paper-item on-tap="_expandToken" class$="info-item flex-horizontal-with-ratios token-item [[indexClass]]">
       <div class="flexchild">
-        <paper-checkbox checked="{{selected}}" on-tap="_selectToken">[[token.name]]</paper-checkbox>
+        <paper-checkbox checked="[[selected]]" on-tap="_selectToken">[[token.name]]</paper-checkbox>
       </div>
       <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild text-center">
@@ -87,7 +87,7 @@
       'use strict';
 
       Polymer({
-        is: 'token-element',
+        is: 'token-item-element',
 
         properties: {
           token: {
@@ -96,7 +96,6 @@
           selected: {
             type: Boolean,
             value: false,
-            // notify: true,
             observer: '_selectTokenChanged'
           },
           index: {
@@ -131,7 +130,6 @@
         },
         _selectTokenChanged: function(newValue, oldValue) {
           if (oldValue !== undefined) {
-            console.log(newValue);
             this.fire('toggleSelectedToken', {
               token: this.token,
               selected: newValue
@@ -163,7 +161,6 @@
         },
         _revokeToken: function(e) {
           e.stopPropagation();
-          console.log(this.selected);
           this.fire('revokeToken', {
             token: this.token,
             selected: this.selected

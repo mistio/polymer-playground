@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="tokens-element">
+<dom-module id="tokens-list-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -38,7 +38,7 @@
           </div>
           <div class="info-body">
             <template is="dom-repeat" items=[[tokens]] as="token">
-              <token-element token="[[token]]" index="[[index]]" count="[[tokens.length]]"></token-element>
+              <token-item-element token="[[token]]" index="[[index]]" count="[[tokens.length]]"></token-item-element>
             </template>
           </div>
         </div>
@@ -56,7 +56,7 @@
       'use strict';
 
       Polymer({
-        is: 'tokens-element',
+        is: 'tokens-list-element',
 
         properties: {
           tokens: {
@@ -88,12 +88,10 @@
 
           if (selectedTokens.base.length < tokens.base.length) {
             // this.set('selectAll', false);
-            console.log(1);
           }
 
           if (selectedTokens.base.length == tokens.base.length && selectedTokens.base.length != 0) {
             // this.set('selectAll', true);
-            console.log(2);
           }
         },
         _openAddTokenModal: function(e) {
@@ -101,12 +99,10 @@
         },
         _selectAllChanged: function(e) {
           var selectAll = e.detail.value;
-          console.log(e, 'select all', selectAll);
           var els = this.querySelectorAll('token-element');
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
           }, this);
-          console.log(3);
         },
         _revokeToken: function(e) {
           var token = e.detail.token,
@@ -122,7 +118,6 @@
             this.splice('tokens', index, 1);
             this.$.selector.select(el);
           }, this);
-          console.log(this.$.selector.selected, this.selectedTokens);
         }
       });
     })();

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="sessions-element">
+<dom-module id="sessions-list-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -34,7 +34,7 @@
           </div>
           <div class="info-body">
             <template is="dom-repeat" items=[[sessions]] as="session">
-              <session-element session="[[session]]" index="[[index]]" count="[[sessions.length]]"></session-element>
+              <session-item-element session="[[session]]" index="[[index]]" count="[[sessions.length]]"></session-item-element>
             </template>
           </div>
         </div>
@@ -47,7 +47,7 @@
       'use strict';
 
       Polymer({
-        is: 'sessions-element',
+        is: 'sessions-list-element',
 
         properties: {
           sessions: {
