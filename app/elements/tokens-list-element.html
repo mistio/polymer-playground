@@ -98,8 +98,8 @@
           console.log(this.selectedTokens);
         },
         _selectAllChanged: function(e) {
-          var selectAll = e.detail.value;
-          var els = this.querySelectorAll('token-element');
+          var selectAll = e.detail.value,
+            els = this.querySelectorAll('token-item-element');
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
           }, this);
@@ -111,6 +111,7 @@
         },
         _toggleSelectedToken: function(e) {
           this.$.selector.select(e.detail.token);
+          console.log(this.selectedTokens);
         },
         _deleteSelected: function(e) {
           this.selectedTokens.forEach(function(el, index) {

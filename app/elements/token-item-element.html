@@ -40,7 +40,7 @@
 
     <paper-item on-tap="_expandToken" class$="info-item flex-horizontal-with-ratios token-item [[indexClass]]">
       <div class="flexchild">
-        <paper-checkbox checked="[[selected]]" on-tap="_selectToken">[[token.name]]</paper-checkbox>
+        <paper-checkbox checked="{{selected}}" on-tap="_selectToken">[[token.name]]</paper-checkbox>
       </div>
       <div class="flexchild">[[accessedTimeText]]</div>
       <div class="flexchild text-center">
@@ -96,7 +96,7 @@
           selected: {
             type: Boolean,
             value: false,
-            observer: '_selectTokenChanged'
+            notify: true
           },
           index: {
             type: Number
@@ -125,16 +125,19 @@
             value: false
           }
         },
+        listeners: {
+            'selected-changed': '_selectTokenChanged'
+        },
         ready: function() {
 
         },
-        _selectTokenChanged: function(newValue, oldValue) {
-          if (oldValue !== undefined) {
-            this.fire('toggleSelectedToken', {
-              token: this.token,
-              selected: newValue
-            });
-          }
+        _selectTokenChanged: function(e) {
+          var selected = e.detail.value;
+          console.log(selected);
+          this.fire('toggleSelectedToken', {
+            token: this.token,
+            selected: selected
+          });
         },
         _computeIsIndexClass: function(index, count) {
           var classes = [];
@@ -153,6 +156,7 @@
           return new Date(new Date(accessed_at).toString()).getTimeFromNow();
         },
         _selectToken: function(e) {
+          // This is used to prevent event bubbling
           e.stopPropagation();
         },
         _expandToken: function(e) {
