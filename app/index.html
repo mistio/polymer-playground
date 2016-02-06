@@ -260,24 +260,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Add Cloud</span>
           </a>
 
+          <a data-route="add-key" href="/add-key">
+            <iron-icon icon="communication:vpn-key"></iron-icon>
+            <span>Add Key</span>
+          </a>
+
           <a data-route="login" href="/login">
             <iron-icon icon="face"></iron-icon>
             <span>Login Form</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="register" href="/register">
             <iron-icon icon="face"></iron-icon>
             <span>Register Form</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="details" href="/details">
             <iron-icon icon="accessibility"></iron-icon>
             <span>Account Details</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="password" href="/password">
             <iron-icon icon="lock"></iron-icon>
             <span>Password Reset</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="plans" href="/plans">
@@ -288,11 +297,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="feedback" href="/feedback">
             <iron-icon icon="communication:comment"></iron-icon>
             <span>Feedback</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="subscriptions" href="/subscriptions">
             <iron-icon icon="today"></iron-icon>
             <span>Subscriptions</span>
+            <iron-icon icon="check" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="sessions" href="/sessions">
@@ -395,7 +406,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <notes-page-element data-route="notes"></notes-page-element>
 
-            <add-cloud data-route="add-cloud"></add-cloud>
+            <cloud-add-element data-route="add-cloud"></cloud-add-element>
+
+            <key-add-element data-route="add-key"></key-add-element>
 
             <login-element data-route="login"></login-element>
 
