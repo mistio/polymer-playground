@@ -27,7 +27,7 @@
       </div>
 
       <div class="card-content">
-        <div class="info-list">
+        <div hidden$="[[!hasTokens]]" class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
               <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
@@ -42,6 +42,10 @@
             </template>
           </div>
         </div>
+
+        <p hidden$="[[hasTokens]]">
+          No tokens found here. You can add some by using the action button!
+        </p>
       </div>
     </paper-card>
 
@@ -65,6 +69,10 @@
               return TOKENS;
             }
           },
+          hasTokens: {
+            type: Boolean,
+            value: false
+          },
           selectAll: {
             type: Boolean,
             value: false
@@ -78,12 +86,13 @@
           '_tokensChanged(tokens.*, selectedTokens.*)'
         ],
         listeners: {
-          //   'select-all-changed': '_selectAllChanged',
           'revokeToken': '_revokeToken',
           'toggleSelectedToken': '_toggleSelectedToken'
         },
         _tokensChanged: function(tokens, selectedTokens) {
           this.set('showOptions', selectedTokens.base.length > 0);
+
+          this.set('hasTokens', tokens.base.length > 0);
 
           if (selectedTokens.base.length < tokens.base.length || tokens.base.length === 0) {
             this.set('selectAll', false);
@@ -106,8 +115,8 @@
           }, this);
         },
         _revokeToken: function(e) {
-          var token = e.detail.token;
-          var index = this.tokens.indexOf(token);
+          var token = e.detail.token,
+            index = this.tokens.indexOf(token);
           this.splice('tokens', index, 1);
           this.$.selector.deselect(token);
         },
@@ -120,11 +129,6 @@
             this.splice('tokens', index, 1);
           }, this);
           this.$.selector.clearSelection();
-        },
-        _removeItem: function(token) {
-          var index = this.tokens.indexOf(token);
-          this.splice('tokens', index, 1);
-          this.$.selector.deselect(token);
         }
       });
     })();
