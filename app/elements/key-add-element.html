@@ -112,7 +112,7 @@
           },
           formReady: {
             type: Boolean,
-            computed: '_computeFormReady(key.name, key.publicKey, key.privateKey, sendingData)'
+            computed: '_computeFormReady(key.name, key.privateKey, sendingData)'
           }
         },
         listeners: {
@@ -121,10 +121,10 @@
         ready: function() {
 
         },
-        _computeFormReady: function(name, publicKey, privateKey, sendingData) {
+        _computeFormReady: function(name, privateKey, sendingData) {
           var formReady = false;
 
-          if (name && publicKey && privateKey) {
+          if (name && privateKey) {
             formReady = true;
           }
 

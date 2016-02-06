@@ -26,7 +26,7 @@
     </style>
 
     <paper-card heading="Active Tokens">
-      <div class="card-options">
+      <div hidden$="[[!hasTokens]]" class="card-options">
         <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
         <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
         <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
@@ -138,10 +138,10 @@
           }
         },
         _selectAllChanged: function(e) {
-          var selectAll = !this.selectAll;
-          this.set('selectAll', selectAll);
+          var selectAll = !this.selectAll,
+            els = this.querySelectorAll('token-item-element');
 
-          var els = this.querySelectorAll('token-item-element');
+          this.set('selectAll', selectAll);
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
           }, this);
