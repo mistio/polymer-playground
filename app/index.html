@@ -250,6 +250,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Contact</span>
           </a> -->
 
+          <a data-route="notes" href="/notes">
+            <iron-icon icon="content-paste"></iron-icon>
+            <span>My Notes</span>
+          </a>
+
           <a data-route="add-cloud" href="/add-cloud">
             <iron-icon icon="device:storage"></iron-icon>
             <span>Add Cloud</span>
@@ -387,6 +392,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <p>This is the contact section</p>
               </paper-material>
             </section>
+
+            <notes-page-element data-route="notes"></notes-page-element>
 
             <add-cloud data-route="add-cloud"></add-cloud>
 
