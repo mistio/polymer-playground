@@ -22,6 +22,10 @@
     </style>
 
     <paper-card heading="Active Tokens">
+      <div class="card-options" hidden$="[[!showOptions]]">
+        <paper-icon-button on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+      </div>
+
       <div class="card-content">
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
@@ -41,6 +45,8 @@
       </div>
     </paper-card>
 
+    <array-selector id="selector" items="[[tokens]]" selected="{{selectedTokens}}" multi toggle></array-selector>
+
     <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
     <token-add-element></token-add-element>
   </template>
@@ -59,14 +65,14 @@
               return TOKENS;
             }
           },
-          selectedTokens: {
-            type: Array,
-            value: []
-          },
           selectAll: {
             type: Boolean,
             value: false,
             notify: true
+          },
+          showOptions: {
+            type: Boolean,
+            value: false
           }
         },
         observers: [
@@ -78,6 +84,8 @@
           'toggleSelectedToken': '_toggleSelectedToken'
         },
         _tokensChanged: function(tokens, selectedTokens) {
+          this.set('showOptions', selectedTokens.base.length);
+
           if (selectedTokens.base.length < tokens.base.length) {
             // this.set('selectAll', false);
             console.log(1);
@@ -106,16 +114,15 @@
           this.splice('tokens', index, 1);
         },
         _toggleSelectedToken: function(e) {
-          var token = e.detail.token;
-          console.log(41);
-          if (e.detail.selected) {
-            this.push('selectedTokens', token);
-            console.log(42);
-          } else {
-            var index = this.selectedTokens.indexOf(token);
-            this.splice('selectedTokens', index, 1);
-            console.log(43);
-          }
+          this.$.selector.select(e.detail.token);
+        },
+        _deleteSelected: function(e) {
+          this.selectedTokens.forEach(function(el, index) {
+            var index = this.tokens.indexOf(el);
+            this.splice('tokens', index, 1);
+            this.$.selector.select(el);
+          }, this);
+          console.log(this.$.selector.selected, this.selectedTokens);
         }
       });
     })();

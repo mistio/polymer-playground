@@ -71,3 +71,8 @@ paper-fab {
 .info-body .info-item.last {
   border: none;
 }
+.card-options {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+}
