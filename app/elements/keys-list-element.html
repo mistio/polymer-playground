@@ -1,0 +1,81 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="keys-list-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .btn-group paper-button {
+        width: 50%;
+        float: left;
+        display: block;
+      }
+
+      .btn-group paper-button:first-of-type {
+        border-radius: 3px 0 0 3px;
+      }
+
+      .btn-group paper-button:last-of-type {
+        border-radius: 0 3px 3px 0;
+      }
+
+      paper-dialog {
+        min-width: 400px;
+        position: relative;
+      }
+
+      paper-dialog paper-icon-button {
+        position: absolute;
+        margin: 0;
+        top: 18px;
+        right: 14px;
+      }
+
+      paper-dialog paper-button {
+        display: block;
+        margin: 20px 0 0;
+        background-color: #3f51b5;
+        color: #fff;
+      }
+
+      paper-dialog paper-button[disabled] {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+      }
+    </style>
+
+    <paper-card heading="Keys">
+      <div class="card-content">
+        <p>Put some dummy keys here</p>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'keys-list-element',
+
+        properties: {
+          keys: {
+            type: Object,
+            value: {}
+          }
+        },
+        ready: function() {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>
