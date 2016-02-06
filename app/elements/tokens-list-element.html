@@ -85,7 +85,7 @@
         _tokensChanged: function(tokens, selectedTokens) {
           this.set('showOptions', selectedTokens.base.length > 0);
 
-          if (selectedTokens.base.length < tokens.base.length) {
+          if (selectedTokens.base.length < tokens.base.length || tokens.base.length === 0) {
             this.set('selectAll', false);
           }
 
@@ -106,20 +106,25 @@
           }, this);
         },
         _revokeToken: function(e) {
-          var token = e.detail.token,
-            index = this.tokens.indexOf(token);
+          var token = e.detail.token;
+          var index = this.tokens.indexOf(token);
           this.splice('tokens', index, 1);
+          this.$.selector.deselect(token);
         },
         _toggleSelectedToken: function(e) {
           this.$.selector.select(e.detail.token);
-          console.log(this.selectedTokens);
         },
         _deleteSelected: function(e) {
           this.selectedTokens.forEach(function(el, index) {
             var index = this.tokens.indexOf(el);
             this.splice('tokens', index, 1);
-            this.$.selector.select(el);
           }, this);
+          this.$.selector.clearSelection();
+        },
+        _removeItem: function(token) {
+          var index = this.tokens.indexOf(token);
+          this.splice('tokens', index, 1);
+          this.$.selector.deselect(token);
         }
       });
     })();
