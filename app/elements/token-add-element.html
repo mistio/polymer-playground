@@ -104,8 +104,7 @@
           }
         },
         listeners: {
-          'iron-overlay-closed': '_modalClosed',
-          'openAddTokenModal': '_openAddTokenModal'
+          'addTokenModal.iron-overlay-closed': '_modalClosed'
         },
         ready: function() {
 
@@ -119,13 +118,14 @@
 
           return formReady;
         },
-        _openAddTokenModal: function(e) {
+        _openAddTokenModal: function() {
           this.$.addTokenModal.open();
         },
         _closeAddTokenModal: function(e) {
           this.$.addTokenModal.close();
         },
         _modalClosed: function(e) {
+          console.log(e);
           this._formReset();
         },
         _formReset: function() {

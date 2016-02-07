@@ -127,10 +127,8 @@
           }
         },
         _openAddTokenModal: function(e) {
-          this.fire('openAddTokenModal', null, {
-            node: Polymer.dom(this.root).querySelector('token-add-element'),
-            bubbles: false
-          });
+          var el = Polymer.dom(this.root).querySelector('token-add-element');
+          el._openAddTokenModal();
         },
         _toggleSearchSelected: function() {
           var showSearchOption = !this.showSearchOption;
@@ -142,7 +140,7 @@
         },
         _selectAllChanged: function(e) {
           var selectAll = !this.selectAll,
-            els = this.querySelectorAll('token-item-element');
+            els = Polymer.dom(this.root).querySelectorAll('token-item-element');
 
           this.set('selectAll', selectAll);
           [].forEach.call(els, function(el, index) {
