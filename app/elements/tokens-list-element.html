@@ -127,7 +127,10 @@
           }
         },
         _openAddTokenModal: function(e) {
-          console.log(this.selectedTokens);
+          this.fire('openAddTokenModal', null, {
+            node: Polymer.dom(this.root).querySelector('token-add-element'),
+            bubbles: false
+          });
         },
         _toggleSearchSelected: function() {
           var showSearchOption = !this.showSearchOption;

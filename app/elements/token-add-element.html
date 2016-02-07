@@ -8,11 +8,41 @@
         display: block;
         width: 100%;
       }
+
+      paper-menu,
+      paper-dropdown-menu {
+        width: 100%;
+      }
+
+      paper-dialog {
+        min-width: 300px;
+        position: relative;
+      }
+
+      paper-dialog paper-icon-button {
+        position: absolute;
+        margin: 0;
+        top: 18px;
+        right: 14px;
+      }
+
+      paper-dialog paper-button {
+        display: block;
+        margin: 20px 0 0;
+        background-color: #3f51b5;
+        color: #fff;
+      }
+
+      paper-dialog paper-button[disabled] {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+      }
     </style>
 
     <paper-dialog id="addTokenModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Create Token</h2>
-      <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
+      <paper-icon-button icon="clear" on-tap="_closeAddTokenModal"></paper-icon-button>
       <paper-dialog-scrollable>
         <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
 
@@ -25,7 +55,7 @@
         </paper-dropdown-menu>
 
         <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
-        <paper-dialog-scrollable>
+      </paper-dialog-scrollable>
     </paper-dialog>
 
     <iron-ajax id="addTokenAjax" url="/tokens/[[token.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
@@ -41,10 +71,13 @@
         properties: {
           token: {
             type: Object,
-            value: {
-              name: null,
-              expiration: null
-            }
+            value: function() {
+              return {
+                name: null,
+                expiration: null
+              }
+            },
+            notify: true
           },
           expirationOptions: {
             type: Array,
@@ -71,7 +104,8 @@
           }
         },
         listeners: {
-          'iron-overlay-closed': '_modalClosed'
+          'iron-overlay-closed': '_modalClosed',
+          'openAddTokenModal': '_openAddTokenModal'
         },
         ready: function() {
 
@@ -84,6 +118,12 @@
           }
 
           return formReady;
+        },
+        _openAddTokenModal: function(e) {
+          this.$.addTokenModal.open();
+        },
+        _closeAddTokenModal: function(e) {
+          this.$.addTokenModal.close();
         },
         _modalClosed: function(e) {
           this._formReset();
