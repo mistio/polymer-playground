@@ -56,11 +56,11 @@
       <h2>Register</h2>
       <paper-icon-button icon="clear" on-tap="_closeRegisterModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <iron-form id="form" method="post" action="/register">
+        <form is="iron-form" id="form" method="post" action="/register">
           <paper-input label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
           <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}"></paper-input>
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
-        </iron-form>
+        </form>
       </paper-dialog-scrollable>
     </paper-dialog>
 

@@ -49,12 +49,12 @@
         </template>
 
         <template is="dom-if" if="[[provider]]">
-          <iron-form id="form" method="post" action="/form/handler">
+          <form is="iron-form" id="form" method="post" action="/form/handler">
             <template is="dom-repeat" items="[[providerFields]]" as="field">
               <paper-input placeholder="[[field.placeholder]]" label="[[field.label]]" value="[[field.defaultValue]]" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
             </template>
             <paper-button raised on-tap="_submitForm">Submit</paper-button>
-          </iron-form>
+          </form>
         </template>
     </paper-card>
   </template>

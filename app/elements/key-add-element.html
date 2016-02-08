@@ -63,7 +63,7 @@
       <h2>Add Key</h2>
       <paper-icon-button icon="clear" on-tap="_closeAddKeyModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <iron-form id="form" method="post" action="/login">
+        <form is="iron-form" id="form" method="post" action="/login">
           <paper-input label="Name" required error-message="Please enter key's name" value="{{key.name}}"></paper-input>
 
           <paper-textarea label="Private Key" rows="5" required error-message="Please enter private key" value="{{key.privateKey}}" max-rows="5"></paper-textarea>
@@ -76,7 +76,7 @@
           </div>
 
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
-        </iron-form>
+        </form>
       </paper-dialog-scrollable>
     </paper-dialog>
 

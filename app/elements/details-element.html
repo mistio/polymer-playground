@@ -12,11 +12,11 @@
         display: block;
       }
 
-      iron-form paper-button {
+      #form paper-button {
         margin: 20px 0 0;
       }
 
-      iron-form paper-dropdown-menu {
+      #form paper-dropdown-menu {
         display: block;
       }
 
@@ -35,14 +35,14 @@
 
     <paper-card heading="Account Details">
       <div class="card-content">
-        <iron-form id="form" method="post" action="/account">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+        <form is="iron-form" id="form" method="post" action="/account">
+          <paper-input label="What's your first name?" required auto-validate error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
 
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
+          <paper-input label="What's your last name?" required auto-validate error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
 
-          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
+          <paper-input label="What's your company's name?" required auto-validate error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
 
-          <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+          <paper-dropdown-menu label="Where is your business located?" error-message="Please select your business location" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
               <template is="dom-repeat" items="[[countriesOptions]]" as="country">
                 <paper-item value="[[country]]">[[country]]</paper-item>
@@ -67,7 +67,7 @@
           </paper-dropdown-menu>
 
           <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
-        </iron-form>
+        </form>
       </div>
     </paper-card>
 
@@ -126,26 +126,34 @@
           return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
         },
         _submitForm: function(e) {
-          var form = document.getElementById('form');
-          var payload = {
-            action: 'update_details',
-            first_name: this.user.firstName,
-            last_name: this.user.lastName,
-            last_name: this.user.lastName,
-            company_name: this.user.companyName,
-            country: this.user.country,
-            number_of_servers: this.user.numberOfServers,
-            number_of_people: this.user.numberOfPeople
-          };
+          var form = this.$.form,
+            payload = {
+              action: 'update_details',
+              first_name: this.user.firstName,
+              last_name: this.user.lastName,
+              last_name: this.user.lastName,
+              company_name: this.user.companyName,
+              country: this.user.country,
+              number_of_servers: this.user.numberOfServers,
+              number_of_people: this.user.numberOfPeople
+            };
 
-          console.log(payload);
-          this.fire('iron-signal', {
-            name: 'user-menu',
-            data: {
-              firstName: this.user.firstName,
-              lastName: this.user.lastName
-            }
-          });
+          if (form.validate()) {
+            this.fire('iron-signal', {
+              name: 'user-menu',
+              data: {
+                firstName: this.user.firstName,
+                lastName: this.user.lastName
+              }
+            });
+
+            this.fire('iron-signal', {
+              name: 'notification',
+              data: {
+                title: this.user.firstName + ' your details were updated!'
+              }
+            });
+          }
 
           //   this.$.ajax.body = payload;
           //   this.$.ajax.generateRequest();
