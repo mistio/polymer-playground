@@ -51,12 +51,11 @@
       <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
       <paper-dialog-scrollable>
         <form is="iron-form" id="loginForm" method="post" action="/api/v1/login" novalidate>
-          <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" on-change="_trackErrors" auto-validate></paper-input>
+          <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" auto-validate></paper-input>
 
-          <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" on-change="_trackErrors" auto-validate></paper-input>
+          <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" auto-validate></paper-input>
 
-          <!-- <button type="submit">Submit</button> -->
-          <paper-button id="submitBtn" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
+          <paper-button id="submitBtn" type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
         </form>
       </paper-dialog-scrollable>
     </paper-dialog>
@@ -117,15 +116,13 @@
           this.$.loginModal.close();
         },
         _trackErrors: function(e) {
-            console.log(e);
+          console.log(e);
         },
         _submitForm: function(e) {
-          //   e.preventDefault();
-          console.log(this.$.loginForm.validate(), this.$.loginForm.serialize());
-          //   var loginForm = this.$.loginForm;
-          //   console.log(e, loginForm);
-          //   console.log(form.serialize(), form.validate());
-          //   console.log(this.$.loginForm.validate(), this.$.email.invalid, this.$.password.invalid);
+          e.preventDefault();
+          var loginForm = this.$.loginForm;
+          console.log(e, loginForm);
+          console.log(loginForm.serialize(), loginForm.validate());
         },
         _modalClosed: function() {
           this._formReset();
