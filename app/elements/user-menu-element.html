@@ -17,20 +17,38 @@
         margin-right: 10px;
       }
 
-      gravatar-component > ::content img {
+      gravatar-component >::content img {
         border-radius: 50%;
         border: 2px solid #3f51b5;
       }
 
-      gravatar-component > ::content img:hover {
-          border: 2px solid #fff;
+      .user-menu {
+        text-transform: none;
+      }
+
+      .user-menu:hover >::content img {
+        border: 2px solid #fff;
       }
     </style>
 
-    <div class="user-menu">
-      <gravatar-component class="pull-right" email="[[user.email]]" size="40" alt-text="[[menuText]]"></gravatar-component>
-      <span class="name pull-right">[[menuText]]</span>
-    </div>
+    <paper-menu-button horizontal-align="right">
+      <paper-button class="user-menu dropdown-trigger" noink>
+        <gravatar-component class="pull-right" email="[[user.email]]" size="40" alt-text="[[menuText]]"></gravatar-component>
+        <span class="name pull-right">[[menuText]]</span>
+      </paper-button>
+
+      <paper-menu class="dropdown-content">
+        <paper-item>
+          <a href="#">Link</a>
+        </paper-item>
+        <paper-item>
+          <a href="#">Link</a>
+        </paper-item>
+        <paper-item>
+          <a href="#">Link</a>
+        </paper-item>
+      </paper-menu>
+    </paper-menu-button>
 
     <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
   </template>
