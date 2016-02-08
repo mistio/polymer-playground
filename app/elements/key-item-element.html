@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="key-item-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-item class$="info-item flex-horizontal-with-ratios">
+      <div class="flexchild">
+        <paper-checkbox>[[key.id]]</paper-checkbox>
+      </div>
+      <div class="flexchild">[[isDefaultText]]</div>
+    </paper-item>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'key-item-element',
+
+        properties: {
+          key: {
+            type: Object
+          },
+          isDefaultText: {
+            type: String,
+            computed: '_computeIsDefaultText(key.isDefault)'
+          }
+        },
+        ready: function() {
+
+        },
+        _computeIsDefaultText: function(isDefault) {
+          return isDefault ? 'Default' : null;
+        }
+      });
+    })();
+  </script>
+</dom-module>
