@@ -7,10 +7,30 @@
       :host {
         display: block;
       }
+
+      user-menu {
+        display: inline-block;
+      }
+
+      .name {
+        line-height: 44px;
+        margin-right: 10px;
+      }
+
+      gravatar-component ::content img {
+        border-radius: 50%;
+        border: 2px solid #3f51b5;
+      }
+
+      gravatar-component ::content img:hover {
+          border: 2px solid #fff;
+      }
     </style>
 
-    <gravatar-component email="[[user.email]]" size="40" alt-text="[[menuText]]"></gravatar-component>
-    <span>[[menuText]]</span>
+    <div class="user-menu">
+      <gravatar-component class="pull-right" email="[[user.email]]" size="40" alt-text="[[menuText]]"></gravatar-component>
+      <span class="name pull-right">[[menuText]]</span>
+    </div>
 
     <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
   </template>
