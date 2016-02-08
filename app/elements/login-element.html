@@ -119,10 +119,14 @@
           console.log(e);
         },
         _submitForm: function(e) {
-          e.preventDefault();
-          var loginForm = this.$.loginForm;
-          console.log(e, loginForm);
-          console.log(loginForm.serialize(), loginForm.validate());
+          var loginForm = this.$.loginForm,
+            isValid = loginForm.validate();
+
+          if (isValid) {
+
+          } else {
+
+          }
         },
         _modalClosed: function() {
           this._formReset();

@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="user-menu-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <gravatar-component email="[[user.email]]" size="40" alt-text="[[menuText]]"></gravatar-component>
+    <span>[[menuText]]</span>
+
+    <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'user-menu-element',
+
+        properties: {
+          user: {
+            type: Object,
+            value: function() {
+              return {
+                firstName: FIRST_NAME,
+                lastName: LAST_NAME,
+                email: EMAIL
+              }
+            }
+          },
+          menuText: {
+            type: String,
+            computed: '_computeMenuText(user.firstName, user.lastName, user.email)'
+          }
+        },
+        ready: function() {
+
+        },
+        _computeMenuText: function(firstName, lastName, email) {
+          return (!firstName || !lastName) ? email : firstName + ' ' + lastName;
+        },
+        _updateUser: function(e) {
+          this.set('user.firstName', e.detail.firstName);
+          this.set('user.lastName', e.detail.lastName);
+        }
+      });
+    })();
+  </script>
+</dom-module>

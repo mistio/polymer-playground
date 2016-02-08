@@ -139,6 +139,13 @@
           };
 
           console.log(payload);
+          this.fire('iron-signal', {
+            name: 'user-menu',
+            data: {
+              firstName: this.user.firstName,
+              lastName: this.user.lastName
+            }
+          });
 
           //   this.$.ajax.body = payload;
           //   this.$.ajax.generateRequest();
