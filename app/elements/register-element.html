@@ -13,8 +13,7 @@
       }
 
       paper-dialog {
-        min-width: 300px;
-        position: relative;
+        width: 300px;
       }
 
       paper-dialog paper-icon-button {
@@ -56,11 +55,11 @@
       <h2>Register</h2>
       <paper-icon-button icon="clear" on-tap="_closeRegisterModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <form is="iron-form" id="form" method="post" action="/register">
-          <paper-input label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
-          <paper-input type="email" label="Email" required error-message="Please enter your email" value="{{user.email}}"></paper-input>
-          <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
-        </form>
+        <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
+
+        <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+        
+        <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
       </paper-dialog-scrollable>
     </paper-dialog>
 
@@ -79,8 +78,8 @@
             type: Object,
             value: function() {
               return {
-                name: null,
-                email: null
+                name: '',
+                email: ''
               }
             },
             notify: true
@@ -120,14 +119,16 @@
           this.$.registerModal.close();
         },
         _submitForm: function(e) {
-          var form = document.getElementById('form');
+
         },
         _modalClosed: function() {
           this._formReset();
         },
         _formReset: function() {
-          this.set('user.name', null);
-          this.set('user.email', null);
+          this.set('user.name', '');
+          this.set('user.email', '');
+          this.$.name.invalid = false;
+          this.$.email.invalid = false;
         },
         _ajaxRequest: function() {
           this.set('sendingData', true);

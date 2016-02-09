@@ -13,8 +13,7 @@
       }
 
       paper-dialog {
-        min-width: 300px;
-        position: relative;
+        width: 300px;
       }
 
       paper-dialog paper-icon-button {
@@ -50,14 +49,12 @@
       <h2>Sign In</h2>
       <paper-icon-button icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <form is="iron-form" id="loginForm" method="post" action="/api/v1/login" novalidate>
-          <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" auto-validate></paper-input>
+        <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
 
-          <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" auto-validate></paper-input>
+        <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
 
-          <paper-button id="submitBtn" type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
-        </form>
-      </paper-dialog-scrollable>
+        <paper-button id="submitBtn" type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
+    </paper-dialog-scrollable>
     </paper-dialog>
 
     <!-- <iron-ajax id="ajax" url="/api/v1/login" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax> -->

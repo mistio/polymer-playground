@@ -47,7 +47,7 @@
     <template is="dom-if" if="[[!pageSecond]]">
       <paper-card heading="Feedback (Page 1 of 2)">
         <div class="card-content">
-          <paper-input label="What's your first name?" required auto-validate error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
 
           <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
 
@@ -135,6 +135,7 @@
     </template>
 
     <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+    <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
   </template>
 
   <script>
@@ -397,6 +398,10 @@
         },
         _ajaxResponse: function() {
           this.set('sendingData', false);
+        },
+        _updateUser: function(e) {
+          this.set('user.firstName', e.detail.firstName);
+          this.set('user.lastName', e.detail.lastName);
         }
       });
     })();
