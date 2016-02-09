@@ -63,7 +63,7 @@
         <paper-textarea id="publicKey" hidden$="[[!showPublicKey]]" label="Public Key" rows="5" value="{{key.publicKey}}" max-rows="5"></paper-textarea>
 
         <div class="clearfix btn-group">
-          <paper-button raised on-tap="_generateKey">Generate</paper-button>
+          <paper-button raised on-tap="_generateKeyAjax">Generate</paper-button>
           <paper-button raised on-tap="_uploadKey">Upload</paper-button>
         </div>
 
@@ -72,6 +72,7 @@
     </paper-dialog>
 
     <iron-ajax id="generateKeyAjax" url="/keys" method="POST" on-request="_generateKeyAjaxRequest" on-response="_generateKeyAjaxResponse"></iron-ajax>
+    <iron-ajax id="addKeyAjax" url="/keys" method="POST" on-request="_addKeyAjaxRequest" on-response="_addKeyAjaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -143,7 +144,7 @@
           this.set('key.privateKey', '');
           this.set('showPublicKey', false);
         },
-        _generateKey: function(e) {
+        _generateKeyAjax: function(e) {
           //   this.$.generateKeyAjax.generateRequest();
         },
         _generateKeyAjaxRequest: function() {
@@ -155,6 +156,22 @@
           this.set('key.privateKey', response.priv);
           this.set('sendingData', false);
           this.set('showPublicKey', true);
+        },
+        _addKeyAjax: function(e) {
+          //   this.$.addKeyAjax.addRequest();
+        },
+        _addKeyAjaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _addKeyAjaxResponse: function(e) {
+          this.set('sendingData', false);
+
+          this.fire('addKey', {
+            key: {
+              id: this.key.id,
+              isDefault: false
+            }
+          });
         }
       });
     })();

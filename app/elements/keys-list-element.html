@@ -55,6 +55,7 @@
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddKeyModal"></paper-fab>
     <key-add-element></key-add-element>
+    <key-edit-element key="[[selectedKey]]"></key-edit-element>
   </template>
 
   <script>
@@ -70,6 +71,10 @@
             value: function() {
               return Mist.keys;
             }
+          },
+          selectedKey: {
+            type: Object,
+            value: null
           },
           selectAll: {
             type: Boolean,
@@ -96,13 +101,17 @@
           '_keysChanged(keys.*, selectedKeys.*)'
         ],
         listeners: {
-          'toggleSelectedKey': '_toggleSelectedKey'
+          'toggleSelectedKey': '_toggleSelectedKey',
+          'addKey': '_addKey',
+          'updateSelectedKey': '_updateSelectedKey'
         },
         _computeSort: function(a, b) {
           return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
         },
         _keysChanged: function(keys, selectedKeys) {
           this.set('showDeleteOption', selectedKeys.base.length > 0);
+
+          this.set('selectedKey', selectedKeys.base.length == 1 ? selectedKeys.base[0] : null);
 
           this.set('showMakeDefaultOption', selectedKeys.base.length == 1);
 
@@ -132,24 +141,33 @@
         },
         _deleteSelected: function(e) {
           this.selectedKeys.forEach(function(key, index) {
-            console.log(key);
             var index = this.keys.indexOf(key);
             this.splice('keys', index, 1);
           }, this);
           this.$.selector.clearSelection();
         },
         _starSelected: function(e) {
-          var selectedKey = this.selectedKeys[0];
+          var selectedKey = this.selectedKey;
           this.keys.forEach(function(key, index) {
             this.set('keys.' + index + '.isDefault', key.id == selectedKey.id);
           }, this);
         },
         _editSelected: function(e) {
-          console.log(e);
+          var el = Polymer.dom(this.root).querySelector('key-edit-element');
+          el._openEditKeyModal();
+        },
+        _updateSelectedKey: function(e) {
+          var key = e.detail.key,
+            index = this.keys.indexOf(key);
+          this.set('keys.' + index + '.id', key.id);
         },
         _openAddKeyModal: function(e) {
           var el = Polymer.dom(this.root).querySelector('key-add-element');
           el._openAddKeyModal();
+        },
+        _addKey: function(e) {
+          var key = e.detail.key;
+          this.push('keys', key);
         }
       });
     })();

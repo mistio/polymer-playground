@@ -1,0 +1,126 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="key-edit-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      paper-dialog {
+        width: 300px;
+      }
+
+      paper-dialog paper-icon-button {
+        position: absolute;
+        margin: 0;
+        top: 18px;
+        right: 14px;
+      }
+
+      paper-dialog paper-button {
+        display: block;
+        margin: 20px 0 0;
+        background-color: #3f51b5;
+        color: #fff;
+      }
+
+      paper-dialog paper-button[disabled] {
+        background-color: #ccc;
+        color: #fff;
+        cursor: not-allowed;
+      }
+    </style>
+
+    <paper-dialog id="editKeyModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+      <h2>Edit Key</h2>
+      <paper-icon-button icon="clear" on-tap="_closeEditKeyModal"></paper-icon-button>
+      <paper-dialog-scrollable>
+        <paper-input id="name" label="Name" required error-message="Please enter key's name" value="{{key.id}}"></paper-input>
+
+        <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+      </paper-dialog-scrollable>
+    </paper-dialog>
+
+    <iron-ajax id="editKeyAjax" url="/keys/[[key.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'key-edit-element',
+
+        properties: {
+          key: {
+            type: Object,
+            value: {
+              id: null
+            },
+            notify: true
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
+          },
+          formReady: {
+            type: Boolean,
+            computed: '_computeFormReady(key.id, sendingData)'
+          }
+        },
+        listeners: {
+          'iron-overlay-closed': '_modalClosed'
+        },
+        ready: function() {
+
+        },
+        _computeFormReady: function(id, sendingData) {
+          var formReady = false;
+
+          if (id) {
+            formReady = true;
+          }
+
+          if (sendingData) {
+            formReady = false;
+          }
+
+          return formReady;
+        },
+        _openEditKeyModal: function(e) {
+          this.$.editKeyModal.open();
+        },
+        _closeEditKeyModal: function(e) {
+          this.$.editKeyModal.close();
+        },
+        _modalClosed: function() {
+          this._formReset();
+        },
+        _submitForm: function(e) {
+          this.fire('updateSelectedKey', {
+            key: this.key
+          });
+          this._closeEditKeyModal();
+        },
+        _formReset: function() {
+          //   this.set('key.id', '');
+        },
+        _editKeyAjax: function(e) {
+          //   this.$.editKeyAjax.generateRequest();
+        },
+        _editKeyRequest: function() {
+          this.set('sendingData', true);
+        },
+        _editKeyResponse: function(e) {
+          this.set('sendingData', false);
+        }
+      });
+    })();
+  </script>
+</dom-module>
