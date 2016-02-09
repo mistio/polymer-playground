@@ -12,6 +12,10 @@
         display: block;
       }
 
+      paper-item:hover {
+        cursor: pointer;
+      }
+
       .flex-horizontal-with-ratios {
         @apply(--layout-horizontal);
       }
@@ -21,7 +25,7 @@
       }
     </style>
 
-    <paper-item class="info-item flex-horizontal-with-ratios">
+    <paper-item on-tap="_viewKey" class="info-item flex-horizontal-with-ratios">
       <div class="flexchild">
         <paper-checkbox checked="{{selected}}" on-tap="_selectKey">[[key.id]]</paper-checkbox>
       </div>
@@ -51,7 +55,7 @@
           }
         },
         listeners: {
-            'selected-changed': '_selectKeyChanged'
+          'selected-changed': '_selectKeyChanged'
         },
         ready: function() {
 
@@ -62,6 +66,9 @@
             key: this.key,
             selected: selected
           });
+        },
+        _viewKey: function(e) {
+          console.log(this.key);
         },
         _selectKey: function(e) {
           // This is used to prevent event bubbling

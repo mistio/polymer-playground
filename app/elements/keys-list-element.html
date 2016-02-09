@@ -24,23 +24,30 @@
     <paper-card heading="Keys">
       <div hidden$="[[!hasKeys]]" class="card-options">
         <paper-icon-button hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="star-border"></paper-icon-button>
+        <paper-icon-button hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
         <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
       </div>
 
       <div class="card-content">
-        <div class="info-head flex-horizontal-with-ratios">
-          <div class="flexchild">
-            <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
+        <div hidden$="[[!hasKeys]]" class="info-list">
+          <div class="info-head flex-horizontal-with-ratios">
+            <div class="flexchild">
+              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
+            </div>
+            <div class="flexchild">Default</div>
           </div>
-          <div class="flexchild">Default</div>
+          <div class="info-body">
+            <iron-list items="[[keys]]" as="key" sort="_computeSort">
+              <template>
+                <key-item-element key="[[key]]"></key-item-element>
+              </template>
+            </iron-list>
+          </div>
         </div>
-        <div class="info-body">
-          <iron-list items="[[keys]]" as="key" sort="_computeSort">
-            <template>
-              <key-item-element key="[[key]]"></key-item-element>
-            </template>
-          </iron-list>
-        </div>
+
+        <p hidden$="[[hasKeys]]">
+          No keys found here. You can add some by using the action button!
+        </p>
       </div>
     </paper-card>
 
@@ -73,6 +80,10 @@
             type: Boolean,
             value: false
           },
+          showEditOption: {
+            type: Boolean,
+            value: false
+          },
           showDeleteOption: {
             type: Boolean,
             value: false
@@ -91,6 +102,8 @@
           this.set('showDeleteOption', selectedKeys.base.length > 0);
 
           this.set('showMakeDefaultOption', selectedKeys.base.length == 1);
+
+          this.set('showEditOption', selectedKeys.base.length == 1);
 
           this.set('hasKeys', keys.base.length > 0);
 
@@ -115,13 +128,20 @@
           this.$.selector.select(e.detail.key);
         },
         _deleteSelected: function(e) {
-          this.selectedKeys.forEach(function(el, index) {
-            var index = this.keys.indexOf(el);
+          this.selectedKeys.forEach(function(key, index) {
+            console.log(key);
+            var index = this.keys.indexOf(key);
             this.splice('keys', index, 1);
           }, this);
           this.$.selector.clearSelection();
         },
         _starSelected: function(e) {
+          var selectedKey = this.selectedKeys[0];
+          this.keys.forEach(function(key, index) {
+            this.set('keys.' + index + '.isDefault', key.id == selectedKey.id);
+          }, this);
+        },
+        _editSelected: function(e) {
           console.log(e);
         }
       });

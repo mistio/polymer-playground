@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="key-page-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'key-page-element',
+
+        properties: {
+          key: {
+            type: Object
+          },
+          params: {
+            type: Object
+          }
+        },
+        ready: function() {
+          console.log(this.params);
+        }
+      });
+    })();
+  </script>
+</dom-module>
