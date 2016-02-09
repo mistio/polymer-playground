@@ -12,6 +12,10 @@
         display: block;
       }
 
+      .search {
+        display: inline-block;
+      }
+
       .flex-horizontal-with-ratios {
         @apply(--layout-horizontal);
       }
@@ -23,6 +27,8 @@
 
     <paper-card heading="Scripts">
       <div hidden$="[[!hasScripts]]" class="card-options">
+        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+        <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
         <paper-icon-button hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
         <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
       </div>
@@ -36,7 +42,7 @@
             <div class="flexchild">Type</div>
           </div>
           <div class="info-body">
-            <iron-list items="[[scripts]]" as="script" sort="_computeSort">
+            <iron-list items="[[filteredScripts]]" as="script" sort="_computeSort">
               <template>
                 <script-item-element script="[[script]]"></script-item-element>
               </template>
@@ -71,6 +77,10 @@
               return Mist.scripts;
             }
           },
+          filteredScripts: {
+            type: Array,
+            computed: '_computeFilteredScripts(scripts, searchTerm)'
+          },
           selectedScript: {
             type: Object,
             value: null
@@ -90,6 +100,15 @@
           showDeleteOption: {
             type: Boolean,
             value: false
+          },
+          showSearchOption: {
+            type: Boolean,
+            value: false
+          },
+          searchTerm: {
+            type: String,
+            value: '',
+            notify: true
           }
         },
         observers: [
@@ -102,6 +121,13 @@
         },
         _computeSort: function(a, b) {
           return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
+        },
+        _computeFilteredScripts: function(scripts, searchTerm) {
+          var searchTerm = searchTerm.toLowerCase();
+          return scripts.filter(function(script) {
+            var name = script.name.toLowerCase();
+            return name.indexOf(searchTerm) != -1;
+          });
         },
         _scriptsChanged: function(scripts, selectedScripts) {
           this.set('showDeleteOption', selectedScripts.base.length > 0);
@@ -131,6 +157,14 @@
         },
         _toggleSelectedScript: function(e) {
           this.$.selector.select(e.detail.script);
+        },
+        _toggleSearchSelected: function() {
+          var showSearchOption = !this.showSearchOption;
+          this.set('showSearchOption', showSearchOption);
+
+          if (!showSearchOption) {
+            this.set('searchTerm', '');
+          }
         },
         _deleteSelected: function(e) {
           this.selectedScripts.forEach(function(script, index) {

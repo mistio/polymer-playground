@@ -12,6 +12,10 @@
         display: block;
       }
 
+      .search {
+        display: inline-block;
+      }
+
       .flex-horizontal-with-ratios {
         @apply(--layout-horizontal);
       }
@@ -23,6 +27,8 @@
 
     <paper-card heading="Keys">
       <div hidden$="[[!hasKeys]]" class="card-options">
+        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+        <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
         <paper-icon-button hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="star-border"></paper-icon-button>
         <paper-icon-button hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
         <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
@@ -37,7 +43,7 @@
             <div class="flexchild">Default</div>
           </div>
           <div class="info-body">
-            <iron-list items="[[keys]]" as="key" sort="_computeSort">
+            <iron-list items="[[filteredKeys]]" as="key" sort="_computeSort">
               <template>
                 <key-item-element key="[[key]]"></key-item-element>
               </template>
@@ -72,6 +78,10 @@
               return Mist.keys;
             }
           },
+          filteredKeys: {
+            type: Array,
+            computed: '_computeFilteredKeys(keys, searchTerm)'
+          },
           selectedKey: {
             type: Object,
             value: null
@@ -95,6 +105,15 @@
           showDeleteOption: {
             type: Boolean,
             value: false
+          },
+          showSearchOption: {
+            type: Boolean,
+            value: false
+          },
+          searchTerm: {
+            type: String,
+            value: '',
+            notify: true
           }
         },
         observers: [
@@ -107,6 +126,13 @@
         },
         _computeSort: function(a, b) {
           return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
+        },
+        _computeFilteredKeys: function(keys, searchTerm) {
+          var searchTerm = searchTerm.toLowerCase();
+          return keys.filter(function(key) {
+            var id = key.id.toLowerCase();
+            return id.indexOf(searchTerm) != -1;
+          });
         },
         _keysChanged: function(keys, selectedKeys) {
           this.set('showDeleteOption', selectedKeys.base.length > 0);
@@ -138,6 +164,14 @@
         },
         _toggleSelectedKey: function(e) {
           this.$.selector.select(e.detail.key);
+        },
+        _toggleSearchSelected: function() {
+          var showSearchOption = !this.showSearchOption;
+          this.set('showSearchOption', showSearchOption);
+
+          if (!showSearchOption) {
+            this.set('searchTerm', '');
+          }
         },
         _deleteSelected: function(e) {
           this.selectedKeys.forEach(function(key, index) {
