@@ -22,10 +22,15 @@
     </style>
 
     <paper-card heading="Keys">
+      <div hidden$="[[!hasKeys]]" class="card-options">
+        <paper-icon-button hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="star-border"></paper-icon-button>
+        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+      </div>
+
       <div class="card-content">
         <div class="info-head flex-horizontal-with-ratios">
           <div class="flexchild">
-            <paper-checkbox>Νame</paper-checkbox>
+            <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
           </div>
           <div class="flexchild">Default</div>
         </div>
@@ -38,6 +43,8 @@
         </div>
       </div>
     </paper-card>
+
+    <array-selector id="selector" items="[[keys]]" selected="{{selectedKeys}}" multi toggle></array-selector>
   </template>
 
   <script>
@@ -51,15 +58,71 @@
           keys: {
             type: Array,
             value: function() {
-                return KEYS;
+              return Mist.keys;
             }
+          },
+          selectAll: {
+            type: Boolean,
+            value: false
+          },
+          hasKeys: {
+            type: Boolean,
+            value: false
+          },
+          showMakeDefaultOption: {
+            type: Boolean,
+            value: false
+          },
+          showDeleteOption: {
+            type: Boolean,
+            value: false
           }
         },
-        ready: function() {
-
+        observers: [
+          '_keysChanged(keys.*, selectedKeys.*)'
+        ],
+        listeners: {
+          'toggleSelectedKey': '_toggleSelectedKey'
         },
         _computeSort: function(a, b) {
           return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
+        },
+        _keysChanged: function(keys, selectedKeys) {
+          this.set('showDeleteOption', selectedKeys.base.length > 0);
+
+          this.set('showMakeDefaultOption', selectedKeys.base.length == 1);
+
+          this.set('hasKeys', keys.base.length > 0);
+
+          if (selectedKeys.base.length < keys.base.length || keys.base.length === 0) {
+            this.set('selectAll', false);
+          }
+
+          if (selectedKeys.base.length == keys.base.length && selectedKeys.base.length != 0) {
+            this.set('selectAll', true);
+          }
+        },
+        _selectAllChanged: function(e) {
+          var selectAll = !this.selectAll,
+            els = Polymer.dom(this.root).querySelectorAll('key-item-element');
+
+          this.set('selectAll', selectAll);
+          [].forEach.call(els, function(el, index) {
+            el.selected = selectAll;
+          }, this);
+        },
+        _toggleSelectedKey: function(e) {
+          this.$.selector.select(e.detail.key);
+        },
+        _deleteSelected: function(e) {
+          this.selectedKeys.forEach(function(el, index) {
+            var index = this.keys.indexOf(el);
+            this.splice('keys', index, 1);
+          }, this);
+          this.$.selector.clearSelection();
+        },
+        _starSelected: function(e) {
+          console.log(e);
         }
       });
     })();

@@ -21,9 +21,9 @@
       }
     </style>
 
-    <paper-item class$="info-item flex-horizontal-with-ratios">
+    <paper-item class="info-item flex-horizontal-with-ratios">
       <div class="flexchild">
-        <paper-checkbox>[[key.id]]</paper-checkbox>
+        <paper-checkbox checked="{{selected}}" on-tap="_selectKey">[[key.id]]</paper-checkbox>
       </div>
       <div class="flexchild">[[isDefaultText]]</div>
     </paper-item>
@@ -40,13 +40,32 @@
           key: {
             type: Object
           },
+          selected: {
+            type: Boolean,
+            value: false,
+            notify: true
+          },
           isDefaultText: {
             type: String,
             computed: '_computeIsDefaultText(key.isDefault)'
           }
         },
+        listeners: {
+            'selected-changed': '_selectKeyChanged'
+        },
         ready: function() {
 
+        },
+        _selectKeyChanged: function(e) {
+          var selected = e.detail.value;
+          this.fire('toggleSelectedKey', {
+            key: this.key,
+            selected: selected
+          });
+        },
+        _selectKey: function(e) {
+          // This is used to prevent event bubbling
+          e.stopPropagation();
         },
         _computeIsDefaultText: function(isDefault) {
           return isDefault ? 'Default' : null;
