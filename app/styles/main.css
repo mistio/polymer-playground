@@ -25,7 +25,10 @@ paper-card {
   top: 10px;
   right: 16px;
 }
-paper-button[disabled], iron-form paper-button[disabled] {
+.card-options paper-icon-button {
+  vertical-align: top;
+}
+paper-button[disabled] {
   background-color: #ccc;
   color: #fff;
   cursor: not-allowed;

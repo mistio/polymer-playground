@@ -19,12 +19,38 @@
           <div class="markdown-html markdown-body"></div>
           <script type="text/markdown">
             ### Dialogs
-            - Add dropdown menu
+            - All `paper-dialog` modals should have `paper-dialog-scrollable` element inside. Without it if dialog is taller than the screen we use then polymer crops its content. The issue is that with `paper-dialog-scrollable` element we have to find a way to use custom sizes (horizontally) since the dialog cannot get centered or resized in a responsive manner if we use sth like:
+            ```
+            paper-dialog {
+                width: 90%;
+                max-width: 300px;
+            }
+            ```
 
-            ### Dropdowns
-            - Place the real Object
-            - Create dynamic dropdowns
-            - Add validation
+            Polymer can re-center the dialog correctly with the following but cannot resize it:
+            ```
+            paper-dialog {
+                width: 300px;
+            }
+            ```
+
+            Our biggest enemy here is that `paper-dialog` uses for positioning and sizing js to attach inline styling inside `paper-dialog` opening tag and plain css3. Firefox needs extra attention here.
+
+            ### Forms
+            We need a nice idea to show notifications to our users when error / success messages return from the server. A typical solution would be the use of `paper-toast` element for all those types of notifications but i think it will be ugly to use a little box with content on the bottom left corner for forms submissions. In general this is extremely important and we have to categorize all the ways we are going to show info with dialogs etc. Maybe we need a real dialog in some cases and not a toast but all these are vital parts of our UI/UX guidelines in order to be effective and consistent.
+
+            ### Dropdown options styling
+            We need a better styling for our dropdowns options. At the moment they appear in a small container on top left or top right corner of their parents. An idea is to use full width containers below their parents. A typical drodown menu we use has the following markup:
+            ```
+            <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+              <paper-menu attr-for-selected="value" selected="..." class="dropdown-content">
+                <template is="dom-repeat" items="..." as="country">
+                  <paper-item value="...">...</paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
+            ```
+            I found [this](https://customelements.io/wuxiaoying/paper-dropdown-menu-ex/) which is for polymer 0.5 and [this](https://customelements.io/cheonhyangzhang/paper-typeahead-input/) which adds a typehead feature but it didn't work as wanted when tested. Maybe we could make a pull request on those or make our own version if we don't find a nice working option.
           </script>
         </marked-element>
       </div>
