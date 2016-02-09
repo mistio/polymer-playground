@@ -52,6 +52,9 @@
     </paper-card>
 
     <array-selector id="selector" items="[[keys]]" selected="{{selectedKeys}}" multi toggle></array-selector>
+
+    <paper-fab id="addBtn" icon="add" on-tap="_openAddKeyModal"></paper-fab>
+    <key-add-element></key-add-element>
   </template>
 
   <script>
@@ -143,6 +146,10 @@
         },
         _editSelected: function(e) {
           console.log(e);
+        },
+        _openAddKeyModal: function(e) {
+          var el = Polymer.dom(this.root).querySelector('key-add-element');
+          el._openAddKeyModal();
         }
       });
     })();

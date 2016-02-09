@@ -68,7 +68,7 @@
           });
         },
         _viewKey: function(e) {
-          console.log(this.key);
+          window.location.hash = '!/keys/' + this.key.id;
         },
         _selectKey: function(e) {
           // This is used to prevent event bubbling
