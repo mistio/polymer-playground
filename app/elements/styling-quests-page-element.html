@@ -19,10 +19,10 @@
           <div class="markdown-html markdown-body"></div>
           <script type="text/markdown">
             #### Cards Actions
-            Our application will be based on cards to organize content. We need a way to provide dynamic options like delete or rename etc when some items are selected by the user. An idea is to use a `.card-actions` element on the top right corner of our card and toggle its appearance and its buttons showing accordingly. So if user selects 1 key the rename and the delete options might appear as `iron-icon-button` and if he/she selects more than 1 the rename button should be hidden and the delete button will remain visible. If he/she deselects all items then all options will be hidden except for the search one.
+            Our application will be based on cards to organize content. We need a way to provide dynamic options like delete or rename etc when some items are selected by the user. An idea is to use a `.card-actions` element on the top right corner of our card and toggle its buttons showing accordingly. So if user selects 1 key the rename and the delete options might appear as `iron-icon-button` and if he/she selects more than 1 the rename button should be hidden and the delete button will remain visible. If he/she deselects all items then all options will be hidden except for the search one.
 
             #### Collections Sorting Options
-            An option we need for our collections is sort option. This might refer to more than 1 cases like sort by name or sort by date etc. An idea might be to use an up/down arrow.
+            An option we need for our collections is sorting option. This might refer to more than 1 cases like sort by name or sort by date etc. An idea might be to use an up/down arrow.
 
             #### Dialogs
             All `paper-dialog` modals should have `paper-dialog-scrollable` element inside. Without it if dialog is taller than the screen we use then polymer crops its content. The issue is that with `paper-dialog-scrollable` element we have to find a way to use custom sizes (horizontally) since the dialog cannot get centered or resized in a responsive manner if we use sth like:

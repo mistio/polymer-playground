@@ -50,16 +50,9 @@
         properties: {
           keys: {
             type: Array,
-            value: [{
-              id: "test2",
-              isDefault: false
-            }, {
-              id: "primary",
-              isDefault: true
-            }, {
-              id: "kvm",
-              isDefault: false
-            }]
+            value: function() {
+                return KEYS;
+            }
           }
         },
         ready: function() {
