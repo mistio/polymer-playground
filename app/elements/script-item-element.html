@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="script-item-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      paper-item:hover {
+        cursor: pointer;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-item on-tap="_viewScript" class="info-item flex-horizontal-with-ratios">
+      <div class="flexchild">
+        <paper-checkbox checked="{{selected}}" on-tap="_selectScript">[[script.name]]</paper-checkbox>
+      </div>
+      <div class="flexchild">[[script.type]]</div>
+    </paper-item>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'script-item-element',
+
+        properties: {
+          script: {
+            type: Object
+          },
+          selected: {
+            type: Boolean,
+            value: false,
+            notify: true
+          },
+          isDefaultText: {
+            type: String,
+            computed: '_computeIsDefaultText(script.isDefault)'
+          }
+        },
+        listeners: {
+          'selected-changed': '_selectScriptChanged'
+        },
+        ready: function() {
+
+        },
+        _selectScriptChanged: function(e) {
+          var selected = e.detail.value;
+          this.fire('toggleSelectedScript', {
+            script: this.script,
+            selected: selected
+          });
+        },
+        _viewScript: function(e) {
+          window.location.hash = '!/scripts/' + this.script.id;
+        },
+        _selectScript: function(e) {
+          // This is used to prevent event bubbling
+          e.stopPropagation();
+        },
+        _computeIsDefaultText: function(isDefault) {
+          return isDefault ? 'Default' : null;
+        }
+      });
+    })();
+  </script>
+</dom-module>
