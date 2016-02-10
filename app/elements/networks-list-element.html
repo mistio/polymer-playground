@@ -29,7 +29,6 @@
       <div hidden$="[[!hasNetworks]]" class="card-options">
         <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
         <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
-        <paper-icon-button hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
         <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
       </div>
 
@@ -57,7 +56,7 @@
       </div>
     </paper-card>
 
-    <array-selector id="selector" items="[[networks]]" selected="{{selectedNetworks}}" multi toggle></array-selector>
+    <array-selector id="selector" items="[[filteredNetworks]]" selected="{{selectedNetworks}}" multi toggle></array-selector>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddNetworkPage"></paper-fab>
   </template>
@@ -78,11 +77,11 @@
           },
           filteredNetworks: {
             type: Array,
-            computed: '_computeFilteredNetworks(networks, searchTerm)'
+            computed: '_computeFilteredNetworks(networks.*, searchTerm)'
           },
           selectableNetworks: {
             type: Array,
-            computed: '_computeSelectableNetworks(networks)'
+            computed: '_computeSelectableNetworks(networks.*)'
           },
           selectedNetwork: {
             type: Object,
@@ -93,10 +92,6 @@
             value: false
           },
           hasNetworks: {
-            type: Boolean,
-            value: false
-          },
-          showEditOption: {
             type: Boolean,
             value: false
           },
@@ -123,7 +118,7 @@
           'updateSelectedNetwork': '_updateSelectedNetwork'
         },
         _computeSelectableNetworks: function(networks) {
-          return networks.filter(function(network) {
+          return networks.base.filter(function(network) {
             return network.cloud.provider == 'openstack';
           });
         },
@@ -132,7 +127,7 @@
         },
         _computeFilteredNetworks: function(networks, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
-          return networks.filter(function(network) {
+          return networks.base.filter(function(network) {
             var name = network.name.toLowerCase();
             return name.indexOf(searchTerm) != -1;
           });
@@ -174,16 +169,13 @@
             this.set('searchTerm', '');
           }
         },
-        _editSelected: function(e) {
-          var el = Polymer.dom(this.root).querySelector('network-edit-element');
-          el._openEditNetworkModal();
-        },
         _deleteSelected: function(e) {
           this.selectedNetworks.forEach(function(el, index) {
             var index = this.networks.indexOf(el);
             this.splice('networks', index, 1);
           }, this);
           this.$.selector.clearSelection();
+          console.log(this.networks, this.selectedNetworks);
         },
         _updateSelectedNetwork: function(e) {
           var network = e.detail.network,
@@ -191,7 +183,7 @@
           this.set('filteredNetworks.' + index + '.id', network.id);
         },
         _openAddNetworkPage: function(e) {
-            window.location.href = 'http://localhost:5000/#!/add-network';
+          window.location.href = 'http://localhost:5000/#!/add-network';
         },
         _addNetwork: function(e) {
           var network = e.detail.network;

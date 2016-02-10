@@ -67,7 +67,7 @@
         _selectNetworkChanged: function(e) {
           if (this.isOpenstack) {
             var selected = e.detail.value;
-            this.fire('toggleSelectedSession', {
+            this.fire('toggleSelectedNetwork', {
               network: this.network,
               selected: selected
             });

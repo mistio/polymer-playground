@@ -56,7 +56,7 @@
       </div>
     </paper-card>
 
-    <array-selector id="selector" items="[[scripts]]" selected="{{selectedScripts}}" multi toggle></array-selector>
+    <array-selector id="selector" items="[[filteredScripts]]" selected="{{selectedScripts}}" multi toggle></array-selector>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
@@ -78,7 +78,7 @@
           },
           filteredScripts: {
             type: Array,
-            computed: '_computeFilteredScripts(scripts, searchTerm)'
+            computed: '_computeFilteredScripts(scripts.*, searchTerm)'
           },
           selectedScript: {
             type: Object,
@@ -123,7 +123,7 @@
         },
         _computeFilteredScripts: function(scripts, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
-          return scripts.filter(function(script) {
+          return scripts.base.filter(function(script) {
             var name = script.name.toLowerCase();
             return name.indexOf(searchTerm) != -1;
           });

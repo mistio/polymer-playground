@@ -57,7 +57,7 @@
       </div>
     </paper-card>
 
-    <array-selector id="selector" items="[[keys]]" selected="{{selectedKeys}}" multi toggle></array-selector>
+    <array-selector id="selector" items="[[filteredKeys]]" selected="{{selectedKeys}}" multi toggle></array-selector>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddKeyModal"></paper-fab>
     <key-add-element></key-add-element>
@@ -80,7 +80,7 @@
           },
           filteredKeys: {
             type: Array,
-            computed: '_computeFilteredKeys(keys, searchTerm)'
+            computed: '_computeFilteredKeys(keys.*, searchTerm)'
           },
           selectedKey: {
             type: Object,
@@ -129,7 +129,7 @@
         },
         _computeFilteredKeys: function(keys, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
-          return keys.filter(function(key) {
+          return keys.base.filter(function(key) {
             var id = key.id.toLowerCase();
             return id.indexOf(searchTerm) != -1;
           });

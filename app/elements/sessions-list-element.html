@@ -70,7 +70,7 @@
           },
           selectableSessions: {
             type: Array,
-            computed: '_computeSelectableSessions(sessions)'
+            computed: '_computeSelectableSessions(sessions.*)'
           },
           hasSessions: {
             type: Boolean,
@@ -102,7 +102,7 @@
           'toggleSelectedSession': '_toggleSelectedSession'
         },
         _computeSelectableSessions: function(sessions) {
-          return sessions.filter(function(session) {
+          return sessions.base.filter(function(session) {
             return !session.active;
           });
         },
