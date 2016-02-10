@@ -1,3 +1,71 @@
+var SCRIPT_FORM_FIELDS = [{
+  name: "name",
+  label: "Name",
+  type: "text",
+  defaultValue: "",
+  placeholder: "",
+  required: true,
+  errorMessage: "Please enter script's name"
+}, {
+  name: "description",
+  label: "Description (optional)",
+  type: "textarea",
+  defaultValue: "",
+  placeholder: "",
+  required: true,
+  errorMessage: "Please enter script's description"
+}, {
+  name: "type",
+  label: "Type",
+  type: "dropdown",
+  errorMessage: "Please enter script's description",
+  options: [{
+    title: "Executable",
+    val: "executable"
+  }, {
+    title: "Ansible Playbook",
+    val: "ansible"
+  }]
+}, {
+  name: "source",
+  label: "Source",
+  type: "dropdown",
+  errorMessage: "Please enter script's source",
+  options: [{
+    title: "Github",
+    val: "github"
+  }, {
+    title: "URL",
+    val: "url"
+  }, {
+    title: "Inline",
+    val: "inline"
+  }],
+  optional: [{
+    name: "script",
+    label: "Script (github optional)",
+    type: "textarea",
+    defaultValue: "",
+    placeholder: "",
+    required: true,
+    requirement: {
+      type: "Github"
+    },
+    errorMessage: "Please enter script"
+  }, {
+    name: "script",
+    label: "Script (inline optional)",
+    type: "textarea",
+    defaultValue: "",
+    placeholder: "",
+    required: true,
+    requirement: {
+      type: "inline"
+    },
+    errorMessage: "Please enter script"
+  }]
+}];
+
 var TIME_MAP = {
   SECOND: 1000,
   MINUTE: 60 * 1000,
