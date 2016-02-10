@@ -282,9 +282,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Scripts List</span>
           </a>
 
+          <a data-route="add-script" href="/add-script">
+            <iron-icon icon="receipt"></iron-icon>
+            <span>Add Script</span>
+          </a>
+
           <a data-route="networks" href="/networks">
             <iron-icon icon="hardware:device-hub"></iron-icon>
             <span>Networks List</span>
+          </a>
+
+          <a data-route="add-network" href="/add-network">
+            <iron-icon icon="hardware:device-hub"></iron-icon>
+            <span>Add Network</span>
           </a>
 
           <a data-route="login" href="/login">
@@ -440,7 +450,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <scripts-list-element data-route="scripts"></scripts-list-element>
 
+            <script-add-element data-route="add-script"></script-add-element>
+
             <networks-list-element data-route="networks"></networks-list-element>
+
+            <network-add-element data-route="add-network"></network-add-element>
 
             <login-element data-route="login"></login-element>
 

@@ -68,9 +68,9 @@
               return SESSIONS;
             }
           },
-          oldSessions: {
+          selectableSessions: {
             type: Array,
-            computed: '_computeOldSessions(sessions)'
+            computed: '_computeSelectableSessions(sessions)'
           },
           hasSessions: {
             type: Boolean,
@@ -95,27 +95,27 @@
           }
         },
         observers: [
-          '_sessionsChanged(oldSessions.*, selectedSessions.*)'
+          '_sessionsChanged(selectableSessions.*, selectedSessions.*)'
         ],
         listeners: {
           'terminateSession': '_terminateSession',
           'toggleSelectedSession': '_toggleSelectedSession'
         },
-        _computeOldSessions: function(sessions) {
+        _computeSelectableSessions: function(sessions) {
           return sessions.filter(function(session) {
             return !session.active;
           });
         },
-        _sessionsChanged: function(oldSessions, selectedSessions) {
+        _sessionsChanged: function(selectableSessions, selectedSessions) {
           this.set('showDeleteOption', selectedSessions.base.length > 0);
 
-          this.set('hasSessions', oldSessions.base.length > 0);
+          this.set('hasSessions', selectableSessions.base.length > 0);
 
-          if (selectedSessions.base.length < oldSessions.base.length || oldSessions.base.length === 0) {
+          if (selectedSessions.base.length < selectableSessions.base.length || selectableSessions.base.length === 0) {
             this.set('selectAll', false);
           }
 
-          if (selectedSessions.base.length == oldSessions.base.length && selectedSessions.base.length != 0) {
+          if (selectedSessions.base.length == selectableSessions.base.length && selectedSessions.base.length != 0) {
             this.set('selectAll', true);
           }
         },

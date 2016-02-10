@@ -80,6 +80,10 @@
             type: Array,
             computed: '_computeFilteredNetworks(networks, searchTerm)'
           },
+          selectableNetworks: {
+            type: Array,
+            computed: '_computeSelectableNetworks(networks)'
+          },
           selectedNetwork: {
             type: Object,
             value: null
@@ -96,11 +100,11 @@
             type: Boolean,
             value: false
           },
-          showDeleteOption: {
+          showSearchOption: {
             type: Boolean,
             value: false
           },
-          showSearchOption: {
+          showDeleteOption: {
             type: Boolean,
             value: false
           },
@@ -111,12 +115,17 @@
           }
         },
         observers: [
-          '_networksChanged(networks.*, selectedNetworks.*)'
+          '_networksChanged(networks.*, selectableNetworks.*, selectedNetworks.*)'
         ],
         listeners: {
           'toggleSelectedNetwork': '_toggleSelectedNetwork',
           'addNetwork': '_addNetwork',
           'updateSelectedNetwork': '_updateSelectedNetwork'
+        },
+        _computeSelectableNetworks: function(networks) {
+          return networks.filter(function(network) {
+            return network.cloud.provider == 'openstack';
+          });
         },
         _computeSort: function(a, b) {
           return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
@@ -128,22 +137,20 @@
             return name.indexOf(searchTerm) != -1;
           });
         },
-        _networksChanged: function(networks, selectedNetworks) {
-          this.set('showDeleteOption', selectedNetworks.base.length > 0);
-
+        _networksChanged: function(networks, selectableNetworks, selectedNetworks) {
           this.set('selectedNetwork', selectedNetworks.base.length == 1 ? selectedNetworks.base[0] : null);
 
-          this.set('showMakeDefaultOption', selectedNetworks.base.length == 1);
+          this.set('showDeleteOption', selectedNetworks.base.length > 0);
 
           this.set('showEditOption', selectedNetworks.base.length == 1);
 
           this.set('hasNetworks', networks.base.length > 0);
 
-          if (selectedNetworks.base.length < networks.base.length || networks.base.length === 0) {
+          if (selectedNetworks.base.length < selectableNetworks.base.length || selectableNetworks.base.length === 0) {
             this.set('selectAll', false);
           }
 
-          if (selectedNetworks.base.length == networks.base.length && selectedNetworks.base.length != 0) {
+          if (selectedNetworks.base.length == selectableNetworks.base.length && selectedNetworks.base.length != 0) {
             this.set('selectAll', true);
           }
         },
@@ -167,16 +174,16 @@
             this.set('searchTerm', '');
           }
         },
-        _deleteSelected: function(e) {
-          this.selectedNetworks.forEach(function(network, index) {
-            var index = this.networks.indexOf(network);
-            this.splice('networks', index, 1);
-          }, this);
-          this.$.selector.clearSelection();
-        },
         _editSelected: function(e) {
           var el = Polymer.dom(this.root).querySelector('network-edit-element');
           el._openEditNetworkModal();
+        },
+        _deleteSelected: function(e) {
+          this.selectedNetworks.forEach(function(el, index) {
+            var index = this.networks.indexOf(el);
+            this.splice('networks', index, 1);
+          }, this);
+          this.$.selector.clearSelection();
         },
         _updateSelectedNetwork: function(e) {
           var network = e.detail.network,
@@ -184,7 +191,7 @@
           this.set('filteredNetworks.' + index + '.id', network.id);
         },
         _openAddNetworkPage: function(e) {
-
+            window.location.href = 'http://localhost:5000/#!/add-network';
         },
         _addNetwork: function(e) {
           var network = e.detail.network;

@@ -65,11 +65,15 @@
           return provider == 'openstack';
         },
         _selectNetworkChanged: function(e) {
-          var selected = e.detail.value;
-          this.fire('toggleSelectedNetwork', {
-            network: this.network,
-            selected: selected
-          });
+          if (this.isOpenstack) {
+            var selected = e.detail.value;
+            this.fire('toggleSelectedSession', {
+              network: this.network,
+              selected: selected
+            });
+          } else {
+            this.set('selected', false);
+          }
         },
         _viewNetwork: function(e) {
           window.location.hash = '!/networks/' + this.network.id;

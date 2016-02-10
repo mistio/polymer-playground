@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="network-add-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+    </style>
+
+    <paper-card heading="Add Network">
+      <div class="card-content">
+        <p>Add full page networks dynamic form here</p>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'network-add-element',
+
+        properties: {
+          network: {
+            type: Object,
+            value: {},
+            notify: true
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

@@ -83,8 +83,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'scripts';
     });
 
+    page('/add-script', function() {
+      app.route = 'add-script';
+    });
+
     page('/networks', function() {
       app.route = 'networks';
+    });
+
+    page('/add-network', function() {
+      app.route = 'add-network';
     });
 
     page('/login', function() {
