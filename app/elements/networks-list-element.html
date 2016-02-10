@@ -39,7 +39,8 @@
             <div class="flexchild">
               <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
             </div>
-            <div class="flexchild">Default</div>
+            <div class="flexchild">Type</div>
+            <div class="flexchild">Provider</div>
           </div>
           <div class="info-body">
             <iron-list items="[[filteredNetworks]]" as="network" sort="_computeSort">
@@ -123,8 +124,8 @@
         _computeFilteredNetworks: function(networks, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
           return networks.filter(function(network) {
-            var id = network.id.toLowerCase();
-            return id.indexOf(searchTerm) != -1;
+            var name = network.name.toLowerCase();
+            return name.indexOf(searchTerm) != -1;
           });
         },
         _networksChanged: function(networks, selectedNetworks) {
