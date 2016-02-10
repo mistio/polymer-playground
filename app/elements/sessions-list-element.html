@@ -12,6 +12,10 @@
         display: block;
       }
 
+      .search {
+        display: inline-block;
+      }
+
       .flex-horizontal-with-ratios {
         @apply(--layout-horizontal);
       }
@@ -22,11 +26,17 @@
     </style>
 
     <paper-card heading="Active Sessions">
+      <div hidden$="[[!hasSessions]]" class="card-options">
+        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+        <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+      </div>
+
       <div class="card-content">
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox on-tap="_selectAll">Created At</paper-checkbox>
+              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Created At</paper-checkbox>
             </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
@@ -40,6 +50,8 @@
         </div>
       </div>
     </paper-card>
+
+    <array-selector id="selector" items="[[sessions]]" selected="{{selectedSessions}}" multi toggle></array-selector>
   </template>
 
   <script>
@@ -52,23 +64,102 @@
         properties: {
           sessions: {
             type: Array,
-            value: []
+            value: function() {
+              return SESSIONS;
+            }
+          },
+          oldSessions: {
+            type: Array,
+            computed: '_computeOldSessions(sessions)'
+          },
+          hasSessions: {
+            type: Boolean,
+            value: false
+          },
+          selectAll: {
+            type: Boolean,
+            value: false
+          },
+          showDeleteOption: {
+            type: Boolean,
+            value: false
+          },
+          showSearchOption: {
+            type: Boolean,
+            value: false
+          },
+          searchTerm: {
+            type: String,
+            value: '',
+            notify: true
           }
         },
+        observers: [
+          '_sessionsChanged(oldSessions.*, selectedSessions.*)'
+        ],
         listeners: {
-          'revokeSession': '_revokeSession'
+          'terminateSession': '_terminateSession',
+          'toggleSelectedSession': '_toggleSelectedSession'
         },
-        ready: function() {
-          this.set('sessions', SESSIONS);
+        _computeOldSessions: function(sessions) {
+          return sessions.filter(function(session) {
+            return !session.active;
+          });
         },
-        _selectAll: function(e) {
-          console.log(e);
+        _sessionsChanged: function(oldSessions, selectedSessions) {
+          this.set('showDeleteOption', selectedSessions.base.length > 0);
+
+          this.set('hasSessions', oldSessions.base.length > 0);
+
+          if (selectedSessions.base.length < oldSessions.base.length || oldSessions.base.length === 0) {
+            this.set('selectAll', false);
+          }
+
+          if (selectedSessions.base.length == oldSessions.base.length && selectedSessions.base.length != 0) {
+            this.set('selectAll', true);
+          }
         },
-        _revokeSession: function(e) {
+        _searchSessions: function(searchTerm) {
+          if (searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            return function(session) {
+              var name = session.name.toLowerCase();
+              return name.indexOf(searchTerm) != -1;
+            };
+          }
+        },
+        _toggleSearchSelected: function() {
+          var showSearchOption = !this.showSearchOption;
+          this.set('showSearchOption', showSearchOption);
+
+          if (!showSearchOption) {
+            this.set('searchTerm', '');
+          }
+        },
+        _selectAllChanged: function(e) {
+          var selectAll = !this.selectAll,
+            els = Polymer.dom(this.root).querySelectorAll('session-item-element');
+
+          this.set('selectAll', selectAll);
+          [].forEach.call(els, function(el, index) {
+            el.selected = selectAll;
+          }, this);
+        },
+        _terminateSession: function(e) {
           var session = e.detail.session,
             index = this.sessions.indexOf(session);
-
           this.splice('sessions', index, 1);
+          this.$.selector.deselect(session);
+        },
+        _toggleSelectedSession: function(e) {
+          this.$.selector.select(e.detail.session);
+        },
+        _deleteSelected: function(e) {
+          this.selectedSessions.forEach(function(el, index) {
+            var index = this.sessions.indexOf(el);
+            this.splice('sessions', index, 1);
+          }, this);
+          this.$.selector.clearSelection();
         }
       });
     })();
