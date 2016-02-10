@@ -48,6 +48,10 @@
             type: Boolean,
             value: false,
             notify: true
+          },
+          isDefaultText: {
+            type: String,
+            computed: '_computeIsDefaultText(network.isDefault)'
           }
         },
         listeners: {
@@ -55,6 +59,23 @@
         },
         ready: function() {
 
+        },
+        _selectNetworkChanged: function(e) {
+          var selected = e.detail.value;
+          this.fire('toggleSelectedNetwork', {
+            network: this.network,
+            selected: selected
+          });
+        },
+        _viewNetwork: function(e) {
+          window.location.hash = '!/networks/' + this.network.id;
+        },
+        _selectNetwork: function(e) {
+          // This is used to prevent event bubbling
+          e.stopPropagation();
+        },
+        _computeIsDefaultText: function(isDefault) {
+          return isDefault ? 'Default' : null;
         }
       });
     })();

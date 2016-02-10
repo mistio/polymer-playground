@@ -58,7 +58,7 @@
 
     <array-selector id="selector" items="[[networks]]" selected="{{selectedNetworks}}" multi toggle></array-selector>
 
-    <paper-fab id="addBtn" icon="add" on-tap="_openAddNetworkModal"></paper-fab>
+    <paper-fab id="addBtn" icon="add" on-tap="_openAddNetworkPage"></paper-fab>
   </template>
 
   <script>
@@ -91,10 +91,6 @@
             type: Boolean,
             value: false
           },
-          showMakeDefaultOption: {
-            type: Boolean,
-            value: false
-          },
           showEditOption: {
             type: Boolean,
             value: false
@@ -112,6 +108,86 @@
             value: '',
             notify: true
           }
+        },
+        observers: [
+          '_networksChanged(networks.*, selectedNetworks.*)'
+        ],
+        listeners: {
+          'toggleSelectedNetwork': '_toggleSelectedNetwork',
+          'addNetwork': '_addNetwork',
+          'updateSelectedNetwork': '_updateSelectedNetwork'
+        },
+        _computeSort: function(a, b) {
+          return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
+        },
+        _computeFilteredNetworks: function(networks, searchTerm) {
+          var searchTerm = searchTerm.toLowerCase();
+          return networks.filter(function(network) {
+            var id = network.id.toLowerCase();
+            return id.indexOf(searchTerm) != -1;
+          });
+        },
+        _networksChanged: function(networks, selectedNetworks) {
+          this.set('showDeleteOption', selectedNetworks.base.length > 0);
+
+          this.set('selectedNetwork', selectedNetworks.base.length == 1 ? selectedNetworks.base[0] : null);
+
+          this.set('showMakeDefaultOption', selectedNetworks.base.length == 1);
+
+          this.set('showEditOption', selectedNetworks.base.length == 1);
+
+          this.set('hasNetworks', networks.base.length > 0);
+
+          if (selectedNetworks.base.length < networks.base.length || networks.base.length === 0) {
+            this.set('selectAll', false);
+          }
+
+          if (selectedNetworks.base.length == networks.base.length && selectedNetworks.base.length != 0) {
+            this.set('selectAll', true);
+          }
+        },
+        _selectAllChanged: function(e) {
+          var selectAll = !this.selectAll,
+            els = Polymer.dom(this.root).querySelectorAll('network-item-element');
+
+          this.set('selectAll', selectAll);
+          [].forEach.call(els, function(el, index) {
+            el.selected = selectAll;
+          }, this);
+        },
+        _toggleSelectedNetwork: function(e) {
+          this.$.selector.select(e.detail.network);
+        },
+        _toggleSearchSelected: function() {
+          var showSearchOption = !this.showSearchOption;
+          this.set('showSearchOption', showSearchOption);
+
+          if (!showSearchOption) {
+            this.set('searchTerm', '');
+          }
+        },
+        _deleteSelected: function(e) {
+          this.selectedNetworks.forEach(function(network, index) {
+            var index = this.networks.indexOf(network);
+            this.splice('networks', index, 1);
+          }, this);
+          this.$.selector.clearSelection();
+        },
+        _editSelected: function(e) {
+          var el = Polymer.dom(this.root).querySelector('network-edit-element');
+          el._openEditNetworkModal();
+        },
+        _updateSelectedNetwork: function(e) {
+          var network = e.detail.network,
+            index = this.filteredNetworks.indexOf(network);
+          this.set('filteredNetworks.' + index + '.id', network.id);
+        },
+        _openAddNetworkPage: function(e) {
+
+        },
+        _addNetwork: function(e) {
+          var network = e.detail.network;
+          this.push('networks', network);
         }
       });
     })();
