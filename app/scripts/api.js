@@ -27,5 +27,6 @@ var Mist = {
     source: "github",
     type: "executable",
     user: "marios@mist.io"
-  }]
+  }],
+  networks: []
 };

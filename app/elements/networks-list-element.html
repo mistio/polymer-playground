@@ -1,0 +1,119 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="networks-list-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      .search {
+        display: inline-block;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <paper-card heading="Networks">
+      <div hidden$="[[!hasNetworks]]" class="card-options">
+        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+        <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+        <paper-icon-button hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
+        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+      </div>
+
+      <div class="card-content">
+        <div hidden$="[[!hasNetworks]]" class="info-list">
+          <div class="info-head flex-horizontal-with-ratios">
+            <div class="flexchild">
+              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged">Νame</paper-checkbox>
+            </div>
+            <div class="flexchild">Default</div>
+          </div>
+          <div class="info-body">
+            <iron-list items="[[filteredNetworks]]" as="network" sort="_computeSort">
+              <template>
+                <network-item-element network="[[network]]"></network-item-element>
+              </template>
+            </iron-list>
+          </div>
+        </div>
+
+        <p hidden$="[[hasNetworks]]">
+          No networks found here. You can add some by using the action button!
+        </p>
+      </div>
+    </paper-card>
+
+    <array-selector id="selector" items="[[networks]]" selected="{{selectedNetworks}}" multi toggle></array-selector>
+
+    <paper-fab id="addBtn" icon="add" on-tap="_openAddNetworkModal"></paper-fab>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'networks-list-element',
+
+        properties: {
+          networks: {
+            type: Array,
+            value: function() {
+              return Mist.networks;
+            }
+          },
+          filteredNetworks: {
+            type: Array,
+            computed: '_computeFilteredNetworks(networks, searchTerm)'
+          },
+          selectedNetwork: {
+            type: Object,
+            value: null
+          },
+          selectAll: {
+            type: Boolean,
+            value: false
+          },
+          hasNetworks: {
+            type: Boolean,
+            value: false
+          },
+          showMakeDefaultOption: {
+            type: Boolean,
+            value: false
+          },
+          showEditOption: {
+            type: Boolean,
+            value: false
+          },
+          showDeleteOption: {
+            type: Boolean,
+            value: false
+          },
+          showSearchOption: {
+            type: Boolean,
+            value: false
+          },
+          searchTerm: {
+            type: String,
+            value: '',
+            notify: true
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

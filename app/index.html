@@ -272,14 +272,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Keys List</span>
           </a>
 
+          <a data-route="key" href="/keys/1">
+            <iron-icon icon="communication:vpn-key"></iron-icon>
+            <span>Single Key</span>
+          </a>
+
           <a data-route="scripts" href="/scripts">
             <iron-icon icon="receipt"></iron-icon>
             <span>Scripts List</span>
           </a>
 
-          <a data-route="key" href="/keys/1">
-            <iron-icon icon="communication:vpn-key"></iron-icon>
-            <span>Single Key</span>
+          <a data-route="networks" href="/networks">
+            <iron-icon icon="receipt"></iron-icon>
+            <span>Networks List</span>
           </a>
 
           <a data-route="login" href="/login">
@@ -434,6 +439,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <key-page-element data-route="key" params="[[params]]"></key-page-element>
 
             <scripts-list-element data-route="scripts"></scripts-list-element>
+
+            <networks-list-element data-route="networks"></networks-list-element>
 
             <login-element data-route="login"></login-element>
 
