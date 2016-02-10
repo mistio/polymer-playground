@@ -192,8 +192,8 @@
         },
         _updateSelectedKey: function(e) {
           var key = e.detail.key,
-            index = this.keys.indexOf(key);
-          this.set('keys.' + index + '.id', key.id);
+            index = this.filteredKeys.indexOf(key);
+          this.set('filteredKeys.' + index + '.id', key.id);
         },
         _openAddKeyModal: function(e) {
           var el = Polymer.dom(this.root).querySelector('key-add-element');

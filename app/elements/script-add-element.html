@@ -78,6 +78,28 @@
               </paper-menu>
             </paper-dropdown-menu>
           </template>
+
+          <template is="dom-if" if="[[_computeHasOptional(field.optionals)]]">
+            <template is="dom-repeat" items="[[field.optionals]]" as="optional">
+              <template is="dom-if" if="[[_computeIsInputText(optional.type, optional.requirement)]]">
+                <paper-input id="[[optional.name]]" placeholder="[[optional.placeholder]]" label="[[optional.label]]" value="{{optional.defaultValue}}" required="[[optional.required]]" error-message="[[optional.errorMessage]]"></paper-input>
+              </template>
+
+              <template is="dom-if" if="[[_computeIsInputTextarea(optional.type, optional.requirement)]]">
+                <paper-textarea id="[[optional.name]]" label="[[optional.label]]" rows="5" max-rows="5" value="{{optional.defaultValue}}" required="[[optional.required]]" error-message="[[optional.errorMessage]]"></paper-textarea>
+              </template>
+
+              <template is="dom-if" if="[[_computeIsDropdown(optional.type, optional.requirement)]]">
+                <paper-dropdown-menu label="[[optional.label]]" horizontal-align="left">
+                  <paper-menu attr-for-selected="value" class="dropdown-content">
+                    <template is="dom-repeat" items="[[optional.options]]" as="optionalOption">
+                      <paper-item value="[[optionalOption.val]]">[[optionalOption.title]]</paper-item>
+                    </template>
+                  </paper-menu>
+                </paper-dropdown-menu>
+              </template>
+            </template>
+          </template>
         </template>
 
         <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
@@ -139,15 +161,20 @@
 
           return formReady;
         },
-        _computeIsInputText: function(type) {
-          console.log(type);
-          return type == "text";
+        _computeIsInputText: function(type, requirement) {
+          var requirement = requirement || null;
+          return requirement ? type == "text" && requirement : type == "text";
         },
-        _computeIsInputTextarea: function(type) {
-          return type == "textarea";
+        _computeIsInputTextarea: function(type, requirement) {
+          var requirement = requirement || null;
+          return requirement ? type == "textarea" && requirement : type == "textarea";
         },
-        _computeIsDropdown: function(type) {
-          return type == "dropdown";
+        _computeIsDropdown: function(type, requirement) {
+          var requirement = requirement || null;
+          return requirement ? type == "dropdown" && requirement : type == "dropdown";
+        },
+        _computeHasOptional: function(optional) {
+          return optional && optional.length;
         },
         _openAddScriptModal: function(e) {
           this.$.addScriptModal.open();

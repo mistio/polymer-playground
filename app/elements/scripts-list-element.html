@@ -179,9 +179,9 @@
         },
         _updateSelectedScript: function(e) {
           var script = e.detail.script,
-            index = this.scripts.indexOf(script);
-          this.set('scripts.' + index + '.name', script.name);
-          this.set('scripts.' + index + '.description', script.description);
+            index = this.filteredScripts.indexOf(script);
+          this.set('filteredScripts.' + index + '.name', script.name);
+          this.set('filteredScripts.' + index + '.description', script.description);
         },
         _openAddScriptModal: function(e) {
           var el = Polymer.dom(this.root).querySelector('script-add-element');

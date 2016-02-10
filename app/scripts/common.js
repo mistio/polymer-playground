@@ -41,7 +41,7 @@ var SCRIPT_FORM_FIELDS = [{
     title: "Inline",
     val: "inline"
   }],
-  optional: [{
+  optionals: [{
     name: "script",
     label: "Script (github optional)",
     type: "textarea",
