@@ -50,8 +50,7 @@
         </span>
       </div>
       <div class="flexchild text-right">
-        <iron-icon icon="expand-more" class="expand" hidden$="[[isOpen]]"></iron-icon>
-        <iron-icon icon="expand-less" class="expand" hidden$="[[!isOpen]]"></iron-icon>
+        <iron-icon icon="[[toggledIcon]]" class="expand"></iron-icon>
       </div>
     </paper-item>
 
@@ -115,6 +114,10 @@
             type: Boolean,
             value: false
           },
+          toggledIcon: {
+            type: String,
+            computed: '_computeToggledIcon(isOpen)'
+          },
           deletingSession: {
             type: Boolean,
             value: false
@@ -155,6 +158,9 @@
         },
         _computeIsActive: function(active) {
           return active == true;
+        },
+        _computeToggledIcon: function(isOpen) {
+          return isOpen ? 'expand-less' : 'expand-more';
         },
         _selectSession: function(e) {
           e.stopPropagation();

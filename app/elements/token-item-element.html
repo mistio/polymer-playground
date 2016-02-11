@@ -47,8 +47,7 @@
         <paper-button disabled$="[[deletingToken]]" class="revoke" raised on-tap="_revokeToken">Revoke</paper-button>
       </div>
       <div class="flexchild text-right">
-        <iron-icon icon="expand-more" class="expand" hidden$="[[isOpen]]"></iron-icon>
-        <iron-icon icon="expand-less" class="expand" hidden$="[[!isOpen]]"></iron-icon>
+        <iron-icon icon="[[toggledIcon]]" class="expand"></iron-icon>
       </div>
     </paper-item>
 
@@ -120,13 +119,17 @@
             type: Boolean,
             value: false
           },
+          toggledIcon: {
+            type: String,
+            computed: '_computeToggledIcon(isOpen)'
+          },
           deletingToken: {
             type: Boolean,
             value: false
           }
         },
         listeners: {
-            'selected-changed': '_selectTokenChanged'
+          'selected-changed': '_selectTokenChanged'
         },
         ready: function() {
 
@@ -153,6 +156,9 @@
         _computeAccessedTimeText: function(accessedAt) {
           var accessed_at = accessedAt.split(" ").join("T") + "Z";
           return new Date(new Date(accessed_at).toString()).getTimeFromNow();
+        },
+        _computeToggledIcon: function(isOpen) {
+            return isOpen ? 'expand-less' : 'expand-more';
         },
         _selectToken: function(e) {
           // This is used to prevent event bubbling
