@@ -141,10 +141,6 @@
         is: 'feedback-page-element',
 
         properties: {
-          pageSecond: {
-            type: Boolean,
-            value: false
-          },
           user: {
             type: Object,
             value: function() {
@@ -169,6 +165,10 @@
               };
             },
             notify: true
+          },
+          pageSecond: {
+            type: Boolean,
+            value: false
           },
           countriesOptions: {
             type: Array,

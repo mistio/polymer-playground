@@ -44,21 +44,29 @@
       <h2>Create Token</h2>
       <paper-icon-button icon="clear" on-tap="_closeAddTokenModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
+        <template is="dom-if" if="[[!formSecond]]">
+          <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
 
-        <paper-dropdown-menu label="Expires after" horizontal-align="left">
-          <paper-menu attr-for-selected="value" selected="{{token.expiration}}" class="dropdown-content">
-            <template is="dom-repeat" items="[[expirationOptions]]" as="expiration">
-              <paper-item value="[[expiration.val]]">[[expiration.title]]</paper-item>
-            </template>
-          </paper-menu>
-        </paper-dropdown-menu>
+          <paper-dropdown-menu label="Expires after" horizontal-align="left">
+            <paper-menu attr-for-selected="value" selected="{{token.expiration}}" class="dropdown-content">
+              <template is="dom-repeat" items="[[expirationOptions]]" as="expiration">
+                <paper-item value="[[expiration.val]]">[[expiration.title]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
 
-        <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
+          <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
+        </template>
+
+        <template is="dom-if" if="[[formSecond]]">
+          <paper-input type="password" label="Password" required error-message="Please enter your password" value="{{password}}"></paper-input>
+
+          <paper-button disabled$="[[!secondFormReady]]" raised on-tap="_submitSecondForm">Submit</paper-button>
+        </template>
       </paper-dialog-scrollable>
     </paper-dialog>
 
-    <iron-ajax id="addTokenAjax" url="/tokens/[[token.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+    <iron-ajax id="addTokenAjax" url="/tokens" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -78,6 +86,21 @@
               }
             },
             notify: true
+          },
+          password: {
+            type: String,
+            value: ''
+          },
+          tokens: {
+            type: Array
+          },
+          tokensNames: {
+            type: Array,
+            computed: '_computeTokensNames(tokens.*)'
+          },
+          formSecond: {
+            type: Boolean,
+            value: false
           },
           expirationOptions: {
             type: Array,
@@ -100,19 +123,47 @@
           },
           firstFormReady: {
             type: Boolean,
-            computed: '_computeFirstFormReady(token.name, token.expiration)'
+            computed: '_computeFirstFormReady(token.name, token.expiration, tokensNames)'
+          },
+          secondFormReady: {
+            type: Boolean,
+            computed: '_computeSecondFormReady(password)'
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
           }
         },
         listeners: {
-          'addTokenModal.iron-overlay-closed': '_modalClosed'
+          'iron-overlay-closed': '_modalClosed'
         },
         ready: function() {
 
         },
-        _computeFirstFormReady: function(name, expiration) {
+        _computeTokensNames: function(tokens) {
+          var names = tokens.base.map(function(token) {
+            return token.name
+          });
+
+          return names;
+        },
+        _computeFirstFormReady: function(name, expiration, tokensNames) {
           var formReady = false;
 
           if (name && expiration) {
+            formReady = true;
+          }
+
+          if (tokensNames.indexOf(name) != -1) {
+            formReady = false;
+          }
+
+          return formReady;
+        },
+        _computeSecondFormReady: function(password) {
+          var formReady = false;
+
+          if (password) {
             formReady = true;
           }
 
@@ -125,18 +176,49 @@
           this.$.addTokenModal.close();
         },
         _modalClosed: function(e) {
-          console.log(e);
-          this._formReset();
+          if (e.srcElement.id == 'addTokenModal') {
+            this._formReset();
+          }
         },
         _formReset: function() {
           this.set('token.name', null);
           this.set('token.expiration', null);
+          this.set('password', null);
+          this.set('formSecond', false);
         },
         _submitFirstForm: function(e) {
-
+          this.set('formSecond', true);
         },
         _submitSecondForm: function(e) {
+          this.fire('addToken', {
+            token: {
+              token: "be9e...",
+              name: this.token.name,
+              last_accessed_at: "2016-02-03 10:14:28.599000",
+              ttl: 0,
+              created_at: "2015-12-22 15:46:26.643000",
+              ip_address: "94.69.102.20",
+              id: "568159523260490d7461e63c",
+              user_agent: "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
+            }
+          });
 
+          this._closeAddTokenModal();
+        },
+        _addTokenAjax: function(e) {
+          //   this.$.addTokenAjax.addRequest();
+        },
+        _ajaxRequest: function() {
+          this.set('sendingData', true);
+        },
+        _ajaxResponse: function(e) {
+          this.set('sendingData', false);
+
+          this.fire('addToken', {
+            token: {
+              name: this.token.name
+            }
+          });
         }
       });
     })();

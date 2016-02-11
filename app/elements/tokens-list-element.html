@@ -58,7 +58,7 @@
     <array-selector id="selector" items="[[tokens]]" selected="{{selectedTokens}}" multi toggle></array-selector>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
-    <token-add-element></token-add-element>
+    <token-add-element tokens="[[tokens]]"></token-add-element>
   </template>
 
   <script>
@@ -102,7 +102,8 @@
         ],
         listeners: {
           'revokeToken': '_revokeToken',
-          'toggleSelectedToken': '_toggleSelectedToken'
+          'toggleSelectedToken': '_toggleSelectedToken',
+          'addToken': '_addToken',
         },
         _tokensChanged: function(tokens, selectedTokens) {
           this.set('showDeleteOption', selectedTokens.base.length > 0);
@@ -162,6 +163,10 @@
             this.splice('tokens', index, 1);
           }, this);
           this.$.selector.clearSelection();
+        },
+        _addToken: function(e) {
+          var token = e.detail.token;
+          this.push('tokens', token);
         }
       });
     })();

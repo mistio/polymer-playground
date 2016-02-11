@@ -157,24 +157,19 @@
           });
         },
         _filteredKeysChanged: function(filteredKeys, sortByTerm) {
-          console.log(filteredKeys, sortByTerm);
           var sortedKeys = [];
           if (sortByTerm == 'id') {
-            console.log(sortByTerm);
             sortedKeys = filteredKeys.base.sort(this._computeSort('id', 1));
           } else if (sortByTerm == 'default') {
             sortedKeys = filteredKeys.base.sort(this._computeSort('isDefault', -1));
           } else {
-            console.log(sortByTerm);
             sortedKeys = filteredKeys.base;
           }
-          console.log(sortedKeys, filteredKeys);
           this.set('sortedKeys', sortedKeys);
           this.querySelector('iron-list').notifyResize();
         },
         _sortKeys: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');
-          console.log(sortByTerm);
           this.set('sortByTerm', sortByTerm);
         },
         _computeSort: function(property, order) {
