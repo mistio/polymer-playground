@@ -27,7 +27,7 @@
 
     <paper-item on-tap="_viewNetwork" class="info-item flex-horizontal-with-ratios">
       <div class="flexchild">
-        <paper-checkbox checked="{{selected}}" disabled$="[[!isOpenstack]]" on-tap="_selectNetwork">[[network.name]]</paper-checkbox>
+        <paper-checkbox checked="{{selected}}" disabled$="[[!isOpenstack]]" on-tap="_selectNetwork"></paper-checkbox> [[network.name]]
       </div>
       <div class="flexchild">[[network.name]]</div>
       <div class="flexchild">[[network.cloud.title]]</div>
