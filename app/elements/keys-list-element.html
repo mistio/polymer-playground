@@ -33,7 +33,7 @@
         <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
 
         <paper-tooltip for="makeDefaultKeyBtn" position="top">Make Default</paper-tooltip>
-        <paper-icon-button id="makeDefaultKeyBtn" hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="star-border"></paper-icon-button>
+        <paper-icon-button id="makeDefaultKeyBtn" hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="[[makeDefaultIcon]]"></paper-icon-button>
 
         <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>
         <paper-icon-button id="editKeyBtn" hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
@@ -114,6 +114,10 @@
             type: Boolean,
             value: false
           },
+          makeDefaultIcon: {
+            type: String,
+            computed: '_computeMakeDefaultIcon(selectedKey.isDefault)'
+          },
           showEditOption: {
             type: Boolean,
             value: false
@@ -175,6 +179,9 @@
             }
             return (order * (a[property] > b[property] ? 1 : -1));
           };
+        },
+        _computeMakeDefaultIcon: function(isDefault) {
+          return isDefault ? 'star' : 'star-border';
         },
         _keysChanged: function(keys, selectedKeys) {
           this.set('showDeleteOption', selectedKeys.base.length > 0);
