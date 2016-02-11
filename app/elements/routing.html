@@ -79,6 +79,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.params = data.params;
     });
 
+    page('/networks', function() {
+      app.route = 'networks';
+    });
+
+    page('/add-network', function() {
+      app.route = 'add-network';
+    });
+
     page('/scripts', function() {
       app.route = 'scripts';
     });
@@ -87,12 +95,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'add-script';
     });
 
-    page('/networks', function() {
-      app.route = 'networks';
+    page('/templates', function() {
+      app.route = 'templates';
     });
 
-    page('/add-network', function() {
-      app.route = 'add-network';
+    page('/add-template', function() {
+      app.route = 'add-template';
     });
 
     page('/login', function() {

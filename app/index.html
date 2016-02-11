@@ -277,6 +277,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Single Key</span>
           </a>
 
+          <a data-route="networks" href="/networks">
+            <iron-icon icon="hardware:device-hub"></iron-icon>
+            <span>Networks List</span>
+          </a>
+
+          <a data-route="add-network" href="/add-network">
+            <iron-icon icon="hardware:device-hub"></iron-icon>
+            <span>Add Network</span>
+          </a>
+
           <a data-route="scripts" href="/scripts">
             <iron-icon icon="receipt"></iron-icon>
             <span>Scripts List</span>
@@ -287,14 +297,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Add Script</span>
           </a>
 
-          <a data-route="networks" href="/networks">
-            <iron-icon icon="hardware:device-hub"></iron-icon>
-            <span>Networks List</span>
+          <a data-route="templates" href="/templates">
+            <iron-icon icon="description"></iron-icon>
+            <span>Templates List</span>
           </a>
 
-          <a data-route="add-network" href="/add-network">
-            <iron-icon icon="hardware:device-hub"></iron-icon>
-            <span>Add Network</span>
+          <a data-route="add-template" href="/add-template">
+            <iron-icon icon="description"></iron-icon>
+            <span>Add Template</span>
           </a>
 
           <a data-route="login" href="/login">
@@ -448,13 +458,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <key-page-element data-route="key" params="[[params]]"></key-page-element>
 
+            <networks-list-element data-route="networks"></networks-list-element>
+
+            <network-add-element data-route="add-network"></network-add-element>
+
             <scripts-list-element data-route="scripts"></scripts-list-element>
 
             <script-add-element data-route="add-script"></script-add-element>
 
-            <networks-list-element data-route="networks"></networks-list-element>
+            <templates-list-element data-route="templates"></templates-list-element>
 
-            <network-add-element data-route="add-network"></network-add-element>
+            <template-add-element data-route="add-template"></template-add-element>
 
             <login-element data-route="login"></login-element>
 
