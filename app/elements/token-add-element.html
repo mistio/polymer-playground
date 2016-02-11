@@ -44,7 +44,7 @@
       <h2>Create Token</h2>
       <paper-icon-button icon="clear" on-tap="_closeAddTokenModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <template is="dom-if" if="[[!formSecond]]">
+        <template is="dom-if" if="[[_computeFormStep(1, formStep)]]">
           <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
 
           <paper-dropdown-menu label="Expires after" horizontal-align="left">
@@ -58,10 +58,16 @@
           <paper-button disabled$="[[!firstFormReady]]" raised on-tap="_submitFirstForm">Submit</paper-button>
         </template>
 
-        <template is="dom-if" if="[[formSecond]]">
+        <template is="dom-if" if="[[_computeFormStep(2, formStep)]]">
           <paper-input type="password" label="Password" required error-message="Please enter your password" value="{{password}}"></paper-input>
 
           <paper-button disabled$="[[!secondFormReady]]" raised on-tap="_submitSecondForm">Submit</paper-button>
+        </template>
+
+        <template is="dom-if" if="[[_computeFormStep(3, formStep)]]">
+          <p class="text-center">
+            This is new token section!
+          </p>
         </template>
       </paper-dialog-scrollable>
     </paper-dialog>
@@ -98,9 +104,9 @@
             type: Array,
             computed: '_computeTokensNames(tokens.*)'
           },
-          formSecond: {
-            type: Boolean,
-            value: false
+          formStep: {
+            type: Number,
+            value: 1
           },
           expirationOptions: {
             type: Array,
@@ -169,6 +175,9 @@
 
           return formReady;
         },
+        _computeFormStep: function(step, formStep) {
+          return step == formStep;
+        },
         _openAddTokenModal: function() {
           this.$.addTokenModal.open();
         },
@@ -184,12 +193,15 @@
           this.set('token.name', null);
           this.set('token.expiration', null);
           this.set('password', null);
-          this.set('formSecond', false);
+          this.set('formStep', 1);
         },
         _submitFirstForm: function(e) {
-          this.set('formSecond', true);
+          this.set('formStep', 2);
         },
         _submitSecondForm: function(e) {
+          this.set('formStep', 3);
+
+          // Push new token int the tokens list
           this.fire('addToken', {
             token: {
               token: "be9e...",
@@ -203,7 +215,13 @@
             }
           });
 
-          this._closeAddTokenModal();
+          // Show a notification
+          this.fire('iron-signal', {
+            name: 'notification',
+            data: {
+              title: this.token.name + ' token is created!'
+            }
+          });
         },
         _addTokenAjax: function(e) {
           //   this.$.addTokenAjax.addRequest();
