@@ -15,19 +15,6 @@
         text-align: center;
       }
 
-      #form paper-button {
-        margin: 20px 0 0;
-      }
-
-      #form paper-dropdown-menu {
-        display: block;
-      }
-
-      paper-button {
-        display: block;
-        margin: 0;
-      }
-
       hr {
         border: none;
         border-bottom: 1px solid #ccc;
@@ -42,7 +29,7 @@
         <p>[[descriptionText]]</p>
         <p hidden$="[[!plan.promo]]">[[plan.promo.description]]</p>
         <p hidden$="[[!expirationDate]]">expires on [[expirationDate]]</p>
-        <paper-button hidden$="[[!plan.promo.notUsed]]" raised on-tap="_selectPlan">Select</paper-button>
+        <paper-button class="btn-block submit-btn" hidden$="[[!plan.promo.notUsed]]" raised on-tap="_selectPlan">Select</paper-button>
       </div>
     </paper-card>
   </template>

@@ -12,49 +12,15 @@
         display: block;
       }
 
-      .btn-group paper-button {
-        width: 50%;
-        float: left;
-        display: block;
-      }
-
-      .btn-group paper-button:first-of-type {
-        border-radius: 3px 0 0 3px;
-      }
-
-      .btn-group paper-button:last-of-type {
-        border-radius: 0 3px 3px 0;
-      }
-
       paper-dialog {
         width: 100%;
         max-width: 800px;
-      }
-
-      paper-dialog paper-icon-button {
-        position: absolute;
-        margin: 0;
-        top: 18px;
-        right: 14px;
-      }
-
-      paper-dialog paper-button {
-        display: block;
-        margin: 20px 0 0;
-        background-color: #3f51b5;
-        color: #fff;
-      }
-
-      paper-dialog paper-button[disabled] {
-        background-color: #ccc;
-        color: #fff;
-        cursor: not-allowed;
       }
     </style>
 
     <paper-dialog id="addKeyModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Add Key</h2>
-      <paper-icon-button icon="clear" on-tap="_closeAddKeyModal"></paper-icon-button>
+      <paper-icon-button class="close" icon="clear" on-tap="_closeAddKeyModal"></paper-icon-button>
       <paper-dialog-scrollable>
         <paper-input id="name" label="Name" required error-message="Please enter key's name" value="{{key.name}}"></paper-input>
 
@@ -63,11 +29,11 @@
         <paper-textarea id="publicKey" hidden$="[[!showPublicKey]]" label="Public Key" rows="5" value="{{key.publicKey}}" max-rows="5"></paper-textarea>
 
         <div class="clearfix btn-group">
-          <paper-button raised on-tap="_generateKeyAjax">Generate</paper-button>
-          <paper-button raised on-tap="_uploadKey">Upload</paper-button>
+          <paper-button class="purple" raised on-tap="_generateKeyAjax">Generate</paper-button>
+          <paper-button class="purple" raised on-tap="_uploadKey">Upload</paper-button>
         </div>
 
-        <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+        <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
       </paper-dialog-scrollable>
     </paper-dialog>
 

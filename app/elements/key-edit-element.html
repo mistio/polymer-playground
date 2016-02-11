@@ -15,35 +15,15 @@
       paper-dialog {
         width: 300px;
       }
-
-      paper-dialog paper-icon-button {
-        position: absolute;
-        margin: 0;
-        top: 18px;
-        right: 14px;
-      }
-
-      paper-dialog paper-button {
-        display: block;
-        margin: 20px 0 0;
-        background-color: #3f51b5;
-        color: #fff;
-      }
-
-      paper-dialog paper-button[disabled] {
-        background-color: #ccc;
-        color: #fff;
-        cursor: not-allowed;
-      }
     </style>
 
     <paper-dialog id="editKeyModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Edit Key</h2>
-      <paper-icon-button icon="clear" on-tap="_closeEditKeyModal"></paper-icon-button>
+      <paper-icon-button class="close" icon="clear" on-tap="_closeEditKeyModal"></paper-icon-button>
       <paper-dialog-scrollable>
         <paper-input id="name" label="Name" required error-message="Please enter key's name" value="{{key.id}}"></paper-input>
 
-        <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+        <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
       </paper-dialog-scrollable>
     </paper-dialog>
 

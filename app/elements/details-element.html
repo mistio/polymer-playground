@@ -16,10 +16,6 @@
         margin: 20px 0 0;
       }
 
-      paper-card paper-dropdown-menu {
-        display: block;
-      }
-
       paper-button {
         margin: 20px 0 0;
         background-color: #3f51b5;
@@ -41,7 +37,7 @@
 
         <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
 
-        <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+        <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
           <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
             <template is="dom-repeat" items="[[countriesOptions]]" as="country">
               <paper-item value="[[country]]">[[country]]</paper-item>
@@ -49,7 +45,7 @@
           </paper-menu>
         </paper-dropdown-menu>
 
-        <paper-dropdown-menu label="How many people work there?" horizontal-align="left">
+        <paper-dropdown-menu class="dropdown-block" label="How many people work there?" horizontal-align="left">
           <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
             <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
               <paper-item value="[[people]]">[[people]]</paper-item>
@@ -57,7 +53,7 @@
           </paper-menu>
         </paper-dropdown-menu>
 
-        <paper-dropdown-menu label="How many servers do you have?" horizontal-align="left">
+        <paper-dropdown-menu class="dropdown-block" label="How many servers do you have?" horizontal-align="left">
           <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
             <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
               <paper-item value="[[servers]]">[[servers]]</paper-item>
@@ -65,7 +61,7 @@
           </paper-menu>
         </paper-dropdown-menu>
 
-        <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+        <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
       </div>
     </paper-card>
 
