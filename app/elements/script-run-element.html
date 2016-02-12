@@ -25,7 +25,7 @@
           <paper-dropdown-menu class="dropdown-block" label="Select machine" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{selectedMachine}}" class="dropdown-content">
               <template is="dom-repeat" items="[[machinesOptions]]" as="machine">
-                <paper-item value="[[machine.name]]">[[machine.name]]</paper-item>
+                <paper-item value="[[machine]]">[[machine.name]]</paper-item>
               </template>
             </paper-menu>
           </paper-dropdown-menu>
@@ -56,6 +56,10 @@
             type: Object,
             notify: true
           },
+          parameters: {
+            type: String,
+            value: null
+          },
           clouds: {
             type: Array
           },
@@ -64,7 +68,7 @@
             computed: '_computeMachinesOptions(clouds)'
           },
           selectedMachine: {
-            type: String,
+            type: Object,
             value: null
           },
           hasMachines: {
@@ -126,14 +130,21 @@
           }
         },
         _submitForm: function(e) {
-          //   this._closeRunScriptModal();
-          console.log(this.script, this.selectedMachine);
+          this._closeRunScriptModal();
+
+          var payload = {
+            machine_id: this.selectedMachine.id,
+            cloud_id: this.selectedMachine.cloud.id,
+            params: this.parameters
+          };
+          console.log(payload);
+
+          //   this.$.runScriptAjax.body = payload;
+          //   this.$.runScriptAjax.generateRequest();
         },
         _formReset: function() {
           this.set('selectedMachine', null);
-        },
-        _runScriptAjax: function(e) {
-          //   this.$.runScriptAjax.generateRequest();
+          this.set('parameters', null);
         },
         _runScriptRequest: function() {
           this.set('sendingData', true);
