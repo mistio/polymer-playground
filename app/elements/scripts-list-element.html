@@ -180,11 +180,11 @@
           }
         },
         _deleteSelected: function(e) {
-          var dialog = Polymer.dom(document).querySelector('dialog-element');
-          dialog.title = "Delete Script";
-          dialog.body = "Are you sure you want delete those scripts";
-          dialog.reason = "delete_scripts";
-          dialog._openDialog();
+          this._showDialog({
+            title: "Delete Script",
+            body: "Are you sure you want delete those scripts?",
+            reason: "delete_scripts"
+          });
         },
         _deleteSelectedResponce: function(e) {
           var reason = e.detail.reason,
@@ -223,6 +223,13 @@
         _addScript: function(e) {
           var script = e.detail.script;
           this.push('scripts', script);
+        },
+        _showDialog: function(info) {
+          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          dialog.title = info.title;
+          dialog.body = info.body;
+          dialog.reason = info.reason;
+          dialog._openDialog();
         }
       });
     })();

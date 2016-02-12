@@ -58,9 +58,6 @@
 
         },
         _openToast: function(e) {
-          this.set('title', e.detail.title);
-          this.set('duration', e.detail.duration || 3000);
-          this.set('toastType', e.detail.toastType || 'default');
           this.$.toast.open();
         },
         _closeToast: function(e) {

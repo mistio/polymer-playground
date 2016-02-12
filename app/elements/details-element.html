@@ -154,12 +154,12 @@
           });
 
           // Show a notification
-          this.fire('iron-signal', {
-            name: 'notification',
-            data: {
-              title: this.user.firstName + ' your details were updated!'
-            }
-          });
+          this._showNotification(this.user.firstName + ' your details were updated!');
+        },
+        _showNotification: function(title) {
+          var notification = Polymer.dom(document).querySelector('notification-element');
+          notification.title = title;
+          notification._openToast();
         }
       });
     })();

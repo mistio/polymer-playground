@@ -159,21 +159,21 @@
         _revokeToken: function(e) {
           this.set('selectedToken', e.detail.token);
 
-          var dialog = Polymer.dom(document).querySelector('dialog-element');
-          dialog.title = "Revoke Token";
-          dialog.body = "Are you sure you want to revoke this token?";
-          dialog.reason = "revoke_token";
-          dialog._openDialog();
+          this._showDialog({
+            title: "Revoke Token",
+            body: "Are you sure you want to revoke this token?",
+            reason: "revoke_token"
+          });
         },
         _deleteSelected: function(e) {
-          var dialog = Polymer.dom(document).querySelector('dialog-element');
-          dialog.title = "Revoke Token";
-          dialog.body = "Are you sure you want to revoke these tokens?";
-          dialog.reason = "revoke_tokens";
-          dialog._openDialog();
+          this._showDialog({
+            title: "Revoke Token",
+            body: "Are you sure you want to revoke these tokens?",
+            reason: "revoke_tokens"
+          });
         },
         _revokeTokenResponce: function(e) {
-            console.log(e);
+          console.log(e);
           var reason = e.detail.reason,
             response = e.detail.response;
 
@@ -197,6 +197,13 @@
         _addToken: function(e) {
           var token = e.detail.token;
           this.push('tokens', token);
+        },
+        _showDialog: function(info) {
+          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          dialog.title = info.title;
+          dialog.body = info.body;
+          dialog.reason = info.reason;
+          dialog._openDialog();
         }
       });
     })();
