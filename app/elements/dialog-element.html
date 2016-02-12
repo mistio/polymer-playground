@@ -15,40 +15,24 @@
       }
 
       paper-dialog {
-        min-width: 300px;
-        position: relative;
-      }
-
-      paper-dialog .close {
-        position: absolute;
-        margin: 0;
-        top: 18px;
-        right: 14px;
-      }
-
-      paper-dialog paper-button {
-        display: block;
-        margin: 20px 0 0;
-        background-color: #3f51b5;
-        color: #fff;
-      }
-
-      paper-dialog paper-button[disabled] {
-        background-color: #ccc;
-        color: #fff;
-        cursor: not-allowed;
+        width: 300px;
       }
     </style>
 
     <paper-dialog id="dialogModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-      <h2>Dialog</h2>
-      <paper-icon-button icon="clear" class="close" on-tap="_closeDialog"></paper-icon-button>
+      <h2>[[title]]</h2>
+      <paper-icon-button icon="clear" class="close" on-tap="_closeDialog" dialog-dismiss></paper-icon-button>
       <paper-dialog-scrollable>
-        <p>
-          Hello from dialog!
+        <p class="text-center">
+          [[body]]
         </p>
 
-        <paper-button raised>Submit</paper-button>
+        <!-- <paper-button class="btn-block submit-btn" raised dialog-confirm>Submit</paper-button> -->
+
+        <div class="clearfix btn-group">
+          <paper-button class="purple" raised dialog-confirm>Yes</paper-button>
+          <paper-button class="purple" raised dialog-dismiss>No</paper-button>
+        </div>
       </paper-dialog-scrollable>
     </paper-dialog>
 
@@ -63,7 +47,14 @@
         is: 'dialog-element',
 
         properties: {
-
+          title: {
+            type: String,
+            value: null
+          },
+          body: {
+            type: String,
+            value: null
+          }
         },
         listeners: {
           'iron-overlay-closed': '_modalClosed'
@@ -72,15 +63,18 @@
 
         },
         _openDialog: function(e) {
-          console.log(e);
           this.$.dialogModal.open();
         },
         _closeDialog: function(e) {
-          console.log(e);
           this.$.dialogModal.close();
         },
         _modalClosed: function(e) {
-          console.log(this.$.dialogModal.closingReason);
+          if (e.srcElement.id == 'dialogModal') {
+            console.log(this.$.dialogModal.closingReason);
+            this.fire('confirmationResponce', {
+              response: this.$.dialogModal.closingReason
+            });
+          }
         }
       });
     })();

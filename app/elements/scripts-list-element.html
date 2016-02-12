@@ -61,6 +61,7 @@
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
     <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
+    <dialog-element></dialog-element>
   </template>
 
   <script>
@@ -127,6 +128,7 @@
         listeners: {
           'toggleSelectedScript': '_toggleSelectedScript',
           'addScript': '_addScript',
+          'confirmationResponce': '_deleteScriptsResponce',
           'updateSelectedScript': '_updateSelectedScript'
         },
         _computeSort: function(a, b) {
@@ -179,11 +181,22 @@
           }
         },
         _deleteSelected: function(e) {
-          this.selectedScripts.forEach(function(script, index) {
-            var index = this.scripts.indexOf(script);
-            this.splice('scripts', index, 1);
-          }, this);
-          this.$.selector.clearSelection();
+          var dialog = Polymer.dom(this.root).querySelector('dialog-element');
+          dialog.title = "Delete Script";
+          dialog.body = "Are you sure you want delete those scripts";
+          dialog._openDialog();
+        },
+        _deleteScriptsResponce: function(e) {
+          var response = e.detail.response;
+          if (response.confirmed) {
+            console.log('i am deleting scrips');
+
+            //   this.selectedScripts.forEach(function(script, index) {
+            //     var index = this.scripts.indexOf(script);
+            //     this.splice('scripts', index, 1);
+            //   }, this);
+            //   this.$.selector.clearSelection();
+          }
         },
         _editSelected: function(e) {
           var el = Polymer.dom(this.root).querySelector('script-edit-element');
