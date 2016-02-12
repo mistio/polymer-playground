@@ -59,6 +59,7 @@
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
     <token-add-element tokens="[[tokens]]"></token-add-element>
+    <iron-signals on-iron-signal-confirmation="_revokeTokenResponce"></iron-signals>
   </template>
 
   <script>
@@ -74,6 +75,10 @@
             value: function() {
               return TOKENS;
             }
+          },
+          selectedToken: {
+            type: Object,
+            value: null
           },
           hasTokens: {
             type: Boolean,
@@ -148,21 +153,46 @@
             el.selected = selectAll;
           }, this);
         },
-        _revokeToken: function(e) {
-          var token = e.detail.token,
-            index = this.tokens.indexOf(token);
-          this.splice('tokens', index, 1);
-          this.$.selector.deselect(token);
-        },
         _toggleSelectedToken: function(e) {
           this.$.selector.select(e.detail.token);
         },
+        _revokeToken: function(e) {
+          this.set('selectedToken', e.detail.token);
+
+          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          dialog.title = "Revoke Token";
+          dialog.body = "Are you sure you want to revoke this token?";
+          dialog.reason = "revoke_token";
+          dialog._openDialog();
+        },
         _deleteSelected: function(e) {
-          this.selectedTokens.forEach(function(el, index) {
-            var index = this.tokens.indexOf(el);
-            this.splice('tokens', index, 1);
-          }, this);
-          this.$.selector.clearSelection();
+          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          dialog.title = "Revoke Token";
+          dialog.body = "Are you sure you want to revoke these tokens?";
+          dialog.reason = "revoke_tokens";
+          dialog._openDialog();
+        },
+        _revokeTokenResponce: function(e) {
+            console.log(e);
+          var reason = e.detail.reason,
+            response = e.detail.response;
+
+          if (response.confirmed) {
+            if (reason == "revoke_token") {
+              var token = this.selectedToken,
+                index = this.tokens.indexOf(token);
+              this.splice('tokens', index, 1);
+              this.$.selector.deselect(token);
+            }
+
+            if (reason == "revoke_tokens") {
+              this.selectedTokens.forEach(function(el, index) {
+                var index = this.tokens.indexOf(el);
+                this.splice('tokens', index, 1);
+              }, this);
+              this.$.selector.clearSelection();
+            }
+          }
         },
         _addToken: function(e) {
           var token = e.detail.token;

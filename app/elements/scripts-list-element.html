@@ -61,7 +61,7 @@
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
     <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
-    <dialog-element></dialog-element>
+    <iron-signals on-iron-signal-confirmation="_deleteSelectedResponce"></iron-signals>
   </template>
 
   <script>
@@ -128,7 +128,6 @@
         listeners: {
           'toggleSelectedScript': '_toggleSelectedScript',
           'addScript': '_addScript',
-          'confirmationResponce': '_deleteScriptsResponce',
           'updateSelectedScript': '_updateSelectedScript'
         },
         _computeSort: function(a, b) {
@@ -181,21 +180,26 @@
           }
         },
         _deleteSelected: function(e) {
-          var dialog = Polymer.dom(this.root).querySelector('dialog-element');
+          var dialog = Polymer.dom(document).querySelector('dialog-element');
           dialog.title = "Delete Script";
           dialog.body = "Are you sure you want delete those scripts";
+          dialog.reason = "delete_scripts";
           dialog._openDialog();
         },
-        _deleteScriptsResponce: function(e) {
-          var response = e.detail.response;
-          if (response.confirmed) {
-            console.log('i am deleting scrips');
+        _deleteSelectedResponce: function(e) {
+          var reason = e.detail.reason,
+            response = e.detail.response;
 
-            //   this.selectedScripts.forEach(function(script, index) {
-            //     var index = this.scripts.indexOf(script);
-            //     this.splice('scripts', index, 1);
-            //   }, this);
-            //   this.$.selector.clearSelection();
+          if (response.confirmed) {
+            if (reason == "delete_scripts") {
+              console.log('i am deleting scrips');
+
+              //   this.selectedScripts.forEach(function(script, index) {
+              //     var index = this.scripts.indexOf(script);
+              //     this.splice('scripts', index, 1);
+              //   }, this);
+              //   this.$.selector.clearSelection();
+            }
           }
         },
         _editSelected: function(e) {
