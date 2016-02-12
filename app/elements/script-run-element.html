@@ -24,7 +24,7 @@
         <div hidden$=[[!hasMachines]]>
           <paper-dropdown-menu class="dropdown-block" label="Select machine" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{selectedMachine}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[machines]]" as="machine">
+              <template is="dom-repeat" items="[[machinesOptions]]" as="machine">
                 <paper-item value="[[machine.name]]">[[machine.name]]</paper-item>
               </template>
             </paper-menu>
@@ -54,17 +54,20 @@
             type: Object,
             notify: true
           },
-          machines: {
+          clouds: {
+            type: Array
+          },
+          machinesOptions: {
             type: Array,
-            value: []
+            computed: '_computeMachinesOptions(clouds)'
           },
           selectedMachine: {
-            type: Object,
+            type: String,
             value: null
           },
           hasMachines: {
             type: Boolean,
-            computed: '_computeHasMachines(machines.*)'
+            computed: '_computeHasMachines(machinesOptions.*)'
           },
           sendingData: {
             type: Boolean,
@@ -72,7 +75,7 @@
           },
           formReady: {
             type: Boolean,
-            computed: '_computeFormReady(script.name, sendingData)'
+            computed: '_computeFormReady(script.name, selectedMachine, sendingData)'
           }
         },
         listeners: {
@@ -81,10 +84,10 @@
         ready: function() {
 
         },
-        _computeFormReady: function(name, sendingData) {
+        _computeFormReady: function(name, id, sendingData) {
           var formReady = false;
 
-          if (name) {
+          if (name && id) {
             formReady = true;
           }
 
@@ -94,8 +97,20 @@
 
           return formReady;
         },
-        _computeHasMachines: function(machines) {
-          return machines.base.length > 0;
+        _computeMachinesOptions: function(clouds) {
+          return clouds
+            .filter(function(cloud) {
+              return cloud.enabled;
+            })
+            .map(function(cloud) {
+              return cloud.machines;
+            })
+            .reduce(function(a, b) {
+              return a.concat(b);
+            });
+        },
+        _computeHasMachines: function(machinesOptions) {
+          return machinesOptions.base.length > 0;
         },
         _openRunScriptModal: function(e) {
           this.$.runScriptModal.open();
@@ -103,11 +118,14 @@
         _closeRunScriptModal: function(e) {
           this.$.runScriptModal.close();
         },
-        _modalClosed: function() {
-          this._formReset();
+        _modalClosed: function(e) {
+          if (e.srcElement.id == 'runScriptModal') {
+            this._formReset();
+          }
         },
         _submitForm: function(e) {
-          this._closeRunScriptModal();
+          //   this._closeRunScriptModal();
+          console.log(this.script, this.selectedMachine);
         },
         _formReset: function() {
           this.set('selectedMachine', null);

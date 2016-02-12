@@ -1,4 +1,86 @@
 var Mist = {
+  clouds: [{
+    id: "29rGxvmKcwaRHkXwZkc2hByxcGmq",
+    provider: "packet",
+    title: "Packet.net",
+    enabled: true,
+    machines: [{
+      id: "6f3e3c37-6ab3-40f2-9509-17d7d05e393d",
+      name: "kvm-again",
+      state: "running",
+      uuid: "b731a90760bf447e888997e3b55b9f179e8f238b"
+    }]
+  }, {
+    id: "vYfxbj8HHbkFSGtE9AuZzqhCxFz",
+    provider: "bare_metal",
+    title: "google.gr",
+    enabled: true,
+    machines: [{
+      id: "googlegr",
+      name: "google.gr",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad3d"
+    }]
+  }, {
+    id: "vYfxbj8HHbkFSGtE9AuZzqhCxF1",
+    provider: "bare_metal",
+    title: "test",
+    enabled: true,
+    machines: [{
+      id: "test",
+      name: "test",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad3d"
+    }]
+  }, {
+    id: "vYfxbj8HHbkFSGtE9AuZzqhCxF2",
+    provider: "nephoscale",
+    title: "Nephoscale",
+    enabled: true,
+    machines: [{
+      id: "jenkinsmaster",
+      name: "jenkinsmaster",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad31"
+    }, {
+      id: "echelon-mist-io",
+      name: "echelon-mist-io",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad32"
+    }, {
+      id: "openstackaki",
+      name: "openstackaki",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad33"
+    }]
+  }, {
+    id: "vYfxbj8HHbkFSGtE9AuZzqhCxF3",
+    provider: "ec2_eu_west",
+    title: "EC2 Ireland",
+    enabled: true,
+    machines: [{
+      id: "i-4d7cbee1",
+      name: "marios-monitoring",
+      state: "running",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad3d"
+    }]
+  }, {
+    id: "vYfxbj8HHbkFSGtE9AuZzqhCxF4",
+    provider: "openstack",
+    title: "Openstack",
+    enabled: false,
+    machines: [{
+      id: "6f3e3c37-6ab3-40f2-9509-17d7d05e3931",
+      name: "6f3e3c37-6ab3-40f2-9509-17d7d05e393d",
+      state: "error",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad31"
+    }, {
+      id: "6f3e3c37-6ab3-40f2-9509-17d7d05e3932",
+      name: "demo",
+      state: "stopped",
+      uuid: "bfd05905e05b55ddaa120e8a0e3b8e954244ad32",
+    }]
+  }],
   keys: [{
     id: "test2",
     isDefault: false

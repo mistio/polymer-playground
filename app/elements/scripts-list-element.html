@@ -60,7 +60,7 @@
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
-    <script-run-element script="[[selectedScript]]"></script-run-element>
+    <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
   </template>
 
   <script>
@@ -84,6 +84,12 @@
           selectedScript: {
             type: Object,
             value: null
+          },
+          clouds: {
+            type: Array,
+            value: function() {
+              return Mist.clouds;
+            }
           },
           selectAll: {
             type: Boolean,

@@ -17,7 +17,7 @@
       <div class="card-content">
         <template is="dom-repeat" items="[[fields]]" as="field">
           <template is="dom-if" if="[[_computeIsInputText(field.type)]]">
-            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.defaultValue}}" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.defaultValue}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
           </template>
 
           <template is="dom-if" if="[[_computeIsInputTextarea(field.type)]]">
