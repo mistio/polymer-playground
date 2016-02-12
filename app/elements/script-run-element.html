@@ -30,6 +30,8 @@
             </paper-menu>
           </paper-dropdown-menu>
 
+          <paper-textarea label="Parameters (optional)" rows="5" max-rows="5" value="{{parameters}}"></paper-textarea>
+
           <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Run</paper-button>
         </div>
 
