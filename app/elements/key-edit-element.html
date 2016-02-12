@@ -21,7 +21,7 @@
       <h2>Edit Key</h2>
       <paper-icon-button class="close" icon="clear" on-tap="_closeEditKeyModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <paper-input id="name" label="Name" required error-message="Please enter key's name" value="{{key.id}}"></paper-input>
+        <paper-input id="name" label="Name" required allowed-pattern="[A-Za-z0-9]" error-message="Please enter key's name" value="{{key.id}}"></paper-input>
 
         <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
       </paper-dialog-scrollable>

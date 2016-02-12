@@ -150,6 +150,7 @@
           'updateSelectedKey': '_updateSelectedKey'
         },
         _computeFilteredKeys: function(keys, searchTerm) {
+        //   console.log('filter');
           var searchTerm = searchTerm.toLowerCase();
           return keys.base.filter(function(key) {
             var id = key.id.toLowerCase();
@@ -157,6 +158,7 @@
           });
         },
         _filteredKeysChanged: function(filteredKeys, sortByTerm) {
+        //   console.log('sort');
           var sortedKeys = [];
           if (sortByTerm == 'id') {
             sortedKeys = filteredKeys.base.sort(this._computeSort('id', 1));
@@ -212,6 +214,7 @@
           });
         },
         _toggleSelectedKey: function(e) {
+        //   console.log('select');
           this.$.selector.select(e.detail.key);
         },
         _toggleSearchSelected: function() {
@@ -224,17 +227,21 @@
         },
         _deleteSelected: function(e) {
           this.selectedKeys.forEach(function(key, index) {
-            var index = this.keys.indexOf(key);
-            this.splice('keys', index, 1);
+            var index = this.sortedKeys.indexOf(key);
+            this.splice('sortedKeys', index, 1);
           }, this);
           this.$.selector.clearSelection();
-          console.log(this.selectedKeys, this.keys);
+          this.querySelector('iron-list').notifyResize();
+        //   console.log(this.selectedKeys, this.keys, this.sortedKeys);
         },
         _starSelected: function(e) {
           var selectedKey = this.selectedKey;
-          this.keys.forEach(function(key, index) {
-            this.set('keys.' + index + '.isDefault', key.id == selectedKey.id);
+          this.sortedKeys.forEach(function(key, index) {
+            this.set('sortedKeys.' + index + '.isDefault', key.id == selectedKey.id);
           }, this);
+        //   this.$.selector.clearSelection();
+          this.querySelector('iron-list').notifyResize();
+        //   console.log(this.selectedKeys, this.keys, this.sortedKeys);
         },
         _editSelected: function(e) {
           var el = Polymer.dom(this.root).querySelector('key-edit-element');
@@ -242,8 +249,8 @@
         },
         _updateSelectedKey: function(e) {
           var key = e.detail.key,
-            index = this.filteredKeys.indexOf(key);
-          this.set('filteredKeys.' + index + '.id', key.id);
+            index = this.keys.indexOf(key);
+          this.set('keys.' + index + '.id', key.id);
         },
         _openAddKeyModal: function(e) {
           var el = Polymer.dom(this.root).querySelector('key-add-element');

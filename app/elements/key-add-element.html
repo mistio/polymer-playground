@@ -22,7 +22,7 @@
       <h2>Add Key</h2>
       <paper-icon-button class="close" icon="clear" on-tap="_closeAddKeyModal"></paper-icon-button>
       <paper-dialog-scrollable>
-        <paper-input id="name" label="Name" required error-message="Please enter key's name" value="{{key.name}}"></paper-input>
+        <paper-input id="name" label="Name" required allowed-pattern="[A-Za-z0-9]" error-message="Please enter key's name" value="{{key.name}}"></paper-input>
 
         <paper-textarea id="privateKey" label="Private Key" rows="5" required error-message="Please enter private key" value="{{key.privateKey}}" max-rows="5"></paper-textarea>
 

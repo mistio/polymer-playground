@@ -32,7 +32,7 @@
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Created At
+              <paper-checkbox disabled$="[[!hasSelectableSessions]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Created At
             </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
@@ -72,6 +72,10 @@
             type: Boolean,
             value: false
           },
+          hasSelectableSessions: {
+            type: Boolean,
+            value: false
+          },
           selectAll: {
             type: Boolean,
             value: false
@@ -91,7 +95,7 @@
           }
         },
         observers: [
-          '_sessionsChanged(selectableSessions.*, selectedSessions.*)'
+          '_sessionsChanged(sessions.*, selectableSessions.*, selectedSessions.*)'
         ],
         listeners: {
           'terminateSession': '_terminateSession',
@@ -102,10 +106,12 @@
             return !session.active;
           });
         },
-        _sessionsChanged: function(selectableSessions, selectedSessions) {
+        _sessionsChanged: function(sessions, selectableSessions, selectedSessions) {
           this.set('showDeleteOption', selectedSessions.base.length > 0);
 
-          this.set('hasSessions', selectableSessions.base.length > 0);
+          this.set('hasSessions', sessions.base.length > 0);
+
+          this.set('hasSelectableSessions', selectableSessions.base.length > 0);
 
           if (selectedSessions.base.length < selectableSessions.base.length || selectableSessions.base.length === 0) {
             this.set('selectAll', false);
