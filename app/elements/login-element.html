@@ -27,7 +27,7 @@
 
     <paper-dialog id="loginModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>Sign In</h2>
-      <paper-icon-button class="close" icon="clear" on-tap="_closeLoginModal"></paper-icon-button>
+      <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
       <paper-dialog-scrollable>
         <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
 

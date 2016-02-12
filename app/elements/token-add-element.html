@@ -17,7 +17,7 @@
 
     <paper-dialog id="addTokenModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
       <h2>[[modalTitle]]</h2>
-      <paper-icon-button class="close" icon="clear" on-tap="_closeAddTokenModal"></paper-icon-button>
+      <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
       <paper-dialog-scrollable>
         <template is="dom-if" if="[[_computeFormStep(1, formStep)]]">
           <paper-input label="Unique Token Name" required error-message="Please enter a unique token name" value="{{token.name}}"></paper-input>
