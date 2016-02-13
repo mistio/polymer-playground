@@ -36,7 +36,7 @@ paper-button[disabled] {
 paper-fab {
   background-color: #3f51b5 !important;
   position: fixed;
-  bottom: 200px;
+  bottom: 100px;
   right: 100px;
 }
 paper-dialog paper-icon-button.close {
