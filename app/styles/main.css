@@ -48,6 +48,14 @@ paper-dialog paper-icon-button.close {
 paper-dialog paper-button {
   margin: 20px 0 0;
 }
+paper-button.red {
+  background-color: #dd0000;
+  color: #fff;
+}
+paper-button.green {
+  background-color: green;
+  color: #fff;
+}
 paper-button.purple, paper-button.submit-btn {
   background-color: #3f51b5;
   color: #fff;
@@ -69,10 +77,10 @@ paper-button.btn-block, paper-dropdown-menu.dropdown-block {
   float: left;
   display: block;
 }
-.btn-group paper-button:first-of-type {
+.btn-group paper-button:nth-of-type(2n+1) {
   border-radius: 3px 0 0 3px;
 }
-.btn-group paper-button:last-of-type {
+.btn-group paper-button:nth-of-type(2n) {
   border-radius: 0 3px 3px 0;
 }
 

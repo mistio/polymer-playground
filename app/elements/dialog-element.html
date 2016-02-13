@@ -29,9 +29,12 @@
 
         <!-- <paper-button class="btn-block submit-btn" raised dialog-confirm>Submit</paper-button> -->
 
-        <div class="clearfix btn-group">
-          <paper-button class="purple" raised dialog-dismiss>No</paper-button>
-          <paper-button class="purple" raised dialog-confirm>Yes</paper-button>
+        <div hidden$="[[!_computeType(type, 'isYesNo')]]" class="clearfix btn-group">
+          <paper-button hidden$="[[_computeDanger(danger)]]" class="green" raised dialog-confirm>Yes</paper-button>
+          <paper-button hidden$="[[_computeDanger(danger)]]" class="red" raised dialog-dismiss>No</paper-button>
+
+          <paper-button hidden$="[[!_computeDanger(danger)]]" dialog-dismiss>No</paper-button>
+          <paper-button hidden$="[[!_computeDanger(danger)]]" class="red" raised dialog-confirm>Yes</paper-button>
         </div>
       </paper-dialog-scrollable>
     </paper-dialog>
@@ -53,6 +56,14 @@
             type: String,
             value: null
           },
+          type: {
+            type: String,
+            value: 'isYesNo'
+          },
+          danger: {
+            type: String,
+            value: false
+          },
           reason: {
             type: String,
             value: null
@@ -63,6 +74,12 @@
         },
         ready: function() {
 
+        },
+        _computeType: function(type, value) {
+          return type == value;
+        },
+        _computeDanger: function(danger) {
+          return danger;
         },
         _openDialog: function(e) {
           this.$.dialogModal.open();

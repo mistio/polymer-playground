@@ -29,7 +29,7 @@
       <div hidden$="[[!hasTokens]]" class="card-options">
         <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
         <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
-        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedTokens" icon="delete"></paper-icon-button>
       </div>
 
       <div class="card-content">
@@ -106,7 +106,7 @@
           '_tokensChanged(tokens.*, selectedTokens.*)'
         ],
         listeners: {
-          'revokeToken': '_revokeToken',
+          'revokeToken': '_deleteSelectedToken',
           'toggleSelectedToken': '_toggleSelectedToken',
           'addToken': '_addToken',
         },
@@ -151,24 +151,26 @@
           this.set('selectAll', selectAll);
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
-          }, this);
+          });
         },
         _toggleSelectedToken: function(e) {
           this.$.selector.select(e.detail.token);
         },
-        _revokeToken: function(e) {
+        _deleteSelectedToken: function(e) {
           this.set('selectedToken', e.detail.token);
 
           this._showDialog({
             title: "Revoke Token",
-            body: "Are you sure you want to revoke this token?",
+            body: "Are you sure you want to revoke this token: " + this.selectedToken.name + " ?",
+            danger: true,
             reason: "revoke_token"
           });
         },
-        _deleteSelected: function(e) {
+        _deleteSelectedTokens: function(e) {
           this._showDialog({
-            title: "Revoke Token",
-            body: "Are you sure you want to revoke these tokens?",
+            title: this._formatTitle(this.selectedTokens),
+            body: this._formatBody(this.selectedTokens) + "?",
+            danger: true,
             reason: "revoke_tokens"
           });
         },
@@ -186,8 +188,8 @@
             }
 
             if (reason == "revoke_tokens") {
-              this.selectedTokens.forEach(function(el, index) {
-                var index = this.tokens.indexOf(el);
+              this.selectedTokens.forEach(function(token, index) {
+                var index = this.tokens.indexOf(token);
                 this.splice('tokens', index, 1);
               }, this);
               this.$.selector.clearSelection();
@@ -202,8 +204,21 @@
           var dialog = Polymer.dom(document).querySelector('dialog-element');
           dialog.title = info.title;
           dialog.body = info.body;
+          dialog.danger = info.danger;
           dialog.reason = info.reason;
           dialog._openDialog();
+        },
+        _formatTitle: function(selectedTokens) {
+            return selectedTokens.length > 1 ? "Revoke Tokens" : "Revoke Token";
+        },
+        _formatBody: function(selectedTokens) {
+          var names = selectedTokens
+            .map(function(token) {
+              return token.name;
+            })
+            .join(', ');
+
+          return (selectedTokens.length > 1 ? "Are you sure you want to revoke these tokens: " : "Are you sure you want to revoke this token: ") + names;
         }
       });
     })();
