@@ -236,7 +236,7 @@
           var reason = e.detail.reason,
             response = e.detail.response;
 
-          if (response.confirmed && reason == "delete_kays") {
+          if (response.confirmed && reason == "delete_keys") {
             this.selectedKeys.slice().forEach(function(el, index) {
               var index = this.keys.indexOf(el);
               this.splice('keys', index, 1);
@@ -269,11 +269,11 @@
           this.push('keys', key);
         },
         _showDialog: function(info) {
-          var dialog = this.querySelector('dialog-element');
-          dialog.title = info.title;
-          dialog.body = info.body;
-          dialog.danger = info.danger;
-          dialog.reason = info.reason;
+          var dialog = this.querySelector('dialog-element'),
+            i;
+          for (i in info) {
+            dialog[i] = info[i];
+          }
           dialog._openDialog();
         },
         _formatTitle: function() {

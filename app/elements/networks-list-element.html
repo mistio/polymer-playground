@@ -255,11 +255,11 @@
           this.push('networks', network);
         },
         _showDialog: function(info) {
-          var dialog = this.querySelector('dialog-element');
-          dialog.title = info.title;
-          dialog.body = info.body;
-          dialog.danger = info.danger;
-          dialog.reason = info.reason;
+          var dialog = this.querySelector('dialog-element'),
+            i;
+          for (i in info) {
+            dialog[i] = info[i];
+          }
           dialog._openDialog();
         },
         _formatTitle: function() {
