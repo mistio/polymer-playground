@@ -49,7 +49,7 @@ paper-dialog paper-button {
   margin: 20px 0 0;
 }
 paper-button.red {
-  background-color: #dd0000;
+  background-color: #f44336;
   color: #fff;
 }
 paper-button.green {

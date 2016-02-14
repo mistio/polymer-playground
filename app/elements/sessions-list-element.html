@@ -23,7 +23,8 @@
 
     <paper-card heading="Active Sessions">
       <div hidden$="[[!hasSessions]]" class="card-options">
-        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedSessions" icon="delete"></paper-icon-button>
+        <paper-tooltip for="deleteSessionBtn" position="top">Delete</paper-tooltip>
+        <paper-icon-button id="deleteSessionBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedSessions" icon="delete"></paper-icon-button>
       </div>
 
       <div class="card-content">

@@ -27,9 +27,12 @@
 
     <paper-card heading="API Tokens">
       <div hidden$="[[!hasTokens]]" class="card-options">
-        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+        <paper-tooltip for="searchTokenBtn" position="top">Toggle Search</paper-tooltip>
+        <paper-icon-button id="searchTokenBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
         <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
-        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedTokens" icon="delete"></paper-icon-button>
+
+        <paper-tooltip for="deleteTokenBtn" position="top">Delete</paper-tooltip>
+        <paper-icon-button id="deleteTokenBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedTokens" icon="delete"></paper-icon-button>
       </div>
 
       <div class="card-content">
