@@ -23,9 +23,7 @@
 
     <paper-card heading="Active Sessions">
       <div hidden$="[[!hasSessions]]" class="card-options">
-        <paper-icon-button icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
-        <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
-        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+        <paper-icon-button hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedSessions" icon="delete"></paper-icon-button>
       </div>
 
       <div class="card-content">
@@ -48,6 +46,7 @@
     </paper-card>
 
     <array-selector id="selector" items="[[sessions]]" selected="{{selectedSessions}}" multi toggle></array-selector>
+    <dialog-element></dialog-element>
   </template>
 
   <script>
@@ -63,6 +62,10 @@
             value: function() {
               return SESSIONS;
             }
+          },
+          selectedSession: {
+            type: Object,
+            value: null
           },
           selectableSessions: {
             type: Array,
@@ -83,23 +86,15 @@
           showDeleteOption: {
             type: Boolean,
             value: false
-          },
-          showSearchOption: {
-            type: Boolean,
-            value: false
-          },
-          searchTerm: {
-            type: String,
-            value: '',
-            notify: true
           }
         },
         observers: [
           '_sessionsChanged(sessions.*, selectableSessions.*, selectedSessions.*)'
         ],
         listeners: {
-          'terminateSession': '_terminateSession',
-          'toggleSelectedSession': '_toggleSelectedSession'
+          'terminateSession': '_deleteSelectedSession',
+          'toggleSelectedSession': '_toggleSelectedSession',
+          'confirmation': '_deleteTokensResponse'
         },
         _computeSelectableSessions: function(sessions) {
           return sessions.base.filter(function(session) {
@@ -113,6 +108,8 @@
 
           this.set('hasSelectableSessions', selectableSessions.base.length > 0);
 
+          this.set('selectedSession', selectedSessions.base.length == 1 ? selectedSessions.base[0] : null);
+
           if (selectedSessions.base.length < selectableSessions.base.length || selectableSessions.base.length === 0) {
             this.set('selectAll', false);
           }
@@ -121,47 +118,68 @@
             this.set('selectAll', true);
           }
         },
-        _searchSessions: function(searchTerm) {
-          if (searchTerm) {
-            searchTerm = searchTerm.toLowerCase();
-            return function(session) {
-              var name = session.name.toLowerCase();
-              return name.indexOf(searchTerm) != -1;
-            };
-          }
-        },
-        _toggleSearchSelected: function() {
-          var showSearchOption = !this.showSearchOption;
-          this.set('showSearchOption', showSearchOption);
-
-          if (!showSearchOption) {
-            this.set('searchTerm', '');
-          }
-        },
         _selectAllChanged: function(e) {
           var selectAll = !this.selectAll,
-            els = Polymer.dom(this.root).querySelectorAll('session-item-element');
+            els = this.querySelectorAll('session-item-element');
 
           this.set('selectAll', selectAll);
           [].forEach.call(els, function(el, index) {
             el.selected = selectAll;
           }, this);
         },
-        _terminateSession: function(e) {
-          var session = e.detail.session,
-            index = this.sessions.indexOf(session);
-          this.splice('sessions', index, 1);
-          this.$.selector.deselect(session);
-        },
         _toggleSelectedSession: function(e) {
           this.$.selector.select(e.detail.session);
         },
-        _deleteSelected: function(e) {
-          this.selectedSessions.forEach(function(el, index) {
-            var index = this.sessions.indexOf(el);
+        _deleteSelectedSession: function(e) {
+          this.set('selectedSession', e.detail.session);
+
+          this._showDialog({
+            title: "Terminate Session",
+            body: "Are you sure you want to terminate this session?",
+            danger: true,
+            reason: "terminate_session"
+          });
+        },
+        _deleteSelectedSessions: function(e) {
+          this._showDialog({
+            title: this._formatTitle(),
+            body: this._formatBody(),
+            danger: true,
+            reason: "terminate_sessions"
+          });
+        },
+        _deleteTokensResponse: function(e) {
+          var reason = e.detail.reason,
+            response = e.detail.response;
+
+          if (response.confirmed && reason == "terminate_session") {
+            var session = this.selectedSession,
+              index = this.sessions.indexOf(session);
             this.splice('sessions', index, 1);
-          }, this);
-          this.$.selector.clearSelection();
+            this.$.selector.deselect(session);
+          }
+
+          if (response.confirmed && reason == "terminate_sessions") {
+            this.selectedSessions.forEach(function(el, index) {
+              var index = this.sessions.indexOf(el);
+              this.splice('sessions', index, 1);
+            }, this);
+            this.$.selector.clearSelection();
+          }
+        },
+        _showDialog: function(info) {
+          var dialog = this.querySelector('dialog-element');
+          dialog.title = info.title;
+          dialog.body = info.body;
+          dialog.danger = info.danger;
+          dialog.reason = info.reason;
+          dialog._openDialog();
+        },
+        _formatTitle: function() {
+          return this.selectedSessions.length > 1 ? "Terminate Sessions" : "Terminate Session";
+        },
+        _formatBody: function() {
+          return this.selectedSessions.length > 1 ? "Are you sure you want to terminate these sessions?" : "Are you sure you want to terminate this session?";
         }
       });
     })();

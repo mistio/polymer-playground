@@ -68,7 +68,7 @@
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
     <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
-    <iron-signals on-iron-signal-confirmation="_deleteSelectedResponce"></iron-signals>
+    <dialog-element></dialog-element>
   </template>
 
   <script>
@@ -139,7 +139,8 @@
         listeners: {
           'toggleSelectedScript': '_toggleSelectedScript',
           'addScript': '_addScript',
-          'updateSelectedScript': '_updateSelectedScript'
+          'updateSelectedScript': '_updateSelectedScript',
+          'confirmation': '_deleteSelectedResponse'
         },
         _computeFilteredScripts: function(scripts, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
@@ -227,22 +228,21 @@
         },
         _deleteSelected: function(e) {
           this._showDialog({
-            title: "Delete Script",
-            body: "Are you sure you want delete those scripts?",
+            title: this._formatTitle(),
+            body: this._formatBody(),
+            danger: true,
             reason: "delete_scripts"
           });
         },
-        _deleteSelectedResponce: function(e) {
+        _deleteSelectedResponse: function(e) {
           var reason = e.detail.reason,
             response = e.detail.response;
 
-          if (response.confirmed) {
-            if (reason == "delete_scripts") {
-              this.selectedScripts.slice().forEach(function(el, index) {
-                var index = this.scripts.indexOf(el);
-                this.splice('scripts', index, 1);
-              }, this);
-            }
+          if (response.confirmed && reason == "delete_scripts") {
+            this.selectedScripts.slice().forEach(function(el, index) {
+              var index = this.scripts.indexOf(el);
+              this.splice('scripts', index, 1);
+            }, this);
           }
         },
         _editSelected: function(e) {
@@ -269,11 +269,25 @@
           this.push('scripts', script);
         },
         _showDialog: function(info) {
-          var dialog = document.querySelector('dialog-element');
+          var dialog = this.querySelector('dialog-element');
           dialog.title = info.title;
           dialog.body = info.body;
+          dialog.danger = info.danger;
           dialog.reason = info.reason;
           dialog._openDialog();
+        },
+        _formatTitle: function() {
+          return this.selectedScripts.length > 1 ? "Delete Scripts" : "Delete Script";
+        },
+        _formatBody: function() {
+          var selectedScripts = this.selectedScripts,
+            names = selectedScripts
+            .map(function(script) {
+              return script.name;
+            })
+            .join(', ');
+
+          return (selectedScripts.length > 1 ? "Are you sure you want to delete these scripts: " : "Are you sure you want to delete this script: ") + names + "?";
         }
       });
     })();

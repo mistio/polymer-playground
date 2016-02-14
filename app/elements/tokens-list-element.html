@@ -59,7 +59,7 @@
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
     <token-add-element tokens="[[tokens]]"></token-add-element>
-    <iron-signals on-iron-signal-confirmation="_revokeTokenResponce"></iron-signals>
+    <dialog-element></dialog-element>
   </template>
 
   <script>
@@ -109,11 +109,14 @@
           'revokeToken': '_deleteSelectedToken',
           'toggleSelectedToken': '_toggleSelectedToken',
           'addToken': '_addToken',
+          'confirmation': '_revokeTokenResponse'
         },
         _tokensChanged: function(tokens, selectedTokens) {
           this.set('showDeleteOption', selectedTokens.base.length > 0);
 
           this.set('hasTokens', tokens.base.length > 0);
+
+          this.set('selectedToken', selectedTokens.base.length == 1 ? selectedTokens.base[0] : null);
 
           if (selectedTokens.base.length < tokens.base.length || tokens.base.length === 0) {
             this.set('selectAll', false);
@@ -168,32 +171,29 @@
         },
         _deleteSelectedTokens: function(e) {
           this._showDialog({
-            title: this._formatTitle(this.selectedTokens),
-            body: this._formatBody(this.selectedTokens) + "?",
+            title: this._formatTitle(),
+            body: this._formatBody(),
             danger: true,
             reason: "revoke_tokens"
           });
         },
-        _revokeTokenResponce: function(e) {
-          console.log(e);
+        _revokeTokenResponse: function(e) {
           var reason = e.detail.reason,
             response = e.detail.response;
 
-          if (response.confirmed) {
-            if (reason == "revoke_token") {
-              var token = this.selectedToken,
-                index = this.tokens.indexOf(token);
-              this.splice('tokens', index, 1);
-              this.$.selector.deselect(token);
-            }
+          if (response.confirmed && reason == "revoke_token") {
+            var token = this.selectedToken,
+              index = this.tokens.indexOf(token);
+            this.splice('tokens', index, 1);
+            this.$.selector.deselect(token);
+          }
 
-            if (reason == "revoke_tokens") {
-              this.selectedTokens.forEach(function(token, index) {
-                var index = this.tokens.indexOf(token);
-                this.splice('tokens', index, 1);
-              }, this);
-              this.$.selector.clearSelection();
-            }
+          if (response.confirmed && reason == "revoke_tokens") {
+            this.selectedTokens.forEach(function(token, index) {
+              var index = this.tokens.indexOf(token);
+              this.splice('tokens', index, 1);
+            }, this);
+            this.$.selector.clearSelection();
           }
         },
         _addToken: function(e) {
@@ -201,24 +201,25 @@
           this.push('tokens', token);
         },
         _showDialog: function(info) {
-          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          var dialog = this.querySelector('dialog-element');
           dialog.title = info.title;
           dialog.body = info.body;
           dialog.danger = info.danger;
           dialog.reason = info.reason;
           dialog._openDialog();
         },
-        _formatTitle: function(selectedTokens) {
-            return selectedTokens.length > 1 ? "Revoke Tokens" : "Revoke Token";
+        _formatTitle: function() {
+          return this.selectedTokens.length > 1 ? "Revoke Tokens" : "Revoke Token";
         },
-        _formatBody: function(selectedTokens) {
-          var names = selectedTokens
+        _formatBody: function() {
+          var selectedTokens = this.selectedTokens,
+            names = selectedTokens
             .map(function(token) {
               return token.name;
             })
             .join(', ');
 
-          return (selectedTokens.length > 1 ? "Are you sure you want to revoke these tokens: " : "Are you sure you want to revoke this token: ") + names;
+          return (selectedTokens.length > 1 ? "Are you sure you want to revoke these tokens: " : "Are you sure you want to revoke this token: ") + names + "?";
         }
       });
     })();

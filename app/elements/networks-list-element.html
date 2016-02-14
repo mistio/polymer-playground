@@ -61,6 +61,7 @@
     </paper-card>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddNetworkPage"></paper-fab>
+    <dialog-element></dialog-element>
   </template>
 
   <script>
@@ -125,7 +126,8 @@
         listeners: {
           'toggleSelectedNetwork': '_toggleSelectedNetwork',
           'addNetwork': '_addNetwork',
-          'updateSelectedNetwork': '_updateSelectedNetwork'
+          'updateSelectedNetwork': '_updateSelectedNetwork',
+          'confirmation': '_deleteSelectedResponse'
         },
         _computeSelectableNetworks: function(networks) {
           return networks.base.filter(function(network) {
@@ -134,7 +136,7 @@
         },
         _presentedNetworksChanged: function(networks, searchTerm, sortByTerm) {
           var presentedNetworks = [],
-          searchTerm = searchTerm.toLowerCase();
+            searchTerm = searchTerm.toLowerCase();
 
           var filteredNetworks = networks.base.filter(function(network) {
             var name = network.name.toLowerCase();
@@ -158,7 +160,7 @@
         },
         _computeSort: function(property, order) {
           var property = property.split('.'),
-          len = property.length;
+            len = property.length;
 
           return function(a, b) {
             var i = 0;
@@ -221,10 +223,23 @@
           }
         },
         _deleteSelected: function(e) {
-          this.selectedNetworks.slice().forEach(function(el, index) {
-            var index = this.networks.indexOf(el);
-            this.splice('networks', index, 1);
-          }, this);
+          this._showDialog({
+            title: this._formatTitle(),
+            body: this._formatBody(),
+            danger: true,
+            reason: "delete_networks"
+          });
+        },
+        _deleteSelectedResponse: function(e) {
+          var reason = e.detail.reason,
+            response = e.detail.response;
+
+          if (response.confirmed && reason == "delete_networks") {
+            this.selectedNetworks.slice().forEach(function(el, index) {
+              var index = this.networks.indexOf(el);
+              this.splice('networks', index, 1);
+            }, this);
+          }
         },
         _updateSelectedNetwork: function(e) {
           var network = e.detail.network,
@@ -238,6 +253,27 @@
         _addNetwork: function(e) {
           var network = e.detail.network;
           this.push('networks', network);
+        },
+        _showDialog: function(info) {
+          var dialog = this.querySelector('dialog-element');
+          dialog.title = info.title;
+          dialog.body = info.body;
+          dialog.danger = info.danger;
+          dialog.reason = info.reason;
+          dialog._openDialog();
+        },
+        _formatTitle: function() {
+          return this.selectedNetworks.length > 1 ? "Delete Networks" : "Delete Network";
+        },
+        _formatBody: function() {
+          var selectedNetworks = this.selectedNetworks,
+            names = selectedNetworks
+            .map(function(network) {
+              return network.name;
+            })
+            .join(', ');
+
+          return (selectedNetworks.length > 1 ? "Are you sure you want to delete these networks: " : "Are you sure you want to delete this network: ") + names + "?";
         }
       });
     })();
