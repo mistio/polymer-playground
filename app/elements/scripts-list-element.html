@@ -192,7 +192,7 @@
         },
         _selectAllChanged: function(e) {
           var selectAll = !this.selectAll,
-            els = Polymer.dom(this.root).querySelectorAll('script-item-element');
+            els = this.querySelectorAll('script-item-element');
 
           this.set('selectAll', selectAll);
           [].forEach.call(els, function(el, index) {
@@ -239,21 +239,21 @@
           }
         },
         _editSelected: function(e) {
-          var el = Polymer.dom(this.root).querySelector('script-edit-element');
+          var el = this.querySelector('script-edit-element');
           el._openEditScriptModal();
         },
         _runSelected: function(e) {
-          var el = Polymer.dom(this.root).querySelector('script-run-element');
+          var el = this.querySelector('script-run-element');
           el._openRunScriptModal();
         },
         _updateSelectedScript: function(e) {
           var script = e.detail.script,
-            index = this.filteredScripts.indexOf(script);
-          this.set('filteredScripts.' + index + '.name', script.name);
-          this.set('filteredScripts.' + index + '.description', script.description);
+            index = this.sortedScripts.indexOf(script);
+          this.set('sortedScripts.' + index + '.name', script.name);
+          this.set('sortedScripts.' + index + '.description', script.description);
         },
         _openAddScriptModal: function(e) {
-          var el = Polymer.dom(this.root).querySelector('script-add-element');
+          var el = this.querySelector('script-add-element');
           el._openAddScriptModal();
         },
         _addScript: function(e) {
@@ -261,7 +261,7 @@
           this.push('scripts', script);
         },
         _showDialog: function(info) {
-          var dialog = Polymer.dom(document).querySelector('dialog-element');
+          var dialog = document.querySelector('dialog-element');
           dialog.title = info.title;
           dialog.body = info.body;
           dialog.reason = info.reason;

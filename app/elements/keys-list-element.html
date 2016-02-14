@@ -134,7 +134,7 @@
           },
           sortByTerm: {
             type: String,
-            value: 'default'
+            value: 'id'
           }
         },
         observers: [
@@ -144,9 +144,11 @@
         listeners: {
           'toggleSelectedKey': '_toggleSelectedKey',
           'addKey': '_addKey',
-          'updateSelectedKey': '_updateSelectedKey'
+          'updateSelectedKey': '_updateSelectedKey',
+          'resort': '_filteredKeysChanged'
         },
         _computeFilteredKeys: function(keys, searchTerm) {
+          console.log(11);
           var searchTerm = searchTerm.toLowerCase();
           return keys.base.filter(function(key) {
             var id = key.id.toLowerCase();
@@ -154,6 +156,7 @@
           });
         },
         _filteredKeysChanged: function(filteredKeys, sortByTerm) {
+          console.log(22);
           var sortedKeys = [];
           if (sortByTerm == 'id') {
             sortedKeys = filteredKeys.base.sort(this._computeSort('id', 1));
@@ -164,6 +167,7 @@
           }
           this.set('sortedKeys', sortedKeys);
           this.querySelector('iron-list').notifyResize();
+          console.log(this.keys, this.filteredKeys, this.selectedKeys);
         },
         _sortKeys: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');
@@ -216,7 +220,6 @@
           } else {
             this.querySelector('iron-list').deselectItem(key);
           }
-          console.log(this.keys, this.filteredKeys, this.selectedKeys);
         },
         _toggleSearchSelected: function() {
           var showSearchOption = !this.showSearchOption;
@@ -231,28 +234,24 @@
             var index = this.keys.indexOf(el);
             this.splice('keys', index, 1);
           }, this);
-          console.log(this.selectedKeys, this.keys, this.sortedKeys);
         },
         _starSelected: function(e) {
           var selectedKey = this.selectedKey;
-          this.sortedKeys.forEach(function(key, index) {
-            this.set('sortedKeys.' + index + '.isDefault', key.id == selectedKey.id);
+          this.sortedKeys.forEach(function(el, index) {
+            this.set('sortedKeys.' + index + '.isDefault', el.id == selectedKey.id ? !selectedKey.isDefault : false);
           }, this);
-          //   this.$.selector.clearSelection();
-          this.querySelector('iron-list').notifyResize();
-          //   console.log(this.selectedKeys, this.keys, this.sortedKeys);
         },
         _editSelected: function(e) {
-          var el = Polymer.dom(this.root).querySelector('key-edit-element');
+          var el = this.querySelector('key-edit-element');
           el._openEditKeyModal();
         },
         _updateSelectedKey: function(e) {
           var key = e.detail.key,
-            index = this.keys.indexOf(key);
-          this.set('keys.' + index + '.id', key.id);
+            index = this.sortedKeys.indexOf(key);
+          this.set('sortedKeys.' + index + '.id', key.id);
         },
         _openAddKeyModal: function(e) {
-          var el = Polymer.dom(this.root).querySelector('key-add-element');
+          var el = this.querySelector('key-add-element');
           el._openAddKeyModal();
         },
         _addKey: function(e) {
