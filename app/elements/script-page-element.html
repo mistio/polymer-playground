@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="key-page-element">
+<dom-module id="script-page-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -13,9 +13,9 @@
       }
     </style>
 
-    <paper-card heading="Single Key">
+    <paper-card heading="Single Script">
       <div class="card-content">
-        <h2>[[key.id]]</h2>
+        <h2>[[script.name]]</h2>
       </div>
     </paper-card>
   </template>
@@ -25,22 +25,22 @@
       'use strict';
 
       Polymer({
-        is: 'key-page-element',
+        is: 'script-page-element',
 
         properties: {
-          key: {
+          script: {
             type: Object,
-            computed: '_computeKey(id)'
+            computed: '_computeScript(id)'
           },
           id: {
             type: String
           }
         },
-        _computeKey: function(id) {
+        _computeScript: function(id) {
           var current = null;
-          Mist.keys.forEach(function(key) {
-            if (key.id == id) {
-              current = key;
+          Mist.scripts.forEach(function(script) {
+            if (script.id == id) {
+              current = script;
             }
           }, this);
           return current;

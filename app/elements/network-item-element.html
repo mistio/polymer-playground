@@ -76,7 +76,7 @@
           }
         },
         _viewNetwork: function(e) {
-          window.location.hash = '!/networks/' + this.network.id;
+          page.show('/networks/' + this.network.id);
         },
         _selectNetwork: function(e) {
           // This is used to prevent event bubbling

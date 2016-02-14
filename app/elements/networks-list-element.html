@@ -251,7 +251,7 @@
           this.querySelector('iron-list').selectItem(network);
         },
         _openAddNetworkPage: function(e) {
-          window.location.href = 'http://localhost:5000/#!/add-network';
+          page.show('/add-network');
         },
         _addNetwork: function(e) {
           var network = e.detail.network;

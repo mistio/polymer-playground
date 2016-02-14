@@ -272,11 +272,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Keys List</span>
           </a>
 
-          <a data-route="key" href="/keys/1">
-            <iron-icon icon="communication:vpn-key"></iron-icon>
-            <span>Single Key</span>
-          </a>
-
           <a data-route="networks" href="/networks">
             <iron-icon icon="hardware:device-hub"></iron-icon>
             <span>Networks List</span>
@@ -456,13 +451,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <keys-list-element data-route="keys"></keys-list-element>
 
-            <key-page-element data-route="key" params="[[params]]"></key-page-element>
+            <key-page-element data-route="key" id="[[params.id]]"></key-page-element>
 
             <networks-list-element data-route="networks"></networks-list-element>
+
+            <network-page-element data-route="network" id="[[params.id]]"></network-page-element>
 
             <network-add-element data-route="add-network"></network-add-element>
 
             <scripts-list-element data-route="scripts"></scripts-list-element>
+
+            <script-page-element data-route="script" id="[[params.id]]"></script-page-element>
 
             <script-add-element data-route="add-script"></script-add-element>
 

@@ -68,7 +68,7 @@
           });
         },
         _viewScript: function(e) {
-          window.location.hash = '!/scripts/' + this.script.id;
+          page.show('/scripts/' + this.script.id);
         },
         _selectScript: function(e) {
           // This is used to prevent event bubbling
