@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="info-body">
-            <iron-list items="[[sortedKeys]]" as="key" selected-items="{{selectedKeys}}" multi-selection>
+            <iron-list items="[[presentedKeys]]" as="key" selected-items="{{selectedKeys}}" multi-selection>
               <template>
                 <key-item-element selected="{{selected}}" key="[[key]]"></key-item-element>
               </template>
@@ -88,11 +88,7 @@
               return Mist.keys;
             }
           },
-          filteredKeys: {
-            type: Array,
-            computed: '_computeFilteredKeys(keys.*, searchTerm)'
-          },
-          sortedKeys: {
+          presentedKeys: {
             type: Array
           },
           selectedKey: {
@@ -139,35 +135,32 @@
         },
         observers: [
           '_keysChanged(keys.*, selectedKeys.*)',
-          '_filteredKeysChanged(filteredKeys.*, sortByTerm)'
+          '_presentedKeysChanged(keys.*, searchTerm, sortByTerm)'
         ],
         listeners: {
           'toggleSelectedKey': '_toggleSelectedKey',
           'addKey': '_addKey',
-          'updateSelectedKey': '_updateSelectedKey',
-          'resort': '_filteredKeysChanged'
+          'updateSelectedKey': '_updateSelectedKey'
         },
-        _computeFilteredKeys: function(keys, searchTerm) {
-          console.log(11);
-          var searchTerm = searchTerm.toLowerCase();
-          return keys.base.filter(function(key) {
+        _presentedKeysChanged: function(keys, searchTerm, sortByTerm) {
+          var presentedKeys = [],
+          searchTerm = searchTerm.toLowerCase();
+
+          var filteredKeys = keys.base.filter(function(key) {
             var id = key.id.toLowerCase();
             return id.indexOf(searchTerm) != -1;
           });
-        },
-        _filteredKeysChanged: function(filteredKeys, sortByTerm) {
-          console.log(22);
-          var sortedKeys = [];
+
           if (sortByTerm == 'id') {
-            sortedKeys = filteredKeys.base.sort(this._computeSort('id', 1));
+            presentedKeys = filteredKeys.sort(this._computeSort('id', 1));
           } else if (sortByTerm == 'default') {
-            sortedKeys = filteredKeys.base.sort(this._computeSort('isDefault', -1));
+            presentedKeys = filteredKeys.sort(this._computeSort('isDefault', -1));
           } else {
-            sortedKeys = filteredKeys.base;
+            presentedKeys = filteredKeys;
           }
-          this.set('sortedKeys', sortedKeys);
+
+          this.set('presentedKeys', presentedKeys);
           this.querySelector('iron-list').notifyResize();
-          console.log(this.keys, this.filteredKeys, this.selectedKeys);
         },
         _sortKeys: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');
@@ -237,9 +230,10 @@
         },
         _starSelected: function(e) {
           var selectedKey = this.selectedKey;
-          this.sortedKeys.forEach(function(el, index) {
-            this.set('sortedKeys.' + index + '.isDefault', el.id == selectedKey.id ? !selectedKey.isDefault : false);
+          this.keys.forEach(function(el, index) {
+            this.set('keys.' + index + '.isDefault', el.id == selectedKey.id ? !selectedKey.isDefault : false);
           }, this);
+          this.querySelector('iron-list').selectItem(selectedKey);
         },
         _editSelected: function(e) {
           var el = this.querySelector('key-edit-element');
@@ -247,8 +241,9 @@
         },
         _updateSelectedKey: function(e) {
           var key = e.detail.key,
-            index = this.sortedKeys.indexOf(key);
-          this.set('sortedKeys.' + index + '.id', key.id);
+            index = this.keys.indexOf(key);
+          this.set('keys.' + index + '.id', key.id);
+          this.querySelector('iron-list').selectItem(key);
         },
         _openAddKeyModal: function(e) {
           var el = this.querySelector('key-add-element');

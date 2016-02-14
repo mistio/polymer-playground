@@ -19,6 +19,11 @@
       .flexchild {
         @apply(--layout-flex);
       }
+
+      .info-head > * {
+        font-weight: 700;
+        padding: 8px 0;
+      }
     </style>
 
     <paper-card heading="Networks">
@@ -41,7 +46,7 @@
             </div>
           </div>
           <div class="info-body">
-            <iron-list items="[[sortedNetworks]]" as="network" selected-items="{{selectedNetworks}}" multi-selection>
+            <iron-list items="[[presentedNetworks]]" as="network" selected-items="{{selectedNetworks}}" multi-selection>
               <template>
                 <network-item-element selected="{{selected}}" network="[[network]]"></network-item-element>
               </template>
@@ -72,15 +77,11 @@
               return Mist.networks;
             }
           },
-          filteredNetworks: {
-            type: Array,
-            computed: '_computeFilteredNetworks(networks.*, searchTerm)'
-          },
           selectableNetworks: {
             type: Array,
             computed: '_computeSelectableNetworks(networks.*)'
           },
-          sortedNetworks: {
+          presentedNetworks: {
             type: Array
           },
           selectedNetwork: {
@@ -119,7 +120,7 @@
         },
         observers: [
           '_networksChanged(networks.*, selectableNetworks.*, selectedNetworks.*)',
-          '_filteredNetworksChanged(filteredNetworks.*, sortByTerm)'
+          '_presentedNetworksChanged(networks.*, searchTerm, sortByTerm)'
         ],
         listeners: {
           'toggleSelectedNetwork': '_toggleSelectedNetwork',
@@ -131,23 +132,24 @@
             return network.cloud.provider == 'openstack';
           });
         },
-        _computeFilteredNetworks: function(networks, searchTerm) {
-          var searchTerm = searchTerm.toLowerCase();
-          return networks.base.filter(function(network) {
+        _presentedNetworksChanged: function(networks, searchTerm, sortByTerm) {
+          var presentedNetworks = [],
+          searchTerm = searchTerm.toLowerCase();
+
+          var filteredNetworks = networks.base.filter(function(network) {
             var name = network.name.toLowerCase();
             return name.indexOf(searchTerm) != -1;
           });
-        },
-        _filteredNetworksChanged: function(filteredNetworks, sortByTerm) {
-          var sortedNetworks = [];
+
           if (sortByTerm == 'name') {
-            sortedNetworks = filteredNetworks.base.sort(this._computeSort('name', 1));
+            presentedNetworks = filteredNetworks.sort(this._computeSort('name', 1));
           } else if (sortByTerm == 'provider') {
-            sortedNetworks = filteredNetworks.base.sort(this._computeSort('cloud.provider', 1));
+            presentedNetworks = filteredNetworks.sort(this._computeSort('cloud.provider', 1));
           } else {
-            sortedNetworks = filteredNetworks.base;
+            presentedNetworks = filteredNetworks;
           }
-          this.set('sortedNetworks', sortedNetworks);
+
+          this.set('presentedNetworks', presentedNetworks);
           this.querySelector('iron-list').notifyResize();
         },
         _sortNetworks: function(e) {
@@ -209,7 +211,6 @@
           } else {
             this.querySelector('iron-list').deselectItem(network);
           }
-          console.log(this.networks, this.filteredNetworks, this.selectedNetworks);
         },
         _toggleSearchSelected: function() {
           var showSearchOption = !this.showSearchOption;
@@ -224,12 +225,12 @@
             var index = this.networks.indexOf(el);
             this.splice('networks', index, 1);
           }, this);
-          console.log(this.networks, this.filteredNetworks, this.selectedNetworks);
         },
         _updateSelectedNetwork: function(e) {
           var network = e.detail.network,
-            index = this.filteredNetworks.indexOf(network);
-          this.set('filteredNetworks.' + index + '.id', network.id);
+            index = this.networks.indexOf(network);
+          this.set('networks.' + index + '.id', network.id);
+          this.querySelector('iron-list').selectItem(network);
         },
         _openAddNetworkPage: function(e) {
           window.location.href = 'http://localhost:5000/#!/add-network';
