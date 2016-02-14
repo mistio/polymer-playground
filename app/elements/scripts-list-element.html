@@ -37,14 +37,18 @@
         <div hidden$="[[!hasScripts]]" class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
+              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
+              Νame
+              <paper-icon-button icon="expand-more" on-tap="_sortScripts" sort-option="name"></paper-icon-button>
             </div>
-            <div class="flexchild">Type</div>
+            <div class="flexchild">Type
+              <paper-icon-button icon="expand-more" on-tap="_sortScripts" sort-option="type"></paper-icon-button>
+            </div>
           </div>
           <div class="info-body">
-            <iron-list items="[[filteredScripts]]" as="script" sort="_computeSort">
+            <iron-list items="[[sortedScripts]]" as="script" sort="_computeSort">
               <template>
-                <script-item-element script="[[script]]"></script-item-element>
+                <script-item-element selected="{{selected}}" script="[[script]]"></script-item-element>
               </template>
             </iron-list>
           </div>
@@ -81,6 +85,9 @@
           filteredScripts: {
             type: Array,
             computed: '_computeFilteredScripts(scripts.*, searchTerm)'
+          },
+          sortedKeys: {
+            type: Array
           },
           selectedScript: {
             type: Object,
@@ -120,18 +127,20 @@
             type: String,
             value: '',
             notify: true
+          },
+          sortByTerm: {
+            type: String,
+            value: 'name'
           }
         },
         observers: [
-          '_scriptsChanged(scripts.*, selectedScripts.*)'
+          '_scriptsChanged(scripts.*, selectedScripts.*)',
+          '_filteredScriptsChanged(filteredScripts.*, sortByTerm)'
         ],
         listeners: {
           'toggleSelectedScript': '_toggleSelectedScript',
           'addScript': '_addScript',
           'updateSelectedScript': '_updateSelectedScript'
-        },
-        _computeSort: function(a, b) {
-          return a.isDefault === b.isDefault ? 0 : (a.isDefault ? -1 : 1);
         },
         _computeFilteredScripts: function(scripts, searchTerm) {
           var searchTerm = searchTerm.toLowerCase();
@@ -139,6 +148,30 @@
             var name = script.name.toLowerCase();
             return name.indexOf(searchTerm) != -1;
           });
+        },
+        _filteredScriptsChanged: function(filteredScripts, sortByTerm) {
+          var sortedScripts = [];
+          if (sortByTerm == 'name') {
+            sortedScripts = filteredScripts.base.sort(this._computeSort('name', 1));
+          } else if (sortByTerm == 'type') {
+            sortedScripts = filteredScripts.base.sort(this._computeSort('type', 1));
+          } else {
+            sortedScripts = filteredScripts.base;
+          }
+          this.set('sortedScripts', sortedScripts);
+          this.querySelector('iron-list').notifyResize();
+        },
+        _sortScripts: function(e) {
+          var sortByTerm = e.currentTarget.getAttribute('sort-option');
+          this.set('sortByTerm', sortByTerm);
+        },
+        _computeSort: function(property, order) {
+          return function(a, b) {
+            if (a[property] === b[property]) {
+              return 0;
+            }
+            return (order * (a[property] > b[property] ? 1 : -1));
+          };
         },
         _scriptsChanged: function(scripts, selectedScripts) {
           this.set('showDeleteOption', selectedScripts.base.length > 0);

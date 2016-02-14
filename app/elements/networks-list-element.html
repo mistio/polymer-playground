@@ -202,7 +202,6 @@
           }, this);
         },
         _toggleSelectedNetwork: function(e) {
-          console.log(e);
           var selected = e.detail.selected,
             network = e.detail.network;
           if (selected) {
@@ -221,7 +220,6 @@
           }
         },
         _deleteSelected: function(e) {
-          console.log(this.selectedNetworks);
           this.selectedNetworks.slice().forEach(function(el, index) {
             var index = this.networks.indexOf(el);
             this.splice('networks', index, 1);
