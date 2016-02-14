@@ -228,7 +228,7 @@
         },
         _deleteSelected: function(e) {
           this.selectedKeys.slice().forEach(function(el, index) {
-            var index = this.sortedKeys.indexOf(el);
+            var index = this.keys.indexOf(el);
             this.splice('keys', index, 1);
           }, this);
           console.log(this.selectedKeys, this.keys, this.sortedKeys);

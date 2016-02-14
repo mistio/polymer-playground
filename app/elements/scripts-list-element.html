@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="info-body">
-            <iron-list items="[[sortedScripts]]" as="script" sort="_computeSort">
+            <iron-list items="[[sortedScripts]]" as="script" selected-items="{{selectedScripts}}" multi-selection>
               <template>
                 <script-item-element selected="{{selected}}" script="[[script]]"></script-item-element>
               </template>
@@ -59,8 +59,6 @@
         </p>
       </div>
     </paper-card>
-
-    <array-selector id="selector" items="[[filteredScripts]]" selected="{{selectedScripts}}" multi toggle></array-selector>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
@@ -86,7 +84,7 @@
             type: Array,
             computed: '_computeFilteredScripts(scripts.*, searchTerm)'
           },
-          sortedKeys: {
+          sortedScripts: {
             type: Array
           },
           selectedScript: {
@@ -202,7 +200,14 @@
           }, this);
         },
         _toggleSelectedScript: function(e) {
-          this.$.selector.select(e.detail.script);
+          var selected = e.detail.selected,
+            script = e.detail.script;
+          if (selected) {
+            this.querySelector('iron-list').selectItem(script);
+          } else {
+            this.querySelector('iron-list').deselectItem(script);
+          }
+          console.log(this.scripts, this.filteredScripts, this.selectedScripts);
         },
         _toggleSearchSelected: function() {
           var showSearchOption = !this.showSearchOption;
@@ -225,13 +230,11 @@
 
           if (response.confirmed) {
             if (reason == "delete_scripts") {
-              console.log('i am deleting scrips');
-
-              //   this.selectedScripts.forEach(function(script, index) {
-              //     var index = this.scripts.indexOf(script);
-              //     this.splice('scripts', index, 1);
-              //   }, this);
-              //   this.$.selector.clearSelection();
+              this.selectedScripts.slice().forEach(function(el, index) {
+                var index = this.scripts.indexOf(el);
+                this.splice('scripts', index, 1);
+              }, this);
+              console.log(this.selectedScripts, this.scripts, this.sortedScripts);
             }
           }
         },

@@ -10,7 +10,7 @@
     "polymer": "Polymer/polymer#^1.2.0",
     "app-router": "^2.6.1",
     "iron-routes": "*",
-    "gravatar-component": "^1.0.2"
+    "gravatar-component": "^1.0.3"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
