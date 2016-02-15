@@ -101,13 +101,10 @@
           return current;
         },
         _computeHasSubnets: function(subnets) {
-          return subnets.length > 0;
+          return subnets && subnets.length;
         },
         _computeIsOpenstack: function(provider) {
           return provider == 'openstack';
-        },
-        _openFABMenu: function(e) {
-          console.log(e);
         },
         _deleteNetwork: function(e) {
           this._showDialog({
@@ -133,9 +130,6 @@
             dialog[i] = info[i];
           }
           dialog._openDialog();
-        },
-        _formatTitle: function() {
-          return this.selectedNetworks.length > 1 ? "Delete Networks" : "Delete Network";
         }
       });
     })();
