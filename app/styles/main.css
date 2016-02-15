@@ -39,6 +39,11 @@ paper-fab {
   bottom: 100px;
   right: 100px;
 }
+.fab-menu {
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+}
 paper-dialog paper-icon-button.close {
   position: absolute;
   margin: 0;

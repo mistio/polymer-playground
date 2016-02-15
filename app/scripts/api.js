@@ -169,7 +169,57 @@ var Mist = {
     id: "59887",
     is_default: true,
     name: "default_public_network",
-    subnets: [],
+    subnets: [{
+      announce_cidr: false,
+      cidr_str: "198.100.164.72/29",
+      id: 236649,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: true,
+      name: "198.100.164.72/29",
+      routing_prefix: "198.100.164.72",
+      uri: "https://api.nephoscale.com/network/cidr/236649/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "198.100.164.72/28",
+      id: 254479,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "198.100.164.72/28",
+      routing_prefix: "198.100.161.224",
+      uri: "https://api.nephoscale.com/network/cidr/254479/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "69.50.244.0/28",
+      id: 727453,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.0/28",
+      routing_prefix: "69.50.244.0",
+      uri: "https://api.nephoscale.com/network/cidr/727453/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "69.50.244.192/28",
+      id: 738519,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.192/28",
+      routing_prefix: "69.50.244.192",
+      uri: "https://api.nephoscale.com/network/cidr/738519/"
+    }, {
+      announce_cidr: true,
+      cidr_str: "69.50.244.208/28",
+      id: 738521,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.208/28",
+      routing_prefix: "69.50.244.208",
+      uri: "https://api.nephoscale.com/network/cidr/738521/"
+    }],
     cloud: {
       id: "418XPpTRLsNEpJeJ62jnGs8z7VJu",
       title: "Nephoscale",
@@ -195,7 +245,9 @@ var Mist = {
     is_default: false,
     name: "vpc-c20824a7",
     state: "available",
-    subnets: [],
+    subnets: [{
+        name: "172.30.0.0/16"
+    }],
     cloud: {
       id: "d98cBYrPqjpAcybzriwznme1a9d",
       title: "EC2 Ireland",
@@ -207,7 +259,57 @@ var Mist = {
     name: "public",
     public: true,
     router_external: true,
-    subnets: [],
+    subnets: [{
+      announce_cidr: false,
+      cidr_str: "198.100.164.72/29",
+      id: 236649,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: true,
+      name: "198.100.164.72/29",
+      routing_prefix: "198.100.164.72",
+      uri: "https://api.nephoscale.com/network/cidr/236649/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "198.100.164.72/28",
+      id: 254479,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "198.100.164.72/28",
+      routing_prefix: "198.100.161.224",
+      uri: "https://api.nephoscale.com/network/cidr/254479/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "69.50.244.0/28",
+      id: 727453,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.0/28",
+      routing_prefix: "69.50.244.0",
+      uri: "https://api.nephoscale.com/network/cidr/727453/"
+    }, {
+      announce_cidr: false,
+      cidr_str: "69.50.244.192/28",
+      id: 738519,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.192/28",
+      routing_prefix: "69.50.244.192",
+      uri: "https://api.nephoscale.com/network/cidr/738519/"
+    }, {
+      announce_cidr: true,
+      cidr_str: "69.50.244.208/28",
+      id: 738521,
+      ip_type: 0,
+      ip_version: 4,
+      is_primary: false,
+      name: "69.50.244.208/28",
+      routing_prefix: "69.50.244.208",
+      uri: "https://api.nephoscale.com/network/cidr/738521/"
+    }],
     status: "ACTIVE",
     extra: {
       admin_state_up: true,
@@ -253,6 +355,19 @@ var Mist = {
       shared: false,
       tenant_id: "45ebca827956466eb48499c4331825b8"
     },
+    subnets: [{
+      id: "9db08cdc-97d5-43cc-b842-9abb910015cd",
+      name: "public_subnet",
+      cidr: "69.50.244.208/28",
+      dns_nameservers: [],
+      allocation_pools: [{
+        end: "69.50.244.222",
+        start: "69.50.244.217"
+      }],
+      enable_dhcp: false,
+      gateway_ip: "69.50.244.209",
+      ip_version: 4
+    }],
     cloud: {
       id: "Lyx7GdQXyLi7RqKb3vehY4Y3y2c",
       title: "Openstack",
@@ -275,6 +390,19 @@ var Mist = {
       shared: false,
       tenant_id: "45ebca827956466eb48499c4331825b8"
     },
+    subnets: [{
+      id: "9db08cdc-97d5-43cc-b842-9abb910015cd",
+      name: "public_subnet",
+      cidr: "69.50.244.208/28",
+      dns_nameservers: [],
+      allocation_pools: [{
+        end: "69.50.244.222",
+        start: "69.50.244.217"
+      }],
+      enable_dhcp: false,
+      gateway_ip: "69.50.244.209",
+      ip_version: 4
+    }],
     cloud: {
       id: "Lyx7GdQXyLi7RqKb3vehY4Y3y2c",
       title: "Openstack",
