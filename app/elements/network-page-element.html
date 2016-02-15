@@ -10,12 +10,48 @@
 
       paper-card {
         display: block;
+        margin-bottom: 50px;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
       }
     </style>
 
-    <paper-card heading="Single Network">
+    <paper-card heading="Network Information">
       <div class="card-content">
-        <h2>[[network.name]]</h2>
+        <div class="info-table">
+          <div class="info-body info-group">
+            <div class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Name</div>
+              <div class="flexchild">[[network.name]]</div>
+            </div>
+            <div class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">ID</div>
+              <div class="flexchild">[[network.id]]</div>
+            </div>
+            <div hidden$=[[!network.status]] class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Status</div>
+              <div class="flexchild">[[network.status]]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </paper-card>
+
+    <paper-card hidden$="[[!hasSubnets]]" heading="Subnets ([[network.subnets.length]])">
+      <div class="card-content">
+        <div class="info-table">
+          <div class="info-body">
+            <template is="dom-repeat" items="[[network.subnets]]" as="subnet">
+              <subnet-item-element subnet="[[subnet]]"></subnet-item-element>
+            </template>
+          </div>
+        </div>
       </div>
     </paper-card>
   </template>
@@ -34,7 +70,11 @@
           },
           id: {
             type: String
-          }
+          },
+          hasSubnets: {
+            type: Boolean,
+            computed: '_computeHasSubnets(network.subnets)'
+          },
         },
         _computeNetwork: function(id) {
           var current = null;
@@ -44,8 +84,12 @@
             }
           }, this);
           return current;
+        },
+        _computeHasSubnets: function(subnets) {
+          console.log(subnets);
+          return subnets.length > 0;
         }
       });
     })();
-</script>
+  </script>
 </dom-module>

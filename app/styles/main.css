@@ -56,20 +56,17 @@ paper-button.green {
   background-color: green;
   color: #fff;
 }
-paper-button.purple,
-paper-button.submit-btn {
+paper-button.purple, paper-button.submit-btn {
   background-color: #3f51b5;
   color: #fff;
   margin: 20px 0 0;
 }
-paper-button.purple[disabled],
-paper-button.submit-btn[disabled] {
+paper-button.purple[disabled], paper-button.submit-btn[disabled] {
   background-color: #ccc;
   color: #fff;
   cursor: not-allowed;
 }
-paper-button.btn-block,
-paper-dropdown-menu.dropdown-block {
+paper-button.btn-block, paper-dropdown-menu.dropdown-block {
   display: block;
 }
 
@@ -134,5 +131,17 @@ paper-dropdown-menu.dropdown-block {
   background-color: #f2f2f2;
 }
 .info-body .info-item.last {
+  border: none;
+}
+
+/* Table Basic Styling */
+
+.info-table .info-item .flexchild:first-of-type {
+  font-weight: 700;
+}
+.info-table .info-group .info-item:nth-of-type(2n) {
+  background-color: #f2f2f2;
+}
+.info-table .info-group .info-item:last-of-type {
   border: none;
 }

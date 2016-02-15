@@ -1,0 +1,77 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="subnet-item-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <div class="info-group">
+      <div hidden$="[[!subnet.name]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">Name</div>
+        <div class="flexchild">[[subnet.name]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.id]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">ID</div>
+        <div class="flexchild">[[subnet.id]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.zone]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">Zone</div>
+        <div class="flexchild">[[subnet.zone.name]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.cidr]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">Cidr</div>
+        <div class="flexchild">[[subnet.cidr]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.enable_dhcp]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">DHCP Enabled</div>
+        <div class="flexchild">[[subnet.enable_dhcp]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.gateway_ip]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">Gateway IP</div>
+        <div class="flexchild">[[subnet.gateway_ip]]</div>
+      </div>
+
+      <div hidden$="[[!subnet.dns_nameservers.length]]" class="info-item flex-horizontal-with-ratios">
+        <div class="flexchild">DNS Nameservers</div>
+        <div class="flexchild">
+          <template is="dom-repeat" items="[[subnet.dns_nameservers]]" as="nameserver">
+            <div class="ip">[[nameserver]]</div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'subnet-item-element',
+
+        properties: {
+          subnet: {
+            type: Object
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

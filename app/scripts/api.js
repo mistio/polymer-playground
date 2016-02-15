@@ -209,6 +209,28 @@ var Mist = {
     router_external: true,
     subnets: [],
     status: "ACTIVE",
+    extra: {
+      admin_state_up: true,
+      mtu: 0,
+      "provider:network_type": "vxlan",
+      "provider:physical_network": null,
+      "provider:segmentation_id": 72,
+      shared: false,
+      tenant_id: "45ebca827956466eb48499c4331825b8"
+    },
+    subnets: [{
+      id: "9db08cdc-97d5-43cc-b842-9abb910015cd",
+      name: "public_subnet",
+      cidr: "69.50.244.208/28",
+      dns_nameservers: [],
+      allocation_pools: [{
+        end: "69.50.244.222",
+        start: "69.50.244.217"
+      }],
+      enable_dhcp: false,
+      gateway_ip: "69.50.244.209",
+      ip_version: 4
+    }],
     cloud: {
       id: "Lyx7GdQXyLi7RqKb3vehY4Y3y2c",
       title: "Openstack",
@@ -222,6 +244,15 @@ var Mist = {
     router_external: false,
     subnets: [],
     status: "ACTIVE",
+    extra: {
+      admin_state_up: true,
+      mtu: 0,
+      "provider:network_type": "vxlan",
+      "provider:physical_network": null,
+      "provider:segmentation_id": 72,
+      shared: false,
+      tenant_id: "45ebca827956466eb48499c4331825b8"
+    },
     cloud: {
       id: "Lyx7GdQXyLi7RqKb3vehY4Y3y2c",
       title: "Openstack",
@@ -235,6 +266,15 @@ var Mist = {
     router_external: false,
     subnets: [],
     status: "ACTIVE",
+    extra: {
+      admin_state_up: true,
+      mtu: 0,
+      "provider:network_type": "vxlan",
+      "provider:physical_network": null,
+      "provider:segmentation_id": 72,
+      shared: false,
+      tenant_id: "45ebca827956466eb48499c4331825b8"
+    },
     cloud: {
       id: "Lyx7GdQXyLi7RqKb3vehY4Y3y2c",
       title: "Openstack",
