@@ -25,7 +25,7 @@
       }
     </style>
 
-    <paper-item on-tap="_viewNetwork" class="info-item flex-horizontal-with-ratios">
+    <paper-item on-tap="_viewNetwork" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
       <div class="flexchild">
         <paper-checkbox checked="{{selected}}" disabled$="[[!isOpenstack]]" on-tap="_selectNetwork"></paper-checkbox> [[network.name]]
       </div>
@@ -50,6 +50,16 @@
             value: false,
             notify: true
           },
+          index: {
+            type: Number
+          },
+          count: {
+            type: Number
+          },
+          indexClass: {
+            type: String,
+            computed: '_computeIsIndexClass(index, count)'
+          },
           isOpenstack: {
             type: Boolean,
             computed: '_computeIsOpenstack(network.cloud.provider)'
@@ -58,8 +68,13 @@
         listeners: {
           'selected-changed': '_selectNetworkChanged'
         },
-        ready: function() {
-
+        _computeIsIndexClass: function(index, count) {
+          var classes = [];
+          classes.push(
+            (index + 1) % 2 == 0 ? 'even' : 'odd',
+            index + 1 == count ? 'last' : null
+          );
+          return classes.join(' ');
         },
         _computeIsOpenstack: function(provider) {
           return provider == 'openstack';

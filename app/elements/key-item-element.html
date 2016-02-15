@@ -25,7 +25,7 @@
       }
     </style>
 
-    <paper-item on-tap="_viewKey" class="info-item flex-horizontal-with-ratios">
+    <paper-item on-tap="_viewKey" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
       <div class="flexchild">
         <paper-checkbox checked="{{selected}}" on-tap="_selectKey"></paper-checkbox> [[key.id]]
       </div>
@@ -49,6 +49,16 @@
             value: false,
             notify: true
           },
+          index: {
+            type: Number
+          },
+          count: {
+            type: Number
+          },
+          indexClass: {
+            type: String,
+            computed: '_computeIsIndexClass(index, count)'
+          },
           isDefaultText: {
             type: String,
             computed: '_computeIsDefaultText(key.isDefault)'
@@ -59,6 +69,14 @@
         },
         _computeIsDefaultText: function(isDefault) {
           return isDefault ? 'Default' : null;
+        },
+        _computeIsIndexClass: function(index, count) {
+          var classes = [];
+          classes.push(
+            (index + 1) % 2 == 0 ? 'even' : 'odd',
+            index + 1 == count ? 'last' : null
+          );
+          return classes.join(' ');
         },
         _selectKeyChanged: function(e) {
           var selected = e.detail.value;

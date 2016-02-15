@@ -54,7 +54,7 @@
           <div class="info-body">
             <iron-list items="[[presentedNetworks]]" as="network" selected-items="{{selectedNetworks}}" multi-selection>
               <template>
-                <network-item-element selected="{{selected}}" network="[[network]]"></network-item-element>
+                <network-item-element selected="{{selected}}" network="[[network]]" index="[[index]]" count="[[presentedNetworks.length]]"></network-item-element>
               </template>
             </iron-list>
           </div>

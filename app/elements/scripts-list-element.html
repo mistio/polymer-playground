@@ -60,7 +60,7 @@
           <div class="info-body">
             <iron-list items="[[presentedScripts]]" as="script" selected-items="{{selectedScripts}}" multi-selection>
               <template>
-                <script-item-element selected="{{selected}}" script="[[script]]"></script-item-element>
+                <script-item-element selected="{{selected}}" script="[[script]]" index="[[index]]" count="[[presentedScripts.length]]"></script-item-element>
               </template>
             </iron-list>
           </div>

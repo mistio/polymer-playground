@@ -60,7 +60,7 @@
           <div class="info-body">
             <iron-list items="[[presentedKeys]]" as="key" selected-items="{{selectedKeys}}" multi-selection>
               <template>
-                <key-item-element selected="{{selected}}" key="[[key]]"></key-item-element>
+                <key-item-element selected="{{selected}}" key="[[key]]" index="[[index]]" count="[[presentedKeys.length]]"></key-item-element>
               </template>
             </iron-list>
           </div>
