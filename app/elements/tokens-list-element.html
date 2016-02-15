@@ -199,6 +199,8 @@
             }, this);
             this.$.selector.clearSelection();
           }
+
+          this._showNotification('Tokens were deleted!');
         },
         _addToken: function(e) {
           var token = e.detail.token;
@@ -224,6 +226,11 @@
             .join(', ');
 
           return (selectedTokens.length > 1 ? "Are you sure you want to revoke these tokens: " : "Are you sure you want to revoke this token: ") + names + "?";
+        },
+        _showNotification: function(title) {
+          var notification = document.querySelector('notification-element');
+          notification.title = title;
+          notification._openToast();
         }
       });
     })();

@@ -249,6 +249,8 @@
               var index = this.networks.indexOf(el);
               this.splice('networks', index, 1);
             }, this);
+
+            this._showNotification('Networks were deleted!');
           }
         },
         _updateSelectedNetwork: function(e) {
@@ -284,6 +286,11 @@
             .join(', ');
 
           return (selectedNetworks.length > 1 ? "Are you sure you want to delete these networks: " : "Are you sure you want to delete this network: ") + names + "?";
+        },
+        _showNotification: function(title) {
+          var notification = document.querySelector('notification-element');
+          notification.title = title;
+          notification._openToast();
         }
       });
     })();

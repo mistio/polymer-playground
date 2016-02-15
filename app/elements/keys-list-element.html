@@ -243,6 +243,8 @@
               var index = this.keys.indexOf(el);
               this.splice('keys', index, 1);
             }, this);
+
+            this._showNotification('Keys were deleted!');
           }
         },
         _starSelected: function(e) {
@@ -290,6 +292,11 @@
             .join(', ');
 
           return (selectedKeys.length > 1 ? "Are you sure you want to delete these keys: " : "Are you sure you want to delete this key: ") + names + "?";
+        },
+        _showNotification: function(title) {
+          var notification = document.querySelector('notification-element');
+          notification.title = title;
+          notification._openToast();
         }
       });
     })();

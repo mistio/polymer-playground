@@ -168,6 +168,8 @@
             }, this);
             this.$.selector.clearSelection();
           }
+
+          this._showNotification('Sessions were deleted!');
         },
         _showDialog: function(info) {
           var dialog = this.querySelector('dialog-element'),
@@ -182,6 +184,11 @@
         },
         _formatBody: function() {
           return this.selectedSessions.length > 1 ? "Are you sure you want to terminate these sessions?" : "Are you sure you want to terminate this session?";
+        },
+        _showNotification: function(title) {
+          var notification = document.querySelector('notification-element');
+          notification.title = title;
+          notification._openToast();
         }
       });
     })();
