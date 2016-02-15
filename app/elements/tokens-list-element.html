@@ -190,6 +190,8 @@
               index = this.tokens.indexOf(token);
             this.splice('tokens', index, 1);
             this.$.selector.deselect(token);
+
+            this._showNotification('Token was deleted!');
           }
 
           if (response.confirmed && reason == "revoke_tokens") {
@@ -198,9 +200,9 @@
               this.splice('tokens', index, 1);
             }, this);
             this.$.selector.clearSelection();
-          }
 
-          this._showNotification('Tokens were deleted!');
+            this._showNotification('Tokens were deleted!');
+          }
         },
         _addToken: function(e) {
           var token = e.detail.token;

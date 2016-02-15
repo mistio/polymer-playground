@@ -481,6 +481,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <script-add-element data-route="add-script"></script-add-element>
 
+            <app-main></app-main>
+
             <templates-list-element data-route="templates"></templates-list-element>
 
             <template-add-element data-route="add-template"></template-add-element>
@@ -507,32 +509,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel>
     </paper-drawer-panel>
 
-    <dialog-element></dialog-element>
-
     <notification-element></notification-element>
-
-    <paper-toast id="toast">
-      <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
-    </paper-toast>
-
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          base-uri="bower_components/platinum-sw/bootstrap"
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="fastest"
-                         cache-config-file="cache-config.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-    -->
-
   </template>
 
   <!-- build:js scripts/app.js -->

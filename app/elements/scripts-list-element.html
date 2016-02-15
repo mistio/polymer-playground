@@ -245,12 +245,12 @@
             response = e.detail.response;
 
           if (response.confirmed && reason == "delete_scripts") {
+            this._showNotification(this.selectedScripts.length > 1 ? 'Scripts were deleted!' : 'Script was deleted!');
+
             this.selectedScripts.slice().forEach(function(el, index) {
               var index = this.scripts.indexOf(el);
               this.splice('scripts', index, 1);
             }, this);
-
-            this._showNotification('Scripts were deleted!');
           }
         },
         _editSelected: function(e) {

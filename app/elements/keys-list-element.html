@@ -239,12 +239,12 @@
             response = e.detail.response;
 
           if (response.confirmed && reason == "delete_keys") {
+            this._showNotification(this.selectedKeys.length > 1 ? 'Keys were deleted!' : 'Key was deleted!');
+
             this.selectedKeys.slice().forEach(function(el, index) {
               var index = this.keys.indexOf(el);
               this.splice('keys', index, 1);
             }, this);
-
-            this._showNotification('Keys were deleted!');
           }
         },
         _starSelected: function(e) {
