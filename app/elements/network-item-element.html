@@ -29,7 +29,7 @@
       <div class="flexchild">
         <paper-checkbox checked="{{selected}}" disabled$="[[!isOpenstack]]" on-tap="_selectNetwork"></paper-checkbox> [[network.name]]
       </div>
-      <div class="flexchild">[[network.name]]</div>
+      <div class="flexchild">[[typeText]]</div>
       <div class="flexchild">[[network.cloud.title]]</div>
     </paper-item>
   </template>
@@ -63,6 +63,18 @@
           isOpenstack: {
             type: Boolean,
             computed: '_computeIsOpenstack(network.cloud.provider)'
+          },
+          isPublic: {
+            type: Boolean,
+            computed: '_computeIsPublic(network.router_external)'
+          },
+          isPrivate: {
+            type: Boolean,
+            computed: '_computeIsPrivate(network.router_external)'
+          },
+          typeText: {
+            type: String,
+            computed: '_computeTypeText(isPublic, isPrivate)'
           }
         },
         listeners: {
@@ -78,6 +90,23 @@
         },
         _computeIsOpenstack: function(provider) {
           return provider == 'openstack';
+        },
+        _computeIsPublic: function(router_external) {
+          return router_external == true;
+        },
+        _computeIsPrivate: function(router_external) {
+          return router_external == false;
+        },
+        _computeTypeText: function(isPublic, isPrivate) {
+          if (isPublic) {
+            return 'Public';
+          }
+
+          if (isPrivate) {
+            return 'Private';
+          }
+
+          return '';
         },
         _selectNetworkChanged: function(e) {
           if (this.isOpenstack) {

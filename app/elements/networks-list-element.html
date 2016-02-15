@@ -45,7 +45,10 @@
               <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
               <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortNetworks" sort-option="name"></paper-icon-button>
             </div>
-            <div class="flexchild">Type</div>
+            <div class="flexchild">Type
+              <paper-tooltip for="sortByType" position="top">Sort by type</paper-tooltip>
+              <paper-icon-button id="sortByType" icon="expand-more" on-tap="_sortNetworks" sort-option="type"></paper-icon-button>
+            </div>
             <div class="flexchild">Provider
               <paper-tooltip for="sortByProvider" position="top">Sort by provider</paper-tooltip>
               <paper-icon-button id="sortByProvider" icon="expand-more" on-tap="_sortNetworks" sort-option="provider"></paper-icon-button>
@@ -153,6 +156,8 @@
             presentedNetworks = filteredNetworks.sort(this._computeSort('name', 1));
           } else if (sortByTerm == 'provider') {
             presentedNetworks = filteredNetworks.sort(this._computeSort('cloud.provider', 1));
+          } else if (sortByTerm == 'type') {
+            presentedNetworks = filteredNetworks.sort(this._computeSort('router_external', -1));
           } else {
             presentedNetworks = filteredNetworks;
           }

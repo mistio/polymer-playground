@@ -64,7 +64,7 @@
           <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
 
           <div class="clearfix">
-            <paper-button class="purple pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+            <paper-button class="submit-btn pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
           </div>
           <p class="text-center">* All fields are considered to be mandatory</p>
         </div>

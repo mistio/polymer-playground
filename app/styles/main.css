@@ -56,17 +56,20 @@ paper-button.green {
   background-color: green;
   color: #fff;
 }
-paper-button.purple, paper-button.submit-btn {
+paper-button.purple,
+paper-button.submit-btn {
   background-color: #3f51b5;
   color: #fff;
   margin: 20px 0 0;
 }
-paper-dialog paper-button.purple[disabled], paper-dialog paper-button.submit-btn[disabled] {
+paper-button.purple[disabled],
+paper-button.submit-btn[disabled] {
   background-color: #ccc;
   color: #fff;
   cursor: not-allowed;
 }
-paper-button.btn-block, paper-dropdown-menu.dropdown-block {
+paper-button.btn-block,
+paper-dropdown-menu.dropdown-block {
   display: block;
 }
 
