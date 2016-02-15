@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="machines-list-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+    </style>
+
+    <paper-card heading="Machines List">
+      <div class="card-content">
+        <p>Add machines list here</p>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'machines-list-element',
+
+        properties: {
+          machines: {
+            type: Array
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

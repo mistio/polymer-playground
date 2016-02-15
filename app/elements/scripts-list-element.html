@@ -69,7 +69,7 @@
       </div>
     </paper-card>
 
-    <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptModal"></paper-fab>
+    <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptPage"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
     <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
     <dialog-element></dialog-element>
@@ -264,9 +264,8 @@
           this.set('scripts.' + index + '.description', script.description);
           this.querySelector('iron-list').selectItem(script);
         },
-        _openAddScriptModal: function(e) {
-          var el = this.querySelector('script-add-element');
-          el._openAddScriptModal();
+        _openAddScriptPage: function(e) {
+          page.show('/add-script');
         },
         _addScript: function(e) {
           var script = e.detail.script;

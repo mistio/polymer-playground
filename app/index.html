@@ -263,8 +263,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <a data-route="add-cloud" href="/add-cloud">
-            <iron-icon icon="device:storage"></iron-icon>
+            <iron-icon icon="cloud"></iron-icon>
             <span>Add Cloud</span>
+          </a>
+
+          <a data-route="machines" href="/machines">
+            <iron-icon icon="device:storage"></iron-icon>
+            <span>Machines List</span>
+          </a>
+
+          <a data-route="add-machine" href="/add-machine">
+            <iron-icon icon="device:storage"></iron-icon>
+            <span>Add Machine</span>
           </a>
 
           <a data-route="keys" href="/keys">
@@ -452,6 +462,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <keys-list-element data-route="keys"></keys-list-element>
 
             <key-page-element data-route="key" id="[[params.id]]"></key-page-element>
+
+            <machines-list-element data-route="machines"></machines-list-element>
+
+            <machine-page-element data-route="machine" id="[[params.id]]"></machine-page-element>
+
+            <machine-add-element data-route="add-machine"></machine-add-element>
 
             <networks-list-element data-route="networks"></networks-list-element>
 
