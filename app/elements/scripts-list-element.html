@@ -46,12 +46,15 @@
         <div hidden$="[[!hasScripts]]" class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
+              <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+              <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
               Νame
-              <paper-icon-button icon="expand-more" on-tap="_sortScripts" sort-option="name"></paper-icon-button>
+              <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
+              <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortScripts" sort-option="name"></paper-icon-button>
             </div>
             <div class="flexchild">Type
-              <paper-icon-button icon="expand-more" on-tap="_sortScripts" sort-option="type"></paper-icon-button>
+              <paper-tooltip for="sortByType" position="top">Sort by type</paper-tooltip>
+              <paper-icon-button id="sortByType" icon="expand-more" on-tap="_sortScripts" sort-option="type"></paper-icon-button>
             </div>
           </div>
           <div class="info-body">
@@ -171,7 +174,6 @@
           }
 
           this.set('presentedScripts', presentedScripts);
-          this.querySelector('iron-list').notifyResize();
         },
         _sortScripts: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');

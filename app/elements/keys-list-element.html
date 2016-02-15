@@ -46,12 +46,15 @@
         <div hidden$="[[!hasKeys]]" class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
+              <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+              <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
               Νame
-              <paper-icon-button icon="expand-more" on-tap="_sortKeys" sort-option="id"></paper-icon-button>
+              <paper-tooltip for="sortById" position="top">Sort by name</paper-tooltip>
+              <paper-icon-button id="sortById" icon="expand-more" on-tap="_sortKeys" sort-option="id"></paper-icon-button>
             </div>
             <div class="flexchild">Default
-              <paper-icon-button icon="expand-more" on-tap="_sortKeys" sort-option="default"></paper-icon-button>
+              <paper-tooltip for="sortByDefault" position="top">Sort by default</paper-tooltip>
+              <paper-icon-button id="sortByDefault" icon="expand-more" on-tap="_sortKeys" sort-option="default"></paper-icon-button>
             </div>
           </div>
           <div class="info-body">
@@ -162,7 +165,6 @@
           }
 
           this.set('presentedKeys', presentedKeys);
-          this.querySelector('iron-list').notifyResize();
         },
         _sortKeys: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');

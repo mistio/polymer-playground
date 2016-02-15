@@ -40,12 +40,15 @@
         <div hidden$="[[!hasNetworks]]" class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox disabled$="[[!hasSelectableNetworks]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
-              <paper-icon-button icon="expand-more" on-tap="_sortNetworks" sort-option="name"></paper-icon-button>
+              <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+              <paper-checkbox id="selectAllBtn" disabled$="[[!hasSelectableNetworks]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
+              <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
+              <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortNetworks" sort-option="name"></paper-icon-button>
             </div>
             <div class="flexchild">Type</div>
             <div class="flexchild">Provider
-              <paper-icon-button icon="expand-more" on-tap="_sortNetworks" sort-option="provider"></paper-icon-button>
+              <paper-tooltip for="sortByProvider" position="top">Sort by provider</paper-tooltip>
+              <paper-icon-button id="sortByProvider" icon="expand-more" on-tap="_sortNetworks" sort-option="provider"></paper-icon-button>
             </div>
           </div>
           <div class="info-body">
@@ -155,7 +158,6 @@
           }
 
           this.set('presentedNetworks', presentedNetworks);
-          this.querySelector('iron-list').notifyResize();
         },
         _sortNetworks: function(e) {
           var sortByTerm = e.currentTarget.getAttribute('sort-option');

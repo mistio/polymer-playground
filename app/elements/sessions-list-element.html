@@ -31,7 +31,8 @@
         <div class="info-list">
           <div class="info-head flex-horizontal-with-ratios">
             <div class="flexchild">
-              <paper-checkbox disabled$="[[!hasSelectableSessions]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Created At
+              <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+              <paper-checkbox id="selectAllBtn" disabled$="[[!hasSelectableSessions]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Created At
             </div>
             <div class="flexchild">Last Accessed</div>
             <div class="flexchild"></div>
