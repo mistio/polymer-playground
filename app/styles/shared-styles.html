@@ -16,6 +16,47 @@
             --mist-very-light-color: #eceff1;
             --mist-blue: #0099cc;
         }
+
+        .green {
+            background-color: var(--green-color);
+            color: #fff;
+        }
+        .red {
+            background-color: var(--red-color);
+            color: #fff;
+        }
+        .orange {
+            background-color: var(--orange-color);
+            color: #444;   
+        }
+        .blue {
+            background-color: var(--blue-color);
+            color: #444;   
+        }
+        .mist-dark {
+            background-color: var(--mist-dark-color);
+            color: #fff;   
+        }
+        .mist-light {
+            background-color: var(--mist-light-color);
+            color: #444;   
+        }
+        .mist-very-light {
+            background-color: var(--mist-very-light-color);
+            color: #444;   
+        }
+        .mist-blue {
+            background-color: var(--mist-blue);
+            color: #fff;   
+        }
+        .gray-dark {
+            background-color: var(--gray-dark-color);
+            color: #444;   
+        }
+        .gray-light {
+            background-color: var(--gray-light-color);
+            color: #444;   
+        }
         
         .page-title {
             @apply(--paper-font-display2);
@@ -25,6 +66,55 @@
         paper-menu paper-item > *,
         paper-menu paper-icon-item > * {
             pointer-events: none;
+        }
+        
+        paper-dialog paper-button {
+            margin-top: 0;
+        }
+        
+        paper-card {
+            display: block;
+        }
+        
+        paper-material {
+            padding-bottom: 8px;
+        }
+        
+        paper-material > h2,
+        paper-material > p {
+            padding: 16px;
+        }
+        
+        paper-material .top-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
+        
+        paper-material .bottom-actions {
+            padding-bottom: 2px;
+            padding-left: 8px;
+        }
+        paper-dialog {
+            background-color: var(--mist-very-light-color);
+        }
+        paper-dialog ::content paper-dialog-scrollable {
+            background-color: #fff;
+        }
+        paper-dialog ::content paper-button {
+            /*color: #0099cc;*/
+            color: #444;
+        }
+
+        paper-dialog ::content .scrollable {
+            width: 100%;
+        }
+
+        paper-button.blue {
+            background-color: #0099cc;
+            color: #fff;
+            margin: 0;
+            @apply(--layout-flex);
         }
         
         @media (max-width: 600px) {
@@ -40,8 +130,9 @@
         <style>
         .label {
             padding-right: 10px;
-            color: rgba(255, 255, 255, 0.82);
+            color: #fff;
             font-size: 14px;
+            display: inline-block;
         }
         
         .label:not(.reverse) {
@@ -51,7 +142,6 @@
         .label:not(.reverse) > span {
             padding: 0.3em 0.57em;
             border-radius: 2px;
-            font-weight: 700;
             cursor: inherit;
         }
         
@@ -102,15 +192,12 @@
         }
         
         .tag {
+            padding: 0.3em 0.57em;
             display: inline-block;
             background-color: #888;
             color: #fff;
             font-size: 14px;
-            padding: 0 0.5em;
-            margin: 0 1px;
             border-radius: 2px;
-            letter-spacing: .4px;
-            font-weight: 500 !important;
             word-break: break-all;
             max-width: 250px;
             white-space: nowrap;
@@ -128,9 +215,8 @@
             text-transform: uppercase;
             text-align: center;
             background-color: var(--mist-dark-color);
-            border-bottom: 4px solid #37474F;
-            text-align: center;
-            padding-top: 4px;
+            box-shadow: 0 -4px 0 #37474F inset;
+            padding: 16px;
             margin: 0;
             font-weight: 400;
             letter-spacing: 1px;
@@ -139,15 +225,15 @@
         .app-title-light {
             color: var(--mist-dark-color);
             background-color: var(--mist-light-color);
-            padding: 2px 16px 0 16px;
-            border-bottom: 4px solid #90A4AE;
+            padding: 16px;
+            box-shadow: 0 -4px 0 #90A4AE inset;
         }
         
         .app-title-lighter {
             color: var(--mist-dark-color);
             background-color: var(--mist-very-light-color);
-            padding: 2px 16px 0 16px;
-            border-bottom: 4px solid #CFD8DC;
+            padding: 16px;
+            box-shadow: 0 -4px 0 #CFD8DC inset;
         }
         </style>
     </template>

@@ -15,13 +15,17 @@
 <dom-module id="app-forms">
     <template>
         <style is="custom-style" include="shared-styles"></style>
+        <style is="custom-style" include="headings"></style>
         <style>
         :host {
             display: block;
-            --mist-blue: #0099cc;
+        }
+
+        :host[focused] {
+            outline: none;
         }
         
-        :host paper-material {
+        :host paper-material ::content form {
             padding: 16px;
         }
         
@@ -61,26 +65,34 @@
             border-bottom: 1px solid #eee;
             background: transparent;
             border-width: 0 0 1px 0;
+            margin: 8px -16px 16px -16px;
         }
         
         paper-material > h3 {
             margin: 0;
+            height: 36px;
+            line-height: 36px;
         }
-        
+
         #close-this-form {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 16px;
+            right: 8px;
         }
         
         ::content paper-item {
             font-size: 13px;
         }
+
+        ::content paper-item:hover {
+            background-color: var(--mist-very-light-color);
+        }
+
         </style>
         <paper-material>
             <!-- form title -->
-            <h3>{{formtitle}}</h3>
-            <paper-icon-button id="close-this-form" suffix icon="clear"></paper-icon-button>
+            <h3 hidden$='[[!formtitle]]' class="app-title-light">{{formtitle}}</h3>
+            <paper-icon-button hidden$='[[!formtitle]]' id="close-this-form" suffix icon="clear"></paper-icon-button>
             <!-- in <content> comes what <app-forms> tag has inside when called -->
             <content></content>
         </paper-material>
@@ -92,9 +104,10 @@ Polymer({
     properties: {
         formtitle: {
             String,
-            value: "My Form"
+            value: "",
+            observer: 'makeFormTitle'
         }, //default value of form
-    },
+    },    
     behaviors: [Polymer.PaperInputBehavior, Polymer.PaperInputAddonBehavior]
 });
 

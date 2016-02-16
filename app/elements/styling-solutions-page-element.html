@@ -13,7 +13,7 @@
         #demodialog3::content #scrollable {
             width: 100%;
         }
-        paper-dialog paper-button {
+        /*paper-dialog paper-button {
             margin-top:0;
         }
         paper-card {
@@ -34,7 +34,7 @@
         paper-material .bottom-actions {
             padding-bottom: 2px;
             padding-left: 8px;
-        }
+        }*/
         </style>
         <paper-card>
             <div class="card-content">
@@ -257,11 +257,11 @@
 
             },
             do: function(){
-                // alert("clicked");
+                // do nothing
             },
             opendemodialog: function(e){
                 var button = e.target;
-                var id = button.getAttribute('data-dialog');;
+                var id = button.getAttribute('data-dialog');
                 var dialog = document.getElementById(id);
                 if (dialog) {
                     dialog.open();

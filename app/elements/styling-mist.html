@@ -1,0 +1,269 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<!-- This is a draft show case of already styled elements -->
+<dom-module id="styling-mist">
+    <template>
+        <style is="custom-style" include="shared-styles"></style>
+        <style is="custom-style" include="tags-and-labels"></style>
+        <style>
+        :host {
+            display: block;
+        }
+        
+        :host paper-header-panel,
+        :host #drawer,
+        :host paper-header-panel,
+        :host #main {
+            padding-top: 180px;
+        }        
+        
+        paper-item {
+            cursor: pointer;
+        }
+
+        .section {
+            display: none;
+        }
+        
+        .section.shown {
+            display: block;
+        }
+        
+        .center {
+            padding: 16px;
+            background-color: #fefefe;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 500px;
+            position: absolute;
+            top: 210px;
+            left: 10%;
+        }
+        .colorshow {
+            height: 36px;
+            line-height: 36px;
+            padding: 8px;
+            margin-bottom: 4px;
+        }
+        #demodialog4 {
+            max-width: 450px;
+        }
+        </style>
+        <paper-drawer-panel id="styling-mist">
+            <paper-header-panel drawer>
+                <paper-toolbar></paper-toolbar>
+                <div id="drawer">
+                    <paper-item data-section="colors" on-tap="opensection"> Colors </paper-item>
+                    <paper-item data-section="tagsandlabels" on-tap="opensection"> Tags/Labels </paper-item>
+                    <paper-item data-section="mistforms" on-tap="opensection"> Forms </paper-item>
+                    <paper-item data-section="mistdialogs" on-tap="opensection"> Dialogs </paper-item>
+                    <paper-item data-section="mistdropdowns" on-tap="opensection"> Drop-downs </paper-item>
+                    <paper-item data-section="comingnext" on-tap="opensection"> ...coming next </paper-item>
+                </div>
+            </paper-header-panel>
+            <paper-header-panel main>
+                <paper-toolbar></paper-toolbar>
+                <div id="main">
+                    <section class="section shown" id="colors">
+                        <div class="center">
+                            <h2>Colors</h2>
+                            <p>Mist color template</p>
+                            <h3>Brand colors</h3>
+                            <div class="layout flex auto colorshow mist-dark">
+                                #263238
+                            </div>
+                            <div class="layout flex auto colorshow mist-light">
+                                #B0BEC5
+                            </div>
+                            <div class="layout flex auto colorshow mist-very-light">
+                                #eceff1
+                            </div>
+                            <div class="layout flex auto colorshow mist-blue">
+                                #0099cc
+                            </div>
+                            <h3>Informational colors</h3>
+                            <div class="layout flex auto colorshow green">
+                                #69b46c
+                            </div>
+                            <div class="layout flex auto colorshow red">
+                                #d96557
+                            </div>
+                            <div class="layout flex auto colorshow orange">
+                                #e9a644
+                            </div>
+                            <div class="layout flex auto colorshow blue">
+                                #47b3e3
+                            </div>
+                            <h4>Helper Colors</h4>
+                            <div class="layout flex auto colorshow gray-dark">
+                                #47b3e3
+                            </div>
+                            <div class="layout flex auto colorshow gray-light">
+                                #eceff1
+                            </div>                             
+                        </div>
+                    </section>
+                    <section class="section" id="tagsandlabels">
+                        <div class="center">
+                            <h2>Labels</h2>
+                            <p>Mostly used for the machine state indication</p>
+                            <div class="layout flex auto">
+                                <h4>labels full theming</h4>
+                                <div class="label"><span class="unknown">unknown</span></div>
+                                <div class="label"><span class="running">running</span></div>
+                                <div class="label"><span class="terminated">terminated</span></div>
+                                <div class="label"><span class="stopped">stopped</span></div>
+                                <div class="label"><span class="error">error</span></div>
+                            </div>
+                            <div class="layout flex auto">
+                                <h4>labels reverse theming:</h4>
+                                <div class="label reverse"><span class="unknown" title="some title">unknown</span></div>
+                                <div class="label reverse"><span class="running" title="some title">running</span></div>
+                                <div class="label reverse"><span class="terminated" title="some title">terminated</span></div>
+                                <div class="label reverse"><span class="stopped" title="some title">stopped</span></div>
+                                <div class="label reverse"><span class="error" title="some title">error</span></div>
+                            </div>
+                            <div class="layout flex auto">
+                                <h2>Tags</h2>
+                                <p>General tag styling</p>
+                                <span class="tag">
+                                    key = value
+                                </span>
+                                <span class="tag">
+                                    key = a css-truncated tag with rule overflow: hidden and text-overflow: ellipsis for max-width 250px;
+                                </span>
+                            </div>
+                            <p>Tags are truncated with css after 250px</p>
+                        </div>
+                    </section>
+                    <section class="section" id="mistforms">
+                        <div class="center">
+                            <h2>Forms</h2>
+                            <p>Wraping forms in an app-form element</p>
+                            <app-forms formtitle="Add Cloud">
+                                <form is="iron-form" id="form1">
+                                    <paper-input name="name" label="name" error-message="Invalid input!"></paper-input>
+                                    <paper-dropdown-menu label="Provider">
+                                        <paper-menu class="dropdown-content">
+                                            <paper-item>EC2</paper-item>
+                                            <paper-item>Docker</paper-item>
+                                            <paper-item>Openstack</paper-item>
+                                            <paper-item>Linode</paper-item>
+                                        </paper-menu>
+                                    </paper-dropdown-menu>
+                                    <hr/>
+                                    <paper-button onclick="do">add cloud</paper-button>
+                                    <paper-button disabled onclick="do">disabled button</paper-button>
+                                </form>
+                            </app-forms>
+                        </div>
+                    </section>
+                    <section class="section" id="mistdialogs">
+                        <div class="center">
+                            <h2>Dialogs</h2>
+                            <p>note: paper buttons outside of app-forms need class blue to get the style</p>
+                            <paper-button on-tap="opendemodialog" role="button" data-dialog="demodialog4" class="blue">open dialog</paper-button>
+                            <paper-dialog id="demodialog4">
+                                <h2>Header</h2>
+                                <paper-dialog-scrollable>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur.
+
+                                    Vivamus ultrices erat nisi, ut aliquam magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus.
+
+                                    Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim. Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac.
+
+                                    Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus.
+
+                                    Vestibulum id maximus massa. Mauris consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
+                                </paper-dialog-scrollable>
+                                <div class="buttons">
+                                    <paper-button dialog-dismiss link>Cancel</paper-button>
+                                    <paper-button dialog-confirm>Accept</paper-button>
+                                </div>
+                            </paper-dialog>
+                        </div>
+                    </section>
+                    <section class="section" id="mistdropdowns">
+                        <div class="center">
+                            <h2>Drop-downs</h2>
+                            <p>Dropdowns don't currently accept styling outside of app forms. Needs to be checked</p>
+                            <app-forms>
+                                <form is="iron-form" id="form1">
+                                    <paper-dropdown-menu label="Provider">
+                                        <paper-menu class="dropdown-content">
+                                            <paper-item>EC2</paper-item>
+                                            <paper-item>Docker</paper-item>
+                                            <paper-item>Openstack</paper-item>
+                                            <paper-item>Linode</paper-item>
+                                        </paper-menu>
+                                    </paper-dropdown-menu>
+                                </form>
+                            </app-forms>
+                        </div>
+                    </section>
+                    <section class="section" id="comingnext">
+                        <div class="center">
+                            <h2>Coming next</h2>
+                            <p>
+                                 Checkboxes <br/>
+                                 Header <br/>
+                                 Paper card with edit button <br/>
+                                 Cards and Card Headings <br/>
+                                 Fab <br/>
+                                 Notification badges <br/>
+                                 Cards layout in lists <br/>
+                                 Account Page <br/>
+                            </p>
+                        </div>
+                    </section>
+                </div>
+            </paper-header-panel>
+        </paper-drawer-panel>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'styling-mist',
+
+            properties: {
+                previousection: {
+                    type: String,
+                    value: 'colors'
+                },
+                previousbutton: {
+                    type: Object
+                }
+            },
+            ready: function() {
+
+            },
+            dosomething: function() {
+                // do nothing
+            },
+            opendemodialog: function(e) {
+                var button = e.target;
+                var id = button.getAttribute('data-dialog');
+                var dialog = document.getElementById(id);
+                if (dialog) {
+                    dialog.open();
+                }
+            },
+            opensection: function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var button = e.target;
+                var id = button.getAttribute('data-section');
+                var previousection = document.getElementById(this.previousection);
+                var section = document.getElementById(id);
+                if (section) {
+                    this.classFollows('shown', section, previousection);
+                    this.previousection = id;
+                }
+            }
+
+        });
+    })();
+    </script>
+</dom-module>
