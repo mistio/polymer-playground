@@ -245,12 +245,12 @@
             response = e.detail.response;
 
           if (response.confirmed && reason == "delete_networks") {
+            this._showNotification(this.selectedNetworks.length > 1 ? 'Networks were deleted!' : 'Network was deleted!');
+
             this.selectedNetworks.slice().forEach(function(el, index) {
               var index = this.networks.indexOf(el);
               this.splice('networks', index, 1);
             }, this);
-
-            this._showNotification('Networks were deleted!');
           }
         },
         _updateSelectedNetwork: function(e) {

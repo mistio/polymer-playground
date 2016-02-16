@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="app-main-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+
+      paper-item:hover {
+        cursor: pointer;
+      }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+    </style>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'app-main-element',
+
+        properties: {
+          keys: {
+            type: Array,
+            value: function() {
+              return Mist.keys;
+            }
+          },
+          networks: {
+            type: Array,
+            value: function() {
+              return Mist.networks;
+            }
+          },
+          scripts: {
+            type: Array,
+            value: function() {
+              return Mist.scripts;
+            }
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

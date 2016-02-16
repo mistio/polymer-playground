@@ -159,6 +159,8 @@
               index = this.sessions.indexOf(session);
             this.splice('sessions', index, 1);
             this.$.selector.deselect(session);
+
+            this._showNotification('Session was deleted!');
           }
 
           if (response.confirmed && reason == "terminate_sessions") {
@@ -167,9 +169,9 @@
               this.splice('sessions', index, 1);
             }, this);
             this.$.selector.clearSelection();
-          }
 
-          this._showNotification('Sessions were deleted!');
+            this._showNotification('Sessions were deleted!');
+          }
         },
         _showDialog: function(info) {
           var dialog = this.querySelector('dialog-element'),
