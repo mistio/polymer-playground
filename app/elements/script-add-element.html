@@ -21,12 +21,12 @@
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="5" value="{{field.value}}" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="8" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
             <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
-              <paper-menu attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+              <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
                 <template is="dom-repeat" items="[[field.options]]" as="option">
                   <paper-item value="[[option.val]]">[[option.title]]</paper-item>
                 </template>
@@ -35,7 +35,10 @@
           </template>
         </template>
 
-        <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+        <div class="clearfix">
+          <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+          <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+        </div>
       </div>
     </paper-card>
 
@@ -56,10 +59,9 @@
               return {
                 name: '',
                 url: '',
-                type: {},
+                type: '',
                 entryPoint: '',
-                text: '',
-                source: {},
+                source: '',
                 description: ''
               }
             }
@@ -90,18 +92,23 @@
         },
         _fieldsChanged: function(fields, sendingData) {
           var script = this.script,
-            show, valid;
+            show, dependency;
 
           fields.base.forEach(function(el, index) {
             script[el.name] = el.value;
 
             if (el.showIf) {
-              show = el.showIf.fieldValues.indexOf(script[el.showIf.fieldName]) != -1;
-              this.set('fields.' + index + '.show', show);
+              dependency = script[el.showIf.fieldName];
+              this.set('fields.' + index + '.show', el.showIf.fieldValues.indexOf(dependency) != -1);
+            }
+
+            if (el.valueIf) {
+              dependency = script[el.valueIf.fieldName];
+              this.set('fields.' + index + '.value', el.valueIf.fieldOptions[dependency]);
             }
           }, this);
 
-          valid = fields.base.every(function(el, index) {
+          var valid = fields.base.every(function(el, index) {
             return el.show && el.required ? el.value : true;
           }, this);
 
@@ -109,11 +116,31 @@
 
           this.set('formReady', valid && !sendingData);
         },
-        _formReset: function() {
-          this.set('script.name', '');
-        },
         _submitForm: function() {
           console.log(this.script);
+        },
+        _resetForm: function(e) {
+          // Reset script
+          this.set('script.name', '');
+          this.set('script.url', '');
+          this.set('script.type', '');
+          this.set('script.entryPoint', '');
+          this.set('script.source', '');
+          this.set('script.description', '');
+
+          // Reset Form Fields
+          this.fields.forEach(function(el, index) {
+            this.set('fields.' + index + '.value', el.defaultValue);
+            if (el.showIf) {
+              this.set('fields.' + index + '.show', false);
+            }
+
+            // Reset Form Fields Validation
+            var input = this.querySelector('#' + el.name);
+            if (input) {
+              input.invalid = false;
+            }
+          }, this);
         },
         _addScriptAjax: function(e) {
           //   this.$.addScriptAjax.addRequest();

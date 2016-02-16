@@ -1,28 +1,29 @@
 var SCRIPT_FORM_FIELDS = [{
   name: "name",
-  label: "Name",
+  label: "Name *",
   type: "text",
   value: "",
+  defaultValue: "",
   placeholder: "",
-  required: true,
   errorMessage: "Please enter script's name",
   show: true,
   required: true
 }, {
   name: "description",
-  label: "Description (optional)",
+  label: "Description",
   type: "textarea",
   value: "",
+  defaultValue: "",
   placeholder: "",
-  required: true,
   errorMessage: "Please enter script's description",
   show: true,
   required: false
 }, {
   name: "type",
-  label: "Type",
+  label: "Type *",
   type: "dropdown",
   value: "",
+  defaultValue: "",
   errorMessage: "Please enter script's description",
   show: true,
   required: true,
@@ -35,9 +36,10 @@ var SCRIPT_FORM_FIELDS = [{
   }]
 }, {
   name: "source",
-  label: "Source",
+  label: "Source *",
   type: "dropdown",
   value: "",
+  defaultValue: "",
   errorMessage: "Please enter script's source",
   show: true,
   required: true,
@@ -52,18 +54,67 @@ var SCRIPT_FORM_FIELDS = [{
     val: "inline"
   }]
 }, {
+  name: "url",
+  label: "Url *",
+  type: "text",
+  value: "http://",
+  defaultValue: "http://",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["url"]
+  },
+  errorMessage: "Please enter a url"
+}, {
+  name: "url",
+  label: "Github Repo *",
+  type: "text",
+  value: "https://github.com/owner/repo",
+  defaultValue: "https://github.com/owner/repo",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["github"]
+  },
+  errorMessage: "Please enter a github repo"
+}, {
   name: "entryPoint",
-  label: "Entry point (optional)",
-  type: "textarea",
+  label: "Entry point",
+  type: "text",
   value: "",
+  defaultValue: "",
   placeholder: "",
   show: false,
   required: false,
   showIf: {
     fieldName: "source",
-    fieldValues: ["url", "github"]
+    fieldValues: ["github", "url"]
   },
   errorMessage: "Please enter script"
+}, {
+  name: "script",
+  label: "Script *",
+  type: "textarea",
+  value: "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\tdebug:\n\t\t\tmsg: 'Hello World'\n",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["inline"]
+  },
+  valueIf: {
+    fieldName: "type",
+    fieldOptions: {
+      "executable": "#!/bin/bash\necho 'hello world'",
+      "ansible": "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\tdebug:\n\t\t\tmsg: 'Hello World'\n"
+    }
+  }
 }];
 
 var TIME_MAP = {
