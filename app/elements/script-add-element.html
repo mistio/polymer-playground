@@ -89,14 +89,12 @@
           }
         },
         _fieldsChanged: function(fields, sendingData) {
-          var script = {},
+          var script = this.script,
             show, valid;
 
           fields.base.forEach(function(el, index) {
             script[el.name] = el.value;
-          }, this);
 
-          fields.base.forEach(function(el, index) {
             if (el.showIf) {
               show = el.showIf.fieldValues.indexOf(script[el.showIf.fieldName]) != -1;
               this.set('fields.' + index + '.show', show);
