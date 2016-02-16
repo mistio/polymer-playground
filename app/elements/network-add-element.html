@@ -15,7 +15,30 @@
 
     <paper-card heading="Add Network">
       <div class="card-content">
-        <p>Add full page networks dynamic form here</p>
+        <template is="dom-repeat" items="{{fields}}" as="field">
+          <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+          </template>
+
+          <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="8" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+          </template>
+
+          <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
+            <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+              <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                <template is="dom-repeat" items="[[field.options]]" as="option">
+                  <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
+          </template>
+        </template>
+
+        <div class="clearfix">
+          <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+          <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+        </div>
       </div>
     </paper-card>
   </template>
@@ -28,13 +51,88 @@
         is: 'network-add-element',
 
         properties: {
-          network: {
-            type: Object,
-            value: {},
-            notify: true
+            network: {
+              type: Object,
+              value: function() {
+                return {
+                  name: '',
+                  cloud: ''
+                }
+              }
+            },
+            fields: {
+              type: Array,
+              value: function() {
+                return NETWORK_FORM_FIELDS;
+              },
+              notify: true
+            },
+            sendingData: {
+              type: Boolean,
+              value: false
+            },
+            formReady: {
+              type: Boolean,
+              value: false
+            }
+        },
+        observers: [
+          '_fieldsChanged(fields.*, sendingData)'
+        ],
+        _computeFieldType: function(field, value, show) {
+          if (!(field.showIf && !field.show)) {
+            return field.type == value;
           }
+        },
+        _fieldsChanged: function(fields, sendingData) {
+          var network = this.network,
+            show, dependency;
+
+          fields.base.forEach(function(el, index) {
+            network[el.name] = el.value;
+
+            if (el.showIf) {
+              dependency = network[el.showIf.fieldName];
+              this.set('fields.' + index + '.show', el.showIf.fieldValues.indexOf(dependency) != -1);
+            }
+
+            if (el.valueIf) {
+              dependency = network[el.valueIf.fieldName];
+              this.set('fields.' + index + '.value', el.valueIf.fieldOptions[dependency]);
+            }
+          }, this);
+
+          var valid = fields.base.every(function(el, index) {
+            return el.show && el.required ? el.value : true;
+          }, this);
+
+          this.set('network', network);
+
+          this.set('formReady', valid && !sendingData);
+        },
+        _submitForm: function() {
+          console.log(this.network);
+        },
+        _resetForm: function(e) {
+          // Reset network
+          this.set('network.name', '');
+          this.set('network.cloud', '');
+
+          // Reset Form Fields
+          this.fields.forEach(function(el, index) {
+            this.set('fields.' + index + '.value', el.defaultValue);
+            if (el.showIf) {
+              this.set('fields.' + index + '.show', false);
+            }
+
+            // Reset Form Fields Validation
+            var input = this.querySelector('#' + el.name);
+            if (input) {
+              input.invalid = false;
+            }
+          }, this);
         }
       });
     })();
-  </script>
+</script>
 </dom-module>

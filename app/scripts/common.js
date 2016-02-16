@@ -1,3 +1,32 @@
+var NETWORK_FORM_FIELDS = [{
+  name: "name",
+  label: "Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter network's name",
+  show: true,
+  required: true
+}, {
+  name: "cloud",
+  label: "Cloud *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please select a cloud",
+  show: true,
+  required: true,
+  options: [{
+    title: "Executable",
+    val: "executable"
+  }, {
+    title: "Ansible Playbook",
+    val: "ansible"
+  }]
+}];
+
 var SCRIPT_FORM_FIELDS = [{
   name: "name",
   label: "Name *",
