@@ -1,23 +1,154 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
-
 <!-- shared styles for all elements and index.html -->
 <dom-module id="shared-styles">
-  <template>
-    <style>
-      .page-title {
-        @apply(--paper-font-display2);
-      }
-
-      paper-menu a > *, paper-menu paper-item > *, paper-menu paper-icon-item > * {
-        pointer-events: none;
-      }
-
-      @media (max-width: 600px) {
-        .page-title {
-          font-size: 24px!important;
+    <template>
+        <style>
+        :root {
+            --green-color: #69b46c;
+            --red-color: #d96557;
+            --orange-color: #e9a644;
+            --blue-color: #47b3e3;
+            --gray-dark-color: #cfd8dc;
+            --gray-light-color: #eceff1;
+            --mist-dark-color: #263238;
+            --mist-light-color: #B0BEC5;
+            --mist-very-light-color: #eceff1;
+            --mist-blue: #0099cc;
         }
-      }
-    </style>
-  </template>
+        
+        .page-title {
+            @apply(--paper-font-display2);
+        }
+        
+        paper-menu a > *,
+        paper-menu paper-item > *,
+        paper-menu paper-icon-item > * {
+            pointer-events: none;
+        }
+        
+        @media (max-width: 600px) {
+            .page-title {
+                font-size: 24px!important;
+            }
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="tags-and-labels">
+    <template>
+        <style>
+        .label {
+            padding-right: 10px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 14px;
+        }
+        
+        .label:not(.reverse) {
+            padding-left: 16px;
+        }
+        
+        .label:not(.reverse) > span {
+            padding: 0.3em 0.57em;
+            border-radius: 2px;
+            font-weight: 700;
+            cursor: inherit;
+        }
+        
+        .label:not(.reverse) .unknown {
+            background-color: var(--gray-light-color);
+            color: rgba(0, 0, 0, 0.82);
+        }
+        
+        .label:not(.reverse) .running {
+            background-color: var(--green-color);
+        }
+        
+        .label:not(.reverse) .terminated {
+            background-color: var(--mist-dark-color);
+        }
+        
+        .label:not(.reverse) .stopped {
+            background-color: var(--orange-color);
+        }
+        
+        .label:not(.reverse) .error {
+            background-color: var(--red-color);
+        }
+        
+        .label.reverse .unknown {
+            color: var(--mist-light-color);
+            background-color: transparent;
+        }
+        
+        .label.reverse .running {
+            color: var(--green-color);
+            background-color: transparent;
+        }
+        
+        .label.reverse .terminated {
+            color: var(--mist-dark-color);
+            background-color: transparent;
+        }
+        
+        .label.reverse .stopped {
+            color: var(--orange-color);
+            background-color: transparent;
+        }
+        
+        .label.reverse .error {
+            color: var(--red-color);
+            background-color: transparent;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #888;
+            color: #fff;
+            font-size: 14px;
+            padding: 0 0.5em;
+            margin: 0 1px;
+            border-radius: 2px;
+            letter-spacing: .4px;
+            font-weight: 500 !important;
+            word-break: break-all;
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="headings">
+    <template>
+        <style>
+        .app-title {
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            background-color: var(--mist-dark-color);
+            border-bottom: 4px solid #37474F;
+            text-align: center;
+            padding-top: 4px;
+            margin: 0;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .app-title-light {
+            color: var(--mist-dark-color);
+            background-color: var(--mist-light-color);
+            padding: 2px 16px 0 16px;
+            border-bottom: 4px solid #90A4AE;
+        }
+        
+        .app-title-lighter {
+            color: var(--mist-dark-color);
+            background-color: var(--mist-very-light-color);
+            padding: 2px 16px 0 16px;
+            border-bottom: 4px solid #CFD8DC;
+        }
+        </style>
+    </template>
 </dom-module>

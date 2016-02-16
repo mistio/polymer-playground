@@ -46,6 +46,7 @@ paper-dialog paper-icon-button.close {
   right: 14px;
 }
 paper-dialog paper-button {
+  /* this might not be needed*/
   margin: 20px 0 0;
 }
 paper-button.red {
