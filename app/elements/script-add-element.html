@@ -15,45 +15,23 @@
 
     <paper-card heading="Add Script">
       <div class="card-content">
-        <template is="dom-repeat" items="[[fields]]" as="field">
-          <template is="dom-if" if="[[_computeIsInputText(field.type)]]">
-            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.defaultValue}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+        <template is="dom-repeat" items="{{fields}}" as="field">
+          <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
           </template>
 
-          <template is="dom-if" if="[[_computeIsInputTextarea(field.type)]]">
-            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="5" value="{{field.defaultValue}}" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+          <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="5" value="{{field.value}}" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
           </template>
 
-          <template is="dom-if" if="[[_computeIsDropdown(field.type)]]">
+          <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
             <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
-              <paper-menu attr-for-selected="value" class="dropdown-content">
+              <paper-menu attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
                 <template is="dom-repeat" items="[[field.options]]" as="option">
                   <paper-item value="[[option.val]]">[[option.title]]</paper-item>
                 </template>
               </paper-menu>
             </paper-dropdown-menu>
-          </template>
-
-          <template is="dom-if" if="[[_computeHasOptional(field.optionals)]]">
-            <template is="dom-repeat" items="[[field.optionals]]" as="optional">
-              <template is="dom-if" if="[[_computeIsInputText(optional.type, optional.requirement)]]">
-                <paper-input id="[[optional.name]]" placeholder="[[optional.placeholder]]" label="[[optional.label]]" value="{{optional.defaultValue}}" required="[[optional.required]]" error-message="[[optional.errorMessage]]"></paper-input>
-              </template>
-
-              <template is="dom-if" if="[[_computeIsInputTextarea(optional.type, optional.requirement)]]">
-                <paper-textarea id="[[optional.name]]" label="[[optional.label]]" rows="5" max-rows="5" value="{{optional.defaultValue}}" required="[[optional.required]]" error-message="[[optional.errorMessage]]"></paper-textarea>
-              </template>
-
-              <template is="dom-if" if="[[_computeIsDropdown(optional.type, optional.requirement)]]">
-                <paper-dropdown-menu class="dropdown-block" label="[[optional.label]]" horizontal-align="left">
-                  <paper-menu attr-for-selected="value" class="dropdown-content">
-                    <template is="dom-repeat" items="[[optional.options]]" as="optionalOption">
-                      <paper-item value="[[optionalOption.val]]">[[optionalOption.title]]</paper-item>
-                    </template>
-                  </paper-menu>
-                </paper-dropdown-menu>
-              </template>
-            </template>
           </template>
         </template>
 
@@ -77,16 +55,21 @@
             value: function() {
               return {
                 name: '',
+                url: '',
+                type: {},
+                entryPoint: '',
+                text: '',
+                source: {},
                 description: ''
               }
-            },
-            notify: true
+            }
           },
           fields: {
             type: Array,
             value: function() {
               return SCRIPT_FORM_FIELDS;
-            }
+            },
+            notify: true
           },
           sendingData: {
             type: Boolean,
@@ -94,42 +77,45 @@
           },
           formReady: {
             type: Boolean,
-            computed: '_computeFormReady(script.name, sendingData)'
+            value: false
           }
         },
-        ready: function() {
-
-        },
-        _computeFormReady: function(name, sendingData) {
-          var formReady = false;
-
-          if (name) {
-            formReady = true;
+        observers: [
+          '_fieldsChanged(fields.*, sendingData)'
+        ],
+        _computeFieldType: function(field, value, show) {
+          if (!(field.showIf && !field.show)) {
+            return field.type == value;
           }
+        },
+        _fieldsChanged: function(fields, sendingData) {
+          var script = {},
+            show, valid;
 
-          if (sendingData) {
-            formReady = false;
-          }
+          fields.base.forEach(function(el, index) {
+            script[el.name] = el.value;
+          }, this);
 
-          return formReady;
-        },
-        _computeIsInputText: function(type, requirement) {
-          var requirement = requirement || null;
-          return requirement ? type == "text" && requirement : type == "text";
-        },
-        _computeIsInputTextarea: function(type, requirement) {
-          var requirement = requirement || null;
-          return requirement ? type == "textarea" && requirement : type == "textarea";
-        },
-        _computeIsDropdown: function(type, requirement) {
-          var requirement = requirement || null;
-          return requirement ? type == "dropdown" && requirement : type == "dropdown";
-        },
-        _computeHasOptional: function(optional) {
-          return optional && optional.length;
+          fields.base.forEach(function(el, index) {
+            if (el.showIf) {
+              show = el.showIf.fieldValues.indexOf(script[el.showIf.fieldName]) != -1;
+              this.set('fields.' + index + '.show', show);
+            }
+          }, this);
+
+          valid = fields.base.every(function(el, index) {
+            return el.show && el.required ? el.value : true;
+          }, this);
+
+          this.set('script', script);
+
+          this.set('formReady', valid && !sendingData);
         },
         _formReset: function() {
           this.set('script.name', '');
+        },
+        _submitForm: function() {
+          console.log(this.script);
         },
         _addScriptAjax: function(e) {
           //   this.$.addScriptAjax.addRequest();
