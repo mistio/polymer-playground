@@ -2,23 +2,30 @@ var SCRIPT_FORM_FIELDS = [{
   name: "name",
   label: "Name",
   type: "text",
-  defaultValue: "",
+  value: "",
   placeholder: "",
   required: true,
-  errorMessage: "Please enter script's name"
+  errorMessage: "Please enter script's name",
+  show: true,
+  required: true
 }, {
   name: "description",
   label: "Description (optional)",
   type: "textarea",
-  defaultValue: "",
+  value: "",
   placeholder: "",
   required: true,
-  errorMessage: "Please enter script's description"
+  errorMessage: "Please enter script's description",
+  show: true,
+  required: false
 }, {
   name: "type",
   label: "Type",
   type: "dropdown",
+  value: "",
   errorMessage: "Please enter script's description",
+  show: true,
+  required: true,
   options: [{
     title: "Executable",
     val: "executable"
@@ -30,7 +37,10 @@ var SCRIPT_FORM_FIELDS = [{
   name: "source",
   label: "Source",
   type: "dropdown",
+  value: "",
   errorMessage: "Please enter script's source",
+  show: true,
+  required: true,
   options: [{
     title: "Github",
     val: "github"
@@ -40,30 +50,20 @@ var SCRIPT_FORM_FIELDS = [{
   }, {
     title: "Inline",
     val: "inline"
-  }],
-  optionals: [{
-    name: "script",
-    label: "Script (github optional)",
-    type: "textarea",
-    defaultValue: "",
-    placeholder: "",
-    required: true,
-    requirement: {
-      type: "Github"
-    },
-    errorMessage: "Please enter script"
-  }, {
-    name: "script",
-    label: "Script (inline optional)",
-    type: "textarea",
-    defaultValue: "",
-    placeholder: "",
-    required: true,
-    requirement: {
-      type: "inline"
-    },
-    errorMessage: "Please enter script"
   }]
+}, {
+  name: "entryPoint",
+  label: "Entry point (optional)",
+  type: "textarea",
+  value: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["url", "github"]
+  },
+  errorMessage: "Please enter script"
 }];
 
 var TIME_MAP = {
