@@ -6,7 +6,8 @@ var CLOUD_ADD_FORM_FIELDS = {
     value: "Azure",
     defaultValue: "Azure",
     show: true,
-    required: true
+    required: true,
+    errorMessage: "Please enter title"
   }, {
     name: "subscription_id",
     label: "Subscription ID *",
@@ -15,6 +16,7 @@ var CLOUD_ADD_FORM_FIELDS = {
     defaultValue: "",
     show: true,
     required: true,
+    errorMessage: "Please enter subscription id",
     helpText: "You can find your subscriptionID on the Azure portal",
     helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
   }, {
@@ -37,7 +39,8 @@ var CLOUD_ADD_FORM_FIELDS = {
     value: "CoreOS",
     defaultValue: "CoreOS",
     show: true,
-    required: true
+    required: true,
+    errorMessage: "Please enter title"
   }, {
     name: "machine_ip",
     label: "Hostname *",
@@ -46,7 +49,8 @@ var CLOUD_ADD_FORM_FIELDS = {
     defaultValue: "",
     placeholder: "DNS or IP",
     show: true,
-    required: true
+    required: true,
+    errorMessage: "Please enter hostname"
   }, {
     name: "machine_key",
     label: "SSH Key",
@@ -92,6 +96,27 @@ var CLOUD_ADD_FORM_FIELDS = {
       fieldName: "machine_key",
       fieldExists: true
     }
+  }],
+  digitalocean: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "DigitalOcean",
+    defaultValue: "DigitalOcean",
+    show: true,
+    required: true,
+    errorMessage: "Please enter title"
+  }, {
+    name: "token",
+    label: "Token *",
+    type: "password",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    errorMessage: "Please enter token",
+    helpText: 'You can find your API Token on the Digital Ocean portal',
+    helpHref: 'http://docs.mist.io/article/19-adding-digital-ocean'
   }]
 };
 
