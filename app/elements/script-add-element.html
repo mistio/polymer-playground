@@ -21,7 +21,7 @@
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="8" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">

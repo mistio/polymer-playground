@@ -306,7 +306,7 @@ var SCRIPT_FORM_FIELDS = [{
     fieldName: "type",
     fieldOptions: {
       "executable": "#!/bin/bash\necho 'hello world'",
-      "ansible": "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\tdebug:\n\t\t\tmsg: 'Hello World'\n"
+      "ansible": "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\t\tdebug:\n\t\t\t\tmsg: 'Hello World'\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\t\tdebug: msg='Hello World'\n"
     }
   }
 }];
