@@ -8,48 +8,71 @@
         display: block;
       }
 
-      paper-card {
+      paper-card,
+      paper-checkbox {
         display: block;
-        margin-bottom: 50px;
       }
 
-      iron-label {
-        display: block;
+      paper-toggle-button,
+      paper-checkbox {
+        margin-top: 20px;
       }
     </style>
 
     <paper-card heading="Select Provider">
       <div class="card-content">
-        <!-- <template is="dom-if" if="[[!provider]]"> -->
-        <paper-dropdown-menu class="dropdown-block" label="Providers">
-          <paper-menu attr-for-selected="value" selected="{{provider}}" class="dropdown-content">
-            <template is="dom-repeat" items="[[providersItems]]" as="provider">
+        <paper-dropdown-menu class="dropdown-block" label="Providers" horizontal-align="left">
+          <paper-menu attr-for-selected="value" selected="{{selectedProvider}}" class="dropdown-content">
+            <template is="dom-repeat" items="[[providersList]]" as="provider">
               <paper-item value="[[provider]]">[[provider]]</paper-item>
             </template>
           </paper-menu>
         </paper-dropdown-menu>
-        <!-- </template> -->
 
-        <template is="dom-if" if="[[provider]]">
+        <div hidden$="[[selectedProvider]]">
           <p>Do you want to reset it?
             <paper-button raised on-tap="_providerReset">Reset Provider</paper-button>
           </p>
-        </template>
+        </div>
       </div>
     </paper-card>
 
     <paper-card heading="Add Cloud">
       <div class="card-content">
-        <template is="dom-if" if="[[!provider]]">
+        <div hidden$=[[selectedProvider]]>
           <p>Select a provider above first!!</p>
-        </template>
+        </div>
 
-        <template is="dom-if" if="[[provider]]">
-          <template is="dom-repeat" items="[[providerFields]]" as="field">
-            <paper-input placeholder="[[field.placeholder]]" label="[[field.label]]" value="[[field.defaultValue]]" required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+        <div hidden$=[[!selectedProvider]]>
+          <template is="dom-repeat" items="{{providerFields}}" as="field">
+            <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+              <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            </template>
+
+            <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+              <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+            </template>
+
+            <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
+              <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+                <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                  <template is="dom-repeat" items="[[field.options]]" as="option">
+                    <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                  </template>
+                </paper-menu>
+              </paper-dropdown-menu>
+            </template>
+
+            <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
+              <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+            </template>
           </template>
-          <paper-button class="submit-btn" raised on-tap="_submitForm">Submit</paper-button>
-        </template>
+
+          <div class="clearfix">
+            <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+            <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+          </div>
+        </div>
     </paper-card>
   </template>
 
@@ -61,87 +84,145 @@
         is: 'cloud-add-element',
 
         properties: {
-          provider: {
+          cloud: {
+            type: Object,
+            value: {}
+          },
+          selectedProvider: {
             type: String,
             value: null,
-            observer: '_providerChanged',
             notify: true
           },
-          providersItems: {
+          providersList: {
             type: Array,
-            value: [],
-            computed: '_computeProvidersItems(options)'
+            computed: '_computeProvidersList(fields)'
           },
           providerFields: {
             type: Array,
             value: []
           },
-          options: {
+          fields: {
             type: Array,
-            value: {
-              azure: [{
-                name: 'title',
-                label: 'Title',
-                type: 'text',
-                defaultValue: 'Azure',
-                required: true,
-                errorMessage: 'Title is required'
-              }],
-              coreos: [{
-                name: 'title',
-                label: 'Title',
-                type: 'text',
-                defaultValue: 'CoreOS',
-                required: true,
-                errorMessage: 'Title is required'
-              }, {
-                name: 'machine_ip',
-                label: 'Hostname',
-                type: 'text',
-                placeholder: 'DNS or IP ',
-                required: true,
-                errorMessage: 'IP is required'
-              }]
+            value: function() {
+              return CLOUD_ADD_FORM_FIELDS;
             }
+          },
+          keys: {
+            type: Array,
+            value: function() {
+              return Mist.keys;
+            }
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
+          },
+          formReady: {
+            type: Boolean,
+            value: false
           }
         },
+        observers: [
+          '_providerChanged(selectedProvider, fields)',
+          '_fieldsChanged(providerFields.*, sendingData)',
+          '_keysChanged(keys.*, providerFields)'
+        ],
         ready: function() {
 
         },
-        _computeProvidersItems: function(options) {
-          var data = [],
-            el;
-
-          for (el in options) {
-            data.push(el);
+        _computeProvidersList: function(fields) {
+          return Object.keys(fields);
+        },
+        _computeFieldType: function(field, value, show) {
+          if (!(field.showIf && !field.show)) {
+            return field.type == value;
           }
+        },
+        _providerChanged: function(selectedProvider, fields) {
+          console.log(selectedProvider, fields, fields[selectedProvider]);
+          this.set('cloud', {});
+          this.set('providerFields', fields[selectedProvider]);
+        },
+        _keysChanged: function(keys, providerFields) {
+          var keysOptions = keys.base.map(function(key) {
+            var obj = {};
+            obj['title'] = key.id;
+            obj['val'] = key;
+            return obj;
+          });
 
-          return data;
+          var index = this.providerFields.findIndex(function(field) {
+            return field.name == "machine_key";
+          }, this);
+
+          this.set('providerFields.' + index + '.options', keysOptions);
+          this.set('providerFields.' + index + '.value', '');
+        },
+        _fieldsChanged: function(providerFields, sendingData) {
+          var cloud = this.cloud,
+            show = true,
+            dependency;
+
+          providerFields.base.forEach(function(el, index) {
+            this.set('cloud.' + el.name, el.value);
+
+            if (el.showIf) {
+              if (el.showIf.fieldExists) {
+                dependency = cloud[el.showIf.fieldName],
+                  show = dependency;
+                this.set('providerFields.' + index + '.show', show);
+              } else {
+                dependency = cloud[el.showIf.fieldName],
+                  show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                this.set('providerFields.' + index + '.show', show);
+              }
+
+              if (!show) {
+                this._resetField(el, index);
+              }
+            }
+
+            if (el.placeholderIf) {
+              dependency = cloud[el.placeholderIf.fieldName];
+              this.set('providerFields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
+            }
+          }, this);
+
+          var valid = providerFields.base.every(function(el, index) {
+            return el.show && el.required ? el.value : true;
+          }, this);
+
+          this.set('cloud', cloud);
+// console.log(cloud, providerFields.base);
+          this.set('formReady', valid && !sendingData);
         },
         _providerReset: function() {
           this.set('provider', null);
         },
-        _providerChanged: function(newValue, oldValue) {
-          if (newValue) {
-            var providerFields = [],
-              options = this.options,
-              el;
+        _submitForm: function(e) {
+          console.log(this.cloud);
+        },
+        _resetForm: function(e) {
+          // Reset cloud
+          this.set('cloud', {});
 
-            for (el in options) {
-              if (el == newValue) {
-                providerFields = options[el];
-              }
+          // Reset Form Fields
+          this.providerFields.forEach(function(el, index) {
+            if (el.showIf) {
+              this.set('providerFields.' + index + '.show', false);
             }
 
-            this.set('providerFields', providerFields);
-          } else {
-            this.set('providerFields', []);
-          }
+            // Reset Form Fields Validation
+            this._resetField(el, index);
+          }, this);
         },
-        _submitForm: function(e) {
-          //   e.preventDefault();
-          var form = document.getElementById('form');
-          //   console.log(form.serialize(), form.validate());
+        _resetField: function(el, index) {
+          this.set('providerFields.' + index + '.value', el.defaultValue);
+
+          var input = this.querySelector('#' + el.name);
+          if (input) {
+            input.invalid = false;
+          }
         }
       });
     })();

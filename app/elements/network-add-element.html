@@ -140,7 +140,7 @@
             dependency;
 
           fields.base.forEach(function(el, index) {
-            network[el.name] = el.value;
+            this.set('network.' + el.name, el.value);
 
             if (el.showIf) {
               if (el.showIf.fieldExists) {
@@ -173,10 +173,10 @@
           }, this);
 
           var options = clouds.base.map(function(cloud) {
-              var obj = {};
-              obj['title'] = cloud.title;
-              obj['val'] = cloud;
-              return obj;
+            var obj = {};
+            obj['title'] = cloud.title;
+            obj['val'] = cloud;
+            return obj;
           }, this);
 
           this.set('fields.' + index + '.options', options);

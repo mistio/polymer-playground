@@ -1,3 +1,310 @@
+var CLOUD_ADD_FORM_FIELDS = {
+  azure: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "Azure",
+    defaultValue: "Azure",
+    show: true,
+    required: true
+  }, {
+    name: "subscription_id",
+    label: "Subscription ID *",
+    type: "text",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    helpText: "You can find your subscriptionID on the Azure portal",
+    helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
+  }, {
+    name: "certificate",
+    label: "Certificate *",
+    type: "file",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    buttonText: "Add Certificate",
+    buttonFilledText: "Certificate",
+    helpText: "Your Azure certificate PEM file",
+    helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
+  }],
+  coreos: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "CoreOS",
+    defaultValue: "CoreOS",
+    show: true,
+    required: true
+  }, {
+    name: "machine_ip",
+    label: "Hostname *",
+    type: "text",
+    value: "",
+    defaultValue: "",
+    placeholder: "DNS or IP",
+    show: true,
+    required: true
+  }, {
+    name: "machine_key",
+    label: "SSH Key",
+    type: "dropdown",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: false,
+    options: []
+  }, {
+    name: "machine_user",
+    label: "User",
+    type: "text",
+    value: "root",
+    defaultValue: "root",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }, {
+    name: "machine_port",
+    label: "Port",
+    type: "text",
+    value: 22,
+    defaultValue: 22,
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }, {
+    name: "monitoring",
+    label: "Enable monitoring",
+    type: "switch",
+    value: true,
+    defaultValue: true,
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }]
+};
+
+var SCRIPT_RUN_FORM_FIELDS = [{
+  name: "machine",
+  label: "Select Machine *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: []
+}, {
+  name: "parameters",
+  label: "Parameters",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter network's name",
+  show: true,
+  required: false
+}, {
+  name: "schedulerUse",
+  label: "Use Scheduler",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  show: true,
+  required: false
+}, {
+  name: "schedulerName",
+  label: "Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter scheduler's name",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerDescription",
+  label: "Description",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter scheduler's description",
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerEnabled",
+  label: "Enabled",
+  type: "switch",
+  value: true,
+  defaultValue: true,
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerRunImmediately",
+  label: "Run Immediately",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerAction",
+  label: "Select Action *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Reboot",
+    val: "reboot"
+  }, {
+    title: "Destroy",
+    val: "destroy"
+  }, {
+    title: "Start",
+    val: "start"
+  }],
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerExpires",
+  label: "Expires",
+  type: "date",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerType",
+  label: "Select Scheduler's Type *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "One Off",
+    val: "one_off"
+  }, {
+    title: "Interval",
+    val: "interval"
+  }, {
+    title: "Crontab",
+    val: "crontab"
+  }],
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "scedulerOneOffEntry",
+  label: "One Off *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter one-off datetime",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["one_off"]
+  }
+}, {
+  name: "scedulerCrontabEntry",
+  label: "Crontab *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter crontab",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["crontab"]
+  }
+}, {
+  name: "scedulerIntervalEveryEntry",
+  label: "Every *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter crontab",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["interval"]
+  }
+}, {
+  name: "scedulerIntervalPeriodEntry",
+  label: "Period *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Days",
+    val: "days"
+  }, {
+    title: "Hours",
+    val: "hours"
+  }, {
+    title: "Minutes",
+    val: "minutes"
+  }, {
+    title: "Seconds",
+    val: "seconds"
+  }, {
+    title: "Milliseconds",
+    val: "millisecaonds"
+  }],
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["interval"]
+  }
+}];
+
 var NETWORK_FORM_FIELDS = [{
   name: "name",
   label: "Name *",
@@ -18,13 +325,7 @@ var NETWORK_FORM_FIELDS = [{
   errorMessage: "Please select a cloud",
   show: true,
   required: true,
-  options: [{
-    title: "Executable",
-    val: "executable"
-  }, {
-    title: "Ansible Playbook",
-    val: "ansible"
-  }]
+  options: []
 }, {
   name: "adminStateUp",
   label: "Admin State *",
