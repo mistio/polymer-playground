@@ -16,46 +16,55 @@
             --mist-very-light-color: #eceff1;
             --mist-blue: #0099cc;
         }
-
+        
         .green {
             background-color: var(--green-color);
             color: #fff;
         }
+        
         .red {
             background-color: var(--red-color);
             color: #fff;
         }
+        
         .orange {
             background-color: var(--orange-color);
-            color: #444;   
+            color: #444;
         }
+        
         .blue {
             background-color: var(--blue-color);
-            color: #444;   
+            color: #444;
         }
+        
         .mist-dark {
             background-color: var(--mist-dark-color);
-            color: #fff;   
+            color: #fff;
         }
+        
         .mist-light {
             background-color: var(--mist-light-color);
-            color: #444;   
+            color: #444;
         }
+        
         .mist-very-light {
             background-color: var(--mist-very-light-color);
-            color: #444;   
+            color: #444;
         }
+        
         .mist-blue {
             background-color: var(--mist-blue);
-            color: #fff;   
+            color: #fff;
         }
+        
         .gray-dark {
             background-color: var(--gray-dark-color);
-            color: #444;   
+            color: #444;
         }
+        
         .gray-light {
             background-color: var(--gray-light-color);
-            color: #444;   
+            color: #444;
         }
         
         .page-title {
@@ -95,33 +104,38 @@
             padding-bottom: 2px;
             padding-left: 8px;
         }
+        
         paper-dialog {
             padding: 0;
         }
         /*paper-dialog, */
-        paper-dialog ::content .buttons {
+        
+        paper-dialog::content .buttons {
             background-color: var(--mist-very-light-color);
         }
-        paper-dialog ::content h2 {
+        
+        paper-dialog::content h2 {
             background-color: var(--mist-very-light-color);
             padding: 16px 24px;
             margin: 0;
             line-height: 36px;
             height: 36px;
         }
-        paper-dialog ::content paper-dialog-scrollable {
+        
+        paper-dialog::content paper-dialog-scrollable {
             background-color: #fff;
             margin-top: 0;
         }
-        paper-dialog ::content paper-button {
+        
+        paper-dialog::content paper-button {
             /*color: #0099cc;*/
             color: #444;
         }
-
-        paper-dialog ::content .scrollable {
+        
+        paper-dialog::content .scrollable {
             width: 100%;
         }
-
+        
         paper-button.blue {
             background-color: #0099cc;
             color: #fff;
@@ -246,6 +260,53 @@
             background-color: var(--mist-very-light-color);
             padding: 16px;
             box-shadow: 0 -4px 0 #CFD8DC inset;
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="dialogs">
+    <template>
+        <style>
+        
+        paper-dialog > * {
+            margin-top: 0;
+        }
+        
+        paper-dialog h2 {
+            border-bottom: 1px solid #ccc;
+        }
+        
+        :host::content iron-dropdown paper-material {
+            width: 191px;
+            top: 57px !important;
+        }
+        
+        :host::content .focused-line.paper-input-container {
+            background-color: var(--mist-blue);
+        }
+        
+        :host::content .input-content.label-is-floating.paper-input-container label {
+            color: var(--mist-blue);
+        }
+        
+        :host paper-button:not([disabled]) {
+            background-color: #0099cc;
+            color: #fff;
+        }
+        
+        :host .bottom-actions paper-button {
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        :host .bottom-actions paper-button[disabled] {
+            background-color: #eaeaea;
+            color: #a8a8a8;
+            cursor: not-allowed;
+        }
+        
+        .bottom-actions {
+            padding-top: 16px;
         }
         </style>
     </template>

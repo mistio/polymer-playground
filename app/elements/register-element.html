@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <dom-module id="register-element">
     <template>
+        <style is="custom-style" include="dialogs"></style>
         <style include="shared-styles">
         :host {
             display: block;
@@ -10,51 +11,11 @@
         paper-card {
             display: block;
         }
-        
+
         paper-dialog {
             width: 300px;
         }
         
-        paper-dialog > * {
-            margin-top: 0;
-        }
-        
-        paper-dialog h2 {
-            border-bottom: 1px solid #ccc;
-        }
-        
-        :host::content iron-dropdown paper-material {
-            width: 191px;
-            top: 57px !important;
-        }
-        
-        :host::content .focused-line.paper-input-container {
-            background-color: var(--mist-blue);
-        }
-        
-        :host::content .input-content.label-is-floating.paper-input-container label {
-            color: var(--mist-blue);
-        }
-        
-        :host paper-button:not([disabled]) {
-            background-color: #0099cc;
-            color: #fff;
-        }
-        
-        :host .bottom-actions paper-button {
-            width: 100%;
-            font-size: 16px;
-        }
-        
-        :host .bottom-actions paper-button[disabled] {
-            background-color: #ccc;
-            color: #a8a8a8;
-            cursor: not-allowed;
-        }
-        
-        .bottom-actions {
-            padding-top: 16px;
-        }
         </style>
         <paper-card heading="Register">
             <div class="card-content">
