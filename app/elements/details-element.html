@@ -12,10 +12,6 @@
             display: block;
         }
 
-        paper-material.inline {
-            display: inline-block;
-        }
-        
         .flex {
             @apply(--layout-horizontal);
             justify-content: flex-start;
@@ -25,7 +21,7 @@
             margin-right: 16px;
         }
         </style>
-        <paper-material class="form inline">
+        <paper-material class="form">
             <h2>Account Details</h2>
             <div class="flex">
                 <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
@@ -56,7 +52,7 @@
                 </paper-dropdown-menu>
             </div>
             <div class="bottom-actions">
-                <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+                <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
             </div>
         </paper-material>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
