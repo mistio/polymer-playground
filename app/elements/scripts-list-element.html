@@ -74,7 +74,6 @@
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptPage"></paper-fab>
     <script-edit-element script="[[selectedScript]]"></script-edit-element>
-    <script-run-element script="[[selectedScript]]" clouds="[[clouds]]"></script-run-element>
     <dialog-element></dialog-element>
   </template>
 
@@ -258,8 +257,7 @@
           el._openEditScriptModal();
         },
         _runSelected: function(e) {
-          var el = this.querySelector('script-run-element');
-          el._openRunScriptModal();
+          page.show('/run-script/' + this.selectedScript.id);
         },
         _updateSelectedScript: function(e) {
           var script = e.detail.script,

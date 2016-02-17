@@ -17,10 +17,8 @@
       }
     </style>
 
-    <paper-dialog id="runScriptModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-      <h2>Run Script</h2>
-      <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
-      <paper-dialog-scrollable>
+    <paper-card heading="Run Script">
+      <div class="card-content">
         <div hidden$=[[!hasMachines]]>
           <paper-dropdown-menu class="dropdown-block" label="Select machine" horizontal-align="left">
             <paper-menu attr-for-selected="value" selected="{{selectedMachine}}" class="dropdown-content">
@@ -36,12 +34,11 @@
         </div>
 
         <div hidden$=[[hasMachines]]>
-          <p class="text-center">Please add some machines first!</p>
+          <p>Please add some machines first!</p>
         </div>
-      </paper-dialog-scrollable>
-    </paper-dialog>
+      </div>
 
-    <iron-ajax id="runScriptAjax" url="/scripts/[[script.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+      <iron-ajax id="runScriptAjax" url="/scripts/[[script.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
   </template>
 
   <script>
@@ -54,17 +51,19 @@
         properties: {
           script: {
             type: Object,
-            notify: true
+            computed: '_computeScript(id)'
           },
           parameters: {
             type: String,
             value: null
           },
           clouds: {
-            type: Array
+            type: Array,
+            value: []
           },
           machinesOptions: {
             type: Array,
+            value: [],
             computed: '_computeMachinesOptions(clouds)'
           },
           selectedMachine: {
@@ -90,6 +89,11 @@
         ready: function() {
 
         },
+        _computeScript: function(id) {
+          return Mist.scripts.find(function(script) {
+            return script.id == id;
+          });
+        },
         _computeFormReady: function(name, id, sendingData) {
           var formReady = false;
 
@@ -104,16 +108,20 @@
           return formReady;
         },
         _computeMachinesOptions: function(clouds) {
-          return clouds
-            .filter(function(cloud) {
-              return cloud.enabled;
-            })
-            .map(function(cloud) {
-              return cloud.machines;
-            })
-            .reduce(function(a, b) {
-              return a.concat(b);
-            });
+          if (clouds.length) {
+            return clouds
+              .filter(function(cloud) {
+                return cloud.enabled;
+              })
+              .map(function(cloud) {
+                return cloud.machines;
+              })
+              .reduce(function(a, b) {
+                return a.concat(b);
+              });
+          }
+
+          return [];
         },
         _computeHasMachines: function(machinesOptions) {
           return machinesOptions.base.length > 0;

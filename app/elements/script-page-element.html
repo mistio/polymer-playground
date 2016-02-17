@@ -55,13 +55,9 @@
           'updateSelectedScript': '_updateScript'
         },
         _computeScript: function(id) {
-          var current = null;
-          Mist.scripts.forEach(function(script) {
-            if (script.id == id) {
-              current = script;
-            }
+          return Mist.scripts.find(function(script) {
+            return script.id == id;
           }, this);
-          return current;
         },
         _editScript: function(e) {
           var el = this.querySelector('script-edit-element');
