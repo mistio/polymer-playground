@@ -15,19 +15,55 @@
       paper-menu-button paper-button {
         display: block;
       }
+
+      .flex-horizontal-with-ratios {
+        @apply(--layout-horizontal);
+      }
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
     </style>
 
-    <paper-card heading="Single Script">
+    <paper-card heading='Script "[[script.name]]"'>
       <div class="card-content">
-        <h2>[[script.name]]</h2>
+        <div class="info-table">
+          <div class="info-body info-group">
+            <div class="info-item flex-horizontal-with-ratios">
+              <div hidden$="[[!script.description]]" class="flexchild">Description</div>
+              <div class="flexchild">[[script.description]]</div>
+            </div>
+
+            <div class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Type</div>
+              <div class="flexchild">[[script.type]]</div>
+            </div>
+
+            <div hidden$=[[!script.entrypoint]] class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Status</div>
+              <div class="flexchild">[[script.entrypoint]]</div>
+            </div>
+
+            <div hidden$=[[!isInline]] class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Script</div>
+              <div class="flexchild">[[script.script]]</div>
+            </div>
+
+            <div hidden$=[[isInline]] class="info-item flex-horizontal-with-ratios">
+              <div class="flexchild">Url</div>
+              <div class="flexchild">[[script.script]]</div>
+            </div>
+          </div>
+        </div>
       </div>
     </paper-card>
 
     <paper-menu-button class="fab-menu" horizontal-align="right" vertical-align="bottom">
       <paper-fab icon="add" class="dropdown-trigger"></paper-fab>
       <paper-menu class="dropdown-content">
-        <paper-button on-tap="_deleteScript">Delete Script</paper-button>
+        <paper-button on-tap="_runScript">Run Script</paper-button>
         <paper-button on-tap="_editScript">Edit Script</paper-button>
+        <paper-button on-tap="_deleteScript">Delete Script</paper-button>
       </paper-menu>
     </paper-menu-button>
     <script-edit-element script="[[script]]"></script-edit-element>
@@ -48,6 +84,10 @@
           },
           id: {
             type: String
+          },
+          isInline: {
+            type: Boolean,
+            computed: '_computeIsInline(script.source)'
           }
         },
         listeners: {
@@ -58,6 +98,12 @@
           return Mist.scripts.find(function(script) {
             return script.id == id;
           }, this);
+        },
+        _computeIsInline: function(source) {
+          return source == 'inline';
+        },
+        _runScript: function(e) {
+          page.show('/run-script/' + this.script.id);
         },
         _editScript: function(e) {
           var el = this.querySelector('script-edit-element');
