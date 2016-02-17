@@ -21,7 +21,7 @@
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
           </template>
 
           <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
@@ -83,7 +83,7 @@
           }
         },
         observers: [
-          '_fieldsChanged(fields.*, sendingData)'
+          '_fieldsChanged(fields.*, sendingData)',
         ],
         _computeFieldType: function(field, value, show) {
           if (!(field.showIf && !field.show)) {
@@ -92,19 +92,31 @@
         },
         _fieldsChanged: function(fields, sendingData) {
           var script = this.script,
-            show, dependency;
+            show = true,
+            dependency;
 
           fields.base.forEach(function(el, index) {
             script[el.name] = el.value;
 
             if (el.showIf) {
-              dependency = script[el.showIf.fieldName];
-              this.set('fields.' + index + '.show', el.showIf.fieldValues.indexOf(dependency) != -1);
+              if (el.showIf.fieldExists) {
+                dependency = script[el.showIf.fieldName],
+                  show = dependency;
+                this.set('fields.' + index + '.show', show);
+              } else {
+                dependency = script[el.showIf.fieldName],
+                  show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                this.set('fields.' + index + '.show', show);
+              }
+
+              if (!show) {
+                this._resetField(el, index);
+              }
             }
 
-            if (el.valueIf) {
-              dependency = script[el.valueIf.fieldName];
-              this.set('fields.' + index + '.value', el.valueIf.fieldOptions[dependency]);
+            if (el.placeholderIf) {
+              dependency = script[el.placeholderIf.fieldName];
+              this.set('fields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
             }
           }, this);
 
@@ -117,32 +129,10 @@
           this.set('formReady', valid && !sendingData);
         },
         _submitForm: function() {
-          console.log(this.script);
-        },
-        _resetForm: function(e) {
-          // Reset script
-          this.set('script.name', '');
-          this.set('script.url', '');
-          this.set('script.type', '');
-          this.set('script.entryPoint', '');
-          this.set('script.source', '');
-          this.set('script.description', '');
+          var payload = this.script;
+          console.log(payload);
 
-          // Reset Form Fields
-          this.fields.forEach(function(el, index) {
-            this.set('fields.' + index + '.value', el.defaultValue);
-            if (el.showIf) {
-              this.set('fields.' + index + '.show', false);
-            }
-
-            // Reset Form Fields Validation
-            var input = this.querySelector('#' + el.name);
-            if (input) {
-              input.invalid = false;
-            }
-          }, this);
-        },
-        _addScriptAjax: function(e) {
+          //   this.$.addScriptAjax.body = payload;
           //   this.$.addScriptAjax.addRequest();
         },
         _addScriptAjaxRequest: function() {
@@ -157,6 +147,33 @@
               description: this.script.description
             }
           });
+        },
+        _resetForm: function(e) {
+          // Reset script
+          this.set('script.name', '');
+          this.set('script.url', '');
+          this.set('script.type', '');
+          this.set('script.entryPoint', '');
+          this.set('script.source', '');
+          this.set('script.description', '');
+
+          // Reset Form Fields
+          this.fields.forEach(function(el, index) {
+            if (el.showIf) {
+              this.set('fields.' + index + '.show', false);
+            }
+
+            // Reset Form Fields Validation
+            this._resetField(el, index);
+          }, this);
+        },
+        _resetField: function(el, index) {
+          this.set('fields.' + index + '.value', el.defaultValue);
+
+          var input = this.querySelector('#' + el.name);
+          if (input) {
+            input.invalid = false;
+          }
         }
       });
     })();

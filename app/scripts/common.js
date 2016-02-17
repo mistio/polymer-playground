@@ -285,21 +285,22 @@ var SCRIPT_FORM_FIELDS = [{
     fieldName: "source",
     fieldValues: ["github", "url"]
   },
-  errorMessage: "Please enter script"
+  errorMessage: "Please enter entry point"
 }, {
   name: "script",
   label: "Script *",
   type: "textarea",
-  value: "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\tdebug:\n\t\t\tmsg: 'Hello World'\n",
+  value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
   required: true,
+  errorMessage: "Please enter inline script",
   showIf: {
     fieldName: "source",
     fieldValues: ["inline"]
   },
-  valueIf: {
+  placeholderIf: {
     fieldName: "type",
     fieldOptions: {
       "executable": "#!/bin/bash\necho 'hello world'",
