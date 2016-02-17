@@ -125,7 +125,7 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   }
 }, {
   name: "scedulerOneOffEntry",
-  label: "One Off",
+  label: "One Off *",
   type: "text",
   value: "",
   defaultValue: "",
@@ -139,7 +139,7 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   }
 }, {
   name: "scedulerCrontabEntry",
-  label: "Crontab",
+  label: "Crontab *",
   type: "text",
   value: "",
   defaultValue: "",
@@ -150,6 +150,49 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   showIf: {
     fieldName: "schedulerType",
     fieldValues: ["crontab"]
+  }
+}, {
+  name: "scedulerIntervalEveryEntry",
+  label: "Every *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter crontab",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["interval"]
+  }
+}, {
+  name: "scedulerIntervalPeriodEntry",
+  label: "Period *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Days",
+    val: "days"
+  }, {
+    title: "Hours",
+    val: "hours"
+  }, {
+    title: "Minutes",
+    val: "minutes"
+  }, {
+    title: "Seconds",
+    val: "seconds"
+  }, {
+    title: "Milliseconds",
+    val: "millisecaonds"
+  }],
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["interval"]
   }
 }];
 
