@@ -16,9 +16,11 @@
     <template>
         <style is="custom-style" include="shared-styles"></style>
         <style is="custom-style" include="headings"></style>
+        <style is="custom-style" include="forms"></style>
         <style>
-        :host {
+        /*:host {
             display: block;
+            background-color: #fff
         }
 
         :host[focused] {
@@ -86,14 +88,11 @@
 
         ::content paper-item:hover {
             background-color: var(--mist-lighter-color);
-        }
+        }*/
 
         </style>
-        <paper-material>
-            <!-- form title -->
-            <h3 hidden$='[[!formtitle]]' class="app-title-light">{{formtitle}}</h3>
-            <paper-icon-button hidden$='[[!formtitle]]' id="close-this-form" suffix icon="clear"></paper-icon-button>
-            <!-- in <content> comes what <app-forms> tag has inside when called -->
+        <paper-material class="form">
+            <h2 hidden$='[[!formtitle]]'>{{formtitle}}</h2>
             <content></content>
         </paper-material>
     </template>

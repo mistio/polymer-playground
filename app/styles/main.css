@@ -1,153 +1,190 @@
 body {
-  background: #f2f2f2;
-  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #333;
+    background: #f2f2f2;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
 }
+
 .done-icon {
-  margin: 0 0 0 5px;
+    margin: 0 0 0 5px;
 }
+
 
 /* Card's elements */
 
 paper-card {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 .card-options {
-  position: absolute;
-  top: 10px;
-  right: 16px;
+    position: absolute;
+    top: 10px;
+    right: 16px;
 }
+
 .card-options paper-icon-button {
-  vertical-align: top;
+    vertical-align: top;
 }
+
 .search {
-  display: inline-block;
+    display: inline-block;
 }
+
 
 /* Buttons Style */
 
 paper-button[disabled] {
-  background-color: #ccc;
-  color: #fff;
-  cursor: not-allowed;
+    background-color: #eaeaea;
+    color: #a8a8a8;
+    cursor: not-allowed;
 }
+
 paper-fab {
-  background-color: #3f51b5 !important;
-  position: fixed;
-  bottom: 100px;
-  right: 100px;
+    background-color: #3f51b5 !important;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
 }
+
 .fab-menu {
-  position: fixed;
-  bottom: 100px;
-  right: 100px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
 }
+
 paper-dialog paper-icon-button.close {
-  position: absolute;
-  margin: 0;
-  top: 15px;
-  right: 16px;
+    position: absolute;
+    margin: 0;
+    top: 15px;
+    right: 16px;
 }
+
 paper-dialog paper-button {
-  /* this might not be needed*/
-  margin: 32px 0 0;
+    /* this might not be needed*/
+    margin: 32px 0 0;
 }
+
 paper-button.red {
-  background-color: #f44336;
-  color: #fff;
+    background-color: #f44336;
+    color: #fff;
 }
+
 paper-button.green {
-  background-color: green;
-  color: #fff;
+    background-color: green;
+    color: #fff;
 }
-paper-button.purple, paper-button.submit-btn {
-  background-color: #3f51b5;
-  color: #fff;
-  margin: 20px 0 0;
+
+paper-button.purple,
+paper-button.submit-btn {
+    background-color: #3f51b5;
+    color: #fff;
+    margin: 20px 0 0;
 }
-paper-button.purple[disabled], paper-button.submit-btn[disabled] {
-  background-color: #eaeaea;
-  color: #a8a8a8;
-  cursor: not-allowed;
+
+paper-button.purple[disabled],
+paper-button.submit-btn[disabled] {
+    background-color: #eaeaea;
+    color: #a8a8a8;
+    cursor: not-allowed;
 }
-paper-button.btn-block, paper-dropdown-menu.dropdown-block {
-  display: block;
+
+paper-button.btn-block,
+paper-dropdown-menu.dropdown-block {
+    display: block;
 }
+
 
 /* Button Groups */
 
 .btn-group paper-button {
-  width: 50%;
-  float: left;
-  display: block;
+    width: 50%;
+    float: left;
+    display: block;
 }
+
 .btn-group paper-button:nth-of-type(2n+1) {
-  border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
 }
+
 .btn-group paper-button:nth-of-type(2n) {
-  border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
 }
+
 
 /* Typography Helpers */
 
 .text-center {
-  text-align: center;
+    text-align: center;
 }
+
 .text-right {
-  text-align: right;
+    text-align: right;
 }
+
 .text-left {
-  text-align: left;
+    text-align: left;
 }
+
 .pull-right {
-  float: right;
+    float: right;
 }
+
 .pull-left {
-  float: left;
+    float: left;
 }
+
 .clearfix:after {
-  display: table;
-  clear: both;
-  content: '';
+    display: table;
+    clear: both;
+    content: '';
 }
+
 
 /* Lists Basic Styling */
 
 .info-head > * {
-  font-weight: 700;
-  padding: 16px 0;
+    font-weight: 700;
+    padding: 16px 0;
 }
+
 .info-head {
-  border-bottom: 1px solid #7f7f7f;
+    border-bottom: 1px solid #7f7f7f;
 }
+
 .info-body .info-item {
-  border-bottom: 1px solid #d4d4d4;
-  padding: 16px 0;
-  min-height: inherit;
+    border-bottom: 1px solid #d4d4d4;
+    padding: 16px 0;
+    min-height: inherit;
 }
+
 .info-body .sub-items .info-item {
-  color: #7f7f7f;
+    color: #7f7f7f;
 }
+
 .info-body .info-item iron-icon {
-  margin-right: 10px;
+    margin-right: 10px;
 }
+
 .info-body .info-item.even {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
+
 .info-body .info-item.last {
-  border: none;
+    border: none;
 }
+
 
 /* Table Basic Styling */
 
 .info-table .info-item .flexchild:first-of-type {
-  font-weight: 700;
+    font-weight: 700;
 }
+
 .info-table .info-group .info-item:nth-of-type(2n) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
+
 .info-table .info-group .info-item:last-of-type {
-  border: none;
+    border: none;
 }

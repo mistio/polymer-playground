@@ -1,167 +1,160 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="details-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-
-      paper-card paper-button {
-        margin: 20px 0 0;
-      }
-
-      paper-button {
-        margin: 20px 0 0;
-        background-color: #3f51b5;
-        color: #fff;
-      }
-
-      paper-button[disabled] {
-        background-color: #ccc;
-        color: #fff;
-        cursor: not-allowed;
-      }
-    </style>
-
-    <paper-card heading="Account Details">
-      <div class="card-content">
-        <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
-
-        <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
-
-        <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
-
-        <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
-          <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
-            <template is="dom-repeat" items="[[countriesOptions]]" as="country">
-              <paper-item value="[[country]]">[[country]]</paper-item>
-            </template>
-          </paper-menu>
-        </paper-dropdown-menu>
-
-        <paper-dropdown-menu class="dropdown-block" label="How many people work there?" horizontal-align="left">
-          <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
-            <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
-              <paper-item value="[[people]]">[[people]]</paper-item>
-            </template>
-          </paper-menu>
-        </paper-dropdown-menu>
-
-        <paper-dropdown-menu class="dropdown-block" label="How many servers do you have?" horizontal-align="left">
-          <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
-            <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
-              <paper-item value="[[servers]]">[[servers]]</paper-item>
-            </template>
-          </paper-menu>
-        </paper-dropdown-menu>
-
-        <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
-      </div>
-    </paper-card>
-
-    <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'details-element',
-
-        properties: {
-          user: {
-            type: Object,
-            value: function() {
-              return {
-                firstName: FIRST_NAME,
-                lastName: LAST_NAME,
-                country: COUNTRY,
-                companyName: COMPANY_NAME,
-                numberOfPeople: NUMBER_OF_PEOPLE,
-                numberOfServers: NUMBER_OF_SERVERS
-              }
-            },
-            notify: true
-          },
-          countriesOptions: {
-            type: Array,
-            value: function() {
-              return COUNTRIES;
-            }
-          },
-          numberOfPeopleOptions: {
-            type: Array,
-            value: ['1-5', '6-20', '21-100', '100+']
-          },
-          numberOfServersOptions: {
-            type: Array,
-            value: ['1-5', '6-20', '21-100', '100+']
-          },
-          sendingData: {
-            type: Boolean,
-            value: false
-          },
-          formReady: {
-            type: Boolean,
-            computed: '_computeFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, sendingData)'
-          }
-        },
-        ready: function() {
-
-        },
-        _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
-          return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
-        },
-        _submitForm: function(e) {
-          var payload = {
-            action: 'update_details',
-            first_name: this.user.firstName,
-            last_name: this.user.lastName,
-            last_name: this.user.lastName,
-            company_name: this.user.companyName,
-            country: this.user.country,
-            number_of_servers: this.user.numberOfServers,
-            number_of_people: this.user.numberOfPeople
-          };
-
-          this._fireEvents();
-
-          //   this.$.ajax.body = payload;
-          //   this.$.ajax.generateRequest();
-        },
-        _ajaxRequest: function() {
-          this.set('sendingData', true);
-        },
-        _ajaxResponse: function() {
-          this.set('sendingData', false);
-          this._fireEvents();
-        },
-        _fireEvents: function() {
-          // Update user's info where needed
-          this.fire('iron-signal', {
-            name: 'user-menu',
-            data: {
-              firstName: this.user.firstName,
-              lastName: this.user.lastName
-            }
-          });
-
-          // Show a notification
-          this._showNotification(this.user.firstName + ' your details were updated!');
-        },
-        _showNotification: function(title) {
-          var notification = Polymer.dom(document).querySelector('notification-element');
-          notification.title = title;
-          notification._openToast();
+    <template>
+        <style is="custom-style" include="forms"></style>
+        <style include="shared-styles">
+        :host {
+            display: block;
         }
-      });
+        
+        paper-material {
+            display: block;
+        }
+
+        paper-material.inline {
+            display: inline-block;
+        }
+        
+        .flex {
+            @apply(--layout-horizontal);
+            justify-content: flex-start;
+        }
+
+        .flex > * {
+            margin-right: 16px;
+        }
+        </style>
+        <paper-material class="form inline">
+            <h2>Account Details</h2>
+            <div class="flex">
+                <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+                <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
+            </div>
+            <div class="flex">
+                <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
+                <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
+                    <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
+                        <template is="dom-repeat" items="[[countriesOptions]]" as="country">
+                            <paper-item value="[[country]]">[[country]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <paper-dropdown-menu class="dropdown-block" label="How many people work there?" horizontal-align="left">
+                    <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
+                        <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
+                            <paper-item value="[[people]]">[[people]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <paper-dropdown-menu class="dropdown-block" label="How many servers do you have?" horizontal-align="left">
+                    <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
+                        <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
+                            <paper-item value="[[servers]]">[[servers]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+            </div>
+            <div class="bottom-actions">
+                <paper-button class="submit-btn" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+            </div>
+        </paper-material>
+        <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'details-element',
+
+            properties: {
+                user: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            firstName: FIRST_NAME,
+                            lastName: LAST_NAME,
+                            country: COUNTRY,
+                            companyName: COMPANY_NAME,
+                            numberOfPeople: NUMBER_OF_PEOPLE,
+                            numberOfServers: NUMBER_OF_SERVERS
+                        }
+                    },
+                    notify: true
+                },
+                countriesOptions: {
+                    type: Array,
+                    value: function() {
+                        return COUNTRIES;
+                    }
+                },
+                numberOfPeopleOptions: {
+                    type: Array,
+                    value: ['1-5', '6-20', '21-100', '100+']
+                },
+                numberOfServersOptions: {
+                    type: Array,
+                    value: ['1-5', '6-20', '21-100', '100+']
+                },
+                sendingData: {
+                    type: Boolean,
+                    value: false
+                },
+                formReady: {
+                    type: Boolean,
+                    computed: '_computeFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, sendingData)'
+                }
+            },
+            ready: function() {
+
+            },
+            _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
+                return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
+            },
+            _submitForm: function(e) {
+                var payload = {
+                    action: 'update_details',
+                    first_name: this.user.firstName,
+                    last_name: this.user.lastName,
+                    last_name: this.user.lastName,
+                    company_name: this.user.companyName,
+                    country: this.user.country,
+                    number_of_servers: this.user.numberOfServers,
+                    number_of_people: this.user.numberOfPeople
+                };
+
+                this._fireEvents();
+
+                //   this.$.ajax.body = payload;
+                //   this.$.ajax.generateRequest();
+            },
+            _ajaxRequest: function() {
+                this.set('sendingData', true);
+            },
+            _ajaxResponse: function() {
+                this.set('sendingData', false);
+                this._fireEvents();
+            },
+            _fireEvents: function() {
+                // Update user's info where needed
+                this.fire('iron-signal', {
+                    name: 'user-menu',
+                    data: {
+                        firstName: this.user.firstName,
+                        lastName: this.user.lastName
+                    }
+                });
+
+                // Show a notification
+                this._showNotification(this.user.firstName + ' your details were updated!');
+            },
+            _showNotification: function(title) {
+                var notification = Polymer.dom(document).querySelector('notification-element');
+                notification.title = title;
+                notification._openToast();
+            }
+        });
     })();
-  </script>
+    </script>
 </dom-module>

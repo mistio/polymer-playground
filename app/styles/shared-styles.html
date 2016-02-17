@@ -195,6 +195,10 @@
         paper-material > p {
             padding: 16px;
         }
+
+        paper-material.form > h2 {
+            padding: 0 0 16px 0;
+        }
         
         paper-material .top-actions {
             position: absolute;
@@ -204,13 +208,14 @@
         
         paper-material .bottom-actions {
             padding-bottom: 2px;
-            padding-left: 8px;
+            margin-top: 16px;
+            /*padding-left: 8px;*/
         }
         
         paper-dialog {
             padding: 0;
         }
-        
+        paper-material paper-button,
         paper-button.blue {
             background-color: #0099cc;
             color: #fff;
@@ -335,6 +340,84 @@
             background-color: var(--mist-very-light-color);
             padding: 16px;
             box-shadow: 0 -4px 0 #CFD8DC inset;
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="forms">
+    <template>
+        <style>
+        :host {
+            display: block;            
+        }
+
+        :host[focused] {
+            outline: none;
+        }
+
+        paper-material.form {
+            background-color: #fff;
+            padding: 24px;
+        }
+        
+        :host::content iron-dropdown paper-material {
+            width: 191px;
+            top: 57px !important;
+        }
+        
+        :host::content .focused-line.paper-input-container {
+            background-color: var(--mist-blue);
+        }
+        
+        :host::content .input-content.label-is-floating.paper-input-container label {
+            color: var(--mist-blue);
+        }
+        
+        :host::content form paper-button {
+            background-color: #0099cc;
+            color: #fff;
+            margin: 0;
+            @apply(--layout-flex);
+        }
+        ::content paper-button {
+            font-weight: 500;
+            padding: 0.8em 1.57em 0.7em 1.57em;
+        }
+        ::content form paper-menu > paper-button {
+            margin: 8px;
+        }
+
+        ::content form paper-button > * {
+            color: #fff;
+        }
+        
+        ::content hr {
+            height: 0;
+            border-bottom: 1px solid #eee;
+            background: transparent;
+            border-width: 0 0 1px 0;
+            margin: 8px -16px 16px -16px;
+        }
+        
+        paper-material > h2 {
+            margin: 0;
+            height: 36px;
+            line-height: 36px;
+            padding-left: 0;
+        }
+
+        #close-this-form {
+            position: absolute;
+            top: 16px;
+            right: 8px;
+        }
+        
+        ::content paper-item {
+            font-size: 13px;
+        }
+
+        ::content paper-item:hover {
+            background-color: var(--mist-lighter-color);
         }
         </style>
     </template>
