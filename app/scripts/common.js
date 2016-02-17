@@ -30,7 +30,7 @@ var NETWORK_FORM_FIELDS = [{
   label: "Admin State *",
   type: "dropdown",
   value: "up",
-  defaultValue: "",
+  defaultValue: "up",
   placeholder: "",
   errorMessage: "Please select admin state",
   show: true,
