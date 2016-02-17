@@ -8,29 +8,48 @@
         display: block;
       }
 
-      paper-card {
+      paper-card,
+      paper-checkbox {
         display: block;
       }
 
-      paper-dialog {
-        width: 300px;
+      paper-toggle-button,
+      paper-checkbox {
+        margin-top: 20px;
       }
     </style>
 
-    <paper-card heading="Run Script">
+    <paper-card heading='Run Script "[[script.name]]"'>
       <div class="card-content">
         <div hidden$=[[!hasMachines]]>
-          <paper-dropdown-menu class="dropdown-block" label="Select machine" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{selectedMachine}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[machinesOptions]]" as="machine">
-                <paper-item value="[[machine]]">[[machine.name]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
+          <template is="dom-repeat" items="{{fields}}" as="field">
+            <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+              <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            </template>
 
-          <paper-textarea label="Parameters (optional)" rows="5" max-rows="5" value="{{parameters}}"></paper-textarea>
+            <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+              <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+            </template>
 
-          <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Run</paper-button>
+            <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
+              <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+                <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                  <template is="dom-repeat" items="[[field.options]]" as="option">
+                    <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                  </template>
+                </paper-menu>
+              </paper-dropdown-menu>
+            </template>
+
+            <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
+              <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+            </template>
+          </template>
+
+          <div class="clearfix">
+            <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+            <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+          </div>
         </div>
 
         <div hidden$=[[hasMachines]]>
@@ -53,22 +72,37 @@
             type: Object,
             computed: '_computeScript(id)'
           },
+          runScript: {
+            type: Object,
+            value: function() {
+              return {
+                name: '',
+                machine: ''
+              }
+            }
+          },
+          fields: {
+            type: Array,
+            value: function() {
+              return SCRIPT_RUN_FORM_FIELDS;
+            },
+            notify: true
+          },
           parameters: {
             type: String,
             value: null
           },
           clouds: {
             type: Array,
-            value: []
+            value: function() {
+              return Mist.clouds.filter(function(cloud) {
+                return cloud.enabled;
+              });
+            }
           },
           machinesOptions: {
             type: Array,
-            value: [],
-            computed: '_computeMachinesOptions(clouds)'
-          },
-          selectedMachine: {
-            type: Object,
-            value: null
+            value: []
           },
           hasMachines: {
             type: Boolean,
@@ -80,85 +114,140 @@
           },
           formReady: {
             type: Boolean,
-            computed: '_computeFormReady(script.name, selectedMachine, sendingData)'
+            value: false
           }
         },
-        listeners: {
-          'iron-overlay-closed': '_modalClosed'
-        },
-        ready: function() {
-
-        },
+        observers: [
+          '_fieldsChanged(fields.*, sendingData)',
+          '_cloudsChanged(clouds.*)'
+        ],
         _computeScript: function(id) {
           return Mist.scripts.find(function(script) {
             return script.id == id;
           });
         },
-        _computeFormReady: function(name, id, sendingData) {
-          var formReady = false;
-
-          if (name && id) {
-            formReady = true;
-          }
-
-          if (sendingData) {
-            formReady = false;
-          }
-
-          return formReady;
-        },
         _computeMachinesOptions: function(clouds) {
-          if (clouds.length) {
-            return clouds
-              .filter(function(cloud) {
-                return cloud.enabled;
-              })
-              .map(function(cloud) {
-                return cloud.machines;
-              })
-              .reduce(function(a, b) {
-                return a.concat(b);
-              });
-          }
-
-          return [];
+          return clouds
+            .filter(function(cloud) {
+              return cloud.enabled;
+            })
+            .map(function(cloud) {
+              return cloud.machines;
+            })
+            .reduce(function(a, b) {
+              return a.concat(b);
+            }, []);
         },
         _computeHasMachines: function(machinesOptions) {
           return machinesOptions.base.length > 0;
         },
-        _openRunScriptModal: function(e) {
-          this.$.runScriptModal.open();
-        },
-        _closeRunScriptModal: function(e) {
-          this.$.runScriptModal.close();
-        },
-        _modalClosed: function(e) {
-          if (e.srcElement.id == 'runScriptModal') {
-            this._formReset();
+        _computeFieldType: function(field, value, show) {
+          if (!(field.showIf && !field.show)) {
+            return field.type == value;
           }
         },
-        _submitForm: function(e) {
-          this._closeRunScriptModal();
+        _fieldsChanged: function(fields, sendingData) {
+          var runScript = this.runScript,
+            show = true,
+            dependency;
 
+          fields.base.forEach(function(el, index) {
+            runScript[el.name] = el.value;
+
+            if (el.showIf) {
+              if (el.showIf.fieldExists) {
+                dependency = runScript[el.showIf.fieldName],
+                  show = dependency;
+                this.set('fields.' + index + '.show', show);
+              } else {
+                dependency = runScript[el.showIf.fieldName],
+                  show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                this.set('fields.' + index + '.show', show);
+              }
+
+              if (!show) {
+                this._resetField(el, index);
+              }
+            }
+
+            if (el.placeholderIf) {
+              dependency = runScript[el.placeholderIf.fieldName];
+              this.set('fields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
+            }
+          }, this);
+
+          var valid = fields.base.every(function(el, index) {
+            return el.show && el.required ? el.value : true;
+          }, this);
+
+          this.set('runScript', runScript);
+
+          this.set('formReady', valid && !sendingData);
+        },
+        _cloudsChanged: function(clouds) {
+          var index = this.fields.findIndex(function(field) {
+            return field.name == "machine";
+          }, this);
+
+          var machinesOptions = clouds.base
+            .filter(function(cloud) {
+              return cloud.enabled;
+            })
+            .map(function(cloud) {
+              return cloud.machines;
+            })
+            .reduce(function(a, b) {
+              return a.concat(b);
+            }, [])
+            .map(function(machine) {
+              var obj = {};
+              obj['title'] = machine.name;
+              obj['val'] = machine;
+              return obj;
+            });
+
+          this.set('machinesOptions', machinesOptions);
+          this.set('fields.' + index + '.options', machinesOptions);
+          this.set('fields.' + index + '.value', '');
+        },
+        _submitForm: function(e) {
           var payload = {
-            machine_id: this.selectedMachine.id,
-            cloud_id: this.selectedMachine.cloud.id,
-            params: this.parameters
+            name: this.runScript.name,
+            machine: this.runScript.machine,
+            schedulerUse: this.runScript.schedulerUse,
+            schedulerType: this.runScript.schedulerType
           };
           console.log(payload);
 
           //   this.$.runScriptAjax.body = payload;
           //   this.$.runScriptAjax.generateRequest();
         },
-        _formReset: function() {
-          this.set('selectedMachine', null);
-          this.set('parameters', null);
-        },
         _runScriptRequest: function() {
           this.set('sendingData', true);
         },
         _runScriptResponse: function(e) {
           this.set('sendingData', false);
+        },
+        _resetForm: function(e) {
+          // Reset runScript
+
+          // Reset Form Fields
+          this.fields.forEach(function(el, index) {
+            if (el.showIf) {
+              this.set('fields.' + index + '.show', false);
+            }
+
+            // Reset Form Fields Validation
+            this._resetField(el, index);
+          }, this);
+        },
+        _resetField: function(el, index) {
+          this.set('fields.' + index + '.value', el.defaultValue);
+
+          var input = this.querySelector('#' + el.name);
+          if (input) {
+            input.invalid = false;
+          }
         }
       });
     })();

@@ -1,3 +1,55 @@
+var SCRIPT_RUN_FORM_FIELDS = [{
+  name: "machine",
+  label: "Select Machine *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: []
+}, {
+  name: "parameters",
+  label: "Parameters",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter network's name",
+  show: true,
+  required: false
+}, {
+  name: "schedulerUse",
+  label: "Use Scheduler",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  show: true,
+  required: false
+}, {
+  name: "schedulerType",
+  label: "Select Type",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "One Off",
+    val: "one_off"
+  }, {
+    title: "Interval",
+    val: "interval"
+  }, {
+    title: "Crontab",
+    val: "crontab"
+  }],
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}];
+
 var NETWORK_FORM_FIELDS = [{
   name: "name",
   label: "Name *",
@@ -18,13 +70,7 @@ var NETWORK_FORM_FIELDS = [{
   errorMessage: "Please select a cloud",
   show: true,
   required: true,
-  options: [{
-    title: "Executable",
-    val: "executable"
-  }, {
-    title: "Ansible Playbook",
-    val: "ansible"
-  }]
+  options: []
 }, {
   name: "adminStateUp",
   label: "Admin State *",
