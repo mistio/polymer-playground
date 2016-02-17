@@ -8,11 +8,13 @@
         display: block;
       }
 
-      paper-card {
+      paper-card,
+      paper-checkbox {
         display: block;
       }
 
-      paper-toggle-button {
+      paper-toggle-button,
+      paper-checkbox {
         margin-top: 20px;
       }
     </style>
@@ -40,6 +42,10 @@
 
           <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
             <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+          </template>
+
+          <template is="dom-if" if="[[_computeFieldType(field, 'checkbox', field.show)]]">
+            <paper-checkbox checked="{{field.value}}"> [[field.label]]</paper-checkbox>
           </template>
         </template>
 

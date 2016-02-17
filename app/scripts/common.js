@@ -79,6 +79,117 @@ var NETWORK_FORM_FIELDS = [{
     fieldExists: true
   },
   errorMessage: "Please enter a subnet name"
+}, {
+  name: "ip_version",
+  label: "IP Version *",
+  type: "dropdown",
+  value: "ipv4",
+  defaultValue: "ipv4",
+  placeholder: "",
+  show: false,
+  required: true,
+  options: [{
+    title: "IPv4",
+    val: "ipv4"
+  }, {
+    title: "IPv6",
+    val: "ipv6"
+  }],
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
+}, {
+  name: "gateway_ip",
+  label: "Gateway IP *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
+}, {
+  name: "disable_gateway",
+  label: "Disable Gateway *",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
+}, {
+  name: "enable_dhcp",
+  label: "Enable DHCP *",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
+}, {
+  name: "create_router",
+  label: "Create Router *",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
+}, {
+  name: "router_name",
+  label: "Router Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "create_router",
+    fieldValues: [true]
+  }
+}, {
+  name: "public_gateway",
+  label: "Set Public Gateway *",
+  type: "checkbox",
+  value: true,
+  defaultValue: true,
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "create_router",
+    fieldValues: [true]
+  }
+}, {
+  name: "allocatios_polls",
+  label: "Allocation Polls *",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "cidr",
+    fieldExists: true
+  }
 }];
 
 var SCRIPT_FORM_FIELDS = [{
