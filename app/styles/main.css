@@ -68,8 +68,8 @@ paper-button.purple, paper-button.submit-btn {
   margin: 20px 0 0;
 }
 paper-button.purple[disabled], paper-button.submit-btn[disabled] {
-  background-color: #ccc;
-  color: #fff;
+  background-color: #eaeaea;
+  color: #a8a8a8;
   cursor: not-allowed;
 }
 paper-button.btn-block, paper-dropdown-menu.dropdown-block {
