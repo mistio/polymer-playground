@@ -23,6 +23,13 @@
       .flexchild {
         @apply(--layout-flex);
       }
+
+      .command-container {
+          background-color: #444;
+          color: #fff;
+          font-family: monospace;
+          padding: 10px;
+      }
     </style>
 
     <paper-card heading='Script "[[script.name]]"'>
@@ -46,7 +53,7 @@
 
             <div hidden$=[[!isInline]] class="info-item flex-horizontal-with-ratios">
               <div class="flexchild">Script</div>
-              <div class="flexchild">[[script.script]]</div>
+              <div class="flexchild command-container">[[script.script]]</div>
             </div>
 
             <div hidden$=[[isInline]] class="info-item flex-horizontal-with-ratios">

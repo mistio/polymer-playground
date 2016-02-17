@@ -1,3 +1,100 @@
+var CLOUD_ADD_FORM_FIELDS = {
+  azure: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "Azure",
+    defaultValue: "Azure",
+    show: true,
+    required: true
+  }, {
+    name: "subscription_id",
+    label: "Subscription ID *",
+    type: "text",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    helpText: "You can find your subscriptionID on the Azure portal",
+    helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
+  }, {
+    name: "certificate",
+    label: "Certificate *",
+    type: "file",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    buttonText: "Add Certificate",
+    buttonFilledText: "Certificate",
+    helpText: "Your Azure certificate PEM file",
+    helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
+  }],
+  coreos: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "CoreOS",
+    defaultValue: "CoreOS",
+    show: true,
+    required: true
+  }, {
+    name: "machine_ip",
+    label: "Hostname *",
+    type: "text",
+    value: "",
+    defaultValue: "",
+    placeholder: "DNS or IP",
+    show: true,
+    required: true
+  }, {
+    name: "machine_key",
+    label: "SSH Key",
+    type: "dropdown",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: false,
+    options: []
+  }, {
+    name: "machine_user",
+    label: "User",
+    type: "text",
+    value: "root",
+    defaultValue: "root",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }, {
+    name: "machine_port",
+    label: "Port",
+    type: "text",
+    value: 22,
+    defaultValue: 22,
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }, {
+    name: "monitoring",
+    label: "Enable monitoring",
+    type: "switch",
+    value: true,
+    defaultValue: true,
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "machine_key",
+      fieldExists: true
+    }
+  }]
+};
+
 var SCRIPT_RUN_FORM_FIELDS = [{
   name: "machine",
   label: "Select Machine *",
@@ -55,17 +152,17 @@ var SCRIPT_RUN_FORM_FIELDS = [{
     fieldValues: [true]
   }
 }, {
-    name: "schedulerEnabled",
-    label: "Enabled",
-    type: "switch",
-    value: true,
-    defaultValue: true,
-    show: true,
-    required: true,
-    showIf: {
-      fieldName: "schedulerUse",
-      fieldValues: [true]
-    }
+  name: "schedulerEnabled",
+  label: "Enabled",
+  type: "switch",
+  value: true,
+  defaultValue: true,
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
 }, {
   name: "schedulerRunImmediately",
   label: "Run Immediately",
