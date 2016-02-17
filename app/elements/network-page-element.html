@@ -92,13 +92,9 @@
           'confirmation': '_deleteNetworkResponse'
         },
         _computeNetwork: function(id) {
-          var current = null;
-          Mist.networks.forEach(function(network) {
-            if (network.id == id) {
-              current = network;
-            }
-          }, this);
-          return current;
+          return Mist.networks.find(function(network) {
+            return network.id == id;
+          });
         },
         _computeHasSubnets: function(subnets) {
           return subnets && subnets.length;

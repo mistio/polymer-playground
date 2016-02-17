@@ -1,28 +1,220 @@
-var SCRIPT_FORM_FIELDS = [{
+var NETWORK_FORM_FIELDS = [{
   name: "name",
-  label: "Name",
+  label: "Name *",
   type: "text",
   value: "",
+  defaultValue: "",
   placeholder: "",
+  errorMessage: "Please enter network's name",
+  show: true,
+  required: true
+}, {
+  name: "cloud",
+  label: "Cloud *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please select a cloud",
+  show: true,
   required: true,
+  options: [{
+    title: "Executable",
+    val: "executable"
+  }, {
+    title: "Ansible Playbook",
+    val: "ansible"
+  }]
+}, {
+  name: "adminStateUp",
+  label: "Admin State *",
+  type: "dropdown",
+  value: true,
+  defaultValue: true,
+  placeholder: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Up",
+    val: true
+  }, {
+    title: "Down",
+    val: false
+  }]
+}, {
+  name: "createSubnet",
+  label: "Create Subnet",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: true,
+  required: false
+}, {
+  name: "subnet_name",
+  label: "Subnet Name",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "createSubnet",
+    fieldValues: [true]
+  }
+}, {
+  name: "subnet_address",
+  label: "Network Address (CIDR)",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_name",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_ipv",
+  label: "IP Version",
+  type: "dropdown",
+  value: "ipv4",
+  defaultValue: "ipv4",
+  placeholder: "",
+  show: false,
+  required: false,
+  options: [{
+    title: "IPv4",
+    val: "ipv4"
+  }, {
+    title: "IPv6",
+    val: "ipv6"
+  }],
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_gatewayIp",
+  label: "Gateway IP",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_disableGateway",
+  label: "Disable Gateway",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_enableDHCP",
+  label: "Enable DHCP",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_createRouter",
+  label: "Create Router",
+  type: "checkbox",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}, {
+  name: "subnet_routerName",
+  label: "Router Name",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_createRouter",
+    fieldValues: [true]
+  }
+}, {
+  name: "network_routerPublicGateway",
+  label: "Set Public Gateway",
+  type: "checkbox",
+  value: true,
+  defaultValue: true,
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_createRouter",
+    fieldValues: [true]
+  }
+}, {
+  name: "subnet_allocationPools",
+  label: "Allocation Pools",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: false,
+  showIf: {
+    fieldName: "subnet_address",
+    fieldExists: true
+  }
+}];
+
+var SCRIPT_FORM_FIELDS = [{
+  name: "name",
+  label: "Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
   errorMessage: "Please enter script's name",
   show: true,
   required: true
 }, {
   name: "description",
-  label: "Description (optional)",
+  label: "Description",
   type: "textarea",
   value: "",
+  defaultValue: "",
   placeholder: "",
-  required: true,
   errorMessage: "Please enter script's description",
   show: true,
   required: false
 }, {
   name: "type",
-  label: "Type",
+  label: "Type *",
   type: "dropdown",
   value: "",
+  defaultValue: "",
   errorMessage: "Please enter script's description",
   show: true,
   required: true,
@@ -35,9 +227,10 @@ var SCRIPT_FORM_FIELDS = [{
   }]
 }, {
   name: "source",
-  label: "Source",
+  label: "Source *",
   type: "dropdown",
   value: "",
+  defaultValue: "",
   errorMessage: "Please enter script's source",
   show: true,
   required: true,
@@ -52,18 +245,67 @@ var SCRIPT_FORM_FIELDS = [{
     val: "inline"
   }]
 }, {
+  name: "url",
+  label: "Url *",
+  type: "text",
+  value: "http://",
+  defaultValue: "http://",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["url"]
+  },
+  errorMessage: "Please enter a url"
+}, {
+  name: "url",
+  label: "Github Repo *",
+  type: "text",
+  value: "https://github.com/owner/repo",
+  defaultValue: "https://github.com/owner/repo",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["github"]
+  },
+  errorMessage: "Please enter a github repo"
+}, {
   name: "entryPoint",
-  label: "Entry point (optional)",
-  type: "textarea",
+  label: "Entry point",
+  type: "text",
   value: "",
+  defaultValue: "",
   placeholder: "",
   show: false,
   required: false,
   showIf: {
     fieldName: "source",
-    fieldValues: ["url", "github"]
+    fieldValues: ["github", "url"]
   },
   errorMessage: "Please enter script"
+}, {
+  name: "script",
+  label: "Script *",
+  type: "textarea",
+  value: "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\tdebug:\n\t\t\tmsg: 'Hello World'\n",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "source",
+    fieldValues: ["inline"]
+  },
+  valueIf: {
+    fieldName: "type",
+    fieldOptions: {
+      "executable": "#!/bin/bash\necho 'hello world'",
+      "ansible": "- name: Dummy ansible playbook\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\t\tdebug:\n\t\t\t\tmsg: 'Hello World'\n\thosts: localhost\n\ttasks:\n\t\t- name: Dummy task\n\t\t\tdebug: msg='Hello World'\n"
+    }
+  }
 }];
 
 var TIME_MAP = {

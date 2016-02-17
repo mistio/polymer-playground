@@ -1,120 +1,152 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="login-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-
-      paper-dialog {
-        width: 300px;
-      }
-    </style>
-
-    <paper-card heading="Login">
-      <div class="card-content">
-        <paper-button raised on-tap="_openLoginModal">Do you want to login?</paper-button>
-
-        <h2 hidden$="[[!formReady]]">I have your data my friend with email: [[user.email]]!</h2>
-      </div>
-    </paper-card>
-
-    <paper-dialog id="loginModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-      <h2>Sign In</h2>
-      <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
-      <paper-dialog-scrollable>
-        <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
-
-        <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
-
-        <paper-button class="submit-btn btn-block" type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
-    </paper-dialog-scrollable>
-    </paper-dialog>
-
-    <!-- <iron-ajax id="ajax" url="/api/v1/login" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax> -->
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'login-element',
-
-        properties: {
-          user: {
-            type: Object,
-            value: function() {
-              return {
-                email: '',
-                password: ''
-              }
-            },
-            notify: true
-          },
-          sendingData: {
-            type: Boolean,
-            value: false
-          },
-          formReady: {
-            type: Boolean,
-            computed: '_computeFormReady(user.email, user.password, sendingData)'
-          }
-        },
-        listeners: {
-          'iron-overlay-closed': '_modalClosed'
-        },
-        ready: function() {
-
-        },
-        _computeFormReady: function(email, password, sendingData) {
-          var formReady = false;
-
-          if (email && password) {
-            formReady = true;
-          }
-
-          if (sendingData) {
-            formReady = false;
-          }
-
-          return formReady;
-        },
-        _openLoginModal: function(e) {
-          this.$.loginModal.open();
-        },
-        _closeLoginModal: function(e) {
-          this.$.loginModal.close();
-        },
-        _trackErrors: function(e) {
-          console.log(e);
-        },
-        _submitForm: function(e) {
-
-        },
-        _modalClosed: function() {
-          this._formReset();
-        },
-        _formReset: function() {
-          this.set('user.email', '');
-          this.set('user.password', '');
-          this.$.email.invalid = false;
-          this.$.password.invalid = false;
-        },
-        _ajaxRequest: function() {
-          this.set('sendingData', true);
-        },
-        _ajaxResponse: function() {
-          this.set('sendingData', false);
-          this._formReset();
+    <template>
+        <style include="shared-styles">
+        :host {
+            display: block;
         }
-      });
+        
+        paper-card {
+            display: block;
+        }
+        
+        paper-dialog {
+            width: 300px;
+        }
+        
+        paper-dialog > * {
+            margin-top: 0;
+        }
+        
+        paper-dialog h2 {
+            border-bottom: 1px solid #ccc;
+        }
+        
+        :host::content iron-dropdown paper-material {
+            width: 191px;
+            top: 57px !important;
+        }
+        
+        :host::content .focused-line.paper-input-container {
+            background-color: var(--mist-blue);
+        }
+        
+        :host::content .input-content.label-is-floating.paper-input-container label {
+            color: var(--mist-blue);
+        }
+        
+        :host paper-button:not([disabled]) {
+            background-color: #0099cc;
+            color: #fff;            
+        }
+
+        :host .bottom-actions paper-button {
+            width: 100%;
+            font-size: 16px;
+        }
+        :host .bottom-actions paper-button[disabled] {
+            background-color: #ccc;
+            color: #fff; 
+            cursor: not-allowed; 
+        }
+
+        .bottom-actions {
+            padding-top: 16px;
+        }
+        </style>
+        <paper-card heading="Login">
+            <div class="card-content">
+                <paper-button raised on-tap="_openLoginModal">Do you want to login?</paper-button>
+                <h2 hidden$="[[!formReady]]">I have your data my friend with email: [[user.email]]!</h2>
+            </div>
+        </paper-card>
+        <paper-dialog id="loginModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+            <h2>Sign In</h2>
+            <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
+            <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+            <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
+            <div class="bottom-actions">
+                <paper-button disabled type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
+            </div>
+        </paper-dialog>
+        <!-- <iron-ajax id="ajax" url="/api/v1/login" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax> -->
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'login-element',
+
+            properties: {
+                user: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            email: '',
+                            password: ''
+                        }
+                    },
+                    notify: true
+                },
+                sendingData: {
+                    type: Boolean,
+                    value: false
+                },
+                formReady: {
+                    type: Boolean,
+                    computed: '_computeFormReady(user.email, user.password, sendingData)'
+                }
+            },
+            listeners: {
+                'iron-overlay-closed': '_modalClosed'
+            },
+            ready: function() {
+
+            },
+            _computeFormReady: function(email, password, sendingData) {
+                var formReady = false;
+
+                if (email && password) {
+                    formReady = true;
+                }
+
+                if (sendingData) {
+                    formReady = false;
+                }
+
+                return formReady;
+            },
+            _openLoginModal: function(e) {
+                this.$.loginModal.open();
+            },
+            _closeLoginModal: function(e) {
+                this.$.loginModal.close();
+            },
+            _trackErrors: function(e) {
+                console.log(e);
+            },
+            _submitForm: function(e) {
+
+            },
+            _modalClosed: function() {
+                this._formReset();
+            },
+            _formReset: function() {
+                this.set('user.email', '');
+                this.set('user.password', '');
+                this.$.email.invalid = false;
+                this.$.password.invalid = false;
+            },
+            _ajaxRequest: function() {
+                this.set('sendingData', true);
+            },
+            _ajaxResponse: function() {
+                this.set('sendingData', false);
+                this._formReset();
+            }
+        });
     })();
-  </script>
+    </script>
 </dom-module>

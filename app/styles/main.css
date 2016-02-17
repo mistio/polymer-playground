@@ -47,12 +47,12 @@ paper-fab {
 paper-dialog paper-icon-button.close {
   position: absolute;
   margin: 0;
-  top: 18px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
 }
 paper-dialog paper-button {
   /* this might not be needed*/
-  margin: 20px 0 0;
+  margin: 32px 0 0;
 }
 paper-button.red {
   background-color: #f44336;

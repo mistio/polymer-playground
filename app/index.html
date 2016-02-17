@@ -307,11 +307,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Scripts List</span>
           </a>
 
-          <a data-route="add-script" href="/add-script">
-            <iron-icon icon="receipt"></iron-icon>
-            <span>Add Script</span>
-          </a>
-
           <a data-route="templates" href="/templates">
             <iron-icon icon="description"></iron-icon>
             <span>Templates List</span>
@@ -494,6 +489,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <script-page-element data-route="script" id="[[params.id]]"></script-page-element>
 
             <script-add-element data-route="add-script"></script-add-element>
+
+            <script-run-element data-route="run-script" id="[[params.id]]"></script-run-element>
 
             <app-main></app-main>
 

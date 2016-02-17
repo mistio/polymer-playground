@@ -60,13 +60,9 @@
           'updateSelectedKey': '_updateKey',
         },
         _computeKey: function(id) {
-          var current = null;
-          Mist.keys.forEach(function(key) {
-            if (key.id == id) {
-              current = key;
-            }
-          }, this);
-          return current;
+          return Mist.keys.find(function(key) {
+            return key.id == id;
+          });
         },
         _computeIsDefault: function(isDefault) {
           return isDefault;
