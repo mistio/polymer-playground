@@ -110,7 +110,7 @@ var Mist = {
     id: "vYfxbj8HHbkFSGtE9AuZzqhCxF4",
     provider: "openstack",
     title: "Openstack",
-    enabled: false,
+    enabled: true,
     machines: [{
       id: "6f3e3c37-6ab3-40f2-9509-17d7d05e3931",
       name: "6f3e3c37-6ab3-40f2-9509-17d7d05e393d",
