@@ -26,68 +26,65 @@ var NETWORK_FORM_FIELDS = [{
     val: "ansible"
   }]
 }, {
-  name: "admin_state",
+  name: "adminStateUp",
   label: "Admin State *",
   type: "dropdown",
-  value: "up",
-  defaultValue: "up",
+  value: true,
+  defaultValue: true,
   placeholder: "",
-  errorMessage: "Please select admin state",
   show: true,
   required: true,
   options: [{
     title: "Up",
-    val: "up"
+    val: true
   }, {
     title: "Down",
-    val: "down"
+    val: false
   }]
 }, {
-  name: "subnet",
-  label: "Create Subnet *",
+  name: "createSubnet",
+  label: "Create Subnet",
   type: "switch",
   value: false,
   defaultValue: false,
   placeholder: "",
   show: true,
-  required: true
+  required: false
 }, {
   name: "subnet_name",
-  label: "Subnet Name *",
+  label: "Subnet Name",
   type: "text",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "subnet",
+    fieldName: "createSubnet",
     fieldValues: [true]
-  },
-  errorMessage: "Please enter a subnet name"
+  }
 }, {
-  name: "cidr",
-  label: "Network Address (CIDR) *",
+  name: "subnet_address",
+  label: "Network Address (CIDR)",
   type: "text",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
     fieldName: "subnet_name",
     fieldExists: true
-  },
-  errorMessage: "Please enter a subnet name"
+  }
 }, {
-  name: "ip_version",
-  label: "IP Version *",
+  name: "subnet_ipv",
+  label: "IP Version",
   type: "dropdown",
   value: "ipv4",
   defaultValue: "ipv4",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   options: [{
     title: "IPv4",
     val: "ipv4"
@@ -96,98 +93,98 @@ var NETWORK_FORM_FIELDS = [{
     val: "ipv6"
   }],
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }, {
-  name: "gateway_ip",
-  label: "Gateway IP *",
+  name: "subnet_gatewayIp",
+  label: "Gateway IP",
   type: "text",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }, {
-  name: "disable_gateway",
-  label: "Disable Gateway *",
+  name: "subnet_disableGateway",
+  label: "Disable Gateway",
   type: "checkbox",
   value: false,
   defaultValue: false,
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }, {
-  name: "enable_dhcp",
-  label: "Enable DHCP *",
+  name: "subnet_enableDHCP",
+  label: "Enable DHCP",
   type: "checkbox",
   value: false,
   defaultValue: false,
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }, {
-  name: "create_router",
-  label: "Create Router *",
+  name: "subnet_createRouter",
+  label: "Create Router",
   type: "checkbox",
   value: false,
   defaultValue: false,
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }, {
-  name: "router_name",
-  label: "Router Name *",
+  name: "subnet_routerName",
+  label: "Router Name",
   type: "text",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "create_router",
+    fieldName: "subnet_createRouter",
     fieldValues: [true]
   }
 }, {
-  name: "public_gateway",
-  label: "Set Public Gateway *",
+  name: "network_routerPublicGateway",
+  label: "Set Public Gateway",
   type: "checkbox",
   value: true,
   defaultValue: true,
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "create_router",
+    fieldName: "subnet_createRouter",
     fieldValues: [true]
   }
 }, {
-  name: "allocatios_polls",
-  label: "Allocation Polls *",
+  name: "subnet_allocationPools",
+  label: "Allocation Pools",
   type: "textarea",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: false,
-  required: true,
+  required: false,
   showIf: {
-    fieldName: "cidr",
+    fieldName: "subnet_address",
     fieldExists: true
   }
 }];
