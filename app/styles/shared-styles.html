@@ -194,6 +194,7 @@
         paper-material > h2,
         paper-material > p {
             padding: 16px;
+            font-weight: 400;
         }
 
         paper-material.form {
@@ -225,7 +226,7 @@
         paper-button.blue {
             background-color: #0099cc;
             color: #fff;
-            margin: 0;
+            margin: 16px 0 0 0;
             @apply(--layout-flex);
         }
         
@@ -485,6 +486,11 @@
         :host paper-button:not([disabled]) {
             background-color: #0099cc;
             color: #fff;
+        }
+
+        :host paper-button[dialog-dismiss] {
+            background-color: transparent;
+            color: #444;
         }
         
         :host .bottom-actions paper-button {
