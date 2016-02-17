@@ -19,7 +19,7 @@
       }
     </style>
 
-    <paper-card heading='Run Script "[[script.name]]"'>
+    <paper-card heading="[[cardTitleText]]">
       <div class="card-content">
         <div hidden$=[[!hasMachines]]>
           <template is="dom-repeat" items="{{fields}}" as="field">
@@ -115,6 +115,10 @@
           formReady: {
             type: Boolean,
             value: false
+          },
+          cardTitleText: {
+            type: String,
+            computed: '_computeCardTitleText(script.name, runScript.machine)'
           }
         },
         observers: [
@@ -146,13 +150,16 @@
             return field.type == value;
           }
         },
+        _computeCardTitleText: function(name, machine) {
+          return machine ? 'Run Script "' + name + '" on "' + machine.name + '"' : 'Run Script "' + name + '"';
+        },
         _fieldsChanged: function(fields, sendingData) {
           var runScript = this.runScript,
             show = true,
             dependency;
 
           fields.base.forEach(function(el, index) {
-            runScript[el.name] = el.value;
+            this.set('runScript.' + el.name, el.value);
 
             if (el.showIf) {
               if (el.showIf.fieldExists) {
@@ -212,12 +219,12 @@
         },
         _submitForm: function(e) {
           var payload = {
-            name: this.runScript.name,
+            name: this.script.name,
             machine: this.runScript.machine,
             schedulerUse: this.runScript.schedulerUse,
             schedulerType: this.runScript.schedulerType
           };
-          console.log(payload);
+          console.log(payload, this.newScript);
 
           //   this.$.runScriptAjax.body = payload;
           //   this.$.runScriptAjax.generateRequest();

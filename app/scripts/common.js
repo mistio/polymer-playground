@@ -27,8 +27,83 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   show: true,
   required: false
 }, {
+  name: "schedulerName",
+  label: "Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter scheduler's name",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerDescription",
+  label: "Description",
+  type: "textarea",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter scheduler's description",
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerRunImmediately",
+  label: "Run Immediately",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerAction",
+  label: "Select Action *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Reboot",
+    val: "reboot"
+  }, {
+    title: "Destroy",
+    val: "destroy"
+  }, {
+    title: "Start",
+    val: "start"
+  }],
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
+  name: "schedulerExpires",
+  label: "Expires",
+  type: "date",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: false,
+  showIf: {
+    fieldName: "schedulerUse",
+    fieldValues: [true]
+  }
+}, {
   name: "schedulerType",
-  label: "Select Type",
+  label: "Select Scheduler's Type *",
   type: "dropdown",
   value: "",
   defaultValue: "",
@@ -47,6 +122,34 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   showIf: {
     fieldName: "schedulerUse",
     fieldValues: [true]
+  }
+}, {
+  name: "scedulerOneOffEntry",
+  label: "One Off",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter one-off datetime",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["one_off"]
+  }
+}, {
+  name: "scedulerCrontabEntry",
+  label: "Crontab",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please enter crontab",
+  show: true,
+  required: true,
+  showIf: {
+    fieldName: "schedulerType",
+    fieldValues: ["crontab"]
   }
 }];
 

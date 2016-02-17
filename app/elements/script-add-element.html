@@ -96,7 +96,7 @@
             dependency;
 
           fields.base.forEach(function(el, index) {
-            script[el.name] = el.value;
+            this.set('script.' + el.name, el.value);
 
             if (el.showIf) {
               if (el.showIf.fieldExists) {
