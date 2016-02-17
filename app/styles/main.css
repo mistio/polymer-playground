@@ -47,7 +47,7 @@ paper-fab {
 paper-dialog paper-icon-button.close {
   position: absolute;
   margin: 0;
-  top: 16px;
+  top: 15px;
   right: 16px;
 }
 paper-dialog paper-button {
