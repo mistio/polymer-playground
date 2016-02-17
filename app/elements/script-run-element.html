@@ -76,8 +76,19 @@
             type: Object,
             value: function() {
               return {
-                name: '',
-                machine: ''
+                machine: '',
+                parameters: '',
+                schedulerUse: '',
+                schedulerName: '',
+                schedulerDescription: '',
+                schedulerRunImmediately: '',
+                schedulerAction: '',
+                schedulerExpires: '',
+                schedulerType: '',
+                scedulerOneOffEntry: '',
+                scedulerCrontabEntry: '',
+                scedulerIntervalEveryEntry: '',
+                scedulerIntervalPeriodEntry: ''
               }
             }
           },
@@ -219,12 +230,32 @@
         },
         _submitForm: function(e) {
           var payload = {
-            name: this.script.name,
-            machine: this.runScript.machine,
+            description: this.runScript.schedulerDescription,
+            run_immediately: this.runScript.schedulerRunImmediately,
+            script_id: this.script.id,
+            action: this.runScript.schedulerAction,
+            machines_per_cloud: [[this.runScript.machine.id, this.runScript.machine.cloud.id]],
+            enabled: this.runScript.schedulerEnabled,
+            expires: this.runScript.schedulerExpires,
             schedulerUse: this.runScript.schedulerUse,
-            schedulerType: this.runScript.schedulerType
+            cronjob_type: this.runScript.schedulerType,
+            cronjob_entry: null
           };
-          console.log(payload, this.newScript);
+
+          if (this.runScript.schedulerType == "one_off") {
+              payload.cronjob_entry = this.runScript.scedulerOneOffEntry;
+          }
+          if (this.runScript.schedulerType == "interval") {
+              payload.cronjob_entry = {
+                  every: this.runScript.scedulerIntervalEveryEntry,
+                  period: this.runScript.scedulerIntervalPeriodEntry
+              };
+          }
+          if (this.runScript.schedulerType == "crontab") {
+              payload.cronjob_entry = this.runScript.scedulerCrontabEntry
+          }
+
+          console.log(payload);
 
           //   this.$.runScriptAjax.body = payload;
           //   this.$.runScriptAjax.generateRequest();
@@ -237,6 +268,19 @@
         },
         _resetForm: function(e) {
           // Reset runScript
+          this.set('machine', '');
+          this.set('parameters', '');
+          this.set('schedulerUse', '');
+          this.set('schedulerName', '');
+          this.set('schedulerDescription', '');
+          this.set('schedulerRunImmediately', '');
+          this.set('schedulerAction', '');
+          this.set('schedulerExpires', '');
+          this.set('schedulerType', '');
+          this.set('scedulerOneOffEntry', '');
+          this.set('scedulerCrontabEntry', '');
+          this.set('scedulerIntervalEveryEntry', '');
+          this.set('scedulerIntervalPeriodEntry', '');
 
           // Reset Form Fields
           this.fields.forEach(function(el, index) {

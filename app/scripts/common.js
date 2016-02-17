@@ -55,6 +55,18 @@ var SCRIPT_RUN_FORM_FIELDS = [{
     fieldValues: [true]
   }
 }, {
+    name: "schedulerEnabled",
+    label: "Enabled",
+    type: "switch",
+    value: true,
+    defaultValue: true,
+    show: true,
+    required: true,
+    showIf: {
+      fieldName: "schedulerUse",
+      fieldValues: [true]
+    }
+}, {
   name: "schedulerRunImmediately",
   label: "Run Immediately",
   type: "switch",
