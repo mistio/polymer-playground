@@ -11,6 +11,10 @@
       paper-card {
         display: block;
       }
+
+      paper-toggle-button {
+        margin-top: 20px;
+      }
     </style>
 
     <paper-card heading="Add Network">
@@ -33,6 +37,10 @@
               </paper-menu>
             </paper-dropdown-menu>
           </template>
+
+          <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
+            <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+          </template>
         </template>
 
         <div class="clearfix">
@@ -51,30 +59,30 @@
         is: 'network-add-element',
 
         properties: {
-            network: {
-              type: Object,
-              value: function() {
-                return {
-                  name: '',
-                  cloud: ''
-                }
+          network: {
+            type: Object,
+            value: function() {
+              return {
+                name: '',
+                cloud: ''
               }
-            },
-            fields: {
-              type: Array,
-              value: function() {
-                return NETWORK_FORM_FIELDS;
-              },
-              notify: true
-            },
-            sendingData: {
-              type: Boolean,
-              value: false
-            },
-            formReady: {
-              type: Boolean,
-              value: false
             }
+          },
+          fields: {
+            type: Array,
+            value: function() {
+              return NETWORK_FORM_FIELDS;
+            },
+            notify: true
+          },
+          sendingData: {
+            type: Boolean,
+            value: false
+          },
+          formReady: {
+            type: Boolean,
+            value: false
+          }
         },
         observers: [
           '_fieldsChanged(fields.*, sendingData)'
@@ -92,8 +100,19 @@
             network[el.name] = el.value;
 
             if (el.showIf) {
-              dependency = network[el.showIf.fieldName];
-              this.set('fields.' + index + '.show', el.showIf.fieldValues.indexOf(dependency) != -1);
+              if (el.showIf.fieldExists) {
+                dependency = network[el.showIf.fieldName],
+                  show = dependency;
+                this.set('fields.' + index + '.show', show);
+              } else {
+                dependency = network[el.showIf.fieldName],
+                  show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                this.set('fields.' + index + '.show', show);
+              }
+
+              if (!show) {
+                this.resetField(el, index);
+              }
             }
 
             if (el.valueIf) {
@@ -120,19 +139,23 @@
 
           // Reset Form Fields
           this.fields.forEach(function(el, index) {
-            this.set('fields.' + index + '.value', el.defaultValue);
             if (el.showIf) {
               this.set('fields.' + index + '.show', false);
             }
 
             // Reset Form Fields Validation
-            var input = this.querySelector('#' + el.name);
-            if (input) {
-              input.invalid = false;
-            }
+            this.resetField(el, index);
           }, this);
+        },
+        resetField: function(el, index) {
+          this.set('fields.' + index + '.value', el.defaultValue);
+
+          var input = this.querySelector('#' + el.name);
+          if (input) {
+            input.invalid = false;
+          }
         }
       });
     })();
-</script>
+  </script>
 </dom-module>

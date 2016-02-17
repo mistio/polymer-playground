@@ -25,6 +25,60 @@ var NETWORK_FORM_FIELDS = [{
     title: "Ansible Playbook",
     val: "ansible"
   }]
+}, {
+  name: "admin_state",
+  label: "Admin State *",
+  type: "dropdown",
+  value: "up",
+  defaultValue: "",
+  placeholder: "",
+  errorMessage: "Please select admin state",
+  show: true,
+  required: true,
+  options: [{
+    title: "Up",
+    val: "up"
+  }, {
+    title: "Down",
+    val: "down"
+  }]
+}, {
+  name: "subnet",
+  label: "Create Subnet *",
+  type: "switch",
+  value: false,
+  defaultValue: false,
+  placeholder: "",
+  show: true,
+  required: true
+}, {
+  name: "subnet_name",
+  label: "Subnet Name *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "subnet",
+    fieldValues: [true]
+  },
+  errorMessage: "Please enter a subnet name"
+}, {
+  name: "cidr",
+  label: "Network Address (CIDR) *",
+  type: "text",
+  value: "",
+  defaultValue: "",
+  placeholder: "",
+  show: false,
+  required: true,
+  showIf: {
+    fieldName: "subnet_name",
+    fieldExists: true
+  },
+  errorMessage: "Please enter a subnet name"
 }];
 
 var SCRIPT_FORM_FIELDS = [{
