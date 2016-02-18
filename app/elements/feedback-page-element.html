@@ -10,7 +10,11 @@
             position: relative;
             z-index: 0;
         }
-        
+
+        h2 span {
+            @apply(--paper-font-caption);
+        }
+
         paper-card {
             display: block;
         }
@@ -33,17 +37,18 @@
         .flex > * {
             margin: 8px 32px 16px 0;
         }
-
+        
         .flex.stretch {
             justify-content: space-between;
         }
-                
+        
         .half paper-dropdown-menu {
             min-width: 48%;
         }
-        .half ::content iron-dropdown paper-material {
+        
+        .half::content iron-dropdown paper-material {
             width: 48px;
-            min-width: 398px;            
+            min-width: 398px;
         }
         </style>
         <paper-material class="stepper">
@@ -66,9 +71,9 @@
                 </a>
             </div>
         </paper-material>
-        <template is="dom-if" if="[[!pageSecond]]">
-            <paper-material class="form">
-                <h2>Feedback</h2>
+        <paper-material class="form">
+            <h2>Feedback <span>* All fields are mandatory</span></h2>
+            <template is="dom-if" if="[[!pageSecond]]">
                 <div class="flex">
                     <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
                     <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
@@ -104,13 +109,8 @@
                 <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
                 <div class="bottom-actions clearfix">
                     <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
-                </div>
-                <p class="text-center">* All fields are considered to be mandatory</p>
-            </paper-material>
-        </template>
-        <template is="dom-if" if="[[pageSecond]]">
-            <paper-material class="form">
-                <h2>Feedback</h2>
+            </template>
+            <template is="dom-if" if="[[pageSecond]]">
                 <div class="half">
                     <paper-dropdown-menu label="How did you discover mist.io?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
@@ -143,8 +143,7 @@
                     <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
                     <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_submitForm">Submit</paper-button>
                 </div>
-                <p class="text-center">* All fields are considered to be mandatory</p>
-            </paper-material>
+        </paper-material>
         </template>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
         <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
