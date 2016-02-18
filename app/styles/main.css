@@ -9,12 +9,12 @@ body {
 }
 
 a {
-    color: #0099cc;
+    color: #039BE5;
     text-decoration: none;
 }
 
 .paper-menu-1 .selectable-content.paper-menu  > .iron-selected {
-    color: #0099cc;
+    color: #039BE5;
 }
 /* Card's elements */
 
