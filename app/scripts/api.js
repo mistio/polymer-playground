@@ -424,7 +424,59 @@ var Mist = {
     role: "Web Designer"
   }, {
     id: 4,
-    name: "Antzela Dmimitriou",
+    name: "Antzela Dimitriou",
     role: "Backend Developer"
+  }],
+  policies: [{
+    id: 1,
+    permission: "allow",
+    source: "cloud",
+    action: "create",
+    tags: [{
+      key: "provider",
+      value: "aws"
+    }]
+  }, {
+    id: 2,
+    permission: "allow",
+    source: "cloud",
+    action: "provision",
+    tags: [{
+      key: "provider",
+      value: "aws"
+    }]
+  }, {
+    id: 3,
+    permission: "allow",
+    source: "machine",
+    action: "create",
+    tags: [{
+      key: "stack",
+      value: "testing"
+    }]
+  }, {
+    id: 4,
+    permission: "allow",
+    source: "machine",
+    action: "RunScript",
+    tags: [{
+      key: "stack",
+      value: "testing"
+    }]
+  }, {
+    id: 5,
+    permission: "allow",
+    source: "script",
+    action: "execute",
+    tags: [{
+      key: "script_type",
+      value: "loadgen"
+    }]
+  }, {
+    id: 6,
+    permission: "deny",
+    source: "*",
+    action: "*",
+    tags: []
   }]
 };

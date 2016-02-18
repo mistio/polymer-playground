@@ -375,6 +375,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Members List</span>
             <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
+
+          <a data-route="policies" href="/policies">
+            <iron-icon icon="supervisor-account"></iron-icon>
+            <span>Policies List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
+          </a>
+
+          <a data-route="add-policy" href="/add-policy">
+            <iron-icon icon="supervisor-account"></iron-icon>
+            <span>Add Policy</span>
+          </a>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -501,6 +512,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <members-list-element data-route="members"></members-list-element>
 
             <member-page-element data-route="member" id="[[params.id]]"></member-page-element>
+
+            <policies-list-element data-route="policies"></policies-list-element>
+
+            <policy-add-element data-route="add-policy"></policies-list-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
