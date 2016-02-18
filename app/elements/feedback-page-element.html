@@ -52,20 +52,20 @@
         }
         </style>
         <paper-material class="stepper">
-            <div class="step active completed">
-                <a class="container" href="#">
+            <div class="step">
+                <a class="container active completed" href="#" on-tap="_pageChange" page="first"  id="firstpage">
                     <span class="step-number">1</span>
                     <span class="step-title">Demographics</span>
                 </a>
             </div>
             <div class="step">
-                <a class="container" href="#">
+                <a class="container" href="#" on-tap="_pageChange" page="second"  id="secondpage">
                     <span class="step-number">2</span>
                     <span class="step-title">Server details</span>
                 </a>
             </div>
             <div class="step">
-                <a class="container" href="#">
+                <a class="container" href="#" on-tap="_pageChange" page="third"  id="thirdpage">
                     <span class="step-number">3</span>
                     <span class="step-title">General feedback</span>
                 </a>
@@ -73,7 +73,7 @@
         </paper-material>
         <paper-material class="form">
             <h2>Feedback <span>* All fields are mandatory</span></h2>
-            <template is="dom-if" if="[[!pageSecond]]">
+            <template is="dom-if" if="[[pageFirst]]">
                 <div class="flex">
                     <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
                     <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
@@ -102,15 +102,21 @@
                         </paper-menu>
                     </paper-dropdown-menu>
                 </div>
+                <div class="bottom-actions clearfix">
+                    <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+                </div>
+            </template>
+            <template is="dom-if" if="[[pageSecond]]">
                 <iron-label>Where do you host your servers?</iron-label>
                 <template is="dom-repeat" items="[[hostedOptions]]" as="host">
                     <paper-checkbox value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
                 </template>
                 <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
                 <div class="bottom-actions clearfix">
-                    <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+                    <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_pageChange" page="third">Next</paper-button>
+                </div>
             </template>
-            <template is="dom-if" if="[[pageSecond]]">
+            <template is="dom-if" if="[[pageThird]]">
                 <div class="half">
                     <paper-dropdown-menu label="How did you discover mist.io?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
@@ -181,7 +187,15 @@
                     },
                     notify: true
                 },
+                pageFirst: {
+                    type: Boolean,
+                    value: true
+                },
                 pageSecond: {
+                    type: Boolean,
+                    value: false
+                },
+                pageThird: {
                     type: Boolean,
                     value: false
                 },
@@ -283,11 +297,15 @@
                 },
                 firstFormReady: {
                     type: Boolean,
-                    computed: '_computeFirstFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, user.hosted.*, user.hasExtraHosted, user.extraHosted)'
+                    computed: '_computeFirstFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers)'
                 },
                 secondFormReady: {
                     type: Boolean,
-                    computed: '_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve, sendingData)'
+                    computed: '_computeSecondFormReady(user.hosted.*, user.hasExtraHosted, user.extraHosted)'
+                },
+                thirdFormReady: {
+                    type: Boolean,
+                    computed: '_computeThirdFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve, sendingData)'
                 },
                 sendingData: {
                     type: Boolean,
@@ -302,10 +320,19 @@
             ready: function() {
 
             },
-            _computeFirstFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers, hosted, hasExtraHosted, extraHosted) {
+            _computeFirstFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
                 var formReady = false;
 
-                if (firstName && lastName && country && companyName && numberOfPeople && numberOfServers && hosted.base.length) {
+                if (firstName && lastName && country && companyName && numberOfPeople && numberOfServers) {
+                    formReady = true;
+                }
+
+                return formReady;
+            },
+            _computeSecondFormReady: function(hosted, hasExtraHosted, extraHosted) {
+                var formReady = false;
+
+                if (hosted.base.length) {
                     formReady = true;
                 }
 
@@ -315,7 +342,7 @@
 
                 return formReady;
             },
-            _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve, sendingData) {
+            _computeThirdFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve, sendingData) {
                 var formReady = false;
 
                 if (discover && satisfaction && alternative && improve) {
@@ -354,8 +381,30 @@
                 this.set('user.hasExtraAlternative', alternative == 'other');
             },
             _pageChange: function(e) {
+                e.preventDefault();
+                var step;
                 var page = e.currentTarget.getAttribute('page');
-                this.set('pageSecond', page == 'second');
+                if (page == 'first') {
+                    this.set('pageFirst', true);
+                    this.set('pageSecond', false);
+                    this.set('pageThird', false);
+                    step = Polymer.dom(this.root).querySelector('#firstpage');
+                }
+                if (page == 'second') {
+                    this.set('pageFirst', false);
+                    this.set('pageSecond', true);
+                    this.set('pageThird', false);
+                    step = Polymer.dom(this.root).querySelector('#secondpage');
+                }
+                if (page == 'third') {
+                    this.set('pageFirst', false);
+                    this.set('pageSecond', false);
+                    this.set('pageThird', true);
+                    step = Polymer.dom(this.root).querySelector('#thirdpage');
+                }
+                this.toggleClass('active', true, step);
+                
+                // this.set('pageSecond', page == 'second');
             },
             _toggleChecked: function(e) {
                 var checkbox = e.currentTarget,
