@@ -13,6 +13,10 @@
         display: block;
       }
 
+      paper-card {
+        margin-bottom: 40px;
+      }
+
       paper-toggle-button,
       paper-checkbox {
         margin-top: 20px;
@@ -47,6 +51,10 @@
           <template is="dom-repeat" items="{{providerFields}}" as="field">
             <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
               <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            </template>
+
+            <template is="dom-if" if="[[_computeFieldType(field, 'password', field.show)]]">
+              <paper-input id="[[field.name]]" type="password" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
             </template>
 
             <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
@@ -139,8 +147,6 @@
           }
         },
         _providerChanged: function(selectedProvider, fields) {
-          console.log(selectedProvider, fields, fields[selectedProvider]);
-          this.set('cloud', {});
           this.set('providerFields', fields[selectedProvider]);
         },
         _keysChanged: function(keys, providerFields) {
@@ -193,7 +199,7 @@
           }, this);
 
           this.set('cloud', cloud);
-// console.log(cloud, providerFields.base);
+          // console.log(cloud, providerFields.base);
           this.set('formReady', valid && !sendingData);
         },
         _providerReset: function() {
