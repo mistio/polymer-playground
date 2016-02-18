@@ -172,6 +172,19 @@ var POLICY_FORM_FIELDS = [{
       }]
     }
   }
+}, {
+    name: "tags",
+    label: "Tags *",
+    type: "dropdown",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    options: [],
+    showIf: {
+      fieldName: "source",
+      fieldExists: true
+    }
 }];
 
 var CLOUD_ADD_FORM_FIELDS = {
