@@ -1,388 +1,501 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="feedback-page-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-
-      iron-label {
-        display: block;
-        margin-top: 20px;
-      }
-
-      paper-checkbox {
-        display: block;
-        margin-top: 20px;
-      }
-    </style>
-
-    <template is="dom-if" if="[[!pageSecond]]">
-      <paper-card elevation="2" heading="Feedback (Page 1 of 2)">
-        <div class="card-content">
-          <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
-
-          <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
-
-          <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
-
-          <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[countriesOptions]]" as="country">
-                <paper-item value="[[country]]">[[country]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <paper-dropdown-menu class="dropdown-block" label="How many people work there?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
-                <paper-item value="[[people]]">[[people]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <paper-dropdown-menu class="dropdown-block" label="How many servers do you have?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
-                <paper-item value="[[servers]]">[[servers]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <iron-label>Where do you host your servers?</iron-label>
-          <template is="dom-repeat" items="[[hostedOptions]]" as="host">
-            <paper-checkbox value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
-          </template>
-
-          <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
-
-          <div class="clearfix">
-            <paper-button class="submit-btn pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
-          </div>
-          <p class="text-center">* All fields are considered to be mandatory</p>
-        </div>
-      </paper-card>
-    </template>
-
-    <template is="dom-if" if="[[pageSecond]]">
-      <paper-card heading="Feedback (Page 2 of 2)">
-        <div class="card-content">
-          <paper-dropdown-menu class="dropdown-block" label="How did you discover mist.io?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[discoverOptions]]" as="discover">
-                <paper-item value="[[discover.val]]">[[discover.title]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
-
-          <paper-dropdown-menu class="dropdown-block" label="How satisfied are you with mist.io?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[satisfactionOptions]]" as="satisfaction">
-                <paper-item value="[[satisfaction.val]]">[[satisfaction.title]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <paper-dropdown-menu class="dropdown-block" label="Have you considered using similar services?" horizontal-align="left">
-            <paper-menu attr-for-selected="value" selected="{{user.alternative}}" class="dropdown-content">
-              <template is="dom-repeat" items="[[alternativeOptions]]" as="alternative">
-                <paper-item value="[[alternative.val]]">[[alternative.title]]</paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
-
-          <paper-input hidden$="[[!user.hasExtraAlternative]]" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}"></paper-input>
-
-          <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
-
-          <div class="clearfix">
-            <paper-button class="submit-btn pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
-            <paper-button class="submit-btn pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_submitForm">Submit</paper-button>
-          </div>
-          <p class="text-center">* All fields are considered to be mandatory</p>
-        </div>
-      </paper-card>
-    </template>
-
-    <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
-    <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'feedback-page-element',
-
-        properties: {
-          user: {
-            type: Object,
-            value: function() {
-              return {
-                firstName: FIRST_NAME,
-                lastName: LAST_NAME,
-                country: COUNTRY,
-                companyName: COMPANY_NAME,
-                numberOfPeople: NUMBER_OF_PEOPLE,
-                numberOfServers: NUMBER_OF_SERVERS,
-                discover: null,
-                hosted: [],
-                hasExtraHosted: false,
-                extraHosted: null,
-                hasExtraDiscover: false,
-                extraDiscover: null,
-                satisfaction: null,
-                alternative: null,
-                hasExtraAlternative: false,
-                extraAlternative: null,
-                improve: null
-              };
-            },
-            notify: true
-          },
-          pageSecond: {
-            type: Boolean,
-            value: false
-          },
-          countriesOptions: {
-            type: Array,
-            value: function() {
-              return COUNTRIES;
-            }
-          },
-          numberOfPeopleOptions: {
-            type: Array,
-            value: ['1-5', '6-20', '21-100', '100+']
-          },
-          numberOfServersOptions: {
-            type: Array,
-            value: ['1-5', '6-20', '21-100', '100+']
-          },
-          hostedOptions: {
-            type: Array,
-            value: [{
-              title: 'AWS',
-              val: 'AWS'
-            }, {
-              title: 'Google Compute Engine',
-              val: 'Compute'
-            }, {
-              title: 'Azure',
-              val: 'Azure'
-            }, {
-              title: 'SoftLayer',
-              val: 'SoftLayer'
-            }, {
-              title: 'Rackspace',
-              val: 'Rackspace'
-            }, {
-              title: 'Digital Ocean',
-              val: 'Ocean'
-            }, {
-              title: 'Linode',
-              val: 'Linode'
-            }, {
-              title: 'Private Data Center',
-              val: 'Private'
-            }, {
-              title: 'Other',
-              val: 'other'
-            }]
-          },
-          discoverOptions: {
-            type: Array,
-            value: [{
-              title: "Blog",
-              val: "blog"
-            }, {
-              title: "Friend or colleague",
-              val: "friend"
-            }, {
-              title: "Search engine (e.g. Google, Yahoo!)",
-              val: "search"
-            }, {
-              title: "Facebook",
-              val: "facebook"
-            }, {
-              title: "Twitter",
-              val: "twitter"
-            }, {
-              title: "Other",
-              val: "other"
-            }]
-          },
-          satisfactionOptions: {
-            type: Array,
-            value: [{
-              title: "Excited!",
-              val: "excited"
-            }, {
-              title: "It works",
-              val: "itworks"
-            }, {
-              title: "Not sure yet",
-              val: "notsureyet"
-            }, {
-              title: "Disappointed",
-              val: "disappointed"
-            }, {
-              title: "Very disappointed - I no longer use mist.io",
-              val: "verydissapointed"
-            }]
-          },
-          alternativeOptions: {
-            type: Array,
-            value: [{
-              title: "No",
-              val: "none"
-            }, {
-              title: "Yes",
-              val: "other"
-            }]
-          },
-          firstFormReady: {
-            type: Boolean,
-            computed: '_computeFirstFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, user.hosted.*, user.hasExtraHosted, user.extraHosted)'
-          },
-          secondFormReady: {
-            type: Boolean,
-            computed: '_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve, sendingData)'
-          },
-          sendingData: {
-            type: Boolean,
-            value: false
-          }
-        },
-        observers: [
-          '_hostedChanged(user.hosted.*)',
-          '_discoverChanged(user.discover)',
-          '_alternativeChanged(user.alternative)'
-        ],
-        ready: function() {
-
-        },
-        _computeFirstFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers, hosted, hasExtraHosted, extraHosted) {
-          var formReady = false;
-
-          if (firstName && lastName && country && companyName && numberOfPeople && numberOfServers && hosted.base.length) {
-            formReady = true;
-          }
-
-          if (hasExtraHosted && !extraHosted) {
-            formReady = false;
-          }
-
-          return formReady;
-        },
-        _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve, sendingData) {
-          var formReady = false;
-
-          if (discover && satisfaction && alternative && improve) {
-            formReady = true;
-          }
-
-          if (hasExtraDiscover && !extraDiscover) {
-            formReady = false;
-          }
-
-          if (hasExtraAlternative && !extraAlternative) {
-            formReady = false;
-          }
-
-          if (sendingData) {
-            formReady = false;
-          }
-
-          return formReady;
-        },
-        _hostedChanged: function(changeRecord) {
-          var hasExtraHosted = changeRecord.base.indexOf('other') != -1;
-
-          if (hasExtraHosted) {
-            this.set('user.extraHosted', null);
-          }
-
-          this.set('user.hasExtraHosted', hasExtraHosted);
-        },
-        _discoverChanged: function(discover) {
-          this.set('user.extraDiscover', null);
-          this.set('user.hasExtraDiscover', discover == 'other');
-        },
-        _alternativeChanged: function(alternative) {
-          this.set('user.extraAlternative', null);
-          this.set('user.hasExtraAlternative', alternative == 'other');
-        },
-        _pageChange: function(e) {
-          var page = e.currentTarget.getAttribute('page');
-          this.set('pageSecond', page == 'second');
-        },
-        _toggleChecked: function(e) {
-          var checkbox = e.currentTarget,
-            checked = checkbox.checked,
-            val = checkbox.value;
-
-          if (checked) {
-            this.push('user.hosted', val);
-          } else {
-            var index = this.user.hosted.indexOf(val);
-            this.splice('user.hosted', index, 1);
-          }
-        },
-        _submitForm: function() {
-          console.log(this.user);
-          var hosted = this.user.hosted,
-            index = hosted.indexOf('other');
-
-          if (index > -1) {
-            hosted.splice(index, 1);
-            hosted.push(this.user.extraHosted);
-          }
-
-          var discover = this.user.hasExtraDiscover ? this.user.extraDiscover : this.user.discover,
-            alternatives = this.user.hasExtraAlternative ? this.user.extraAlternative : this.user.alternative;
-
-          var payload = {
-            action: 'update_details',
-            first_name: this.user.firstName,
-            last_name: this.user.lastName,
-            company_name: this.user.companyName,
-            country: this.user.country,
-            number_of_servers: this.user.numberOfServers,
-            number_of_people: this.user.numberOfPeople,
-            hosted: hosted,
-            discover: discover,
-            satisfied: this.user.satisfaction,
-            alternatives: alternatives,
-            improve: this.user.improve,
-            feedback: true
-          };
-
-          console.log(payload)
-
-          //   this.$.ajax.body = payload;
-          //   this.$.ajax.generateRequest();
-        },
-        _ajaxRequest: function() {
-          this.set('sendingData', true);
-        },
-        _ajaxResponse: function() {
-          this.set('sendingData', false);
-        },
-        _updateUser: function(e) {
-          this.set('user.firstName', e.detail.firstName);
-          this.set('user.lastName', e.detail.lastName);
+    <template>
+        <style is="custom-style" include="forms"></style>
+        <!-- <style is="custom-style" include="stepper"></style> -->
+        <style include="shared-styles">
+        :host {
+            display: block;
+            position: relative;
+            z-index: 0;
         }
-      });
+        
+        paper-card {
+            display: block;
+        }
+        
+        iron-label {
+            display: block;
+            margin-top: 20px;
+        }
+        
+        paper-checkbox {
+            display: block;
+            margin-top: 20px;
+        }
+        
+        .flex {
+            @apply(--layout-horizontal);
+            justify-content: flex-start;
+        }
+        
+        .flex > * {
+            margin: 8px 32px 16px 0;
+        }
+
+        .flex.stretch {
+            justify-content: space-between;
+        }
+        
+        .stepper {
+            @apply(--layout-horizontal);
+            position: relative;
+            background-color: #fff;
+            padding-top: 12px;
+            margin-bottom: 1px;
+        }
+        
+        .step:after {
+            content: "";
+            display: block;
+            position: relative;
+            height: 1px;
+            background-color: #ccc;
+            position: absolute;
+            z-index: 0;
+            top: 40px;
+            left: 0;
+            width: 100%;
+        }
+        
+        .step {
+            @apply(--layout-flex);
+        }
+        
+        .step:not(:first-child) {
+            text-align: center;
+        }
+        
+        .step:last-child {
+            text-align: right;
+        }
+        
+        .step a.container {
+            background-color: #fff;
+            padding: 16px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            color: inherit;
+        }
+        
+        .step-number {
+            background-color: #eaeaea;
+            color: #a8a8a8;
+            width: 24px;
+            height: 24px;
+            border-radius: 48px;
+            text-align: center;
+            line-height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-title {
+            line-height: 24px;
+            vertical-align: middle;
+            position: relative;
+            z-index: 1;
+            font-size: 14px;
+            opacity: 0.54;
+        }
+        
+        .step.active a.container {
+            cursor: default;
+        }
+        
+        .step.active .step-number,
+        .step.completed .step-number {
+            background-color: var(--mist-blue);
+            color: #fff;
+        }
+        
+        .step.completed .step-title,
+        .step.active .step-title {
+            font-weight: 500;
+            opacity: 0.87;
+        }
+        .half paper-dropdown-menu {
+            min-width: 48%;
+        }
+        .half ::content iron-dropdown paper-material {
+            width: 48px;
+            min-width: 398px;            
+        }
+        </style>
+        <paper-material class="stepper">
+            <div class="step active completed">
+                <a class="container" href="#">
+                    <span class="step-number">1</span>
+                    <span class="step-title">Demographics</span>
+                </a>
+            </div>
+            <div class="step">
+                <a class="container" href="#">
+                    <span class="step-number">2</span>
+                    <span class="step-title">Server details</span>
+                </a>
+            </div>
+            <div class="step">
+                <a class="container" href="#">
+                    <span class="step-number">3</span>
+                    <span class="step-title">General feedback</span>
+                </a>
+            </div>
+        </paper-material>
+        <template is="dom-if" if="[[!pageSecond]]">
+            <paper-material class="form">
+                <h2>Feedback</h2>
+                <div class="flex">
+                    <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+                    <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
+                </div>
+                <div class="flex">
+                    <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
+                    <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[countriesOptions]]" as="country">
+                                <paper-item value="[[country]]">[[country]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                    <paper-dropdown-menu class="dropdown-block" label="How many people work there?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
+                                <paper-item value="[[people]]">[[people]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                    <paper-dropdown-menu class="dropdown-block" label="How many servers do you have?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
+                                <paper-item value="[[servers]]">[[servers]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </div>
+                <iron-label>Where do you host your servers?</iron-label>
+                <template is="dom-repeat" items="[[hostedOptions]]" as="host">
+                    <paper-checkbox value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
+                </template>
+                <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
+                <div class="bottom-actions clearfix">
+                    <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
+                </div>
+                <p class="text-center">* All fields are considered to be mandatory</p>
+            </paper-material>
+        </template>
+        <template is="dom-if" if="[[pageSecond]]">
+            <paper-material class="form">
+                <h2>Feedback</h2>
+                <div class="half">
+                    <paper-dropdown-menu label="How did you discover mist.io?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[discoverOptions]]" as="discover">
+                                <paper-item value="[[discover.val]]">[[discover.title]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </div>
+                <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
+                <div class="flex half">
+                    <paper-dropdown-menu class="dropdown-block" label="How satisfied are you with mist.io?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[satisfactionOptions]]" as="satisfaction">
+                                <paper-item value="[[satisfaction.val]]">[[satisfaction.title]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                    <paper-dropdown-menu class="dropdown-block" label="Have you considered using similar services?" horizontal-align="left">
+                        <paper-menu attr-for-selected="value" selected="{{user.alternative}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[alternativeOptions]]" as="alternative">
+                                <paper-item value="[[alternative.val]]">[[alternative.title]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </div>
+                <paper-input hidden$="[[!user.hasExtraAlternative]]" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}"></paper-input>
+                <paper-textarea label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
+                <div class="clearfix bottom-actions">
+                    <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
+                    <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_submitForm">Submit</paper-button>
+                </div>
+                <p class="text-center">* All fields are considered to be mandatory</p>
+            </paper-material>
+        </template>
+        <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+        <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'feedback-page-element',
+
+            properties: {
+                user: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            firstName: FIRST_NAME,
+                            lastName: LAST_NAME,
+                            country: COUNTRY,
+                            companyName: COMPANY_NAME,
+                            numberOfPeople: NUMBER_OF_PEOPLE,
+                            numberOfServers: NUMBER_OF_SERVERS,
+                            discover: null,
+                            hosted: [],
+                            hasExtraHosted: false,
+                            extraHosted: null,
+                            hasExtraDiscover: false,
+                            extraDiscover: null,
+                            satisfaction: null,
+                            alternative: null,
+                            hasExtraAlternative: false,
+                            extraAlternative: null,
+                            improve: null
+                        };
+                    },
+                    notify: true
+                },
+                pageSecond: {
+                    type: Boolean,
+                    value: false
+                },
+                countriesOptions: {
+                    type: Array,
+                    value: function() {
+                        return COUNTRIES;
+                    }
+                },
+                numberOfPeopleOptions: {
+                    type: Array,
+                    value: ['1-5', '6-20', '21-100', '100+']
+                },
+                numberOfServersOptions: {
+                    type: Array,
+                    value: ['1-5', '6-20', '21-100', '100+']
+                },
+                hostedOptions: {
+                    type: Array,
+                    value: [{
+                        title: 'AWS',
+                        val: 'AWS'
+                    }, {
+                        title: 'Google Compute Engine',
+                        val: 'Compute'
+                    }, {
+                        title: 'Azure',
+                        val: 'Azure'
+                    }, {
+                        title: 'SoftLayer',
+                        val: 'SoftLayer'
+                    }, {
+                        title: 'Rackspace',
+                        val: 'Rackspace'
+                    }, {
+                        title: 'Digital Ocean',
+                        val: 'Ocean'
+                    }, {
+                        title: 'Linode',
+                        val: 'Linode'
+                    }, {
+                        title: 'Private Data Center',
+                        val: 'Private'
+                    }, {
+                        title: 'Other',
+                        val: 'other'
+                    }]
+                },
+                discoverOptions: {
+                    type: Array,
+                    value: [{
+                        title: "Blog",
+                        val: "blog"
+                    }, {
+                        title: "Friend or colleague",
+                        val: "friend"
+                    }, {
+                        title: "Search engine (e.g. Google, Yahoo!)",
+                        val: "search"
+                    }, {
+                        title: "Facebook",
+                        val: "facebook"
+                    }, {
+                        title: "Twitter",
+                        val: "twitter"
+                    }, {
+                        title: "Other",
+                        val: "other"
+                    }]
+                },
+                satisfactionOptions: {
+                    type: Array,
+                    value: [{
+                        title: "Excited!",
+                        val: "excited"
+                    }, {
+                        title: "It works",
+                        val: "itworks"
+                    }, {
+                        title: "Not sure yet",
+                        val: "notsureyet"
+                    }, {
+                        title: "Disappointed",
+                        val: "disappointed"
+                    }, {
+                        title: "Very disappointed - I no longer use mist.io",
+                        val: "verydissapointed"
+                    }]
+                },
+                alternativeOptions: {
+                    type: Array,
+                    value: [{
+                        title: "No",
+                        val: "none"
+                    }, {
+                        title: "Yes",
+                        val: "other"
+                    }]
+                },
+                firstFormReady: {
+                    type: Boolean,
+                    computed: '_computeFirstFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, user.hosted.*, user.hasExtraHosted, user.extraHosted)'
+                },
+                secondFormReady: {
+                    type: Boolean,
+                    computed: '_computeSecondFormReady(user.discover, user.hasExtraDiscover, user.extraDiscover, user.satisfaction, user.alternative, user.hasExtraAlternative, user.extraAlternative, user.improve, sendingData)'
+                },
+                sendingData: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            observers: [
+                '_hostedChanged(user.hosted.*)',
+                '_discoverChanged(user.discover)',
+                '_alternativeChanged(user.alternative)'
+            ],
+            ready: function() {
+
+            },
+            _computeFirstFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers, hosted, hasExtraHosted, extraHosted) {
+                var formReady = false;
+
+                if (firstName && lastName && country && companyName && numberOfPeople && numberOfServers && hosted.base.length) {
+                    formReady = true;
+                }
+
+                if (hasExtraHosted && !extraHosted) {
+                    formReady = false;
+                }
+
+                return formReady;
+            },
+            _computeSecondFormReady: function(discover, hasExtraDiscover, extraDiscover, satisfaction, alternative, hasExtraAlternative, extraAlternative, improve, sendingData) {
+                var formReady = false;
+
+                if (discover && satisfaction && alternative && improve) {
+                    formReady = true;
+                }
+
+                if (hasExtraDiscover && !extraDiscover) {
+                    formReady = false;
+                }
+
+                if (hasExtraAlternative && !extraAlternative) {
+                    formReady = false;
+                }
+
+                if (sendingData) {
+                    formReady = false;
+                }
+
+                return formReady;
+            },
+            _hostedChanged: function(changeRecord) {
+                var hasExtraHosted = changeRecord.base.indexOf('other') != -1;
+
+                if (hasExtraHosted) {
+                    this.set('user.extraHosted', null);
+                }
+
+                this.set('user.hasExtraHosted', hasExtraHosted);
+            },
+            _discoverChanged: function(discover) {
+                this.set('user.extraDiscover', null);
+                this.set('user.hasExtraDiscover', discover == 'other');
+            },
+            _alternativeChanged: function(alternative) {
+                this.set('user.extraAlternative', null);
+                this.set('user.hasExtraAlternative', alternative == 'other');
+            },
+            _pageChange: function(e) {
+                var page = e.currentTarget.getAttribute('page');
+                this.set('pageSecond', page == 'second');
+            },
+            _toggleChecked: function(e) {
+                var checkbox = e.currentTarget,
+                    checked = checkbox.checked,
+                    val = checkbox.value;
+
+                if (checked) {
+                    this.push('user.hosted', val);
+                } else {
+                    var index = this.user.hosted.indexOf(val);
+                    this.splice('user.hosted', index, 1);
+                }
+            },
+            _submitForm: function() {
+                console.log(this.user);
+                var hosted = this.user.hosted,
+                    index = hosted.indexOf('other');
+
+                if (index > -1) {
+                    hosted.splice(index, 1);
+                    hosted.push(this.user.extraHosted);
+                }
+
+                var discover = this.user.hasExtraDiscover ? this.user.extraDiscover : this.user.discover,
+                    alternatives = this.user.hasExtraAlternative ? this.user.extraAlternative : this.user.alternative;
+
+                var payload = {
+                    action: 'update_details',
+                    first_name: this.user.firstName,
+                    last_name: this.user.lastName,
+                    company_name: this.user.companyName,
+                    country: this.user.country,
+                    number_of_servers: this.user.numberOfServers,
+                    number_of_people: this.user.numberOfPeople,
+                    hosted: hosted,
+                    discover: discover,
+                    satisfied: this.user.satisfaction,
+                    alternatives: alternatives,
+                    improve: this.user.improve,
+                    feedback: true
+                };
+
+                console.log(payload)
+
+                //   this.$.ajax.body = payload;
+                //   this.$.ajax.generateRequest();
+            },
+            _ajaxRequest: function() {
+                this.set('sendingData', true);
+            },
+            _ajaxResponse: function() {
+                this.set('sendingData', false);
+            },
+            _updateUser: function(e) {
+                this.set('user.firstName', e.detail.firstName);
+                this.set('user.lastName', e.detail.lastName);
+            }
+        });
     })();
-  </script>
+    </script>
 </dom-module>
