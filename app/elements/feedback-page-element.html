@@ -10,12 +10,12 @@
             position: relative;
             z-index: 0;
         }
-
+        
         h2 span {
             @apply(--paper-font-caption);
         }
-
-        paper-card {
+        
+        paper-card, paper-material {
             display: block;
         }
         
@@ -29,9 +29,20 @@
             margin-top: 20px;
         }
         
+        .stepper {
+            /* may break */
+            max-width: 988px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         .flex {
             @apply(--layout-horizontal);
             justify-content: flex-start;
+        }
+
+        .wrap {
+            flex-wrap: wrap;
         }
         
         .flex > * {
@@ -43,29 +54,74 @@
         }
         
         .half paper-dropdown-menu {
-            min-width: 48%;
+            width: 48%;
         }
         
-        .half::content iron-dropdown paper-material {
-            width: 48px;
-            min-width: 398px;
+        .half::content paper-menu-button {
+            width: 400px;
+            max-width: 100%;
         }
+        /* media query for < 1300px */
+        /* first page: break dd at groups of two */
+        /* third page: break dd one at each line */
+        
+        @media all and (max-width: 1150px) {
+            .responsive-wrap3 {
+                flex-wrap: wrap;
+            }
+            .half paper-dropdown-menu {
+                width: 100%;
+            }
+            
+            .half::content paper-menu-button {
+                max-width: 100%;
+            }
+
+        }
+
+        @media all and (max-width: 1070px) {
+            .responsive-wrap1 {
+                flex: none;
+            }
+            .responsive-wrap1 paper-dropdown-menu {
+                width: 100%;
+            }
+            .responsive-wrap1::content paper-menu-button {
+                width: 400px;
+                max-width: 100% !important;
+            }
+
+        }
+
+        @media all and (max-width: 960px) {
+            .step-number {
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        @media all and (max-width: 860px) {
+            .step-title {
+                display: none;
+            }
+        }
+        
         </style>
         <paper-material class="stepper">
             <div class="step">
-                <a class="container active completed" href="#" on-tap="_pageChange" page="first"  id="firstpage">
+                <a class="container active completed" href="#" on-tap="_pageChange" page="first" id="firstpage">
                     <span class="step-number">1</span>
                     <span class="step-title">Demographics</span>
                 </a>
             </div>
             <div class="step">
-                <a class="container" href="#" on-tap="_pageChange" page="second"  id="secondpage">
+                <a class="container" href="#" on-tap="_pageChange" page="second" id="secondpage">
                     <span class="step-number">2</span>
                     <span class="step-title">Server details</span>
                 </a>
             </div>
             <div class="step">
-                <a class="container" href="#" on-tap="_pageChange" page="third"  id="thirdpage">
+                <a class="container" href="#" on-tap="_pageChange" page="third" id="thirdpage">
                     <span class="step-number">3</span>
                     <span class="step-title">General feedback</span>
                 </a>
@@ -74,11 +130,11 @@
         <paper-material class="form">
             <h2>Feedback <span>* All fields are mandatory</span></h2>
             <template is="dom-if" if="[[pageFirst]]">
-                <div class="flex">
+                <div class="flex wrap">
                     <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
                     <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
                 </div>
-                <div class="flex">
+                <div class="flex wrap responsive-wrap1">
                     <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
                     <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
@@ -127,7 +183,7 @@
                     </paper-dropdown-menu>
                 </div>
                 <paper-input hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
-                <div class="flex half">
+                <div class="flex half responsive-wrap3">
                     <paper-dropdown-menu class="dropdown-block" label="How satisfied are you with mist.io?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[satisfactionOptions]]" as="satisfaction">
@@ -403,7 +459,7 @@
                     step = Polymer.dom(this.root).querySelector('#thirdpage');
                 }
                 this.toggleClass('active', true, step);
-                
+
                 // this.set('pageSecond', page == 'second');
             },
             _toggleChecked: function(e) {

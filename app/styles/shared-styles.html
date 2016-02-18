@@ -356,11 +356,18 @@
             padding: 24px;
         }
         
-        :host::content iron-dropdown paper-material {
+        :host::content paper-dropdown-menu paper-menu-button {
             width: 191px;
+        }
+
+        :host::content paper-menu-button iron-dropdown {
+            width: inherit;
+        }
+
+        :host::content paper-menu-button iron-dropdown paper-material {
             top: 57px !important;
         }
-        
+
         :host::content .focused-line.paper-input-container {
             background-color: var(--mist-blue);
         }
