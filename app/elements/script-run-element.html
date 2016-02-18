@@ -27,6 +27,10 @@
               <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
             </template>
 
+            <template is="dom-if" if="[[_computeFieldType(field, 'number', field.show)]]">
+              <paper-input id="[[field.name]]" type="number" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            </template>
+
             <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
               <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
             </template>
@@ -234,7 +238,7 @@
             run_immediately: this.runScript.schedulerRunImmediately,
             script_id: this.script.id,
             action: this.runScript.schedulerAction,
-            machines_per_cloud: [[this.runScript.machine.id, this.runScript.machine.cloud.id]],
+            machines_per_cloud: [[this.runScript.machine.cloud.id, this.runScript.machine.id]],
             enabled: this.runScript.schedulerEnabled,
             expires: this.runScript.schedulerExpires,
             schedulerUse: this.runScript.schedulerUse,

@@ -202,13 +202,13 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   }
 }, {
   name: "schedulerAction",
-  label: "Select Action *",
+  label: "Select Action",
   type: "dropdown",
   value: "",
   defaultValue: "",
   placeholder: "",
   show: true,
-  required: true,
+  required: false,
   options: [{
     title: "Reboot",
     val: "reboot"
@@ -226,7 +226,7 @@ var SCRIPT_RUN_FORM_FIELDS = [{
 }, {
   name: "schedulerExpires",
   label: "Expires",
-  type: "date",
+  type: "text",
   value: "",
   defaultValue: "",
   show: true,
@@ -288,9 +288,9 @@ var SCRIPT_RUN_FORM_FIELDS = [{
 }, {
   name: "scedulerIntervalEveryEntry",
   label: "Every *",
-  type: "text",
-  value: "",
-  defaultValue: "",
+  type: "number",
+  value: 30,
+  defaultValue: 30,
   placeholder: "",
   errorMessage: "Please enter crontab",
   show: true,
@@ -303,8 +303,8 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   name: "scedulerIntervalPeriodEntry",
   label: "Period *",
   type: "dropdown",
-  value: "",
-  defaultValue: "",
+  value: "minutes",
+  defaultValue: "minutes",
   placeholder: "",
   show: true,
   required: true,
@@ -321,8 +321,8 @@ var SCRIPT_RUN_FORM_FIELDS = [{
     title: "Seconds",
     val: "seconds"
   }, {
-    title: "Milliseconds",
-    val: "millisecaonds"
+    title: "Microseconds",
+    val: "microsecaonds"
   }],
   showIf: {
     fieldName: "schedulerType",
