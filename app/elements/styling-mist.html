@@ -17,12 +17,17 @@
         :host paper-header-panel,
         :host #main {
             padding-top: 180px;
-        }        
-        
+        }
+
         paper-item {
             cursor: pointer;
         }
-
+        
+        paper-header-panel[main],
+        paper-header-panel[drawer] {
+            overflow: hidden;
+        }
+        
         .section {
             display: none;
         }
@@ -41,12 +46,14 @@
             top: 210px;
             left: 10%;
         }
+        
         .colorshow {
             height: 36px;
             line-height: 36px;
             padding: 8px;
             margin-bottom: 4px;
         }
+        
         #demodialog4 {
             max-width: 450px;
         }
@@ -77,11 +84,11 @@
                             <div class="layout flex auto colorshow mist-light">
                                 #B0BEC5
                             </div>
-                            <div class="layout flex auto colorshow mist-very-light">
+                            <div class="layout flex auto colorshow mist-lighter">
                                 #eceff1
                             </div>
                             <div class="layout flex auto colorshow mist-blue">
-                                #0099cc
+                                #039BE5 (replaced #0099cc)
                             </div>
                             <h3>Informational colors</h3>
                             <div class="layout flex auto colorshow green">
@@ -102,7 +109,7 @@
                             </div>
                             <div class="layout flex auto colorshow gray-light">
                                 #eceff1
-                            </div>                             
+                            </div>
                         </div>
                     </section>
                     <section class="section" id="tagsandlabels">
@@ -168,15 +175,7 @@
                             <paper-dialog id="demodialog4">
                                 <h2>Header</h2>
                                 <paper-dialog-scrollable>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur.
-
-                                    Vivamus ultrices erat nisi, ut aliquam magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus.
-
-                                    Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim. Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac.
-
-                                    Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus.
-
-                                    Vestibulum id maximus massa. Mauris consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur. Vivamus ultrices erat nisi, ut aliquam magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus. Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim. Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac. Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus. Vestibulum id maximus massa. Mauris consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
                                 </paper-dialog-scrollable>
                                 <div class="buttons">
                                     <paper-button dialog-dismiss link>Cancel</paper-button>
@@ -207,14 +206,15 @@
                         <div class="center">
                             <h2>Coming next</h2>
                             <p>
-                                 Checkboxes <br/>
-                                 Header <br/>
-                                 Paper card with edit button <br/>
-                                 Cards and Card Headings <br/>
-                                 Fab <br/>
-                                 Notification badges <br/>
-                                 Cards layout in lists <br/>
-                                 Account Page <br/>
+                                Checkboxes
+                                <br/> Header
+                                <br/> Paper card with edit button
+                                <br/> Cards and Card Headings
+                                <br/> Fab
+                                <br/> Notification badges
+                                <br/> Cards layout in lists
+                                <br/> Account Page
+                                <br/>
                             </p>
                         </div>
                     </section>
