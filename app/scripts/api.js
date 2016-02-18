@@ -246,7 +246,7 @@ var Mist = {
     name: "vpc-c20824a7",
     state: "available",
     subnets: [{
-        name: "172.30.0.0/16"
+      name: "172.30.0.0/16"
     }],
     cloud: {
       id: "d98cBYrPqjpAcybzriwznme1a9d",
@@ -409,5 +409,22 @@ var Mist = {
       provider: "openstack",
       enabled: true
     }
+  }],
+  members: [{
+    id: 1,
+    name: "John Doe",
+    role: "QA Engineer"
+  }, {
+    id: 2,
+    name: "Jack Doe",
+    role: "Frontend Engineer"
+  }, {
+    id: 3,
+    name: "Jane Doe",
+    role: "Web Designer"
+  }, {
+    id: 4,
+    name: "Antzela Dmimitriou",
+    role: "Backend Developer"
   }]
 };

@@ -237,21 +237,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Drawer Content -->
         <paper-menu attr-for-selected="data-route" selected="[[route]]">
-          <!-- <a data-route="home" href="{{baseUrl}}">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
-          </a>
-
-          <a data-route="users" href="{{baseUrl}}users">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a>
-
-          <a data-route="contact" href="{{baseUrl}}contact">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
-          </a> -->
-
           <a data-route="notes" href="/notes">
             <iron-icon icon="content-paste"></iron-icon>
             <span>Elements Notes</span>
@@ -384,6 +369,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Tokens List</span>
             <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
+
+          <a data-route="members" href="/members">
+            <iron-icon icon="communication:vpn-key"></iron-icon>
+            <span>Members List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
+          </a>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -447,34 +438,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 
-            <section data-route="users">
-              <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href$="{{baseUrl}}users/Addy">Addy</a>
-                <br>
-                <a href$="{{baseUrl}}users/Rob">Rob</a>
-                <br>
-                <a href$="{{baseUrl}}users/Chuck">Chuck</a>
-                <br>
-                <a href$="{{baseUrl}}users/Sam">Sam</a>
-              </paper-material>
-            </section>
-
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h2 class="page-title">User: {{params.name}}</h2>
-                <div>This is {{params.name}}'s section</div>
-              </paper-material>
-            </section>
-
-            <section data-route="contact">
-              <paper-material elevation="1">
-                <h2 class="page-title">Contact</h2>
-                <p>This is the contact section</p>
-              </paper-material>
-            </section>
-
             <notes-page-element data-route="notes"></notes-page-element>
 
             <styling-quests-page-element data-route="styling-quests"></styling-quests-page-element>
@@ -534,6 +497,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <sessions-list-element data-route="sessions"></sessions-list-element>
 
             <tokens-list-element data-route="tokens"></tokens-list-element>
+
+            <members-list-element data-route="members"></members-list-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
