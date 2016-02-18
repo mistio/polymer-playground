@@ -1,0 +1,77 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="dashboard-page-element">
+  <template>
+    <style is="custom-style" include="dialogs"></style>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        display: block;
+      }
+    </style>
+
+    <paper-card heading="Dashboard">
+      <div class="card-content">
+        <p>Clouds: [[clouds.length]]</p>
+        <p>Machines: [[machines.length]]</p>
+        <p>Keys: [[keys.length]]</p>
+        <p>Networks: [[networks.length]]</p>
+        <p>Scripts: [[scripts.length]]</p>
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'dashboard-page-element',
+
+        properties: {
+          clouds: {
+            type: Array,
+            value: function() {
+              return Mist.clouds;
+            }
+          },
+          machines: {
+            type: Array,
+            value: function() {
+              return Mist.clouds
+                .map(function(cloud) {
+                  return cloud.machines;
+                })
+                .reverse(function(a, b) {
+                  return a.join(b);
+                }, []);
+            }
+          },
+          keys: {
+            type: Array,
+            value: function() {
+              return Mist.keys;
+            }
+          },
+          networks: {
+            type: Array,
+            value: function() {
+              return Mist.networks;
+            }
+          },
+          scripts: {
+            type: Array,
+            value: function() {
+              return Mist.scripts;
+            }
+          }
+        },
+        ready: function() {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>

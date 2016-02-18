@@ -1,48 +1,27 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-<dom-module id="register-element">
+<dom-module id="register-page-element">
     <template>
         <style is="custom-style" include="dialogs"></style>
         <style include="shared-styles">
         :host {
             display: block;
         }
-        
+
         paper-card {
             display: block;
-        }
-
-        paper-dialog {
-            width: 300px;
-        }
-
-        paper-dialog::content h2 {
-            background-color: var(--mist-dark-color);
-            color: #fff;
-        }
-
-        paper-dialog::content iron-icon {
-            color: #fff;
         }
 
         </style>
         <paper-card heading="Register">
             <div class="card-content">
-                <paper-button raised on-tap="_openRegisterModal">Do you want to register?</paper-button>
-                <template is="dom-if" if="[[_computeFormReady(user.name, user.email)]]">
-                    <h2>I have your data dear [[user.name]]!</h2>
-                </template>
+                <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
+                <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+                <div class="bottom-actions">
+                    <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+                </div>
             </div>
         </paper-card>
-        <paper-dialog id="registerModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-            <h2>Register</h2>
-            <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
-            <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
-            <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
-            <div class="bottom-actions">
-                <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
-            </div>
-        </paper-dialog>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
     </template>
     <script>
@@ -50,7 +29,7 @@
         'use strict';
 
         Polymer({
-            is: 'register-element',
+            is: 'register-page-element',
 
             properties: {
                 user: {
@@ -72,9 +51,6 @@
                     computed: '_computeFormReady(user.name, user.email, sendingData)'
                 }
             },
-            listeners: {
-                'iron-overlay-closed': '_modalClosed'
-            },
             ready: function() {
 
             },
@@ -91,17 +67,8 @@
 
                 return formReady;
             },
-            _openRegisterModal: function(e) {
-                this.$.registerModal.open();
-            },
-            _closeRegisterModal: function(e) {
-                this.$.registerModal.close();
-            },
             _submitForm: function(e) {
 
-            },
-            _modalClosed: function() {
-                this._formReset();
             },
             _formReset: function() {
                 this.set('user.name', '');
