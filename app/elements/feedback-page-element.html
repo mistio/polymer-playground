@@ -3,7 +3,7 @@
 <dom-module id="feedback-page-element">
     <template>
         <style is="custom-style" include="forms"></style>
-        <!-- <style is="custom-style" include="stepper"></style> -->
+        <style is="custom-style" include="stepper"></style>
         <style include="shared-styles">
         :host {
             display: block;
@@ -37,88 +37,7 @@
         .flex.stretch {
             justify-content: space-between;
         }
-        
-        .stepper {
-            @apply(--layout-horizontal);
-            position: relative;
-            background-color: #fff;
-            padding-top: 12px;
-            margin-bottom: 1px;
-        }
-        
-        .step:after {
-            content: "";
-            display: block;
-            position: relative;
-            height: 1px;
-            background-color: #ccc;
-            position: absolute;
-            z-index: 0;
-            top: 40px;
-            left: 0;
-            width: 100%;
-        }
-        
-        .step {
-            @apply(--layout-flex);
-        }
-        
-        .step:not(:first-child) {
-            text-align: center;
-        }
-        
-        .step:last-child {
-            text-align: right;
-        }
-        
-        .step a.container {
-            background-color: #fff;
-            padding: 16px;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            color: inherit;
-        }
-        
-        .step-number {
-            background-color: #eaeaea;
-            color: #a8a8a8;
-            width: 24px;
-            height: 24px;
-            border-radius: 48px;
-            text-align: center;
-            line-height: 24px;
-            display: inline-block;
-            vertical-align: middle;
-            font-size: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .step-title {
-            line-height: 24px;
-            vertical-align: middle;
-            position: relative;
-            z-index: 1;
-            font-size: 14px;
-            opacity: 0.54;
-        }
-        
-        .step.active a.container {
-            cursor: default;
-        }
-        
-        .step.active .step-number,
-        .step.completed .step-number {
-            background-color: var(--mist-blue);
-            color: #fff;
-        }
-        
-        .step.completed .step-title,
-        .step.active .step-title {
-            font-weight: 500;
-            opacity: 0.87;
-        }
+                
         .half paper-dropdown-menu {
             min-width: 48%;
         }
