@@ -290,16 +290,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="keys" href="/keys">
             <iron-icon icon="communication:vpn-key"></iron-icon>
             <span>Keys List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="networks" href="/networks">
             <iron-icon icon="hardware:device-hub"></iron-icon>
             <span>Networks List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
+          </a>
+
+          <a data-route="add-network" href="/add-network">
+            <iron-icon icon="hardware:device-hub"></iron-icon>
+            <span>Add Network</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="scripts" href="/scripts">
             <iron-icon icon="receipt"></iron-icon>
             <span>Scripts List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
+          </a>
+
+          <a data-route="add-script" href="/add-script">
+            <iron-icon icon="receipt"></iron-icon>
+            <span>Add Script</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="templates" href="/templates">
@@ -356,11 +371,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="sessions" href="/sessions">
             <iron-icon icon="account-circle"></iron-icon>
             <span>Sessions List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
 
           <a data-route="tokens" href="/tokens">
             <iron-icon icon="communication:vpn-key"></iron-icon>
             <span>Tokens List</span>
+            <iron-icon icon="done" class="done-icon"></iron-icon>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -493,13 +510,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <template-add-element data-route="add-template"></template-add-element>
 
-            <login-element data-route="login"></login-element>
+            <login-page-element data-route="login"></login-page-element>
 
-            <register-element data-route="register"></register-element>
+            <register-page-element data-route="register"></register-page-element>
 
-            <details-element data-route="details"></details-element>
+            <details-page-element data-route="details"></details-page-element>
 
-            <password-element data-route="password"></password-element>
+            <password-page-element data-route="password"></password-page-element>
 
             <plans-list-element data-route="plans"></plans-list-element>
 
