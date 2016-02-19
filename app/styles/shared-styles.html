@@ -232,11 +232,12 @@
         <style>
         .info-head {
             background-color: var(--mist-dark-color);
-            padding: 0 16px;            
+            padding: 0 16px;
             font-weight: 400;
             font-size: 0.9em;
             color: #fff;
         }
+        
         .info-head > * {
             padding: 8px 0;
             line-height: 43px;
@@ -248,47 +249,65 @@
             min-height: inherit;
             cursor: pointer;
         }
+        
         ::content paper-item .name {
             font-weight: 700;
         }
+        
         ::content paper-item paper-checkbox[disabled] ~ .name {
             opacity: 0.54;
         }
-        .info-head paper-checkbox ::content #checkbox {
+        
+        .info-head paper-checkbox >::content #checkbox {
             border-color: #fff;
         }
-        .info-head paper-checkbox ::content #checkmark {
+        
+        .info-head paper-checkbox >::content #checkmark {
             color: #000;
         }
-        .row:nth-child(2n+1):hover, 
+        
+        .row:nth-child(2n+1):hover,
         .row:hover {
             background-color: #eee;
         }
+        
         .row:nth-child(2n+1) {
             background-color: #fafafa;
         }
-        .card-options paper-icon-button ::content iron-icon {
+        
+        .card-options paper-icon-button >::content iron-icon {
             color: var(--mist-light-color);
             transition: 1s color ease;
         }
-        .card-options paper-icon-button ::content iron-icon:hover {
+        
+        .card-options paper-icon-button >::content iron-icon:hover {
             color: var(--mist-blue);
         }
+        
         ::content iron-collapse.sub-items {
             border-bottom: 2px solid #ccc;
         }
+        
         ::content iron-collapse.sub-items .info-item {
             padding: 16px 0 16px 46px;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: 1px solid #ccc;
             min-height: inherit;
             opacity: 0.54;
             font-size: 0.9em;
         }
+        
         ::content .active-true {
             color: #999;
         }
+        
         ::content .session-active {
             color: #000;
+        }
+        
+        ::content .revoke {
+            background-color: var(--red-color);
+            color: #fff;
+            padding: 2px 6px;
         }
         </style>
     </template>
