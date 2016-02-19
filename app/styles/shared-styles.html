@@ -359,15 +359,15 @@
         :host::content paper-dropdown-menu paper-menu-button {
             width: 191px;
         }
-
+        
         :host::content paper-menu-button iron-dropdown {
             width: inherit;
         }
-
+        
         :host::content paper-menu-button iron-dropdown paper-material {
             top: 57px !important;
         }
-
+        
         :host::content .focused-line.paper-input-container {
             background-color: var(--mist-blue);
         }
@@ -486,13 +486,12 @@
             background-color: var(--mist-blue);
             color: #fff;
         }
-
+        
         :host paper-button[dialog-dismiss] {
             background-color: transparent !important;
             color: #444;
         }
-
-            
+        
         :host .bottom-actions paper-button {
             width: 100%;
             font-size: 16px;
@@ -594,6 +593,49 @@
         .step .active .step-title {
             font-weight: 500;
             opacity: 0.87;
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="login-and-register">
+    <template>
+        <style>
+        paper-material {
+            display: block;
+            width: 300px;
+            background-color: #fff;
+        }
+        
+        :host paper-material h2 {
+            background-color: var(--mist-dark-color);
+            color: #fff;
+            margin: 0;
+        }
+        
+        :host paper-input {
+            height: 64px;
+        }
+        
+        :host .form-content {
+            margin: 16px;
+        }
+        
+        :host .bottom-actions {
+            margin: 16px;
+        }
+        
+        :host paper-button {
+            margin: 0;
+        }
+        
+        .centering-parent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        :host .bottom-actions paper-button {
+            width: 100%;
         }
         </style>
     </template>
