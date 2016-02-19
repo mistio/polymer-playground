@@ -18,7 +18,7 @@
       }
 
       .revoke {
-        background-color: #f44336;
+        background-color: var(--red-color);
         color: #fff;
         padding: 2px 6px;
       }
@@ -38,7 +38,7 @@
       }
     </style>
 
-    <paper-item on-tap="_expandSession" class$="info-item flex-horizontal-with-ratios session-item [[indexClass]]">
+    <paper-item on-tap="_expandSession" class$="info-item flex-horizontal-with-ratios session-item [[indexClass]] active-[[isActive]]">
       <div class="flexchild">
         <paper-checkbox checked="{{selected}}" disabled$="[[isActive]]" on-tap="_selectSession"></paper-checkbox> [[createdTimeText]]
       </div>
@@ -46,7 +46,7 @@
       <div class="flexchild text-center">
         <span class="session-active" hidden$="[[!isActive]]">Current Session</span>
         <span class="session-action" hidden$="[[isActive]]">
-          <paper-button disabled$="[[deletingSession]]" class="revoke" raised on-tap="_terminateSession">Terminate</paper-button>
+          <paper-button disabled$="[[deletingSession]]" class="revoke" on-tap="_terminateSession">Terminate</paper-button>
         </span>
       </div>
       <div class="flexchild text-right">
