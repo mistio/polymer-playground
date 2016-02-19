@@ -2,26 +2,25 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <dom-module id="register-page-element">
     <template>
-        <style is="custom-style" include="dialogs"></style>
+        <style is="custom-style" include="forms"></style>
+        <style is="custom-style" include="login-and-register"></style>
         <style include="shared-styles">
         :host {
             display: block;
         }
-
-        paper-card {
-            display: block;
-        }
-
         </style>
-        <paper-card heading="Register">
-            <div class="card-content">
-                <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
-                <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+        <div class="centering-parent">
+            <paper-material>
+                <h2>Register</h2>
+                <div class="form-content">
+                    <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
+                    <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+                </div>
                 <div class="bottom-actions">
                     <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
                 </div>
-            </div>
-        </paper-card>
+            </paper-material>
+        </div>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
     </template>
     <script>

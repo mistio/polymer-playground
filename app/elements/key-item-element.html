@@ -23,11 +23,13 @@
       .flexchild {
         @apply(--layout-flex);
       }
+
     </style>
 
     <paper-item on-tap="_viewKey" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
       <div class="flexchild">
-        <paper-checkbox checked="{{selected}}" on-tap="_selectKey"></paper-checkbox> [[key.id]]
+        <paper-checkbox checked="{{selected}}" on-tap="_selectKey"></paper-checkbox> 
+        <span class="lead name">[[key.id]]</span>
       </div>
       <div class="flexchild">[[isDefaultText]]</div>
     </paper-item>

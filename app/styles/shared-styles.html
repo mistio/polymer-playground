@@ -227,6 +227,51 @@
         </style>
     </template>
 </dom-module>
+<dom-module id="lists">
+    <template>
+        <style>
+        .info-head {
+            background-color: var(--mist-dark-color);
+            padding: 0 16px;            
+            font-weight: 400;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .info-head > * {
+            padding: 8px 0;
+        }
+        
+        ::content paper-item {
+            padding: 8px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            min-height: inherit;
+        }
+        ::content paper-item .name {
+            font-weight: 700;
+        }
+        .info-head paper-checkbox ::content #checkbox {
+            border-color: #fff;
+        }
+        .info-head paper-checkbox ::content #checkmark {
+            color: #000;
+        }
+        .row:nth-child(2n+1):hover, 
+        .row:hover {
+            background-color: #eee;
+        }
+        .row:nth-child(2n+1) {
+            background-color: #fafafa;
+        }
+        .card-options paper-icon-button ::content iron-icon {
+            color: var(--mist-light-color);
+            transition: 1s color ease;
+        }
+        .card-options paper-icon-button ::content iron-icon:hover {
+            color: var(--mist-blue);
+        }
+        </style>
+    </template>
+</dom-module>
 <dom-module id="tags-and-labels">
     <template>
         <style>
@@ -359,15 +404,15 @@
         :host::content paper-dropdown-menu paper-menu-button {
             width: 191px;
         }
-
+        
         :host::content paper-menu-button iron-dropdown {
             width: inherit;
         }
-
+        
         :host::content paper-menu-button iron-dropdown paper-material {
             top: 57px !important;
         }
-
+        
         :host::content .focused-line.paper-input-container {
             background-color: var(--mist-blue);
         }
@@ -486,13 +531,12 @@
             background-color: var(--mist-blue);
             color: #fff;
         }
-
+        
         :host paper-button[dialog-dismiss] {
             background-color: transparent !important;
             color: #444;
         }
-
-            
+        
         :host .bottom-actions paper-button {
             width: 100%;
             font-size: 16px;
@@ -594,6 +638,49 @@
         .step .active .step-title {
             font-weight: 500;
             opacity: 0.87;
+        }
+        </style>
+    </template>
+</dom-module>
+<dom-module id="login-and-register">
+    <template>
+        <style>
+        paper-material {
+            display: block;
+            width: 300px;
+            background-color: #fff;
+        }
+        
+        :host paper-material h2 {
+            background-color: var(--mist-dark-color);
+            color: #fff;
+            margin: 0;
+        }
+        
+        :host paper-input {
+            height: 64px;
+        }
+        
+        :host .form-content {
+            margin: 16px;
+        }
+        
+        :host .bottom-actions {
+            margin: 16px;
+        }
+        
+        :host paper-button {
+            margin: 0;
+        }
+        
+        .centering-parent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        :host .bottom-actions paper-button {
+            width: 100%;
         }
         </style>
     </template>

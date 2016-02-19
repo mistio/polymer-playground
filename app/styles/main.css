@@ -48,7 +48,7 @@ paper-button[disabled] {
 }
 
 paper-fab {
-    background-color: #3f51b5 !important;
+    /*background-color: #3f51b5 !important;*/
     position: fixed;
     bottom: 100px;
     right: 100px;
@@ -150,7 +150,7 @@ paper-dropdown-menu.dropdown-block {
 
 /* Lists Basic Styling */
 
-.info-head > * {
+/*.info-head > * {
     font-weight: 700;
     padding: 16px 0;
 }
@@ -179,7 +179,7 @@ paper-dropdown-menu.dropdown-block {
 
 .info-body .info-item.last {
     border: none;
-}
+}*/
 
 
 /* Table Basic Styling */
