@@ -47,7 +47,7 @@
         }
         
         .flex > * {
-            margin: 8px 32px 16px 0;
+            margin: 8px 16px 16px 0;
         }
         
         .flex.stretch {
@@ -124,11 +124,11 @@
         <paper-material class="form">
             <h2>Feedback <span>* All fields are mandatory</span></h2>
             <template is="dom-if" if="[[pageFirst]]">
-                <div class="flex wrap">
+                <div class="flex wrap half">
                     <paper-input label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
                     <paper-input label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
                 </div>
-                <div class="flex wrap responsive-wrap1">
+                <div class="flex wrap responsive-wrap1 half">
                     <paper-input label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
                     <paper-dropdown-menu class="dropdown-block" label="Where is your business located?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
