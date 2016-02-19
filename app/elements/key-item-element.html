@@ -1,100 +1,92 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="key-item-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-
-      paper-item:hover {
-        cursor: pointer;
-      }
-
-      .flex-horizontal-with-ratios {
-        @apply(--layout-horizontal);
-      }
-
-      .flexchild {
-        @apply(--layout-flex);
-      }
-
-    </style>
-
-    <paper-item on-tap="_viewKey" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
-      <div class="flexchild">
-        <paper-checkbox checked="{{selected}}" on-tap="_selectKey"></paper-checkbox> 
-        <span class="lead name">[[key.id]]</span>
-      </div>
-      <div class="flexchild">[[isDefaultText]]</div>
-    </paper-item>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'key-item-element',
-
-        properties: {
-          key: {
-            type: Object
-          },
-          selected: {
-            type: Boolean,
-            value: false,
-            notify: true
-          },
-          index: {
-            type: Number
-          },
-          count: {
-            type: Number
-          },
-          indexClass: {
-            type: String,
-            computed: '_computeIsIndexClass(index, count)'
-          },
-          isDefaultText: {
-            type: String,
-            computed: '_computeIsDefaultText(key.isDefault)'
-          }
-        },
-        listeners: {
-          'selected-changed': '_selectKeyChanged'
-        },
-        _computeIsDefaultText: function(isDefault) {
-          return isDefault ? 'Default' : null;
-        },
-        _computeIsIndexClass: function(index, count) {
-          var classes = [];
-          classes.push(
-            (index + 1) % 2 == 0 ? 'even' : 'odd',
-            index + 1 == count ? 'last' : null
-          );
-          return classes.join(' ');
-        },
-        _selectKeyChanged: function(e) {
-          var selected = e.detail.value;
-          this.fire('toggleSelectedKey', {
-            key: this.key,
-            selected: selected
-          });
-        },
-        _viewKey: function(e) {
-          page.show('/keys/' + this.key.id);
-        },
-        _selectKey: function(e) {
-          // This is used to prevent event bubbling
-          e.stopPropagation();
+    <template>
+        <style include="shared-styles">
+        :host {
+            display: block;
         }
-      });
+        
+        paper-card {
+            display: block;
+        }
+        
+        .flex-horizontal-with-ratios {
+            @apply(--layout-horizontal);
+        }
+        
+        .flexchild {
+            @apply(--layout-flex);
+        }
+        </style>
+        <paper-item on-tap="_viewKey" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
+            <div class="flexchild">
+                <paper-checkbox checked="{{selected}}" on-tap="_selectKey"></paper-checkbox>
+                <span class="lead name">[[key.id]]</span>
+            </div>
+            <div class="flexchild">[[isDefaultText]]</div>
+        </paper-item>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'key-item-element',
+
+            properties: {
+                key: {
+                    type: Object
+                },
+                selected: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                index: {
+                    type: Number
+                },
+                count: {
+                    type: Number
+                },
+                indexClass: {
+                    type: String,
+                    computed: '_computeIsIndexClass(index, count)'
+                },
+                isDefaultText: {
+                    type: String,
+                    computed: '_computeIsDefaultText(key.isDefault)'
+                }
+            },
+            listeners: {
+                'selected-changed': '_selectKeyChanged'
+            },
+            _computeIsDefaultText: function(isDefault) {
+                return isDefault ? 'Default' : null;
+            },
+            _computeIsIndexClass: function(index, count) {
+                var classes = [];
+                classes.push(
+                    (index + 1) % 2 == 0 ? 'even' : 'odd',
+                    index + 1 == count ? 'last' : null
+                );
+                return classes.join(' ');
+            },
+            _selectKeyChanged: function(e) {
+                var selected = e.detail.value;
+                this.fire('toggleSelectedKey', {
+                    key: this.key,
+                    selected: selected
+                });
+            },
+            _viewKey: function(e) {
+                page.show('/keys/' + this.key.id);
+            },
+            _selectKey: function(e) {
+                // This is used to prevent event bubbling
+                e.stopPropagation();
+            }
+        });
     })();
-  </script>
+    </script>
 </dom-module>

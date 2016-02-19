@@ -239,15 +239,20 @@
         }
         .info-head > * {
             padding: 8px 0;
+            line-height: 43px;
         }
         
         ::content paper-item {
             padding: 8px 16px;
             border-bottom: 1px solid #e5e5e5;
             min-height: inherit;
+            cursor: pointer;
         }
         ::content paper-item .name {
             font-weight: 700;
+        }
+        ::content paper-item paper-checkbox[disabled] ~ .name {
+            opacity: 0.54;
         }
         .info-head paper-checkbox ::content #checkbox {
             border-color: #fff;
@@ -268,6 +273,22 @@
         }
         .card-options paper-icon-button ::content iron-icon:hover {
             color: var(--mist-blue);
+        }
+        ::content iron-collapse.sub-items {
+            border-bottom: 2px solid #ccc;
+        }
+        ::content iron-collapse.sub-items .info-item {
+            padding: 16px 0 16px 46px;
+            border-bottom: 1px solid #e5e5e5;
+            min-height: inherit;
+            opacity: 0.54;
+            font-size: 0.9em;
+        }
+        ::content .active-true {
+            color: #999;
+        }
+        ::content .session-active {
+            color: #000;
         }
         </style>
     </template>
