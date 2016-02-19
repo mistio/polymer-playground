@@ -515,7 +515,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <policies-list-element data-route="policies"></policies-list-element>
 
-            <policy-add-element data-route="add-policy"></policies-list-element>
+            <policy-add-element data-route="add-policy"></policy-add-element>
+
+            <policy-page-element data-route="policy" id="[[params.id]]"></policy-page-element>
+
+            <policy-edit-element data-route="edit-policy" id="[[params.id]]"></policy-edit-element>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>

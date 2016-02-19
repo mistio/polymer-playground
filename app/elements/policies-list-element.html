@@ -50,6 +50,7 @@
     </paper-card>
 
     <paper-fab id="addBtn" icon="add" on-tap="_openAddPolicyPage"></paper-fab>
+    <policy-edit-page policy="[[selectedPolicy]]"></policy-edit-page>
   </template>
   <script>
     (function() {
@@ -152,8 +153,7 @@
           }
         },
         _editSelected: function(e) {
-          var el = this.querySelector('policy-edit-element');
-          el._openEditPolicyModal();
+          page.show('/edit-policy/' + this.selectedPolicy.id);
         },
         _updateSelectedPolicy: function(e) {
           var policy = e.detail.policy,

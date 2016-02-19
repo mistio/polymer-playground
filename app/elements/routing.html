@@ -196,6 +196,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'add-policy';
     });
 
+    page('/policies/:id', function(data) {
+        app.route = 'policy';
+        app.params = data.params;
+    });
+
+    page('/policy/:id/edit', function(data) {
+        app.route = 'edit-policy';
+        app.params = data.params;
+    });
+
     // 404
     page('*', function() {
       app.$.toast.text = 'Can\'t find: ' + window.location.href + '. Redirected you to Home Page';
