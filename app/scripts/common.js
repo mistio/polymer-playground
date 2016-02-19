@@ -306,6 +306,95 @@ var CLOUD_ADD_FORM_FIELDS = {
     errorMessage: "Please enter token",
     helpText: 'You can find your API Token on the Digital Ocean portal',
     helpHref: 'http://docs.mist.io/article/19-adding-digital-ocean'
+  }],
+  docker: [{
+    name: "title",
+    label: "Title *",
+    type: "text",
+    value: "Docker",
+    defaultValue: "Docker",
+    show: true,
+    required: true,
+    errorMessage: "Please enter title"
+  }, {
+    name: "host",
+    label: "Host *",
+    type: "text",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    errorMessage: "Please enter host",
+  }, {
+    name: "authentication",
+    label: "Authentication",
+    type: "dropdown",
+    value: "",
+    defaultValue: "basic",
+    options: [{val:"basic",title:"Basic"},{val:"tls",title:"TLS"}],
+    show: true,
+    required: true,
+    errorMessage: "Please choose authentication method",
+  }, {
+    name:"user",
+    label:"Username",
+    type: "text",
+    value:"",
+    defaultValue: "",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "authentication",
+      fieldValues: ["basic"]
+    }
+  }, {
+    name:"password",
+    label:"Password",
+    type: "password",
+    value:"",
+    defaultValue: "",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "authentication",
+      fieldValues: ["basic"]
+    }
+  }, {
+    name:"key",
+    label:"Key",
+    type: "textarea",
+    value:"",
+    defaultValue: "",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "authentication",
+      fieldValues: ["tls"]
+    }
+  }, {
+    name:"certificate",
+    label:"Certificate",
+    type: "textarea",
+    value:"",
+    defaultValue: "",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "authentication",
+      fieldValues: ["tls"]
+    }
+  }, {
+    name:"ca_certificate",
+    label:"CA Certificate",
+    type: "textarea",
+    value:"",
+    defaultValue: "",
+    show: true,
+    required: false,
+    showIf: {
+      fieldName: "authentication",
+      fieldValues: ["tls"]
+    }
   }]
 };
 
