@@ -227,6 +227,51 @@
         </style>
     </template>
 </dom-module>
+<dom-module id="lists">
+    <template>
+        <style>
+        .info-head {
+            background-color: var(--mist-dark-color);
+            padding: 0 16px;            
+            font-weight: 400;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .info-head > * {
+            padding: 8px 0;
+        }
+        
+        ::content paper-item {
+            padding: 8px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            min-height: inherit;
+        }
+        ::content paper-item .name {
+            font-weight: 700;
+        }
+        .info-head paper-checkbox ::content #checkbox {
+            border-color: #fff;
+        }
+        .info-head paper-checkbox ::content #checkmark {
+            color: #000;
+        }
+        .row:nth-child(2n+1):hover, 
+        .row:hover {
+            background-color: #eee;
+        }
+        .row:nth-child(2n+1) {
+            background-color: #fafafa;
+        }
+        .card-options paper-icon-button ::content iron-icon {
+            color: var(--mist-light-color);
+            transition: 1s color ease;
+        }
+        .card-options paper-icon-button ::content iron-icon:hover {
+            color: var(--mist-blue);
+        }
+        </style>
+    </template>
+</dom-module>
 <dom-module id="tags-and-labels">
     <template>
         <style>
