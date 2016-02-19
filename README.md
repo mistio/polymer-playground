@@ -12,7 +12,7 @@ bower install && npm install
 Start the app:
 
 ```bash
-gulp server
+gulp serve
 ```
 
 Visit your app at `http://localhost:5000/`
