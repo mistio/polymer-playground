@@ -31,6 +31,10 @@
               <paper-input id="[[field.name]]" type="number" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
             </template>
 
+            <template is="dom-if" class="datetime" if="[[_computeFieldType(field, 'datetime', field.show)]]">
+              <paper-input id="[[field.name]]" type="datetime" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+            </template>
+
             <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
               <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
             </template>
@@ -238,7 +242,9 @@
             run_immediately: this.runScript.schedulerRunImmediately,
             script_id: this.script.id,
             action: this.runScript.schedulerAction,
-            machines_per_cloud: [[this.runScript.machine.cloud.id, this.runScript.machine.id]],
+            machines_per_cloud: [
+              [this.runScript.machine.cloud.id, this.runScript.machine.id]
+            ],
             enabled: this.runScript.schedulerEnabled,
             expires: this.runScript.schedulerExpires,
             schedulerUse: this.runScript.schedulerUse,
@@ -247,16 +253,16 @@
           };
 
           if (this.runScript.schedulerType == "one_off") {
-              payload.cronjob_entry = this.runScript.scedulerOneOffEntry;
+            payload.cronjob_entry = this.runScript.scedulerOneOffEntry;
           }
           if (this.runScript.schedulerType == "interval") {
-              payload.cronjob_entry = {
-                  every: this.runScript.scedulerIntervalEveryEntry,
-                  period: this.runScript.scedulerIntervalPeriodEntry
-              };
+            payload.cronjob_entry = {
+              every: this.runScript.scedulerIntervalEveryEntry,
+              period: this.runScript.scedulerIntervalPeriodEntry
+            };
           }
           if (this.runScript.schedulerType == "crontab") {
-              payload.cronjob_entry = this.runScript.scedulerCrontabEntry
+            payload.cronjob_entry = this.runScript.scedulerCrontabEntry
           }
 
           console.log(payload);
