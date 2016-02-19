@@ -333,7 +333,7 @@ var SCRIPT_RUN_FORM_FIELDS = [{
   name: "schedulerUse",
   label: "Use Scheduler",
   type: "switch",
-  value: false,
+  value: true,
   defaultValue: false,
   show: true,
   required: false
@@ -415,7 +415,7 @@ var SCRIPT_RUN_FORM_FIELDS = [{
 }, {
   name: "schedulerExpires",
   label: "Expires",
-  type: "text",
+  type: "datetime",
   value: "",
   defaultValue: "",
   show: true,
