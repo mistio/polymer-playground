@@ -73,7 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/styling-mist', function() {
       app.route = 'styling-mist';
     });
-    
+
     page('/dashboard', function() {
       app.route = 'dashboard';
     });
@@ -177,6 +177,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     page('/tokens', function() {
       app.route = 'tokens';
+    });
+
+    page('/members', function() {
+      app.route = 'members';
+    });
+
+    page('/members/:id', function(data) {
+      app.route = 'member';
+      app.params = data.params;
+    });
+
+    page('/policies', function() {
+      app.route = 'policies';
+    });
+
+    page('/add-policy', function() {
+      app.route = 'add-policy';
+    });
+
+    page('/policies/:id', function(data) {
+        app.route = 'policy';
+        app.params = data.params;
+    });
+
+    page('/policy/:id/edit', function(data) {
+        app.route = 'edit-policy';
+        app.params = data.params;
     });
 
     // 404

@@ -1,3 +1,192 @@
+var POLICY_FORM_FIELDS = [{
+  name: "permission",
+  label: "Permission *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Allow",
+    val: "allow"
+  }, {
+    title: "Deny",
+    val: "deny"
+  }]
+}, {
+  name: "source",
+  label: "Source *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  show: true,
+  required: true,
+  options: [{
+    title: "Cloud",
+    val: "cloud"
+  }, {
+    title: "Machine",
+    val: "machine"
+  }, {
+    title: "Script",
+    val: "script"
+  }, {
+    title: "Network",
+    val: "network"
+  }, {
+    title: "Key",
+    val: "key"
+  }, {
+    title: "Template",
+    val: "template"
+  }]
+}, {
+  name: "action",
+  label: "Actions *",
+  type: "dropdown",
+  value: "",
+  defaultValue: "",
+  show: false,
+  required: true,
+  options: [],
+  showIf: {
+    fieldName: "source",
+    fieldExists: true
+  },
+  optionsIf: {
+    fieldName: "source",
+    fieldOptions: {
+      cloud: [{
+        title: "cloud1",
+        val: "cloud2"
+      }, {
+        title: "cloud2",
+        val: "cloud2"
+      }],
+      machine: [{
+        title: "Create",
+        val: "Create"
+      }, {
+        title: "Read",
+        val: "Read"
+      }, {
+        title: "Edit",
+        val: "Edit"
+      }, {
+        title: "EditTags",
+        val: "EditTags"
+      }, {
+        title: "EditRules",
+        val: "EditRules"
+      }, {
+        title: "EditCustomMetrics",
+        val: "EditCustomMetrics"
+      }, {
+        title: "Start",
+        val: "Start"
+      }, {
+        title: "Stop",
+        val: "Stop"
+      }, {
+        title: "Reboot",
+        val: "Reboot"
+      }, {
+        title: "Destroy",
+        val: "Destroy"
+      }, {
+        title: "RunScript",
+        val: "RunScript"
+      }, {
+        title: "OpenShell",
+        val: "OpenShell"
+      }, {
+        title: "AssociateKey",
+        val: "AssociateKey"
+      }, {
+        title: "DisassociateKey",
+        val: "DisassociateKey"
+      }],
+      script: [{
+        title: "Add",
+        val: "Add"
+      }, {
+        title: "Read",
+        val: "Read"
+      }, {
+        title: "Edit",
+        val: "Edit"
+      }, {
+        title: "Run",
+        val: "Run"
+      }, {
+        title: "Remove",
+        val: "Remove"
+      }],
+      network: [{
+        title: "Create",
+        val: "Create"
+      }, {
+        title: "Read",
+        val: "Read"
+      }, {
+        title: "Edit",
+        val: "Edit"
+      }, {
+        title: "Remove",
+        val: "Remove"
+      }, {
+        title: "AllocateAddress",
+        val: "AllocateAddress"
+      }],
+      key: [{
+        title: "Add",
+        val: "Add"
+      }, {
+        title: "Read",
+        val: "Read"
+      }, {
+        title: "ReadPrivate",
+        val: "ReadPrivate"
+      }, {
+        title: "Remove",
+        val: "Remove"
+      }, {
+        title: "Edit",
+        val: "Edit"
+      }],
+      template: [{
+        title: "Add",
+        val: "Add"
+      }, {
+        title: "Read",
+        val: "Read"
+      }, {
+        title: "Edit",
+        val: "Edit"
+      }, {
+        title: "Remove",
+        val: "Remove"
+      }, {
+        title: "Apply",
+        val: "Apply"
+      }]
+    }
+  }
+}, {
+    name: "tags",
+    label: "Tags *",
+    type: "dropdown",
+    value: "",
+    defaultValue: "",
+    show: true,
+    required: true,
+    options: [],
+    showIf: {
+      fieldName: "source",
+      fieldExists: true
+    }
+}];
+
 var CLOUD_ADD_FORM_FIELDS = {
   azure: [{
     name: "title",

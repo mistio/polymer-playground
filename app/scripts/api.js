@@ -246,7 +246,7 @@ var Mist = {
     name: "vpc-c20824a7",
     state: "available",
     subnets: [{
-        name: "172.30.0.0/16"
+      name: "172.30.0.0/16"
     }],
     cloud: {
       id: "d98cBYrPqjpAcybzriwznme1a9d",
@@ -409,5 +409,74 @@ var Mist = {
       provider: "openstack",
       enabled: true
     }
+  }],
+  members: [{
+    id: 1,
+    name: "John Doe",
+    role: "QA Engineer"
+  }, {
+    id: 2,
+    name: "Jack Doe",
+    role: "Frontend Engineer"
+  }, {
+    id: 3,
+    name: "Jane Doe",
+    role: "Web Designer"
+  }, {
+    id: 4,
+    name: "Antzela Dimitriou",
+    role: "Backend Developer"
+  }],
+  policies: [{
+    id: 1,
+    permission: "allow",
+    source: "cloud",
+    action: "create",
+    tags: [{
+      key: "provider",
+      value: "aws"
+    }]
+  }, {
+    id: 2,
+    permission: "allow",
+    source: "cloud",
+    action: "provision",
+    tags: [{
+      key: "provider",
+      value: "aws"
+    }]
+  }, {
+    id: 3,
+    permission: "allow",
+    source: "machine",
+    action: "create",
+    tags: [{
+      key: "stack",
+      value: "testing"
+    }]
+  }, {
+    id: 4,
+    permission: "allow",
+    source: "machine",
+    action: "RunScript",
+    tags: [{
+      key: "stack",
+      value: "testing"
+    }]
+  }, {
+    id: 5,
+    permission: "allow",
+    source: "script",
+    action: "execute",
+    tags: [{
+      key: "script_type",
+      value: "loadgen"
+    }]
+  }, {
+    id: 6,
+    permission: "deny",
+    source: "*",
+    action: "*",
+    tags: []
   }]
 };
