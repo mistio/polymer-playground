@@ -1,133 +1,129 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="network-page-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-        margin-bottom: 50px;
-      }
-
-      .flex-horizontal-with-ratios {
-        @apply(--layout-horizontal);
-      }
-
-      .flexchild {
-        @apply(--layout-flex);
-      }
-    </style>
-
-    <paper-card heading="Network Information">
-      <div class="card-content">
-        <div class="info-table">
-          <div class="info-body info-group">
-            <div class="info-item flex-horizontal-with-ratios">
-              <div class="flexchild">Name</div>
-              <div class="flexchild">[[network.name]]</div>
-            </div>
-            <div class="info-item flex-horizontal-with-ratios">
-              <div class="flexchild">ID</div>
-              <div class="flexchild">[[network.id]]</div>
-            </div>
-            <div hidden$=[[!network.status]] class="info-item flex-horizontal-with-ratios">
-              <div class="flexchild">Status</div>
-              <div class="flexchild">[[network.status]]</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </paper-card>
-
-    <paper-card hidden$="[[!hasSubnets]]" heading="Subnets ([[network.subnets.length]])">
-      <div class="card-content">
-        <div class="info-table">
-          <div class="info-body">
-            <template is="dom-repeat" items="[[network.subnets]]" as="subnet">
-              <subnet-item-element subnet="[[subnet]]"></subnet-item-element>
-            </template>
-          </div>
-        </div>
-      </div>
-    </paper-card>
-
-    <paper-menu-button hidden$="[[!isOpenstack]]" class="fab-menu" horizontal-align="right" vertical-align="bottom">
-      <paper-fab icon="add" class="dropdown-trigger"></paper-fab>
-      <paper-menu class="dropdown-content">
-        <paper-button on-tap="_deleteNetwork">Delete Network</paper-button>
-      </paper-menu>
-    </paper-menu-button>
-    <dialog-element></dialog-element>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'network-page-element',
-
-        properties: {
-          network: {
-            type: Object,
-            computed: '_computeNetwork(id)'
-          },
-          id: {
-            type: String
-          },
-          isOpenstack: {
-            type: Boolean,
-            computed: '_computeIsOpenstack(network.cloud.provider)'
-          },
-          hasSubnets: {
-            type: Boolean,
-            computed: '_computeHasSubnets(network.subnets)'
-          },
-        },
-        listeners: {
-          'confirmation': '_deleteNetworkResponse'
-        },
-        _computeNetwork: function(id) {
-          return Mist.networks.find(function(network) {
-            return network.id == id;
-          });
-        },
-        _computeHasSubnets: function(subnets) {
-          return subnets && subnets.length;
-        },
-        _computeIsOpenstack: function(provider) {
-          return provider == 'openstack';
-        },
-        _deleteNetwork: function(e) {
-          this._showDialog({
-            title: 'Delete Network',
-            body: "Are you sure you want to delete this network: " + this.network.name + "?",
-            danger: true,
-            reason: "delete_network"
-          });
-        },
-        _deleteNetworkResponse: function(e) {
-          var reason = e.detail.reason,
-            response = e.detail.response;
-
-          if (response.confirmed && reason == "delete_network") {
-            console.log('i ll delete the network');
-            page.show('/networks');
-          }
-        },
-        _showDialog: function(info) {
-          var dialog = this.querySelector('dialog-element'),
-            i;
-          for (i in info) {
-            dialog[i] = info[i];
-          }
-          dialog._openDialog();
+    <template>
+        <style is="custom-style" include="single-page"></style>
+        <style include="shared-styles">
+        :host {
+            display: block;
         }
-      });
+        
+        paper-card {
+            display: block;
+            margin-bottom: 50px;
+        }
+        
+        .flex-horizontal-with-ratios {
+            @apply(--layout-horizontal);
+        }
+        
+        .flexchild {
+            @apply(--layout-flex);
+        }
+        </style>
+        <paper-card heading="Network Information">
+            <div class="card-content">
+                <div class="info-table">
+                    <div class="info-body info-group">
+                        <div class="info-item flex-horizontal-with-ratios">
+                            <div class="flexchild">Name</div>
+                            <div class="flexchild">[[network.name]]</div>
+                        </div>
+                        <div class="info-item flex-horizontal-with-ratios">
+                            <div class="flexchild">ID</div>
+                            <div class="flexchild">[[network.id]]</div>
+                        </div>
+                        <div hidden$=[[!network.status]] class="info-item flex-horizontal-with-ratios">
+                            <div class="flexchild">Status</div>
+                            <div class="flexchild">[[network.status]]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </paper-card>
+        <paper-card hidden$="[[!hasSubnets]]" heading="Subnets ([[network.subnets.length]])">
+            <div class="card-content">
+                <div class="info-table">
+                    <div class="info-body">
+                        <template is="dom-repeat" items="[[network.subnets]]" as="subnet">
+                            <subnet-item-element subnet="[[subnet]]"></subnet-item-element>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </paper-card>
+        <paper-menu-button hidden$="[[!isOpenstack]]" class="fab-menu" horizontal-align="right" vertical-align="bottom">
+            <paper-fab icon="add" class="dropdown-trigger"></paper-fab>
+            <paper-menu class="dropdown-content">
+                <paper-button on-tap="_deleteNetwork">Delete Network</paper-button>
+            </paper-menu>
+        </paper-menu-button>
+        <dialog-element></dialog-element>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'network-page-element',
+
+            properties: {
+                network: {
+                    type: Object,
+                    computed: '_computeNetwork(id)'
+                },
+                id: {
+                    type: String
+                },
+                isOpenstack: {
+                    type: Boolean,
+                    computed: '_computeIsOpenstack(network.cloud.provider)'
+                },
+                hasSubnets: {
+                    type: Boolean,
+                    computed: '_computeHasSubnets(network.subnets)'
+                },
+            },
+            listeners: {
+                'confirmation': '_deleteNetworkResponse'
+            },
+            _computeNetwork: function(id) {
+                return Mist.networks.find(function(network) {
+                    return network.id == id;
+                });
+            },
+            _computeHasSubnets: function(subnets) {
+                return subnets && subnets.length;
+            },
+            _computeIsOpenstack: function(provider) {
+                return provider == 'openstack';
+            },
+            _deleteNetwork: function(e) {
+                this._showDialog({
+                    title: 'Delete Network',
+                    body: "Are you sure you want to delete this network: " + this.network.name + "?",
+                    danger: true,
+                    reason: "delete_network"
+                });
+            },
+            _deleteNetworkResponse: function(e) {
+                var reason = e.detail.reason,
+                    response = e.detail.response;
+
+                if (response.confirmed && reason == "delete_network") {
+                    console.log('i ll delete the network');
+                    page.show('/networks');
+                }
+            },
+            _showDialog: function(info) {
+                var dialog = this.querySelector('dialog-element'),
+                    i;
+                for (i in info) {
+                    dialog[i] = info[i];
+                }
+                dialog._openDialog();
+            }
+        });
     })();
-  </script>
+    </script>
 </dom-module>

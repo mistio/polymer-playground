@@ -184,14 +184,14 @@ paper-dropdown-menu.dropdown-block {
 
 /* Table Basic Styling */
 
-.info-table .info-item .flexchild:first-of-type {
+/*.info-table .info-item .flexchild:first-of-type {
     font-weight: 700;
 }
 
-.info-table .info-group .info-item:nth-of-type(2n) {
+.info-table .info-group .info-item:not([hidden]):nth-of-type(2n) {
     background-color: #f2f2f2;
 }
 
 .info-table .info-group .info-item:last-of-type {
     border: none;
-}
+}*/
