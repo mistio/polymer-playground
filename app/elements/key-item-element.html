@@ -25,6 +25,9 @@
                 <span class="lead name">[[key.id]]</span>
             </div>
             <div class="flexchild">[[isDefaultText]]</div>
+            <div>
+                <content></content>
+            </div>
         </paper-item>
     </template>
     <script>
@@ -44,7 +47,8 @@
                     notify: true
                 },
                 index: {
-                    type: Number
+                    type: Number,
+                    reflectToAttribute: true
                 },
                 count: {
                     type: Number

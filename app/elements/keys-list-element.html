@@ -19,7 +19,25 @@
         .flexchild {
             @apply(--layout-flex);
         }
-
+        .row {
+            overflow: hidden;
+        }
+        .row-actions {
+            width: 100px;
+            position: absolute;
+            top: 10px;
+            right: 0;
+            z-index: 999;
+            display: none;
+            /*opacity: 0;
+            transition: 500ms all;
+            transform: translate3d(200px, 0, 0);*/
+        }
+        .row:hover .row-actions {
+            display: block;
+            /*opacity: 1;
+            transform: translate3d(0, 0, 0);*/
+        }
         </style>
         <paper-card heading="Keys">
             <div hidden$="[[!hasKeys]]" class="card-options">
@@ -52,7 +70,14 @@
                         <iron-list items="[[presentedKeys]]" as="key" selected-items="{{selectedKeys}}" multi-selection>
                             <template>
                                 <div class="row">
-                                <key-item-element selected="{{selected}}" key="[[key]]" index="[[index]]" count="[[presentedKeys.length]]"></key-item-element>
+                                    <key-item-element selected="{{selected}}" key="[[key]]" index="[[index]]" count="[[presentedKeys.length]]">
+                                        <div class="row-actions">
+                                            <paper-tooltip for="makeDefaultKeyBtn" position="top">Make Default</paper-tooltip>
+                                            <paper-icon-button id="makeDefaultKeyBtn" on-tap="_starThis" icon="[[makeDefaultIcon]]"></paper-icon-button>
+                                            <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>
+                                            <paper-icon-button id="editKeyBtn" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
+                                        </div>
+                                    </key-item-element>
                                 </div>
                             </template>
                         </iron-list>
@@ -244,10 +269,18 @@
                 }, this);
                 this.querySelector('iron-list').selectItem(selectedKey);
             },
+            _starThis: function(e) {
+                // Make this key default
+                // var thiskey = e.target.parentNode;
+                // var thiskeyindex = e.target.getAttribute(index);
+                // this.keys.forEach(function(el, index) {
+                //     this.set('keys.' + index + '.isDefault', el.id == thiskey.id ? !selectedKey.isDefault : false);
+                // }, this);
+            },
             _editSelected: function(e) {
                 var el = this.querySelector('key-edit-element');
                 el._openEditKeyModal();
-            },
+            },            
             _updateSelectedKey: function(e) {
                 var key = e.detail.key,
                     index = this.keys.indexOf(key);
