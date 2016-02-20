@@ -274,17 +274,25 @@
         .row:nth-child(2n+1) {
             background-color: #fafafa;
         }
-        
+        .card-options {
+            background-color: var(--mist-lighter-color);
+            padding: 16px;
+        }
+
+        .card-options paper-icon-button {
+            vertical-align: top;
+        }
+
+        .search {
+            display: inline-block;
+        }
+
         .card-options paper-icon-button >::content iron-icon {
             color: var(--mist-light-color);
-            transition: 1s color ease;
+            transition: 1s color;
         }
         
-        .card-options paper-icon-button >::content iron-icon:hover {
-            color: var(--mist-blue);
-        }
-        
-        .card-options paper-icon-button >::content iron-icon:hover {
+        .card-options:hover paper-icon-button >::content iron-icon {
             color: var(--mist-blue);
         }
         

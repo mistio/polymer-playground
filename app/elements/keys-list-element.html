@@ -40,6 +40,7 @@
         }
         </style>
         <paper-card heading="Keys">
+        <div class="card-content">
             <div hidden$="[[!hasKeys]]" class="card-options">
                 <paper-tooltip for="searchKeyBtn" position="top">Toggle Search</paper-tooltip>
                 <paper-icon-button id="searchKeyBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
@@ -51,7 +52,7 @@
                 <paper-tooltip for="deleteKeyBtn" position="top">Delete</paper-tooltip>
                 <paper-icon-button id="deleteKeyBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
             </div>
-            <div class="card-content">
+            
                 <div hidden$="[[!hasKeys]]" class="info-list">
                     <div class="info-head flex-horizontal-with-ratios machines">
                         <div class="flexchild">
