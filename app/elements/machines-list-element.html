@@ -39,6 +39,10 @@
                             <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
                             <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortMachines" sort-option="name"></paper-icon-button>
                         </div>
+                        <div class="flexchild">State
+                            <paper-tooltip for="sortByState" position="top">Sort by state</paper-tooltip>
+                            <paper-icon-button id="sortByState" icon="expand-more" on-tap="_sortMachines" sort-option="state"></paper-icon-button>
+                        </div>
                         <div class="flexchild">Provider
                             <paper-tooltip for="sortByProvider" position="top">Sort by provider</paper-tooltip>
                             <paper-icon-button id="sortByProvider" icon="expand-more" on-tap="_sortMachines" sort-option="provider"></paper-icon-button>
@@ -144,6 +148,8 @@
                         presentedMachines = filteredMachines.sort(this._computeSort('name', 1));
                     } else if (sortByTerm == 'provider') {
                         presentedMachines = filteredMachines.sort(this._computeSort('cloud.provider', 1));
+                    } else if (sortByTerm == 'state') {
+                        presentedMachines = filteredMachines.sort(this._computeSort('state', 1));
                     } else {
                         presentedMachines = filteredMachines;
                     }
