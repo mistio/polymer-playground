@@ -10,6 +10,9 @@ a {
     color: #039BE5;
     text-decoration: none;
 }
+.active-sort {
+    color: #039BE5;
+}
 .paper-menu-1 .selectable-content.paper-menu > .iron-selected {
     color: #039BE5;
 }

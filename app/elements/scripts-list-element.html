@@ -7,15 +7,15 @@
         :host {
             display: block;
         }
-        
+
         paper-card {
             display: block;
         }
-        
+
         .flex-horizontal-with-ratios {
             @apply(--layout-horizontal);
         }
-        
+
         .flexchild {
             @apply(--layout-flex);
         }
@@ -44,11 +44,11 @@
                             <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
                             Νame
                             <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
-                            <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortScripts" sort-option="name"></paper-icon-button>
+                            <paper-icon-button id="sortByName" class$="[[_computeIsActiveSort(sortByTerm, 'name')]]" icon="expand-more" on-tap="_sortScripts" sort-option="name"></paper-icon-button>
                         </div>
                         <div class="flexchild">Type
                             <paper-tooltip for="sortByType" position="top">Sort by type</paper-tooltip>
-                            <paper-icon-button id="sortByType" icon="expand-more" on-tap="_sortScripts" sort-option="type"></paper-icon-button>
+                            <paper-icon-button id="sortByType" class$="[[_computeIsActiveSort(sortByTerm, 'type')]]" icon="expand-more" on-tap="_sortScripts" sort-option="type"></paper-icon-button>
                         </div>
                     </div>
                     <div class="info-body">
@@ -187,6 +187,9 @@
                     }
                     return (order * (a[property] > b[property] ? 1 : -1));
                 };
+            },
+            _computeIsActiveSort: function(sortByTerm, sortOption) {
+                return sortByTerm == sortOption ? 'active-sort' : null;
             },
             _scriptsChanged: function(scripts, selectedScripts) {
                 this.set('showDeleteOption', selectedScripts.base.length > 0);

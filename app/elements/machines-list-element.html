@@ -37,15 +37,15 @@
                             <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
                             <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
                             <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
-                            <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortMachines" sort-option="name"></paper-icon-button>
+                            <paper-icon-button id="sortByName" class$="[[_computeIsActiveSort(sortByTerm, 'name')]]" icon="expand-more" on-tap="_sortMachines" sort-option="name"></paper-icon-button>
                         </div>
                         <div class="flexchild">State
                             <paper-tooltip for="sortByState" position="top">Sort by state</paper-tooltip>
-                            <paper-icon-button id="sortByState" icon="expand-more" on-tap="_sortMachines" sort-option="state"></paper-icon-button>
+                            <paper-icon-button id="sortByState" class$="[[_computeIsActiveSort(sortByTerm, 'state')]]" icon="expand-more" on-tap="_sortMachines" sort-option="state"></paper-icon-button>
                         </div>
                         <div class="flexchild">Provider
                             <paper-tooltip for="sortByProvider" position="top">Sort by provider</paper-tooltip>
-                            <paper-icon-button id="sortByProvider" icon="expand-more" on-tap="_sortMachines" sort-option="provider"></paper-icon-button>
+                            <paper-icon-button id="sortByProvider" class$="[[_computeIsActiveSort(sortByTerm, 'provider')]]" icon="expand-more" on-tap="_sortMachines" sort-option="provider"></paper-icon-button>
                         </div>
                     </div>
                     <div class="info-body">
@@ -178,6 +178,9 @@
 
                         return (order * (a > b ? 1 : -1));
                     };
+                },
+                _computeIsActiveSort: function(sortByTerm, sortOption) {
+                    return sortByTerm == sortOption ? 'active-sort' : null;
                 },
                 _machinesChanged: function(machines, selectedMachines) {
                     this.set('selectedMachine', selectedMachines.base.length == 1 ? selectedMachines.base[0] : null);

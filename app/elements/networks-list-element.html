@@ -7,15 +7,15 @@
         :host {
             display: block;
         }
-        
+
         paper-card {
             display: block;
         }
-        
+
         .flex-horizontal-with-ratios {
             @apply(--layout-horizontal);
         }
-        
+
         .flexchild {
             @apply(--layout-flex);
         }
@@ -39,15 +39,15 @@
                             <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
                             <paper-checkbox id="selectAllBtn" disabled$="[[!hasSelectableNetworks]]" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
                             <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
-                            <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortNetworks" sort-option="name"></paper-icon-button>
+                            <paper-icon-button id="sortByName" class$="[[_computeIsActiveSort(sortByTerm, 'name')]]" icon="expand-more" on-tap="_sortNetworks" sort-option="name"></paper-icon-button>
                         </div>
                         <div class="flexchild">Type
                             <paper-tooltip for="sortByType" position="top">Sort by type</paper-tooltip>
-                            <paper-icon-button id="sortByType" icon="expand-more" on-tap="_sortNetworks" sort-option="type"></paper-icon-button>
+                            <paper-icon-button id="sortByType" class$="[[_computeIsActiveSort(sortByTerm, 'type')]]" icon="expand-more" on-tap="_sortNetworks" sort-option="type"></paper-icon-button>
                         </div>
                         <div class="flexchild">Provider
                             <paper-tooltip for="sortByProvider" position="top">Sort by provider</paper-tooltip>
-                            <paper-icon-button id="sortByProvider" icon="expand-more" on-tap="_sortNetworks" sort-option="provider"></paper-icon-button>
+                            <paper-icon-button id="sortByProvider" class$="[[_computeIsActiveSort(sortByTerm, 'provider')]]" icon="expand-more" on-tap="_sortNetworks" sort-option="provider"></paper-icon-button>
                         </div>
                     </div>
                     <div class="info-body">
@@ -186,6 +186,9 @@
 
                     return (order * (a > b ? 1 : -1));
                 };
+            },
+            _computeIsActiveSort: function(sortByTerm, sortOption) {
+                return sortByTerm == sortOption ? 'active-sort' : null;
             },
             _networksChanged: function(networks, selectableNetworks, selectedNetworks) {
                 this.set('selectedNetwork', selectedNetworks.base.length == 1 ? selectedNetworks.base[0] : null);

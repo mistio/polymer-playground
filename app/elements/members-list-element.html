@@ -7,15 +7,15 @@
         :host {
             display: block;
         }
-        
+
         paper-card {
             display: block;
         }
-        
+
         .flex-horizontal-with-ratios {
             @apply(--layout-horizontal);
         }
-        
+
         .flexchild {
             @apply(--layout-flex);
         }
@@ -42,11 +42,11 @@
                             <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
                             Νame
                             <paper-tooltip for="sortByName" position="top">Sort by name</paper-tooltip>
-                            <paper-icon-button id="sortByName" icon="expand-more" on-tap="_sortMembers" sort-option="name"></paper-icon-button>
+                            <paper-icon-button id="sortByName" class$="[[_computeIsActiveSort(sortByTerm, 'name')]]" icon="expand-more" on-tap="_sortMembers" sort-option="name"></paper-icon-button>
                         </div>
                         <div class="flexchild">Role
                             <paper-tooltip for="sortByRole" position="top">Sort by role</paper-tooltip>
-                            <paper-icon-button id="sortByRole" icon="expand-more" on-tap="_sortMembers" sort-option="role"></paper-icon-button>
+                            <paper-icon-button id="sortByRole" class$="[[_computeIsActiveSort(sortByTerm, 'role')]]" icon="expand-more" on-tap="_sortMembers" sort-option="role"></paper-icon-button>
                         </div>
                     </div>
                     <div class="info-body">
@@ -166,6 +166,9 @@
                     }
                     return (order * (a[property] > b[property] ? 1 : -1));
                 };
+            },
+            _computeIsActiveSort: function(sortByTerm, sortOption) {
+                return sortByTerm == sortOption ? 'active-sort' : null;
             },
             _membersChanged: function(members, selectedMembers) {
                 this.set('showDeleteOption', selectedMembers.base.length > 0);
