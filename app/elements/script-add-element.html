@@ -11,7 +11,7 @@
 
             paper-card {
                 display: block;
-            }
+            }            
         </style>
 
         <paper-card heading="Add Script">
@@ -36,7 +36,20 @@
                         </paper-dropdown-menu>
                     </template>
                 </template>
-
+                <div class="notifications s12">
+                    <div class="red">
+                        <iron-icon icon="icons:error-outline"></iron-icon> Error message from server
+                        <div class="info-code">
+                            <code>test code</code>
+                        </div>
+                    </div>
+                    <div class="green">
+                        <iron-icon icon="check"></iron-icon> Success message from server
+                    </div>
+                    <div class="blue">
+                        Info message from server
+                    </div>
+                </div>
                 <div class="clearfix bottom-actions s12">
                     <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
                     <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>

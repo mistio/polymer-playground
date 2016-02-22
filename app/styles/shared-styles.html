@@ -222,6 +222,12 @@
             @apply(--layout-flex);
         }
         
+        .notifications > * {
+            color: #fff;
+            padding: 8px;
+            margin: 16px 0;
+        }
+        
         @media (max-width: 600px) {
             .page-title {
                 font-size: 24px!important;
@@ -564,11 +570,9 @@
             background-color: #fff;
             padding: 24px;
         }
-        
         /*:host::content paper-dropdown-menu paper-menu-button {
             width: 191px;
         }*/
-        
         /*:host::content paper-menu-button iron-dropdown {
             width: inherit;
         }
@@ -638,6 +642,7 @@
             width: 100%;
             position: relative;
         }*/
+        
         paper-dropdown-menu::content iron-dropdown {
             position: absolute;
             top: 56px !important;
