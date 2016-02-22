@@ -22,6 +22,7 @@
                 <paper-checkbox checked="{{selected}}" on-tap="_selectMachine"></paper-checkbox>
                 <span class="name">[[machine.name]]</span>
             </div>
+            <div class$="flexchild [[stateClass]]">[[machine.state]]</div>
             <div class="flexchild">[[machine.cloud.title]]</div>
         </paper-item>
     </template>
@@ -51,6 +52,10 @@
                     indexClass: {
                         type: String,
                         computed: '_computeIsIndexClass(index, count)'
+                    },
+                    stateClass: {
+                        type: String,
+                        computed: '_computeStateClass(machine.state)'
                     }
                 },
                 listeners: {
@@ -63,6 +68,9 @@
                         index + 1 == count ? 'last' : null
                     );
                     return classes.join(' ');
+                },
+                _computeStateClass(state) {
+                    return state + '-state';
                 },
                 _selectMachineChanged: function(e) {
                     var selected = e.detail.value;
