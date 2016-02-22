@@ -25,6 +25,9 @@
                 <div hidden$="[[!hasSessions]]" class="list-options">
                     <paper-tooltip for="deleteSessionBtn" position="top">Delete</paper-tooltip>
                     <paper-icon-button id="deleteSessionBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedSessions" icon="delete"></paper-icon-button>
+                    <span hidden$="[[!showDeleteOption]]" class="label">
+                    Delete [[selectedSessions.length]] session<span hidden$="[[!moreThanOneSelected(selectedSessions)]]">s</span> </span>
+                    </span>
                 </div>
                 <div class="info-list">
                     <div class="info-head flex-horizontal-with-ratios">
@@ -189,6 +192,10 @@
                 var notification = document.querySelector('notification-element');
                 notification.title = title;
                 notification._openToast();
+            },
+            moreThanOneSelected: function(selectedSessions) {
+                //does not work. label should hide 's' when only one key is selected
+                return (selectedSessions.length > 1 ? false : true);
             }
         });
     })();
