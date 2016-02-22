@@ -32,6 +32,9 @@
                     <paper-icon-button id="editScriptBtn" hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
                     <paper-tooltip for="deleteScriptBtn" position="top">Delete</paper-tooltip>
                     <paper-icon-button id="deleteScriptBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+                    <span hidden$="[[!showDeleteOption]]" class="label">
+                    Delete [[selectedScripts.length]] script<span hidden$="[[!moreThanOneSelected(selectedScripts)]]">s</span> </span>
+                    </span>
                 </div>
                 <div hidden$="[[!hasScripts]]" class="info-list">
                     <div class="info-head flex-horizontal-with-ratios">
@@ -296,6 +299,10 @@
                 var notification = document.querySelector('notification-element');
                 notification.title = title;
                 notification._openToast();
+            },
+            moreThanOneSelected: function(selectedScripts) {
+                //does not work. label should hide 's' when only one key is selected
+                return (selectedScripts.length > 1 ? false : true);
             }
         });
     })();
