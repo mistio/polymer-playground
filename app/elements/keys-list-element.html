@@ -18,28 +18,26 @@
         
         .flexchild {
             @apply(--layout-flex);
-        }        
+        }
         </style>
         <paper-card heading="Keys">
-        <div class="card-content">
-            <div hidden$="[[!hasKeys]]" class="list-options">
-                <paper-tooltip for="searchKeyBtn" position="top">Toggle Search</paper-tooltip>
-                <paper-icon-button id="searchKeyBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
-                <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
-                <span hidden$="[[showSearchOption]]" class="label">Search keys</span>
-                <paper-tooltip for="makeDefaultKeyBtn" position="top">Make Default</paper-tooltip>
-                <paper-icon-button id="makeDefaultKeyBtn" hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="[[makeDefaultIcon]]"></paper-icon-button>
-                <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>
-                <paper-icon-button id="editKeyBtn" hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
-                <paper-tooltip for="deleteKeyBtn" position="top">Delete 
-                    All Selected
-                </paper-tooltip>
-                <paper-icon-button id="deleteKeyBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
-                <span hidden$="[[!showDeleteOption]]" class="label">
+            <div class="card-content">
+                <div hidden$="[[!hasKeys]]" class="list-options">
+                    <paper-tooltip for="searchKeyBtn" position="top">Toggle Search</paper-tooltip>
+                    <paper-icon-button id="searchKeyBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+                    <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+                    <span hidden$="[[showSearchOption]]" class="label">Search keys</span>
+                    <paper-tooltip for="makeDefaultKeyBtn" position="top">Make Default</paper-tooltip>
+                    <paper-icon-button id="makeDefaultKeyBtn" hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="[[makeDefaultIcon]]"></paper-icon-button>
+                    <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>
+                    <paper-icon-button id="editKeyBtn" hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
+                    <paper-tooltip for="deleteKeyBtn" position="top">Delete All Selected
+                    </paper-tooltip>
+                    <paper-icon-button id="deleteKeyBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+                    <span hidden$="[[!showDeleteOption]]" class="label">
                     Delete [[selectedKeys.length]] key<span hidden$="[[!moreThanOneSelected(selectedKeys)]]">s</span> </span>
-                </span>
-            </div>
-            
+                    </span>
+                </div>
                 <div hidden$="[[!hasKeys]]" class="info-list">
                     <div class="info-head flex-horizontal-with-ratios machines">
                         <div class="flexchild">
@@ -64,6 +62,9 @@
                                             <paper-icon-button id="makeDefaultKeyBtn" on-tap="_starThis" icon="[[makeDefaultIcon]]"></paper-icon-button>
                                             <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>
                                             <paper-icon-button id="editKeyBtn" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
+                                            <paper-tooltip for="deleteKeyBtn" position="top">Delete All Selected
+                                            </paper-tooltip>
+                                            <paper-icon-button id="deleteKeyBtn" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
                                         </div>
                                     </key-item-element>
                                 </div>
@@ -268,7 +269,7 @@
             _editSelected: function(e) {
                 var el = this.querySelector('key-edit-element');
                 el._openEditKeyModal();
-            },            
+            },
             _updateSelectedKey: function(e) {
                 var key = e.detail.key,
                     index = this.keys.indexOf(key);
@@ -309,7 +310,7 @@
                 notification.title = title;
                 notification._openToast();
             },
-            moreThanOneSelected:  function(selectedKeys) {
+            moreThanOneSelected: function(selectedKeys) {
                 //does not work. label should hide 's' when only one key is selected
                 return (selectedKeys.length > 1 ? false : true);
             }
