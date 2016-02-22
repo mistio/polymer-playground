@@ -40,13 +40,18 @@
                     machines: {
                         type: Array,
                         value: function() {
-                            return Mist.clouds
+                            var machines = Mist.clouds
+                                .filter(function(cloud) {
+                                    return cloud.enabled;
+                                })
                                 .map(function(cloud) {
                                     return cloud.machines;
                                 })
-                                .reverse(function(a, b) {
-                                    return a.join(b);
+                                .reduce(function(a, b) {
+                                    return a.concat(b);
                                 }, []);
+
+                            return machines;
                         }
                     },
                     keys: {
