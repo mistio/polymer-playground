@@ -2,37 +2,83 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="machine-item-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
 
-      paper-card {
-        display: block;
-      }
-    </style>
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
 
-    <paper-card heading="Add Machine">
-      <div class="card-content">
-        <p>Add full page machines dynamic form here</p>
-      </div>
-    </paper-card>
-  </template>
+            .flexchild {
+                @apply(--layout-flex);
+            }
+        </style>
 
-  <script>
-    (function() {
-      'use strict';
+        <paper-item on-tap="_viewMachine" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
+            <div class="flexchild">
+                <paper-checkbox checked="{{selected}}" on-tap="_selectMachine"></paper-checkbox>
+                <span class="name">[[machine.name]]</span>
+            </div>
+            <div class="flexchild">[[machine.cloud.title]]</div>
+        </paper-item>
+    </template>
 
-      Polymer({
-        is: 'machine-item-element',
+    <script>
+        (function() {
+            'use strict';
 
-        properties: {
-          machine: {
-            type: Object
-          }
-        }
-      });
-    })();
-  </script>
+            Polymer({
+                is: 'machine-item-element',
+
+                properties: {
+                    machine: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    }
+                },
+                listeners: {
+                    'selected-changed': '_selectMachineChanged'
+                },
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
+                },
+                _selectMachineChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedMachine', {
+                        machine: this.machine,
+                        selected: selected
+                    });
+                },
+                _viewMachine: function(e) {
+                    page.show('/machines/' + this.machine.id);
+                },
+                _selectMachine: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
+                }
+            });
+        })();
+    </script>
 </dom-module>

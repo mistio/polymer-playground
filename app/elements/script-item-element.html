@@ -3,21 +3,21 @@
 <dom-module id="script-item-element">
     <template>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        paper-card {
-            display: block;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
         </style>
         <paper-item on-tap="_viewScript" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
@@ -28,65 +28,65 @@
         </paper-item>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'script-item-element',
+            Polymer({
+                is: 'script-item-element',
 
-            properties: {
-                script: {
-                    type: Object
+                properties: {
+                    script: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    },
+                    isDefaultText: {
+                        type: String,
+                        computed: '_computeIsDefaultText(script.isDefault)'
+                    }
                 },
-                selected: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
+                listeners: {
+                    'selected-changed': '_selectScriptChanged'
                 },
-                index: {
-                    type: Number
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
                 },
-                count: {
-                    type: Number
+                _selectScriptChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedScript', {
+                        script: this.script,
+                        selected: selected
+                    });
                 },
-                indexClass: {
-                    type: String,
-                    computed: '_computeIsIndexClass(index, count)'
+                _viewScript: function(e) {
+                    page.show('/scripts/' + this.script.id);
                 },
-                isDefaultText: {
-                    type: String,
-                    computed: '_computeIsDefaultText(script.isDefault)'
+                _selectScript: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
+                },
+                _computeIsDefaultText: function(isDefault) {
+                    return isDefault ? 'Default' : null;
                 }
-            },
-            listeners: {
-                'selected-changed': '_selectScriptChanged'
-            },
-            _computeIsIndexClass: function(index, count) {
-                var classes = [];
-                classes.push(
-                    (index + 1) % 2 == 0 ? 'even' : 'odd',
-                    index + 1 == count ? 'last' : null
-                );
-                return classes.join(' ');
-            },
-            _selectScriptChanged: function(e) {
-                var selected = e.detail.value;
-                this.fire('toggleSelectedScript', {
-                    script: this.script,
-                    selected: selected
-                });
-            },
-            _viewScript: function(e) {
-                page.show('/scripts/' + this.script.id);
-            },
-            _selectScript: function(e) {
-                // This is used to prevent event bubbling
-                e.stopPropagation();
-            },
-            _computeIsDefaultText: function(isDefault) {
-                return isDefault ? 'Default' : null;
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

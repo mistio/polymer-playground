@@ -10,213 +10,213 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script src="../bower_components/page/page.js"></script>
 <script>
-  window.addEventListener('WebComponentsReady', function() {
+    window.addEventListener('WebComponentsReady', function() {
 
-    // We use Page.js for routing. This is a Micro
-    // client-side router inspired by the Express router
-    // More info: https://visionmedia.github.io/page.js/
+        // We use Page.js for routing. This is a Micro
+        // client-side router inspired by the Express router
+        // More info: https://visionmedia.github.io/page.js/
 
-    // Removes end / from app.baseUrl which page.base requires for production
-    if (window.location.port === '') { // if production
-      page.base(app.baseUrl.replace(/\/$/, ''));
-    }
+        // Removes end / from app.baseUrl which page.base requires for production
+        if (window.location.port === '') { // if production
+            page.base(app.baseUrl.replace(/\/$/, ''));
+        }
 
-    // Middleware
-    function scrollToTop(ctx, next) {
-      app.scrollPageToTop();
-      next();
-    }
+        // Middleware
+        function scrollToTop(ctx, next) {
+            app.scrollPageToTop();
+            next();
+        }
 
-    function closeDrawer(ctx, next) {
-      app.closeDrawer();
-      next();
-    }
+        function closeDrawer(ctx, next) {
+            app.closeDrawer();
+            next();
+        }
 
-    // Routes
-    page('*', scrollToTop, closeDrawer, function(ctx, next) {
-      next();
+        // Routes
+        page('*', scrollToTop, closeDrawer, function(ctx, next) {
+            next();
+        });
+
+        page('/home', function() {
+            app.route = 'home';
+        });
+
+        page(app.baseUrl, function() {
+            app.route = 'home';
+        });
+
+        page('/users', function() {
+            app.route = 'users';
+        });
+
+        page('/users/:name', function(data) {
+            app.route = 'user-info';
+            app.params = data.params;
+        });
+
+        page('/contact', function() {
+            app.route = 'contact';
+        });
+
+        page('/notes', function() {
+            app.route = 'notes';
+        });
+
+        page('/styling-quests', function() {
+            app.route = 'styling-quests';
+        });
+
+        page('/styling-solutions', function() {
+            app.route = 'styling-solutions';
+        });
+
+        page('/styling-mist', function() {
+            app.route = 'styling-mist';
+        });
+
+        page('/dashboard', function() {
+            app.route = 'dashboard';
+        });
+
+        page('/add-cloud', function() {
+            app.route = 'add-cloud';
+        });
+
+        page('/keys', function() {
+            app.route = 'keys';
+        });
+
+        page('/keys/:id', function(data) {
+            app.route = 'key';
+            app.params = data.params;
+        });
+
+        page('/machines', function() {
+            app.route = 'machines';
+        });
+
+        page('/machines/:id', function(data) {
+            app.route = 'machine';
+            app.params = data.params;
+        });
+
+        page('/add-machine', function() {
+            app.route = 'add-machine';
+        });
+
+        page('/networks', function() {
+            app.route = 'networks';
+        });
+
+        page('/add-network', function() {
+            app.route = 'add-network';
+        });
+
+        page('/networks/:id', function(data) {
+            app.route = 'network';
+            app.params = data.params;
+        });
+
+        page('/scripts', function() {
+            app.route = 'scripts';
+        });
+
+        page('/add-script', function() {
+            app.route = 'add-script';
+        });
+
+        page('/run-script/:id', function(data) {
+            app.route = 'run-script';
+            app.params = data.params;
+        });
+
+        page('/scripts/:id', function(data) {
+            app.route = 'script';
+            app.params = data.params;
+        });
+
+        page('/templates', function() {
+            app.route = 'templates';
+        });
+
+        page('/add-template', function() {
+            app.route = 'add-template';
+        });
+
+        page('/login', function() {
+            app.route = 'login';
+        });
+
+        page('/register', function() {
+            app.route = 'register';
+        });
+
+        page('/details', function() {
+            app.route = 'details';
+        });
+
+        page('/password', function() {
+            app.route = 'password';
+        });
+
+        page('/plans', function() {
+            app.route = 'plans';
+        });
+
+        page('/feedback', function() {
+            app.route = 'feedback';
+        });
+
+        page('/subscriptions', function() {
+            app.route = 'subscriptions';
+        });
+
+        page('/sessions', function() {
+            app.route = 'sessions';
+        });
+
+        page('/tokens', function() {
+            app.route = 'tokens';
+        });
+
+        page('/members', function() {
+            app.route = 'members';
+        });
+
+        page('/members/:id', function(data) {
+            app.route = 'member';
+            app.params = data.params;
+        });
+
+        page('/policies', function() {
+            app.route = 'policies';
+        });
+
+        page('/add-policy', function() {
+            app.route = 'add-policy';
+        });
+
+        page('/policies/:id', function(data) {
+            app.route = 'policy';
+            app.params = data.params;
+        });
+
+        page('/policy/:id/edit', function(data) {
+            app.route = 'edit-policy';
+            app.params = data.params;
+        });
+
+        // 404
+        page('*', function() {
+            app.$.toast.text = 'Can\'t find: ' + window.location.href + '. Redirected you to Home Page';
+            app.$.toast.show();
+            page.redirect(app.baseUrl);
+        });
+
+        // add #! before urls
+        page({
+            hashbang: true
+        });
+
     });
-
-    page('/home', function() {
-      app.route = 'home';
-    });
-
-    page(app.baseUrl, function() {
-      app.route = 'home';
-    });
-
-    page('/users', function() {
-      app.route = 'users';
-    });
-
-    page('/users/:name', function(data) {
-      app.route = 'user-info';
-      app.params = data.params;
-    });
-
-    page('/contact', function() {
-      app.route = 'contact';
-    });
-
-    page('/notes', function() {
-      app.route = 'notes';
-    });
-
-    page('/styling-quests', function() {
-      app.route = 'styling-quests';
-    });
-
-    page('/styling-solutions', function() {
-      app.route = 'styling-solutions';
-    });
-
-    page('/styling-mist', function() {
-      app.route = 'styling-mist';
-    });
-
-    page('/dashboard', function() {
-      app.route = 'dashboard';
-    });
-
-    page('/add-cloud', function() {
-      app.route = 'add-cloud';
-    });
-
-    page('/keys', function() {
-      app.route = 'keys';
-    });
-
-    page('/keys/:id', function(data) {
-      app.route = 'key';
-      app.params = data.params;
-    });
-
-    page('/machines', function() {
-      app.route = 'machines';
-    });
-
-    page('/machines/:id', function(data) {
-      app.route = 'machine';
-      app.params = data.params;
-    });
-
-    page('/add-machine', function() {
-      app.route = 'add-machine';
-    });
-
-    page('/networks', function() {
-      app.route = 'networks';
-    });
-
-    page('/add-network', function() {
-      app.route = 'add-network';
-    });
-
-    page('/networks/:id', function(data) {
-      app.route = 'network';
-      app.params = data.params;
-    });
-
-    page('/scripts', function() {
-      app.route = 'scripts';
-    });
-
-    page('/add-script', function() {
-      app.route = 'add-script';
-    });
-
-    page('/run-script/:id', function(data) {
-      app.route = 'run-script';
-      app.params = data.params;
-    });
-
-    page('/scripts/:id', function(data) {
-      app.route = 'script';
-      app.params = data.params;
-    });
-
-    page('/templates', function() {
-      app.route = 'templates';
-    });
-
-    page('/add-template', function() {
-      app.route = 'add-template';
-    });
-
-    page('/login', function() {
-      app.route = 'login';
-    });
-
-    page('/register', function() {
-      app.route = 'register';
-    });
-
-    page('/details', function() {
-      app.route = 'details';
-    });
-
-    page('/password', function() {
-      app.route = 'password';
-    });
-
-    page('/plans', function() {
-      app.route = 'plans';
-    });
-
-    page('/feedback', function() {
-      app.route = 'feedback';
-    });
-
-    page('/subscriptions', function() {
-      app.route = 'subscriptions';
-    });
-
-    page('/sessions', function() {
-      app.route = 'sessions';
-    });
-
-    page('/tokens', function() {
-      app.route = 'tokens';
-    });
-
-    page('/members', function() {
-      app.route = 'members';
-    });
-
-    page('/members/:id', function(data) {
-      app.route = 'member';
-      app.params = data.params;
-    });
-
-    page('/policies', function() {
-      app.route = 'policies';
-    });
-
-    page('/add-policy', function() {
-      app.route = 'add-policy';
-    });
-
-    page('/policies/:id', function(data) {
-        app.route = 'policy';
-        app.params = data.params;
-    });
-
-    page('/policy/:id/edit', function(data) {
-        app.route = 'edit-policy';
-        app.params = data.params;
-    });
-
-    // 404
-    page('*', function() {
-      app.$.toast.text = 'Can\'t find: ' + window.location.href + '. Redirected you to Home Page';
-      app.$.toast.show();
-      page.redirect(app.baseUrl);
-    });
-
-    // add #! before urls
-    page({
-      hashbang: true
-    });
-
-  });
 </script>

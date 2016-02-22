@@ -5,9 +5,9 @@
         <style is="custom-style" include="forms"></style>
         <style is="custom-style" include="login-and-register"></style>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
+            :host {
+                display: block;
+            }
         </style>
         <div class="centering-parent">
             <paper-material>
@@ -24,65 +24,65 @@
         <iron-ajax id="ajax" url="/api/v1/login" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'login-page-element',
+            Polymer({
+                is: 'login-page-element',
 
-            properties: {
-                user: {
-                    type: Object,
-                    value: function() {
-                        return {
-                            email: '',
-                            password: ''
-                        }
+                properties: {
+                    user: {
+                        type: Object,
+                        value: function() {
+                            return {
+                                email: '',
+                                password: ''
+                            }
+                        },
+                        notify: true
                     },
-                    notify: true
+                    sendingData: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formReady: {
+                        type: Boolean,
+                        computed: '_computeFormReady(user.email, user.password, sendingData)'
+                    }
                 },
-                sendingData: {
-                    type: Boolean,
-                    value: false
+                ready: function() {
+
                 },
-                formReady: {
-                    type: Boolean,
-                    computed: '_computeFormReady(user.email, user.password, sendingData)'
+                _computeFormReady: function(email, password, sendingData) {
+                    var formReady = false;
+
+                    if (email && password) {
+                        formReady = true;
+                    }
+
+                    if (sendingData) {
+                        formReady = false;
+                    }
+
+                    return formReady;
+                },
+                _submitForm: function(e) {
+
+                },
+                _formReset: function() {
+                    this.set('user.email', '');
+                    this.set('user.password', '');
+                    this.$.email.invalid = false;
+                    this.$.password.invalid = false;
+                },
+                _ajaxRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _ajaxResponse: function() {
+                    this.set('sendingData', false);
+                    this._formReset();
                 }
-            },
-            ready: function() {
-
-            },
-            _computeFormReady: function(email, password, sendingData) {
-                var formReady = false;
-
-                if (email && password) {
-                    formReady = true;
-                }
-
-                if (sendingData) {
-                    formReady = false;
-                }
-
-                return formReady;
-            },
-            _submitForm: function(e) {
-
-            },
-            _formReset: function() {
-                this.set('user.email', '');
-                this.set('user.password', '');
-                this.$.email.invalid = false;
-                this.$.password.invalid = false;
-            },
-            _ajaxRequest: function() {
-                this.set('sendingData', true);
-            },
-            _ajaxResponse: function() {
-                this.set('sendingData', false);
-                this._formReset();
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

@@ -2,87 +2,64 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="styling-quests-page-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-    </style>
-
-    <paper-card>
-      <div class="card-content">
-        <marked-element>
-          <div class="markdown-html markdown-body"></div>
-          <script type="text/markdown">
-            #### Cards Actions
-            Our application will be based on cards to organize content. We need a way to provide dynamic options like delete or rename etc when some items are selected by the user. An idea is to use a `.card-actions` element on the top right corner of our card and toggle its buttons showing accordingly. So if user selects 1 key the rename and the delete options might appear as `iron-icon-button` and if he/she selects more than 1 the rename button should be hidden and the delete button will remain visible. If he/she deselects all items then all options will be hidden except for the search one.
-
-            #### Collections Sorting Options
-            An option we need for our collections is sorting option. This might refer to more than 1 cases like sort by name or sort by date etc. An idea might be to use an up/down arrow.
-
-            #### Dialogs
-            All `paper-dialog` modals should have `paper-dialog-scrollable` element inside. Without it if dialog is taller than the screen we use then polymer crops its content. The issue is that with `paper-dialog-scrollable` element we have to find a way to use custom sizes (horizontally) since the dialog cannot get centered or resized in a responsive manner if we use sth like:
-            ```
-            paper-dialog {
-                width: 90%;
-                max-width: 300px;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
             }
-            ```
 
-            Polymer can re-center the dialog correctly with the following but cannot resize it:
-            ```
-            paper-dialog {
-                width: 300px;
+            paper-card {
+                display: block;
             }
-            ```
+        </style>
 
-            Our biggest enemy here is that `paper-dialog` uses for positioning and sizing js to attach inline styling inside `paper-dialog` opening tag and plain css3. Firefox needs extra attention here.
+        <paper-card>
+            <div class="card-content">
+                <marked-element>
+                    <div class="markdown-html markdown-body"></div>
+                    <script type="text/markdown">
+                        #### Cards Actions Our application will be based on cards to organize content. We need a way to provide dynamic options like delete or rename etc when some items are selected by the user. An idea is to use a `.card-actions` element on the top right corner
+                        of our card and toggle its buttons showing accordingly. So if user selects 1 key the rename and the delete options might appear as `iron-icon-button` and if he/she selects more than 1 the rename button should be hidden and the
+                        delete button will remain visible. If he/she deselects all items then all options will be hidden except for the search one. #### Collections Sorting Options An option we need for our collections is sorting option. This might refer
+                        to more than 1 cases like sort by name or sort by date etc. An idea might be to use an up/down arrow. #### Dialogs All `paper-dialog` modals should have `paper-dialog-scrollable` element inside. Without it if dialog is taller than
+                        the screen we use then polymer crops its content. The issue is that with `paper-dialog-scrollable` element we have to find a way to use custom sizes (horizontally) since the dialog cannot get centered or resized in a responsive
+                        manner if we use sth like: ``` paper-dialog { width: 90%; max-width: 300px; } ``` Polymer can re-center the dialog correctly with the following but cannot resize it: ``` paper-dialog { width: 300px; } ``` Our biggest enemy here
+                        is that `paper-dialog` uses for positioning and sizing js to attach inline styling inside `paper-dialog` opening tag and plain css3. Firefox needs extra attention here. #### Forms We need a nice idea to show notifications to our
+                        users when error / success messages return from the server. A typical solution would be the use of `paper-toast` element for all those types of notifications but i think it will be ugly to use a little box with content on the bottom
+                        left corner for forms submissions. In general this is extremely important and we have to categorize all the ways we are going to show info with dialogs etc. Maybe we need a real dialog in some cases and not a toast but all these
+                        are vital parts of our UI/UX guidelines in order to be effective and consistent. #### Dropdown options styling We need a better styling for our dropdowns options. At the moment they appear in a small container on top left or top
+                        right corner of their parents. An idea is to use full width containers below their parents. A typical drodown menu we use has the following markup: ```
+                        <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
+                            <paper-menu attr-for-selected="value" selected="..." class="dropdown-content">
+                                <template is="dom-repeat" items="..." as="country">
+                                    <paper-item value="...">...</paper-item>
+                                </template>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                        ``` I found [this](https://customelements.io/wuxiaoying/paper-dropdown-menu-ex/) which is for polymer 0.5 and [this](https://customelements.io/cheonhyangzhang/paper-typeahead-input/) which adds a typehead feature but it didn't work as wanted when tested.
+                        Maybe we could make a pull request on those or make our own version if we don't find a nice working option. #### Tables styling We need zebra styling for tables and border bottom except for the last one with css and not by using
+                        js and arrays indexes to find odd and even rows. #### Preloader position / styling One important thing for our ajax requests is to provide a nice loading indication while ajax requests run or some heavy process takes place. Polymer
+                        offers some options by default to do so. We should think about it some more so we can apply a consistent solution.
+                    </script>
+                </marked-element>
+            </div>
+        </paper-card>
+    </template>
 
-            #### Forms
-            We need a nice idea to show notifications to our users when error / success messages return from the server. A typical solution would be the use of `paper-toast` element for all those types of notifications but i think it will be ugly to use a little box with content on the bottom left corner for forms submissions. In general this is extremely important and we have to categorize all the ways we are going to show info with dialogs etc. Maybe we need a real dialog in some cases and not a toast but all these are vital parts of our UI/UX guidelines in order to be effective and consistent.
+    <script>
+        (function() {
+            'use strict';
 
-            #### Dropdown options styling
-            We need a better styling for our dropdowns options. At the moment they appear in a small container on top left or top right corner of their parents. An idea is to use full width containers below their parents. A typical drodown menu we use has the following markup:
-            ```
-            <paper-dropdown-menu label="Where is your business located?" horizontal-align="left">
-              <paper-menu attr-for-selected="value" selected="..." class="dropdown-content">
-                <template is="dom-repeat" items="..." as="country">
-                  <paper-item value="...">...</paper-item>
-                </template>
-              </paper-menu>
-            </paper-dropdown-menu>
-            ```
-            I found [this](https://customelements.io/wuxiaoying/paper-dropdown-menu-ex/) which is for polymer 0.5 and [this](https://customelements.io/cheonhyangzhang/paper-typeahead-input/) which adds a typehead feature but it didn't work as wanted when tested. Maybe we could make a pull request on those or make our own version if we don't find a nice working option.
+            Polymer({
+                is: 'styling-quests-page-element',
 
-            #### Tables styling
-            We need zebra styling for tables and border bottom except for the last one with css and not by using js and arrays indexes to find odd and even rows.
+                properties: {
 
-            #### Preloader position / styling
-            One important thing for our ajax requests is to provide a nice loading indication while ajax requests run or some heavy process takes place. Polymer offers some options by default to do so. We should think about it some more so we can apply a consistent solution.
-          </script>
-        </marked-element>
-      </div>
-    </paper-card>
-  </template>
+                },
+                ready: function() {
 
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'styling-quests-page-element',
-
-        properties: {
-
-        },
-        ready: function() {
-
-        }
-      });
-    })();
-  </script>
+                }
+            });
+        })();
+    </script>
 </dom-module>

@@ -3,21 +3,17 @@
 <dom-module id="network-item-element">
     <template>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        paper-card {
-            display: block;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
+            :host {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
         </style>
         <paper-item on-tap="_viewNetwork" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
@@ -29,98 +25,98 @@
         </paper-item>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'network-item-element',
+            Polymer({
+                is: 'network-item-element',
 
-            properties: {
-                network: {
-                    type: Object
+                properties: {
+                    network: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    },
+                    isOpenstack: {
+                        type: Boolean,
+                        computed: '_computeIsOpenstack(network.cloud.provider)'
+                    },
+                    isPublic: {
+                        type: Boolean,
+                        computed: '_computeIsPublic(network.router_external)'
+                    },
+                    isPrivate: {
+                        type: Boolean,
+                        computed: '_computeIsPrivate(network.router_external)'
+                    },
+                    typeText: {
+                        type: String,
+                        computed: '_computeTypeText(isPublic, isPrivate)'
+                    }
                 },
-                selected: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
+                listeners: {
+                    'selected-changed': '_selectNetworkChanged'
                 },
-                index: {
-                    type: Number
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
                 },
-                count: {
-                    type: Number
+                _computeIsOpenstack: function(provider) {
+                    return provider == 'openstack';
                 },
-                indexClass: {
-                    type: String,
-                    computed: '_computeIsIndexClass(index, count)'
+                _computeIsPublic: function(router_external) {
+                    return router_external == true;
                 },
-                isOpenstack: {
-                    type: Boolean,
-                    computed: '_computeIsOpenstack(network.cloud.provider)'
+                _computeIsPrivate: function(router_external) {
+                    return router_external == false;
                 },
-                isPublic: {
-                    type: Boolean,
-                    computed: '_computeIsPublic(network.router_external)'
-                },
-                isPrivate: {
-                    type: Boolean,
-                    computed: '_computeIsPrivate(network.router_external)'
-                },
-                typeText: {
-                    type: String,
-                    computed: '_computeTypeText(isPublic, isPrivate)'
-                }
-            },
-            listeners: {
-                'selected-changed': '_selectNetworkChanged'
-            },
-            _computeIsIndexClass: function(index, count) {
-                var classes = [];
-                classes.push(
-                    (index + 1) % 2 == 0 ? 'even' : 'odd',
-                    index + 1 == count ? 'last' : null
-                );
-                return classes.join(' ');
-            },
-            _computeIsOpenstack: function(provider) {
-                return provider == 'openstack';
-            },
-            _computeIsPublic: function(router_external) {
-                return router_external == true;
-            },
-            _computeIsPrivate: function(router_external) {
-                return router_external == false;
-            },
-            _computeTypeText: function(isPublic, isPrivate) {
-                if (isPublic) {
-                    return 'Public';
-                }
+                _computeTypeText: function(isPublic, isPrivate) {
+                    if (isPublic) {
+                        return 'Public';
+                    }
 
-                if (isPrivate) {
-                    return 'Private';
-                }
+                    if (isPrivate) {
+                        return 'Private';
+                    }
 
-                return '';
-            },
-            _selectNetworkChanged: function(e) {
-                if (this.isOpenstack) {
-                    var selected = e.detail.value;
-                    this.fire('toggleSelectedNetwork', {
-                        network: this.network,
-                        selected: selected
-                    });
-                } else {
-                    this.set('selected', false);
+                    return '';
+                },
+                _selectNetworkChanged: function(e) {
+                    if (this.isOpenstack) {
+                        var selected = e.detail.value;
+                        this.fire('toggleSelectedNetwork', {
+                            network: this.network,
+                            selected: selected
+                        });
+                    } else {
+                        this.set('selected', false);
+                    }
+                },
+                _viewNetwork: function(e) {
+                    page.show('/networks/' + this.network.id);
+                },
+                _selectNetwork: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
                 }
-            },
-            _viewNetwork: function(e) {
-                page.show('/networks/' + this.network.id);
-            },
-            _selectNetwork: function(e) {
-                // This is used to prevent event bubbling
-                e.stopPropagation();
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

@@ -2,40 +2,40 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="template-add-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-
-      paper-card {
-        display: block;
-      }
-    </style>
-
-    <paper-card heading="Add Templates">
-      <div class="card-content">
-        <p>Add full page templates dynamic form here</p>
-      </div>
-    </paper-card>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'template-add-element',
-
-        properties: {
-          template: {
-            type: Object,
-            value: function() {
-              return {};
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
             }
-          }
-        }
-      });
-    })();
-  </script>
+
+            paper-card {
+                display: block;
+            }
+        </style>
+
+        <paper-card heading="Add Templates">
+            <div class="card-content">
+                <p>Add full page templates dynamic form here</p>
+            </div>
+        </paper-card>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'template-add-element',
+
+                properties: {
+                    template: {
+                        type: Object,
+                        value: function() {
+                            return {};
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
 </dom-module>

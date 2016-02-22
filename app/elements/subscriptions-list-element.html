@@ -2,60 +2,60 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="subscriptions-list-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
 
-      paper-card {
-        display: block;
-      }
+            paper-card {
+                display: block;
+            }
 
-      .flex-horizontal-with-ratios {
-        @apply(--layout-horizontal);
-      }
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
 
-      .flexchild {
-        @apply(--layout-flex);
-      }
-    </style>
+            .flexchild {
+                @apply(--layout-flex);
+            }
+        </style>
 
-    <paper-card heading="Subscription History">
-      <div class="card-content">
-        <div class="info-list">
-          <div class="info-head flex-horizontal-with-ratios">
-            <div class="flexchild">Date</div>
-            <div class="flexchild text-center">Plan</div>
-            <div class="flexchild text-right">Action</div>
-          </div>
-          <div class="info-body">
-            <template is="dom-repeat" items=[[subscriptions]] as="subscription">
-              <subscription-item-element subscription="[[subscription]]" index="[[index]]" count="[[subscriptions.length]]"></subscription-item-element>
-            </template>
-          </div>
-        </div>
-      </div>
-    </paper-card>
-  </template>
+        <paper-card heading="Subscription History">
+            <div class="card-content">
+                <div class="info-list">
+                    <div class="info-head flex-horizontal-with-ratios">
+                        <div class="flexchild">Date</div>
+                        <div class="flexchild text-center">Plan</div>
+                        <div class="flexchild text-right">Action</div>
+                    </div>
+                    <div class="info-body">
+                        <template is="dom-repeat" items=[[subscriptions]] as="subscription">
+                            <subscription-item-element subscription="[[subscription]]" index="[[index]]" count="[[subscriptions.length]]"></subscription-item-element>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </paper-card>
+    </template>
 
-  <script>
-    (function() {
-      'use strict';
+    <script>
+        (function() {
+            'use strict';
 
-      Polymer({
-        is: 'subscriptions-list-element',
+            Polymer({
+                is: 'subscriptions-list-element',
 
-        properties: {
-          subscriptions: {
-            type: Array,
-            value: []
-          }
-        },
-        ready: function() {
-          this.set('subscriptions', USER_PLANS);
-        }
-      });
-    })();
-  </script>
+                properties: {
+                    subscriptions: {
+                        type: Array,
+                        value: []
+                    }
+                },
+                ready: function() {
+                    this.set('subscriptions', USER_PLANS);
+                }
+            });
+        })();
+    </script>
 </dom-module>
