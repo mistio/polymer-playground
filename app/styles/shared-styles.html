@@ -235,7 +235,7 @@
         :host >::content .input-content.label-is-floating.paper-input-container label {
             color: var(--mist-blue);
         }
-
+        
         @media (max-width: 600px) {
             .page-title {
                 font-size: 24px!important;
@@ -630,14 +630,16 @@
             padding-left: 0;
         }
         
-        ::content paper-item {
-            font-size: 13px;
-        }
-        
         ::content paper-item:hover {
             background-color: var(--mist-lighter-color);
         }
-
+        paper-dropdown-menu::content paper-item:last-of-type {
+            border-bottom: 0 none;
+        }
+        paper-dropdown-menu::content paper-menu {
+            padding: 0;
+        }
+        
         paper-dropdown-menu::content iron-dropdown {
             position: absolute;
             top: 56px !important;
