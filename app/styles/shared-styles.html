@@ -228,6 +228,14 @@
             margin: 16px 0;
         }
         
+        :host >::content .focused-line.paper-input-container {
+            background-color: var(--mist-blue);
+        }
+        
+        :host >::content .input-content.label-is-floating.paper-input-container label {
+            color: var(--mist-blue);
+        }
+
         @media (max-width: 600px) {
             .page-title {
                 font-size: 24px!important;
@@ -305,7 +313,7 @@
         .list-options:hover paper-icon-button >::content iron-icon {
             color: var(--mist-dark-color);
         }
-
+        
         .list-options paper-icon-button >::content iron-icon:hover {
             color: var(--mist-blue);
         }
@@ -331,7 +339,7 @@
             /*opacity: 1;
             transform: translate3d(0, 0, 0);*/
         }
-
+        
         .row .row-actions paper-icon-button:hover {
             color: var(--mist-blue);
         }
@@ -589,14 +597,6 @@
         :host::content paper-menu-button iron-dropdown paper-material {
             top: 57px !important;
         }*/
-        
-        :host::content .focused-line.paper-input-container {
-            background-color: var(--mist-blue);
-        }
-        
-        :host::content .input-content.label-is-floating.paper-input-container label {
-            color: var(--mist-blue);
-        }
         
         :host::content form paper-button {
             background-color: var(--mist-blue);
