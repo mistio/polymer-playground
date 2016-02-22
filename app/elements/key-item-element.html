@@ -3,21 +3,21 @@
 <dom-module id="key-item-element">
     <template>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        paper-card {
-            display: block;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
         </style>
         <paper-item on-tap="_viewKey" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
@@ -31,66 +31,66 @@
         </paper-item>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'key-item-element',
+            Polymer({
+                is: 'key-item-element',
 
-            properties: {
-                key: {
-                    type: Object
+                properties: {
+                    key: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number,
+                        reflectToAttribute: true
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    },
+                    isDefaultText: {
+                        type: String,
+                        computed: '_computeIsDefaultText(key.isDefault)'
+                    }
                 },
-                selected: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
+                listeners: {
+                    'selected-changed': '_selectKeyChanged'
                 },
-                index: {
-                    type: Number,
-                    reflectToAttribute: true
+                _computeIsDefaultText: function(isDefault) {
+                    return isDefault ? 'Default' : null;
                 },
-                count: {
-                    type: Number
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
                 },
-                indexClass: {
-                    type: String,
-                    computed: '_computeIsIndexClass(index, count)'
+                _selectKeyChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedKey', {
+                        key: this.key,
+                        selected: selected
+                    });
                 },
-                isDefaultText: {
-                    type: String,
-                    computed: '_computeIsDefaultText(key.isDefault)'
+                _viewKey: function(e) {
+                    page.show('/keys/' + this.key.id);
+                },
+                _selectKey: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
                 }
-            },
-            listeners: {
-                'selected-changed': '_selectKeyChanged'
-            },
-            _computeIsDefaultText: function(isDefault) {
-                return isDefault ? 'Default' : null;
-            },
-            _computeIsIndexClass: function(index, count) {
-                var classes = [];
-                classes.push(
-                    (index + 1) % 2 == 0 ? 'even' : 'odd',
-                    index + 1 == count ? 'last' : null
-                );
-                return classes.join(' ');
-            },
-            _selectKeyChanged: function(e) {
-                var selected = e.detail.value;
-                this.fire('toggleSelectedKey', {
-                    key: this.key,
-                    selected: selected
-                });
-            },
-            _viewKey: function(e) {
-                page.show('/keys/' + this.key.id);
-            },
-            _selectKey: function(e) {
-                // This is used to prevent event bubbling
-                e.stopPropagation();
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

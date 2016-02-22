@@ -4,22 +4,22 @@
     <template>
         <style is="custom-style" include="forms"></style>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
+            :host {
+                display: block;
+            }
 
-        paper-material {
-            display: block;
-        }
+            paper-material {
+                display: block;
+            }
 
-        .flex {
-            @apply(--layout-horizontal);
-            justify-content: flex-start;
-        }
+            .flex {
+                @apply(--layout-horizontal);
+                justify-content: flex-start;
+            }
 
-        .flex > * {
-            margin: 8px 32px 16px 0;
-        }
+            .flex > * {
+                margin: 8px 32px 16px 0;
+            }
         </style>
         <paper-material class="form">
             <h2>Account Details</h2>
@@ -58,99 +58,99 @@
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'details-page-element',
+            Polymer({
+                is: 'details-page-element',
 
-            properties: {
-                user: {
-                    type: Object,
-                    value: function() {
-                        return {
-                            firstName: FIRST_NAME,
-                            lastName: LAST_NAME,
-                            country: COUNTRY,
-                            companyName: COMPANY_NAME,
-                            numberOfPeople: NUMBER_OF_PEOPLE,
-                            numberOfServers: NUMBER_OF_SERVERS
+                properties: {
+                    user: {
+                        type: Object,
+                        value: function() {
+                            return {
+                                firstName: FIRST_NAME,
+                                lastName: LAST_NAME,
+                                country: COUNTRY,
+                                companyName: COMPANY_NAME,
+                                numberOfPeople: NUMBER_OF_PEOPLE,
+                                numberOfServers: NUMBER_OF_SERVERS
+                            }
+                        },
+                        notify: true
+                    },
+                    countriesOptions: {
+                        type: Array,
+                        value: function() {
+                            return COUNTRIES;
                         }
                     },
-                    notify: true
-                },
-                countriesOptions: {
-                    type: Array,
-                    value: function() {
-                        return COUNTRIES;
+                    numberOfPeopleOptions: {
+                        type: Array,
+                        value: ['1-5', '6-20', '21-100', '100+']
+                    },
+                    numberOfServersOptions: {
+                        type: Array,
+                        value: ['1-5', '6-20', '21-100', '100+']
+                    },
+                    sendingData: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formReady: {
+                        type: Boolean,
+                        computed: '_computeFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, sendingData)'
                     }
                 },
-                numberOfPeopleOptions: {
-                    type: Array,
-                    value: ['1-5', '6-20', '21-100', '100+']
+                ready: function() {
+
                 },
-                numberOfServersOptions: {
-                    type: Array,
-                    value: ['1-5', '6-20', '21-100', '100+']
+                _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
+                    return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
                 },
-                sendingData: {
-                    type: Boolean,
-                    value: false
+                _submitForm: function(e) {
+                    var payload = {
+                        action: 'update_details',
+                        first_name: this.user.firstName,
+                        last_name: this.user.lastName,
+                        last_name: this.user.lastName,
+                        company_name: this.user.companyName,
+                        country: this.user.country,
+                        number_of_servers: this.user.numberOfServers,
+                        number_of_people: this.user.numberOfPeople
+                    };
+
+                    this._fireEvents();
+
+                    //   this.$.ajax.body = payload;
+                    //   this.$.ajax.generateRequest();
                 },
-                formReady: {
-                    type: Boolean,
-                    computed: '_computeFormReady(user.firstName, user.lastName, user.country, user.companyName, user.numberOfPeople, user.numberOfServers, sendingData)'
+                _ajaxRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _ajaxResponse: function() {
+                    this.set('sendingData', false);
+                    this._fireEvents();
+                },
+                _fireEvents: function() {
+                    // Update user's info where needed
+                    this.fire('iron-signal', {
+                        name: 'user-menu',
+                        data: {
+                            firstName: this.user.firstName,
+                            lastName: this.user.lastName
+                        }
+                    });
+
+                    // Show a notification
+                    this._showNotification(this.user.firstName + ' your details were updated!');
+                },
+                _showNotification: function(title) {
+                    var notification = Polymer.dom(document).querySelector('notification-element');
+                    notification.title = title;
+                    notification._openToast();
                 }
-            },
-            ready: function() {
-
-            },
-            _computeFormReady: function(firstName, lastName, country, companyName, numberOfPeople, numberOfServers) {
-                return firstName && lastName && country && companyName && numberOfPeople && numberOfServers;
-            },
-            _submitForm: function(e) {
-                var payload = {
-                    action: 'update_details',
-                    first_name: this.user.firstName,
-                    last_name: this.user.lastName,
-                    last_name: this.user.lastName,
-                    company_name: this.user.companyName,
-                    country: this.user.country,
-                    number_of_servers: this.user.numberOfServers,
-                    number_of_people: this.user.numberOfPeople
-                };
-
-                this._fireEvents();
-
-                //   this.$.ajax.body = payload;
-                //   this.$.ajax.generateRequest();
-            },
-            _ajaxRequest: function() {
-                this.set('sendingData', true);
-            },
-            _ajaxResponse: function() {
-                this.set('sendingData', false);
-                this._fireEvents();
-            },
-            _fireEvents: function() {
-                // Update user's info where needed
-                this.fire('iron-signal', {
-                    name: 'user-menu',
-                    data: {
-                        firstName: this.user.firstName,
-                        lastName: this.user.lastName
-                    }
-                });
-
-                // Show a notification
-                this._showNotification(this.user.firstName + ' your details were updated!');
-            },
-            _showNotification: function(title) {
-                var notification = Polymer.dom(document).querySelector('notification-element');
-                notification.title = title;
-                notification._openToast();
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

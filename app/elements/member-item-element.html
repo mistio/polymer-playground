@@ -3,21 +3,21 @@
 <dom-module id="member-item-element">
     <template>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        paper-item:hover {
-            cursor: pointer;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
+            :host {
+                display: block;
+            }
+
+            paper-item:hover {
+                cursor: pointer;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
         </style>
         <paper-item on-tap="_viewMember" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
@@ -27,58 +27,58 @@
         </paper-item>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'member-item-element',
+            Polymer({
+                is: 'member-item-element',
 
-            properties: {
-                member: {
-                    type: Object
+                properties: {
+                    member: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    }
                 },
-                selected: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
+                listeners: {
+                    'selected-changed': '_selectMemberChanged'
                 },
-                index: {
-                    type: Number
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
                 },
-                count: {
-                    type: Number
+                _selectMemberChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedMember', {
+                        member: this.member,
+                        selected: selected
+                    });
                 },
-                indexClass: {
-                    type: String,
-                    computed: '_computeIsIndexClass(index, count)'
+                _viewMember: function(e) {
+                    page.show('/members/' + this.member.id);
+                },
+                _selectMember: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
                 }
-            },
-            listeners: {
-                'selected-changed': '_selectMemberChanged'
-            },
-            _computeIsIndexClass: function(index, count) {
-                var classes = [];
-                classes.push(
-                    (index + 1) % 2 == 0 ? 'even' : 'odd',
-                    index + 1 == count ? 'last' : null
-                );
-                return classes.join(' ');
-            },
-            _selectMemberChanged: function(e) {
-                var selected = e.detail.value;
-                this.fire('toggleSelectedMember', {
-                    member: this.member,
-                    selected: selected
-                });
-            },
-            _viewMember: function(e) {
-                page.show('/members/' + this.member.id);
-            },
-            _selectMember: function(e) {
-                // This is used to prevent event bubbling
-                e.stopPropagation();
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

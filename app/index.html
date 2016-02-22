@@ -11,528 +11,528 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Polymer Starter Kit">
-  <title>Polymer Starter Kit</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Polymer Starter Kit">
+        <title>Polymer Starter Kit</title>
 
-  <!-- Place favicon.ico in the `app/` directory -->
+        <!-- Place favicon.ico in the `app/` directory -->
 
-  <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#2E3AA1">
+        <!-- Chrome for Android theme color -->
+        <meta name="theme-color" content="#2E3AA1">
 
-  <!-- Web Application Manifest -->
-  <link rel="manifest" href="manifest.json">
+        <!-- Web Application Manifest -->
+        <link rel="manifest" href="manifest.json">
 
-  <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#3372DF">
+        <!-- Tile color for Win8 -->
+        <meta name="msapplication-TileColor" content="#3372DF">
 
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="PSK">
-  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+        <!-- Add to homescreen for Chrome on Android -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="PSK">
+        <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
 
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
-  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+        <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
 
-  <!-- Tile icon for Win8 (144x144) -->
-  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+        <!-- Tile icon for Win8 (144x144) -->
+        <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
 
-  <link rel="stylesheet" href="styles/github-markdown.css">
+        <link rel="stylesheet" href="styles/github-markdown.css">
 
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
+        <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild-->
 
-  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- endbuild -->
+        <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+        <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+        <!-- endbuild -->
 
-  <!-- Because this project uses vulcanize this should be your only html import
+        <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
-  <link rel="import" href="elements/elements.html">
+        <link rel="import" href="elements/elements.html">
 
-  <!-- For shared styles, shared-styles.html import in elements.html -->
-  <style is="custom-style" include="shared-styles"></style>
+        <!-- For shared styles, shared-styles.html import in elements.html -->
+        <style is="custom-style" include="shared-styles"></style>
 
-  <script>
-    var FIRST_NAME = "Marios";
-    var LAST_NAME = "Fakiolas";
-    var COUNTRY = "Greece";
-    var COMPANY_NAME = "mist.io";
-    var NUMBER_OF_PEOPLE = "6-20";
-    var NUMBER_OF_SERVERS = "1-5";
-    var EMAIL = "fakiolasmarios@gmail.com";
-    var HAS_PASS = true;
-    var CURRENT_PLAN = {
-      "machine_limit": 20,
-      "promo_code": {
-        "discount": 100,
-        "plans": ["Startup"],
-        "title": "MARIOS",
-        "duration": 900,
-        "send_to_purchase": false,
-        "description": "100% off for 30 months",
-        "stripe_coupon_id": "",
-        "expiration": "2019-12-31"
-      },
-      "title": "Startup",
-      "started": 1436552051.308805,
-      "isTrial": false,
-      "has_expired": false,
-      "expiration": 1514312051.308817
-    };
-    var PLANS = [{
-      "is_ibm_compatible": false,
-      "price": 0,
-      "title": "Lite",
-      "description": "No monitoring",
-      "machine_limit": 0
-    }, {
-      "is_ibm_compatible": true,
-      "price": 39,
-      "title": "Basic",
-      "description": "",
-      "machine_limit": 5
-    }, {
-      "is_ibm_compatible": true,
-      "price": 149,
-      "title": "Startup",
-      "description": "",
-      "machine_limit": 20
-    }, {
-      "is_ibm_compatible": false,
-      "price": null,
-      "title": "Enterprise",
-      "description": "Contact us",
-      "machine_limit": null
-    }];
-    var USER_PLANS = [{
-      "action": "started",
-      "time": 1432715133.746734,
-      "isTrial": true,
-      "promo_code": "",
-      "title": "Startup"
-    }, {
-      "action": "expired",
-      "time": 1436552051.308402,
-      "isTrial": true,
-      "promo_code": "",
-      "title": "Startup"
-    }, {
-      "action": "started",
-      "time": 1436552051.308805,
-      "isTrial": false,
-      "promo_code": "MARIOS",
-      "title": "Startup"
-    }, {
-      "action": "will expire",
-      "time": 1514312051.308817,
-      "isTrial": false,
-      "promo_code": "MARIOS",
-      "title": "Startup"
-    }]
-    var PROMO_CODES = [{
-      "discount": 100,
-      "plans": ["Basic"],
-      "title": "ONEYEARFREE",
-      "duration": 365,
-      "send_to_purchase": false,
-      "description": "100% off for 1 year",
-      "stripe_coupon_id": "",
-      "expiration": "2016-12-31"
-    }];
-    var SESSIONS = [{
-      "created_at": "2016-01-05 16:02:07.981000",
-      "ip_address": "94.69.109.117",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
-      "last_accessed_at": "2016-01-07 16:03:26.556000",
-      "id": "568be8ff32604922c061e78d"
-    }, {
-      "created_at": "2016-01-11 12:02:27.523000",
-      "ip_address": "94.65.70.242",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
-      "last_accessed_at": "2016-01-11 13:01:32.452000",
-      "id": "569399d3326049380f5d7e3c"
-    }, {
-      "created_at": "2016-01-12 15:35:57.448000",
-      "ip_address": "2.84.64.76",
-      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36",
-      "last_accessed_at": "2016-01-14 14:43:53.923000",
-      "id": "56951d5d32604920810d071b"
-    }, {
-      "created_at": "2016-01-25 18:29:48.169000",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-      "last_accessed_at": "2016-02-03 19:53:39.023000",
-      "active": true,
-      "ip_address": "94.67.32.252",
-      "id": "56a6699c32604944d70d08b0"
-    }, {
-      "created_at": "2016-01-26 11:43:07.110000",
-      "ip_address": "94.67.32.252",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-      "last_accessed_at": "2016-01-27 14:47:44.944000",
-      "id": "56a75bcb32604978e75d8014"
-    }, {
-      "created_at": "2016-01-27 20:08:24.257000",
-      "ip_address": "94.67.32.252",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-      "last_accessed_at": "2016-01-27 23:18:26.254000",
-      "id": "56a923b832604935fa5d7ea3"
-    }, {
-      "created_at": "2016-01-29 14:48:20.145000",
-      "ip_address": "94.68.119.227",
-      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-      "last_accessed_at": "2016-01-30 19:57:54.125000",
-      "id": "56ab7bb4326049785a0d071c"
-    }];
-    var TOKENS = [{
-      "token": "be9e...",
-      "name": "api_token_87591",
-      "last_accessed_at": "2016-02-03 10:14:28.599000",
-      "ttl": 0,
-      "created_at": "2015-12-22 15:46:26.643000",
-      "ip_address": "94.69.102.20",
-      "id": "568159523260490d7461e63c",
-      "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
-    }, {
-      "token": "be9e...",
-      "name": "api_token_87592",
-      "last_accessed_at": "2016-01-03 10:14:28.599000",
-      "ttl": 0,
-      "created_at": "2015-12-28 15:46:26.643000",
-      "ip_address": "94.69.102.20",
-      "id": "568159523260490d7461e63c",
-      "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
-    }, {
-      "token": "be9e...",
-      "name": "api_token_87593",
-      "last_accessed_at": "2015-11-03 10:14:28.599000",
-      "ttl": 0,
-      "created_at": "2015-11-01 15:46:26.643000",
-      "ip_address": "94.69.102.20",
-      "id": "568159523260490d7461e63c",
-      "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
-    }];
-  </script>
-</head>
+        <script>
+            var FIRST_NAME = "Marios";
+            var LAST_NAME = "Fakiolas";
+            var COUNTRY = "Greece";
+            var COMPANY_NAME = "mist.io";
+            var NUMBER_OF_PEOPLE = "6-20";
+            var NUMBER_OF_SERVERS = "1-5";
+            var EMAIL = "fakiolasmarios@gmail.com";
+            var HAS_PASS = true;
+            var CURRENT_PLAN = {
+                "machine_limit": 20,
+                "promo_code": {
+                    "discount": 100,
+                    "plans": ["Startup"],
+                    "title": "MARIOS",
+                    "duration": 900,
+                    "send_to_purchase": false,
+                    "description": "100% off for 30 months",
+                    "stripe_coupon_id": "",
+                    "expiration": "2019-12-31"
+                },
+                "title": "Startup",
+                "started": 1436552051.308805,
+                "isTrial": false,
+                "has_expired": false,
+                "expiration": 1514312051.308817
+            };
+            var PLANS = [{
+                "is_ibm_compatible": false,
+                "price": 0,
+                "title": "Lite",
+                "description": "No monitoring",
+                "machine_limit": 0
+            }, {
+                "is_ibm_compatible": true,
+                "price": 39,
+                "title": "Basic",
+                "description": "",
+                "machine_limit": 5
+            }, {
+                "is_ibm_compatible": true,
+                "price": 149,
+                "title": "Startup",
+                "description": "",
+                "machine_limit": 20
+            }, {
+                "is_ibm_compatible": false,
+                "price": null,
+                "title": "Enterprise",
+                "description": "Contact us",
+                "machine_limit": null
+            }];
+            var USER_PLANS = [{
+                "action": "started",
+                "time": 1432715133.746734,
+                "isTrial": true,
+                "promo_code": "",
+                "title": "Startup"
+            }, {
+                "action": "expired",
+                "time": 1436552051.308402,
+                "isTrial": true,
+                "promo_code": "",
+                "title": "Startup"
+            }, {
+                "action": "started",
+                "time": 1436552051.308805,
+                "isTrial": false,
+                "promo_code": "MARIOS",
+                "title": "Startup"
+            }, {
+                "action": "will expire",
+                "time": 1514312051.308817,
+                "isTrial": false,
+                "promo_code": "MARIOS",
+                "title": "Startup"
+            }]
+            var PROMO_CODES = [{
+                "discount": 100,
+                "plans": ["Basic"],
+                "title": "ONEYEARFREE",
+                "duration": 365,
+                "send_to_purchase": false,
+                "description": "100% off for 1 year",
+                "stripe_coupon_id": "",
+                "expiration": "2016-12-31"
+            }];
+            var SESSIONS = [{
+                "created_at": "2016-01-05 16:02:07.981000",
+                "ip_address": "94.69.109.117",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+                "last_accessed_at": "2016-01-07 16:03:26.556000",
+                "id": "568be8ff32604922c061e78d"
+            }, {
+                "created_at": "2016-01-11 12:02:27.523000",
+                "ip_address": "94.65.70.242",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+                "last_accessed_at": "2016-01-11 13:01:32.452000",
+                "id": "569399d3326049380f5d7e3c"
+            }, {
+                "created_at": "2016-01-12 15:35:57.448000",
+                "ip_address": "2.84.64.76",
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36",
+                "last_accessed_at": "2016-01-14 14:43:53.923000",
+                "id": "56951d5d32604920810d071b"
+            }, {
+                "created_at": "2016-01-25 18:29:48.169000",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+                "last_accessed_at": "2016-02-03 19:53:39.023000",
+                "active": true,
+                "ip_address": "94.67.32.252",
+                "id": "56a6699c32604944d70d08b0"
+            }, {
+                "created_at": "2016-01-26 11:43:07.110000",
+                "ip_address": "94.67.32.252",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+                "last_accessed_at": "2016-01-27 14:47:44.944000",
+                "id": "56a75bcb32604978e75d8014"
+            }, {
+                "created_at": "2016-01-27 20:08:24.257000",
+                "ip_address": "94.67.32.252",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+                "last_accessed_at": "2016-01-27 23:18:26.254000",
+                "id": "56a923b832604935fa5d7ea3"
+            }, {
+                "created_at": "2016-01-29 14:48:20.145000",
+                "ip_address": "94.68.119.227",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+                "last_accessed_at": "2016-01-30 19:57:54.125000",
+                "id": "56ab7bb4326049785a0d071c"
+            }];
+            var TOKENS = [{
+                "token": "be9e...",
+                "name": "api_token_87591",
+                "last_accessed_at": "2016-02-03 10:14:28.599000",
+                "ttl": 0,
+                "created_at": "2015-12-22 15:46:26.643000",
+                "ip_address": "94.69.102.20",
+                "id": "568159523260490d7461e63c",
+                "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
+            }, {
+                "token": "be9e...",
+                "name": "api_token_87592",
+                "last_accessed_at": "2016-01-03 10:14:28.599000",
+                "ttl": 0,
+                "created_at": "2015-12-28 15:46:26.643000",
+                "ip_address": "94.69.102.20",
+                "id": "568159523260490d7461e63c",
+                "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
+            }, {
+                "token": "be9e...",
+                "name": "api_token_87593",
+                "last_accessed_at": "2015-11-03 10:14:28.599000",
+                "ttl": 0,
+                "created_at": "2015-11-01 15:46:26.643000",
+                "ip_address": "94.69.102.20",
+                "id": "568159523260490d7461e63c",
+                "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
+            }];
+        </script>
+    </head>
 
-<body unresolved>
-  <span id="browser-sync-binding"></span>
-  <template is="dom-bind" id="app">
+    <body unresolved>
+        <span id="browser-sync-binding"></span>
+        <template is="dom-bind" id="app">
 
-    <paper-drawer-panel id="paperDrawerPanel">
-      <!-- Drawer Scroll Header Panel -->
-      <paper-scroll-header-panel drawer fixed>
+            <paper-drawer-panel id="paperDrawerPanel">
+                <!-- Drawer Scroll Header Panel -->
+                <paper-scroll-header-panel drawer fixed>
 
-        <!-- Drawer Toolbar -->
-        <paper-toolbar id="drawerToolbar">
-          <span class="menu-name">Mist.io</span>
-        </paper-toolbar>
+                    <!-- Drawer Toolbar -->
+                    <paper-toolbar id="drawerToolbar">
+                        <span class="menu-name">Mist.io</span>
+                    </paper-toolbar>
 
-        <!-- Drawer Content -->
-        <paper-menu attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="notes" href="/notes">
-            <iron-icon icon="content-paste"></iron-icon>
-            <span>Elements Notes</span>
-          </a>
+                    <!-- Drawer Content -->
+                    <paper-menu attr-for-selected="data-route" selected="[[route]]">
+                        <a data-route="notes" href="/notes">
+                            <iron-icon icon="content-paste"></iron-icon>
+                            <span>Elements Notes</span>
+                        </a>
 
-          <a data-route="styling-quests" href="/styling-quests">
-            <iron-icon icon="code"></iron-icon>
-            <span>Styling Quests</span>
-          </a>
+                        <a data-route="styling-quests" href="/styling-quests">
+                            <iron-icon icon="code"></iron-icon>
+                            <span>Styling Quests</span>
+                        </a>
 
-          <a data-route="styling-solutions" href="/styling-solutions">
-            <iron-icon icon="code"></iron-icon>
-            <span>Styling Solutions</span>
-          </a>
+                        <a data-route="styling-solutions" href="/styling-solutions">
+                            <iron-icon icon="code"></iron-icon>
+                            <span>Styling Solutions</span>
+                        </a>
 
-          <a data-route="styling-mist" href="/styling-mist">
-            <iron-icon icon="code"></iron-icon>
-            <span>Styling Mist</span>
-          </a>
+                        <a data-route="styling-mist" href="/styling-mist">
+                            <iron-icon icon="code"></iron-icon>
+                            <span>Styling Mist</span>
+                        </a>
 
-          <a data-route="dashboard" href="/dashboard">
-            <iron-icon icon="dashboard"></iron-icon>
-            <span>Dashboard</span>
-          </a>
+                        <a data-route="dashboard" href="/dashboard">
+                            <iron-icon icon="dashboard"></iron-icon>
+                            <span>Dashboard</span>
+                        </a>
 
-          <a data-route="add-cloud" href="/add-cloud">
-            <iron-icon icon="cloud"></iron-icon>
-            <span>Add Cloud</span>
-          </a>
+                        <a data-route="add-cloud" href="/add-cloud">
+                            <iron-icon icon="cloud"></iron-icon>
+                            <span>Add Cloud</span>
+                        </a>
 
-          <a data-route="machines" href="/machines">
-            <iron-icon icon="device:storage"></iron-icon>
-            <span>Machines List</span>
-          </a>
+                        <a data-route="machines" href="/machines">
+                            <iron-icon icon="device:storage"></iron-icon>
+                            <span>Machines List</span>
+                        </a>
 
-          <a data-route="add-machine" href="/add-machine">
-            <iron-icon icon="device:storage"></iron-icon>
-            <span>Add Machine</span>
-          </a>
+                        <a data-route="add-machine" href="/add-machine">
+                            <iron-icon icon="device:storage"></iron-icon>
+                            <span>Add Machine</span>
+                        </a>
 
-          <a data-route="keys" href="/keys">
-            <iron-icon icon="communication:vpn-key"></iron-icon>
-            <span>Keys List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="keys" href="/keys">
+                            <iron-icon icon="communication:vpn-key"></iron-icon>
+                            <span>Keys List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="networks" href="/networks">
-            <iron-icon icon="hardware:device-hub"></iron-icon>
-            <span>Networks List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="networks" href="/networks">
+                            <iron-icon icon="hardware:device-hub"></iron-icon>
+                            <span>Networks List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="add-network" href="/add-network">
-            <iron-icon icon="hardware:device-hub"></iron-icon>
-            <span>Add Network</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="add-network" href="/add-network">
+                            <iron-icon icon="hardware:device-hub"></iron-icon>
+                            <span>Add Network</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="scripts" href="/scripts">
-            <iron-icon icon="receipt"></iron-icon>
-            <span>Scripts List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="scripts" href="/scripts">
+                            <iron-icon icon="receipt"></iron-icon>
+                            <span>Scripts List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="add-script" href="/add-script">
-            <iron-icon icon="receipt"></iron-icon>
-            <span>Add Script</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="add-script" href="/add-script">
+                            <iron-icon icon="receipt"></iron-icon>
+                            <span>Add Script</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="templates" href="/templates">
-            <iron-icon icon="description"></iron-icon>
-            <span>Templates List</span>
-          </a>
+                        <a data-route="templates" href="/templates">
+                            <iron-icon icon="description"></iron-icon>
+                            <span>Templates List</span>
+                        </a>
 
-          <a data-route="add-template" href="/add-template">
-            <iron-icon icon="description"></iron-icon>
-            <span>Add Template</span>
-          </a>
+                        <a data-route="add-template" href="/add-template">
+                            <iron-icon icon="description"></iron-icon>
+                            <span>Add Template</span>
+                        </a>
 
-          <a data-route="login" href="/login">
-            <iron-icon icon="face"></iron-icon>
-            <span>Login Form</span>
-            <iron-icon icon="done-all" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="login" href="/login">
+                            <iron-icon icon="face"></iron-icon>
+                            <span>Login Form</span>
+                            <iron-icon icon="done-all" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="register" href="/register">
-            <iron-icon icon="face"></iron-icon>
-            <span>Register Form</span>
-            <iron-icon icon="done-all" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="register" href="/register">
+                            <iron-icon icon="face"></iron-icon>
+                            <span>Register Form</span>
+                            <iron-icon icon="done-all" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="details" href="/details">
-            <iron-icon icon="accessibility"></iron-icon>
-            <span>Account Details</span>
-            <iron-icon icon="done-all" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="details" href="/details">
+                            <iron-icon icon="accessibility"></iron-icon>
+                            <span>Account Details</span>
+                            <iron-icon icon="done-all" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="password" href="/password">
-            <iron-icon icon="lock"></iron-icon>
-            <span>Password Reset</span>
-            <iron-icon icon="done-all" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="password" href="/password">
+                            <iron-icon icon="lock"></iron-icon>
+                            <span>Password Reset</span>
+                            <iron-icon icon="done-all" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="plans" href="/plans">
-            <iron-icon icon="account-balance-wallet"></iron-icon>
-            <span>Plans List</span>
-          </a>
+                        <a data-route="plans" href="/plans">
+                            <iron-icon icon="account-balance-wallet"></iron-icon>
+                            <span>Plans List</span>
+                        </a>
 
-          <a data-route="feedback" href="/feedback">
-            <iron-icon icon="communication:comment"></iron-icon>
-            <span>Feedback</span>
-            <iron-icon icon="done-all" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="feedback" href="/feedback">
+                            <iron-icon icon="communication:comment"></iron-icon>
+                            <span>Feedback</span>
+                            <iron-icon icon="done-all" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="subscriptions" href="/subscriptions">
-            <iron-icon icon="today"></iron-icon>
-            <span>Subscriptions List</span>
-            <iron-icon icon="check" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="subscriptions" href="/subscriptions">
+                            <iron-icon icon="today"></iron-icon>
+                            <span>Subscriptions List</span>
+                            <iron-icon icon="check" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="sessions" href="/sessions">
-            <iron-icon icon="account-circle"></iron-icon>
-            <span>Sessions List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="sessions" href="/sessions">
+                            <iron-icon icon="account-circle"></iron-icon>
+                            <span>Sessions List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="tokens" href="/tokens">
-            <iron-icon icon="communication:vpn-key"></iron-icon>
-            <span>Tokens List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="tokens" href="/tokens">
+                            <iron-icon icon="communication:vpn-key"></iron-icon>
+                            <span>Tokens List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="members" href="/members">
-            <iron-icon icon="supervisor-account"></iron-icon>
-            <span>Members List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="members" href="/members">
+                            <iron-icon icon="supervisor-account"></iron-icon>
+                            <span>Members List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="policies" href="/policies">
-            <iron-icon icon="supervisor-account"></iron-icon>
-            <span>Policies List</span>
-            <iron-icon icon="done" class="done-icon"></iron-icon>
-          </a>
+                        <a data-route="policies" href="/policies">
+                            <iron-icon icon="supervisor-account"></iron-icon>
+                            <span>Policies List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
 
-          <a data-route="add-policy" href="/add-policy">
-            <iron-icon icon="supervisor-account"></iron-icon>
-            <span>Add Policy</span>
-          </a>
-        </paper-menu>
-      </paper-scroll-header-panel>
+                        <a data-route="add-policy" href="/add-policy">
+                            <iron-icon icon="supervisor-account"></iron-icon>
+                            <span>Add Policy</span>
+                        </a>
+                    </paper-menu>
+                </paper-scroll-header-panel>
 
-      <!-- Main Area -->
-      <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
-        <!-- Main Toolbar -->
-        <paper-toolbar id="mainToolbar" class="tall">
-          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+                <!-- Main Area -->
+                <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
+                    <!-- Main Toolbar -->
+                    <paper-toolbar id="mainToolbar" class="tall">
+                        <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
 
-          <span class="space"></span>
+                        <span class="space"></span>
 
-          <user-menu-element></user-menu-element>
+                        <user-menu-element></user-menu-element>
 
-          <!-- Toolbar icons -->
-          <!-- <paper-icon-button icon="refresh"></paper-icon-button>
+                        <!-- Toolbar icons -->
+                        <!-- <paper-icon-button icon="refresh"></paper-icon-button>
           <paper-icon-button icon="search"></paper-icon-button> -->
 
-          <!-- Application name -->
-          <div class="middle middle-container">
-            <div class="app-name">Mist.io UI Playground</div>
-          </div>
+                        <!-- Application name -->
+                        <div class="middle middle-container">
+                            <div class="app-name">Mist.io UI Playground</div>
+                        </div>
 
-          <!-- Application sub title -->
-          <div class="bottom bottom-container">
-            <div class="bottom-title">We build Mist.io UI on top of web components using Polymer</div>
-          </div>
-        </paper-toolbar>
+                        <!-- Application sub title -->
+                        <div class="bottom bottom-container">
+                            <div class="bottom-title">We build Mist.io UI on top of web components using Polymer</div>
+                        </div>
+                    </paper-toolbar>
 
-        <!-- Main Content -->
-        <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="home">
-              <paper-material elevation="1">
-                <my-greeting></my-greeting>
+                    <!-- Main Content -->
+                    <div class="content">
+                        <iron-pages attr-for-selected="data-route" selected="{{route}}">
+                            <section data-route="home">
+                                <paper-material elevation="1">
+                                    <my-greeting></my-greeting>
 
-                <p class="subhead">You now have:</p>
-                <my-list></my-list>
+                                    <p class="subhead">You now have:</p>
+                                    <my-list></my-list>
 
-                <p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
-              </paper-material>
+                                    <p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a>                                        them live.</p>
+                                </paper-material>
 
-              <paper-material elevation="1">
-                <p>This is another card.</p>
-              </paper-material>
+                                <paper-material elevation="1">
+                                    <p>This is another card.</p>
+                                </paper-material>
 
-              <paper-material elevation="1">
-                <h1 id="license">License</h1>
-                <p>Everything in this repo is BSD style license unless otherwise specified.</p>
-                <p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
-                <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
-                <ul>
-                  <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
-                  <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-                  </li>
-                  <li>Neither the name of Google Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
-                </ul>
-                <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-                  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-                  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-                  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-              </paper-material>
-            </section>
+                                <paper-material elevation="1">
+                                    <h1 id="license">License</h1>
+                                    <p>Everything in this repo is BSD style license unless otherwise specified.</p>
+                                    <p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
+                                    <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+                                    <ul>
+                                        <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+                                        <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+                                        </li>
+                                        <li>Neither the name of Google Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+                                    </ul>
+                                    <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+                                        PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+                                        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+                                        OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+                                </paper-material>
+                            </section>
 
-            <notes-page-element data-route="notes"></notes-page-element>
+                            <notes-page-element data-route="notes"></notes-page-element>
 
-            <styling-quests-page-element data-route="styling-quests"></styling-quests-page-element>
+                            <styling-quests-page-element data-route="styling-quests"></styling-quests-page-element>
 
-            <styling-solutions-page-element data-route="styling-solutions"></styling-solutions-page-element>
+                            <styling-solutions-page-element data-route="styling-solutions"></styling-solutions-page-element>
 
-            <styling-mist data-route="styling-mist"></styling-mist>
+                            <styling-mist data-route="styling-mist"></styling-mist>
 
-            <dashboard-page-element data-route="dashboard"></dashboard-page-element>
+                            <dashboard-page-element data-route="dashboard"></dashboard-page-element>
 
-            <cloud-add-element data-route="add-cloud"></cloud-add-element>
+                            <cloud-add-element data-route="add-cloud"></cloud-add-element>
 
-            <keys-list-element data-route="keys"></keys-list-element>
+                            <keys-list-element data-route="keys"></keys-list-element>
 
-            <key-page-element data-route="key" id="[[params.id]]"></key-page-element>
+                            <key-page-element data-route="key" id="[[params.id]]"></key-page-element>
 
-            <machines-list-element data-route="machines"></machines-list-element>
+                            <machines-list-element data-route="machines"></machines-list-element>
 
-            <machine-page-element data-route="machine" id="[[params.id]]"></machine-page-element>
+                            <machine-page-element data-route="machine" id="[[params.id]]"></machine-page-element>
 
-            <machine-add-element data-route="add-machine"></machine-add-element>
+                            <machine-add-element data-route="add-machine"></machine-add-element>
 
-            <networks-list-element data-route="networks"></networks-list-element>
+                            <networks-list-element data-route="networks"></networks-list-element>
 
-            <network-page-element data-route="network" id="[[params.id]]"></network-page-element>
+                            <network-page-element data-route="network" id="[[params.id]]"></network-page-element>
 
-            <network-add-element data-route="add-network"></network-add-element>
+                            <network-add-element data-route="add-network"></network-add-element>
 
-            <scripts-list-element data-route="scripts"></scripts-list-element>
+                            <scripts-list-element data-route="scripts"></scripts-list-element>
 
-            <script-page-element data-route="script" id="[[params.id]]"></script-page-element>
+                            <script-page-element data-route="script" id="[[params.id]]"></script-page-element>
 
-            <script-add-element data-route="add-script"></script-add-element>
+                            <script-add-element data-route="add-script"></script-add-element>
 
-            <script-run-element data-route="run-script" id="[[params.id]]"></script-run-element>
+                            <script-run-element data-route="run-script" id="[[params.id]]"></script-run-element>
 
-            <app-main></app-main>
+                            <app-main></app-main>
 
-            <templates-list-element data-route="templates"></templates-list-element>
+                            <templates-list-element data-route="templates"></templates-list-element>
 
-            <template-add-element data-route="add-template"></template-add-element>
+                            <template-add-element data-route="add-template"></template-add-element>
 
-            <login-page-element data-route="login"></login-page-element>
+                            <login-page-element data-route="login"></login-page-element>
 
-            <register-page-element data-route="register"></register-page-element>
+                            <register-page-element data-route="register"></register-page-element>
 
-            <details-page-element data-route="details"></details-page-element>
+                            <details-page-element data-route="details"></details-page-element>
 
-            <password-page-element data-route="password"></password-page-element>
+                            <password-page-element data-route="password"></password-page-element>
 
-            <plans-list-element data-route="plans"></plans-list-element>
+                            <plans-list-element data-route="plans"></plans-list-element>
 
-            <feedback-page-element data-route="feedback"></feedback-page-element>
+                            <feedback-page-element data-route="feedback"></feedback-page-element>
 
-            <subscriptions-list-element data-route="subscriptions"></subscriptions-list-element>
+                            <subscriptions-list-element data-route="subscriptions"></subscriptions-list-element>
 
-            <sessions-list-element data-route="sessions"></sessions-list-element>
+                            <sessions-list-element data-route="sessions"></sessions-list-element>
 
-            <tokens-list-element data-route="tokens"></tokens-list-element>
+                            <tokens-list-element data-route="tokens"></tokens-list-element>
 
-            <members-list-element data-route="members"></members-list-element>
+                            <members-list-element data-route="members"></members-list-element>
 
-            <member-page-element data-route="member" id="[[params.id]]"></member-page-element>
+                            <member-page-element data-route="member" id="[[params.id]]"></member-page-element>
 
-            <policies-list-element data-route="policies"></policies-list-element>
+                            <policies-list-element data-route="policies"></policies-list-element>
 
-            <policy-add-element data-route="add-policy"></policy-add-element>
+                            <policy-add-element data-route="add-policy"></policy-add-element>
 
-            <policy-page-element data-route="policy" id="[[params.id]]"></policy-page-element>
+                            <policy-page-element data-route="policy" id="[[params.id]]"></policy-page-element>
 
-            <policy-edit-element data-route="edit-policy" id="[[params.id]]"></policy-edit-element>
-          </iron-pages>
-        </div>
-      </paper-scroll-header-panel>
-    </paper-drawer-panel>
+                            <policy-edit-element data-route="edit-policy" id="[[params.id]]"></policy-edit-element>
+                        </iron-pages>
+                    </div>
+                </paper-scroll-header-panel>
+            </paper-drawer-panel>
 
-    <notification-element></notification-element>
-  </template>
+            <notification-element></notification-element>
+        </template>
 
-  <!-- build:js scripts/app.js -->
-  <script src="scripts/app.js"></script>
-  <script src="scripts/common.js"></script>
-  <script src="scripts/api.js"></script>
-  <!-- endbuild-->
-</body>
+        <!-- build:js scripts/app.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/common.js"></script>
+        <script src="scripts/api.js"></script>
+        <!-- endbuild-->
+    </body>
 
 </html>

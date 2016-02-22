@@ -4,21 +4,21 @@
     <template>
         <style is="custom-style" include="single-page"></style>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
-        
-        .flexchild:first-of-type {
-            font-weight: 700;
-        }
+            :host {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
+
+            .flexchild:first-of-type {
+                font-weight: 700;
+            }
         </style>
         <div class="info-group">
             <div hidden$="[[!subnet.name]]" class="info-item flex-horizontal-with-ratios">
@@ -105,18 +105,18 @@
         </div>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'subnet-item-element',
+            Polymer({
+                is: 'subnet-item-element',
 
-            properties: {
-                subnet: {
-                    type: Object
+                properties: {
+                    subnet: {
+                        type: Object
+                    }
                 }
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

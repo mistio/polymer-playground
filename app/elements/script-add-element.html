@@ -2,180 +2,180 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="script-add-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
 
-      paper-card {
-        display: block;
-      }
-    </style>
+            paper-card {
+                display: block;
+            }
+        </style>
 
-    <paper-card heading="Add Script">
-      <div class="card-content">
-        <template is="dom-repeat" items="{{fields}}" as="field">
-          <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
-            <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
-          </template>
+        <paper-card heading="Add Script">
+            <div class="card-content">
+                <template is="dom-repeat" items="{{fields}}" as="field">
+                    <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+                        <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+                    </template>
 
-          <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-            <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
-          </template>
+                    <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+                        <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+                    </template>
 
-          <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
-            <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
-              <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
-                <template is="dom-repeat" items="[[field.options]]" as="option">
-                  <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                    <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
+                        <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+                            <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                                <template is="dom-repeat" items="[[field.options]]" as="option">
+                                    <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                                </template>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                    </template>
                 </template>
-              </paper-menu>
-            </paper-dropdown-menu>
-          </template>
-        </template>
 
-        <div class="clearfix">
-          <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
-          <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
-        </div>
-      </div>
-    </paper-card>
+                <div class="clearfix">
+                    <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+                    <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+                </div>
+            </div>
+        </paper-card>
 
-    <iron-ajax id="addScriptAjax" url="/scripts" method="POST" on-request="_addScriptAjaxRequest" on-response="_addScriptAjaxResponse"></iron-ajax>
-  </template>
+        <iron-ajax id="addScriptAjax" url="/scripts" method="POST" on-request="_addScriptAjaxRequest" on-response="_addScriptAjaxResponse"></iron-ajax>
+    </template>
 
-  <script>
-    (function() {
-      'use strict';
+    <script>
+        (function() {
+            'use strict';
 
-      Polymer({
-        is: 'script-add-element',
+            Polymer({
+                is: 'script-add-element',
 
-        properties: {
-          script: {
-            type: Object,
-            value: function() {
-              return {
-                name: '',
-                url: '',
-                type: '',
-                entryPoint: '',
-                source: '',
-                description: ''
-              }
-            }
-          },
-          fields: {
-            type: Array,
-            value: function() {
-              return SCRIPT_FORM_FIELDS;
-            },
-            notify: true
-          },
-          sendingData: {
-            type: Boolean,
-            value: false
-          },
-          formReady: {
-            type: Boolean,
-            value: false
-          }
-        },
-        observers: [
-          '_fieldsChanged(fields.*, sendingData)',
-        ],
-        _computeFieldType: function(field, value, show) {
-          if (!(field.showIf && !field.show)) {
-            return field.type == value;
-          }
-        },
-        _fieldsChanged: function(fields, sendingData) {
-          var script = this.script,
-            show = true,
-            dependency;
+                properties: {
+                    script: {
+                        type: Object,
+                        value: function() {
+                            return {
+                                name: '',
+                                url: '',
+                                type: '',
+                                entryPoint: '',
+                                source: '',
+                                description: ''
+                            }
+                        }
+                    },
+                    fields: {
+                        type: Array,
+                        value: function() {
+                            return SCRIPT_FORM_FIELDS;
+                        },
+                        notify: true
+                    },
+                    sendingData: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formReady: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+                observers: [
+                    '_fieldsChanged(fields.*, sendingData)',
+                ],
+                _computeFieldType: function(field, value, show) {
+                    if (!(field.showIf && !field.show)) {
+                        return field.type == value;
+                    }
+                },
+                _fieldsChanged: function(fields, sendingData) {
+                    var script = this.script,
+                        show = true,
+                        dependency;
 
-          fields.base.forEach(function(el, index) {
-            this.set('script.' + el.name, el.value);
+                    fields.base.forEach(function(el, index) {
+                        this.set('script.' + el.name, el.value);
 
-            if (el.showIf) {
-              if (el.showIf.fieldExists) {
-                dependency = script[el.showIf.fieldName],
-                  show = dependency;
-                this.set('fields.' + index + '.show', show);
-              } else {
-                dependency = script[el.showIf.fieldName],
-                  show = el.showIf.fieldValues.indexOf(dependency) != -1;
-                this.set('fields.' + index + '.show', show);
-              }
+                        if (el.showIf) {
+                            if (el.showIf.fieldExists) {
+                                dependency = script[el.showIf.fieldName],
+                                    show = dependency;
+                                this.set('fields.' + index + '.show', show);
+                            } else {
+                                dependency = script[el.showIf.fieldName],
+                                    show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                                this.set('fields.' + index + '.show', show);
+                            }
 
-              if (!show) {
-                this._resetField(el, index);
-              }
-            }
+                            if (!show) {
+                                this._resetField(el, index);
+                            }
+                        }
 
-            if (el.placeholderIf) {
-              dependency = script[el.placeholderIf.fieldName];
-              this.set('fields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
-            }
-          }, this);
+                        if (el.placeholderIf) {
+                            dependency = script[el.placeholderIf.fieldName];
+                            this.set('fields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
+                        }
+                    }, this);
 
-          var valid = fields.base.every(function(el, index) {
-            return el.show && el.required ? el.value : true;
-          }, this);
+                    var valid = fields.base.every(function(el, index) {
+                        return el.show && el.required ? el.value : true;
+                    }, this);
 
-          this.set('script', script);
+                    this.set('script', script);
 
-          this.set('formReady', valid && !sendingData);
-        },
-        _submitForm: function() {
-          var payload = this.script;
-          console.log(payload);
+                    this.set('formReady', valid && !sendingData);
+                },
+                _submitForm: function() {
+                    var payload = this.script;
+                    console.log(payload);
 
-          //   this.$.addScriptAjax.body = payload;
-          //   this.$.addScriptAjax.addRequest();
-        },
-        _addScriptAjaxRequest: function() {
-          this.set('sendingData', true);
-        },
-        _addScriptAjaxResponse: function(e) {
-          this.set('sendingData', false);
+                    //   this.$.addScriptAjax.body = payload;
+                    //   this.$.addScriptAjax.addRequest();
+                },
+                _addScriptAjaxRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _addScriptAjaxResponse: function(e) {
+                    this.set('sendingData', false);
 
-          this.fire('addScript', {
-            script: {
-              name: this.script.name,
-              description: this.script.description
-            }
-          });
-        },
-        _resetForm: function(e) {
-          // Reset script
-          this.set('script.name', '');
-          this.set('script.url', '');
-          this.set('script.type', '');
-          this.set('script.entryPoint', '');
-          this.set('script.source', '');
-          this.set('script.description', '');
+                    this.fire('addScript', {
+                        script: {
+                            name: this.script.name,
+                            description: this.script.description
+                        }
+                    });
+                },
+                _resetForm: function(e) {
+                    // Reset script
+                    this.set('script.name', '');
+                    this.set('script.url', '');
+                    this.set('script.type', '');
+                    this.set('script.entryPoint', '');
+                    this.set('script.source', '');
+                    this.set('script.description', '');
 
-          // Reset Form Fields
-          this.fields.forEach(function(el, index) {
-            if (el.showIf) {
-              this.set('fields.' + index + '.show', false);
-            }
+                    // Reset Form Fields
+                    this.fields.forEach(function(el, index) {
+                        if (el.showIf) {
+                            this.set('fields.' + index + '.show', false);
+                        }
 
-            // Reset Form Fields Validation
-            this._resetField(el, index);
-          }, this);
-        },
-        _resetField: function(el, index) {
-          this.set('fields.' + index + '.value', el.defaultValue);
+                        // Reset Form Fields Validation
+                        this._resetField(el, index);
+                    }, this);
+                },
+                _resetField: function(el, index) {
+                    this.set('fields.' + index + '.value', el.defaultValue);
 
-          var input = this.querySelector('#' + el.name);
-          if (input) {
-            input.invalid = false;
-          }
-        }
-      });
-    })();
-  </script>
+                    var input = this.querySelector('#' + el.name);
+                    if (input) {
+                        input.invalid = false;
+                    }
+                }
+            });
+        })();
+    </script>
 </dom-module>

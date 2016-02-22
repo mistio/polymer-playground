@@ -3,19 +3,17 @@ body {
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #333;
 }
-
 .done-icon {
     margin: 0 0 0 5px;
 }
-
 a {
     color: #039BE5;
     text-decoration: none;
 }
-
-.paper-menu-1 .selectable-content.paper-menu  > .iron-selected {
+.paper-menu-1 .selectable-content.paper-menu > .iron-selected {
     color: #039BE5;
 }
+
 /* Card's elements */
 
 paper-card {
@@ -23,21 +21,17 @@ paper-card {
     margin-left: auto;
     margin-right: auto;
 }
-
 .card-options {
     position: absolute;
     top: 10px;
     right: 16px;
 }
-
 .card-options paper-icon-button {
     vertical-align: top;
 }
-
 .search {
     display: inline-block;
 }
-
 
 /* Buttons Style */
 
@@ -46,61 +40,48 @@ paper-button[disabled] {
     color: #a8a8a8;
     cursor: not-allowed;
 }
-
 paper-fab {
     /*background-color: #3f51b5 !important;*/
     position: fixed;
     bottom: 100px;
     right: 100px;
 }
-
 .fab-menu {
     position: fixed;
     bottom: 100px;
     right: 100px;
 }
-
 paper-dialog paper-icon-button.close {
     position: absolute;
     margin: 0;
     top: 15px;
     right: 16px;
 }
-
 paper-dialog paper-button {
     /* this might not be needed*/
     margin: 32px 0 0;
 }
-
 paper-button.red {
     background-color: #f44336;
     color: #fff;
 }
-
 paper-button.green {
     background-color: green;
     color: #fff;
 }
-
-paper-button.purple,
-paper-button.submit-btn {
+paper-button.purple, paper-button.submit-btn {
     background-color: #3f51b5;
     color: #fff;
     margin: 20px 0 0;
 }
-
-paper-button.purple[disabled],
-paper-button.submit-btn[disabled] {
+paper-button.purple[disabled], paper-button.submit-btn[disabled] {
     background-color: #eaeaea;
     color: #a8a8a8;
     cursor: not-allowed;
 }
-
-paper-button.btn-block,
-paper-dropdown-menu.dropdown-block {
+paper-button.btn-block, paper-dropdown-menu.dropdown-block {
     display: block;
 }
-
 
 /* Button Groups */
 
@@ -109,46 +90,38 @@ paper-dropdown-menu.dropdown-block {
     float: left;
     display: block;
 }
-
 .btn-group paper-button:nth-of-type(2n+1) {
     border-radius: 3px 0 0 3px;
 }
-
 .btn-group paper-button:nth-of-type(2n) {
     border-radius: 0 3px 3px 0;
 }
-
 
 /* Typography Helpers */
 
 .text-center {
     text-align: center;
 }
-
 .text-right {
     text-align: right;
 }
-
 .text-left {
     text-align: left;
 }
-
 .pull-right {
     float: right;
 }
-
 .pull-left {
     float: left;
 }
-
 .clearfix:after {
     display: table;
     clear: both;
     content: '';
 }
 
-
 /* Lists Basic Styling */
+
 
 /*.info-head > * {
     font-weight: 700;
@@ -182,7 +155,9 @@ paper-dropdown-menu.dropdown-block {
 }
 */
 
+
 /* Table Basic Styling */
+
 
 /*.info-table .info-item .flexchild:first-of-type {
     font-weight: 700;

@@ -2,37 +2,37 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="machine-item-element">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
 
-      paper-card {
-        display: block;
-      }
-    </style>
+            paper-card {
+                display: block;
+            }
+        </style>
 
-    <paper-card heading="Add Machine">
-      <div class="card-content">
-        <p>Add full page machines dynamic form here</p>
-      </div>
-    </paper-card>
-  </template>
+        <paper-card heading="Add Machine">
+            <div class="card-content">
+                <p>Add full page machines dynamic form here</p>
+            </div>
+        </paper-card>
+    </template>
 
-  <script>
-    (function() {
-      'use strict';
+    <script>
+        (function() {
+            'use strict';
 
-      Polymer({
-        is: 'machine-item-element',
+            Polymer({
+                is: 'machine-item-element',
 
-        properties: {
-          machine: {
-            type: Object
-          }
-        }
-      });
-    })();
-  </script>
+                properties: {
+                    machine: {
+                        type: Object
+                    }
+                }
+            });
+        })();
+    </script>
 </dom-module>
