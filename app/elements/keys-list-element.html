@@ -18,34 +18,7 @@
         
         .flexchild {
             @apply(--layout-flex);
-        }
-        .row {
-            overflow: hidden;
-        }
-        .row-actions {
-            width: 100px;
-            position: absolute;
-            top: 10px;
-            right: 0;
-            z-index: 999;
-            display: none;
-            /*opacity: 0;
-            transition: 500ms all;
-            transform: translate3d(200px, 0, 0);*/
-        }
-        .row:hover .row-actions {
-            display: block;
-            /*opacity: 1;
-            transform: translate3d(0, 0, 0);*/
-        }
-        .label {
-            font-size: 0.8em;
-            color: var(--mist-light-color);
-            padding: 8px 8px 0 0;
-            line-height: 25px;
-            display: inline-block;
-            text-transform: uppercase;
-        }
+        }        
         </style>
         <paper-card heading="Keys">
         <div class="card-content">
@@ -53,6 +26,7 @@
                 <paper-tooltip for="searchKeyBtn" position="top">Toggle Search</paper-tooltip>
                 <paper-icon-button id="searchKeyBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
                 <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+                <span hidden$="[[showSearchOption]]" class="label">Search keys</span>
                 <paper-tooltip for="makeDefaultKeyBtn" position="top">Make Default</paper-tooltip>
                 <paper-icon-button id="makeDefaultKeyBtn" hidden$="[[!showMakeDefaultOption]]" on-tap="_starSelected" icon="[[makeDefaultIcon]]"></paper-icon-button>
                 <paper-tooltip for="editKeyBtn" position="top">Rename</paper-tooltip>

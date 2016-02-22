@@ -274,19 +274,20 @@
         .row:nth-child(2n+1) {
             background-color: #fafafa;
         }
+        
         .list-options {
             background-color: var(--mist-lighter-color);
             padding: 16px;
         }
-
+        
         .list-options paper-icon-button {
             vertical-align: top;
         }
-
+        
         .search {
             display: inline-block;
         }
-
+        
         .list-options paper-icon-button >::content iron-icon {
             color: var(--mist-light-color);
             transition: 1s color;
@@ -294,6 +295,45 @@
         
         .list-options:hover paper-icon-button >::content iron-icon {
             color: var(--mist-blue);
+        }
+        
+        .row {
+            overflow: hidden;
+        }
+        
+        .row-actions {
+            width: 100px;
+            position: absolute;
+            top: 10px;
+            right: 0;
+            z-index: 999;
+            display: none;
+            /*opacity: 0;
+            transition: 500ms all;
+            transform: translate3d(200px, 0, 0);*/
+        }
+        
+        .row:hover .row-actions {
+            display: block;
+            /*opacity: 1;
+            transform: translate3d(0, 0, 0);*/
+        }
+        
+        .list-options .label {
+            font-size: 0.8em;
+            color: var(--mist-light-color);
+            padding: 8px 8px 0 0;
+            line-height: 25px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+        
+        .list-options:hover .label {
+            color: #90A4AE;
+        }
+
+        .list-options paper-input[type='search'] {
+            width: 300px;
         }
         
         ::content iron-collapse.sub-items {
@@ -373,7 +413,7 @@
         .info-table .info-group .info-item:last-of-type {
             border: none;
         }
-
+        
         .info-group .info-item .flexchild:first-of-type {
             font-weight: 700;
         }
@@ -385,7 +425,7 @@
         .info-group .info-item:last-of-type {
             border: none;
         }
-
+        
         .info-group .info-item {
             border-bottom: 1px solid #d4d4d4;
             padding: 16px 8px;
