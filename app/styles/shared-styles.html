@@ -174,12 +174,15 @@
             display: block;
         }
         
-        paper-material {
+        paper-material,
+        paper-card {
             padding-bottom: 8px;
         }
         
         paper-material > h2,
-        paper-material > p {
+        paper-material > p,
+        paper-card > h2,
+        paper-card > p {
             padding: 16px;
             font-weight: 400;
         }
@@ -200,7 +203,8 @@
             right: 16px;
         }
         
-        paper-material .bottom-actions {
+        paper-material .bottom-actions,
+        paper-card .bottom-actions {
             padding-bottom: 2px;
             margin-top: 16px;
             /*padding-left: 8px;*/
@@ -210,6 +214,7 @@
             padding: 0;
         }
         
+        paper-card paper-button:not([disabled]),
         paper-material paper-button:not([disabled]),
         paper-button.blue {
             background-color: var(--mist-blue);
@@ -330,7 +335,7 @@
         .list-options:hover .label {
             color: #90A4AE;
         }
-
+        
         .list-options paper-input[type='search'] {
             width: 300px;
         }
@@ -562,17 +567,17 @@
             padding: 24px;
         }
         
-        :host::content paper-dropdown-menu paper-menu-button {
+        /*:host::content paper-dropdown-menu paper-menu-button {
             width: 191px;
-        }
+        }*/
         
-        :host::content paper-menu-button iron-dropdown {
+        /*:host::content paper-menu-button iron-dropdown {
             width: inherit;
         }
         
         :host::content paper-menu-button iron-dropdown paper-material {
             top: 57px !important;
-        }
+        }*/
         
         :host::content .focused-line.paper-input-container {
             background-color: var(--mist-blue);
@@ -630,6 +635,21 @@
         
         ::content paper-item:hover {
             background-color: var(--mist-lighter-color);
+        }
+        /*paper-menu-button {
+            width: 100%;
+            position: relative;
+        }*/
+        paper-dropdown-menu::content iron-dropdown {
+            position: absolute;
+            top: 56px !important;
+            left: 0px !important;
+            right: 0;
+            width: 100%;
+        }
+        
+        paper-dropdown-menu::content iron-dropdown .dropdown-content {
+            width: 100%;
         }
         </style>
     </template>
