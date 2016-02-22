@@ -26,6 +26,7 @@
                     <paper-tooltip for="searchNetworkBtn" position="top">Toggle Search</paper-tooltip>
                     <paper-icon-button id="searchNetworkBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
                     <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+                    <span hidden$="[[showSearchOption]]" class="label">Search networks</span>
                     <paper-tooltip for="deleteNetworkBtn" position="top">Delete</paper-tooltip>
                     <paper-icon-button id="deleteNetworkBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
                     <span hidden$="[[!showDeleteOption]]" class="label">

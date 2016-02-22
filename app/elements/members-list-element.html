@@ -26,6 +26,7 @@
                     <paper-tooltip for="searchMemberBtn" position="top">Toggle Search</paper-tooltip>
                     <paper-icon-button id="searchMemberBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
                     <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+                    <span hidden$="[[showSearchOption]]" class="label">Search Members</span>
                     <paper-tooltip for="editMemberBtn" position="top">Edit</paper-tooltip>
                     <paper-icon-button id="editMemberBtn" hidden$="[[!showEditOption]]" on-tap="_editSelected" icon="image:edit"></paper-icon-button>
                     <paper-tooltip for="deleteMemberBtn" position="top">Delete</paper-tooltip>
