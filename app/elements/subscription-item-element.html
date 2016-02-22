@@ -14,11 +14,11 @@
             }
 
             .plan-action {
-                color: #64b247;
+                color: var(--green-color);
             }
 
             .plan-end .plan-action {
-                color: #f44336;
+                color: var(--red-color);
             }
 
             .flex-horizontal-with-ratios {
@@ -30,11 +30,11 @@
             }
         </style>
 
-        <div class$="info-item flex-horizontal-with-ratios plan-record [[isExpiringClass]] [[zebraClasses]]">
+        <paper-item class$="info-item flex-horizontal-with-ratios plan-record [[isExpiringClass]] [[zebraClasses]]">
             <div class="flexchild plan-date">[[dateText]]</div>
-            <div class="flexchild plan-title text-center">[[titleText]]</div>
+            <div class="flexchild plan-title text-center"><div class="name">[[titleText]]</div></div>
             <div class="flexchild plan-action text-right">[[subscription.action]]</div>
-        </div>
+        </paper-item>
     </template>
 
     <script>
