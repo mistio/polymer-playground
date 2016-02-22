@@ -299,10 +299,14 @@
         
         .list-options paper-icon-button >::content iron-icon {
             color: var(--mist-light-color);
-            transition: 1s color;
+            transition: 200ms color;
         }
         
         .list-options:hover paper-icon-button >::content iron-icon {
+            color: var(--mist-dark-color);
+        }
+
+        .list-options paper-icon-button >::content iron-icon:hover {
             color: var(--mist-blue);
         }
         
@@ -316,6 +320,7 @@
             right: 0;
             z-index: 999;
             display: none;
+            transition: 200ms color;
             /*opacity: 0;
             transition: 500ms all;
             transform: translate3d(200px, 0, 0);*/
@@ -325,6 +330,10 @@
             display: block;
             /*opacity: 1;
             transform: translate3d(0, 0, 0);*/
+        }
+
+        .row .row-actions:hover {
+            color: var(--mist-blue);
         }
         
         .list-options .label {
