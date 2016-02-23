@@ -73,82 +73,82 @@
         <paper-material class="form">
             <h2>Feedback <span>* All fields are mandatory</span></h2>
             <template is="dom-if" if="[[pageFirst]]">
-                <iron-grid>
-                    <paper-input class="s12 l6" label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
-                    <paper-input class="s12 l6" label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
-                    <paper-input class="s12 l6" label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
-                    <paper-dropdown-menu class="dropdown-block s12 l6" label="Where is your business located?" horizontal-align="left">
+                <div class="grid-row">
+                    <paper-input class="xs12 l6" label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+                    <paper-input class="xs12 l6" label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
+                    <paper-input class="xs12 l6" label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
+                    <paper-dropdown-menu class="dropdown-block xs12 l6" label="Where is your business located?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[countriesOptions]]" as="country">
                                 <paper-item value="[[country]]">[[country]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <paper-dropdown-menu class="dropdown-block s12 l6" label="How many people work there?" horizontal-align="left">
+                    <paper-dropdown-menu class="dropdown-block xs12 l6" label="How many people work there?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
                                 <paper-item value="[[people]]">[[people]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <paper-dropdown-menu class="dropdown-block s12 l6" label="How many servers do you have?" horizontal-align="left">
+                    <paper-dropdown-menu class="dropdown-block xs12 l6" label="How many servers do you have?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
                                 <paper-item value="[[servers]]">[[servers]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <hr class="s12"/>
-                    <div class="bottom-actions clearfix s12">
+                    <hr class="xs12"/>
+                    <div class="bottom-actions clearfix xs12">
                         <paper-button class="pull-right" disabled$="[[!firstFormReady]]" raised on-tap="_pageChange" page="second">Next</paper-button>
                     </div>
-                </iron-grid>
+                </div>
             </template>
             <template is="dom-if" if="[[pageSecond]]">
-                <iron-grid>
-                    <iron-label class="s12">Where do you host your servers?</iron-label>
+                <div class="grid-row">
+                    <iron-label class="xs12">Where do you host your servers?</iron-label>
                     <template is="dom-repeat" items="[[hostedOptions]]" as="host">
-                        <paper-checkbox class="s12 l6" value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
+                        <paper-checkbox class="xs12 l6" value="[[host.val]]" on-change="_toggleChecked">[[host.title]]</paper-checkbox>
                     </template>
                     <paper-input hidden$="[[!user.hasExtraHosted]]" label="Please specify where do you host your servers?" value="{{user.extraHosted}}"></paper-input>
-                    <hr class="s12"/>
-                    <div class="bottom-actions clearfix s12">
+                    <hr class="xs12"/>
+                    <div class="bottom-actions clearfix xs12">
                         <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_pageChange" page="third">Next</paper-button>
                     </div>
-                </iron-grid>
+                </div>
             </template>
             <template is="dom-if" if="[[pageThird]]">
-                <iron-grid>
-                    <paper-dropdown-menu class="s12" label="How did you discover mist.io?" horizontal-align="left">
+                <div class="grid-row">
+                    <paper-dropdown-menu class="xs12" label="How did you discover mist.io?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.discover}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[discoverOptions]]" as="discover">
                                 <paper-item value="[[discover.val]]">[[discover.title]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <paper-input class="s12" hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
-                    <paper-dropdown-menu class="dropdown-block s12 l6" label="How satisfied are you with mist.io?" horizontal-align="left">
+                    <paper-input class="xs12" hidden$="[[!user.hasExtraDiscover]]" label="Please specify how you discover mist.io?" required error-message="Please specify how you discover mist.io" value="{{user.extraDiscover}}"></paper-input>
+                    <paper-dropdown-menu class="dropdown-block xs12 l6" label="How satisfied are you with mist.io?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.satisfaction}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[satisfactionOptions]]" as="satisfaction">
                                 <paper-item value="[[satisfaction.val]]">[[satisfaction.title]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <paper-dropdown-menu class="dropdown-block  s12 l6" label="Have you considered using similar services?" horizontal-align="left">
+                    <paper-dropdown-menu class="dropdown-block  xs12 l6" label="Have you considered using similar services?" horizontal-align="left">
                         <paper-menu attr-for-selected="value" selected="{{user.alternative}}" class="dropdown-content">
                             <template is="dom-repeat" items="[[alternativeOptions]]" as="alternative">
                                 <paper-item value="[[alternative.val]]">[[alternative.title]]</paper-item>
                             </template>
                         </paper-menu>
                     </paper-dropdown-menu>
-                    <paper-input hidden$="[[!user.hasExtraAlternative]]" class="s12" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}"></paper-input>
-                    <paper-textarea class="s12" label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
-                    <hr class="s12"/>
-                    <div class="clearfix bottom-actions s12">
+                    <paper-input hidden$="[[!user.hasExtraAlternative]]" class="xs12" label="Please specify which service would you use?" required error-message="Please specify which service would you use" value="{{user.extraAlternative}}"></paper-input>
+                    <paper-textarea class="xs12" label="How can we improve mist.io to better meet your needs?" rows="5" value="{{user.improve}}"></paper-textarea>
+                    <hr class="xs12"/>
+                    <div class="clearfix bottom-actions xs12">
                         <paper-button class="pull-left" raised on-tap="_pageChange" page="first">Previous</paper-button>
                         <paper-button class="pull-right" disabled$="[[!secondFormReady]]" raised on-tap="_submitForm">Submit</paper-button>
                     </div>
-                </iron-grid>
+                </div>
         </paper-material>
         </template>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>

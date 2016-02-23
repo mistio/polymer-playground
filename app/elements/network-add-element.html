@@ -21,16 +21,16 @@
         <paper-card heading="Add Network">
             <div class="card-content">
                 <div hidden$=[[!hasClouds]]>
-                    <iron-grid>
+                    <div class="grid-row">
                         <template is="dom-repeat" items="{{fields}}" as="field">
                             <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
-                                <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]" class="s12"></paper-input>
+                                <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]" class="xs12"></paper-input>
                             </template>
                             <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-                                <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="8" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]" class="s12"></paper-textarea>
+                                <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="8" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]" class="xs12"></paper-textarea>
                             </template>
                             <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
-                                <paper-dropdown-menu class="dropdown-block l6 s12" label="[[field.label]]" horizontal-align="left">
+                                <paper-dropdown-menu class="dropdown-block l6 xs12" label="[[field.label]]" horizontal-align="left">
                                     <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
                                         <template is="dom-repeat" items="[[field.options]]" as="option">
                                             <paper-item value="[[option.val]]">[[option.title]]</paper-item>
@@ -39,18 +39,18 @@
                                 </paper-dropdown-menu>
                             </template>
                             <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
-                                <paper-toggle-button class="l4 s6" checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+                                <paper-toggle-button class="l4 xs6" checked="{{field.value}}">[[field.label]]</paper-toggle-button>
                             </template>
                             <template is="dom-if" if="[[_computeFieldType(field, 'checkbox', field.show)]]">
-                                <paper-checkbox  class="l4 s6" checked="{{field.value}}"> [[field.label]]</paper-checkbox>
+                                <paper-checkbox  class="l4 xs6" checked="{{field.value}}"> [[field.label]]</paper-checkbox>
                             </template>
                         </template>
-                        <hr class="s12"/>
-                        <div class="clearfix bottom-actions s12">
+                        <hr class="xs12"/>
+                        <div class="clearfix bottom-actions xs12">
                             <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
                             <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
                         </div>
-                    </iron-grid>
+                    </div>
                 </div>
                 <div hidden$=[[hasClouds]]>
                     <p>You cannot add a network since you don's have an enabled Openstack cloud in your account!</p>
