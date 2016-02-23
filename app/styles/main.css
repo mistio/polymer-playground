@@ -165,18 +165,18 @@ paper-dropdown-menu.dropdown-block {
     bottom: 0;
 }
 
-.centering-parent {    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: inherit;
-}
-
 .logo-head {
     background-color: #263238;
     padding: 8% 0;
     margin-bottom: 16px;
 }
+
+.grid-row paper-input,
+.grid-row paper-dropdown-menu,
+.grid-row paper-checkbox {
+    margin-bottom: 16px;
+}
+
 
 /* Lists Basic Styling */
 
