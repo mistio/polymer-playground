@@ -22,7 +22,8 @@
         </style>
         <paper-card heading="Networks">
             <div class="card-content">
-                <div hidden$="[[!hasNetworks]]" class="list-options">
+                <div hidden$="[[!hasNetworks]]" class="list-options flex-horizontal-with-ratios">
+                    <h2 class="list-title flexchild">[[presentedNetworks.length]] Networks</h2>
                     <paper-tooltip for="searchNetworkBtn" position="top">Toggle Search</paper-tooltip>
                     <paper-icon-button id="searchNetworkBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
                     <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>

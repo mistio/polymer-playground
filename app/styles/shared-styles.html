@@ -308,6 +308,7 @@
             font-weight: 500;
             line-height: 40px;
             text-transform: uppercase;
+            transition: 200ms color;
         }
         
         .search {
@@ -319,7 +320,9 @@
             transition: 200ms color;
         }
         
-        .list-options:hover paper-icon-button >::content iron-icon {
+        .list-options:hover paper-icon-button >::content iron-icon,
+        .list-options:hover .list-title,
+        .list-options:hover .label  {
             color: var(--mist-dark-color);
         }
         
