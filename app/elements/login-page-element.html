@@ -13,15 +13,15 @@
             <paper-material>
                 <h2>Login</h2>
                 <div class="form-content">
-                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" auto-validate></paper-input>
-                    <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" auto-validate></paper-input>
+                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+                    <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
                 </div>
                 <div class="bottom-actions">
                     <paper-button disabled type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
                 </div>
             </paper-material>
         </div>
-        <iron-ajax id="ajax" url="/api/v1/login" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+        <iron-ajax id="loginAjax" url="/api/v1/login" method="POST" on-request="_loginAjaxRequest" on-response="_loginAjaxResponse"></iron-ajax>
     </template>
     <script>
         (function() {
@@ -47,27 +47,29 @@
                     },
                     formReady: {
                         type: Boolean,
-                        computed: '_computeFormReady(user.email, user.password, sendingData)'
+                        value: false
                     }
                 },
-                ready: function() {
+                observers: [
+                    '_fieldsChanged(user.*, sendingData)'
+                ],
+                _fieldsChanged: function(user, sendingData) {
+                    var valid = false;
 
-                },
-                _computeFormReady: function(email, password, sendingData) {
-                    var formReady = false;
-
-                    if (email && password) {
-                        formReady = true;
+                    if (this.$.email.value && this.$.email.validate() && this.$.password.value && this.$.password.validate()) {
+                        valid = true;
                     }
 
-                    if (sendingData) {
-                        formReady = false;
-                    }
-
-                    return formReady;
+                    this.set('formReady', valid && !sendingData);
                 },
                 _submitForm: function(e) {
+                    var payload = {
+                        email: this.user.email,
+                        password: this.user.password
+                    };
 
+                    // this.$.loginAjax.body = payload;
+                    // this.$.loginAjax.generateRequest();
                 },
                 _formReset: function() {
                     this.set('user.email', '');
@@ -75,10 +77,10 @@
                     this.$.email.invalid = false;
                     this.$.password.invalid = false;
                 },
-                _ajaxRequest: function() {
+                _loginAjaxRequest: function() {
                     this.set('sendingData', true);
                 },
-                _ajaxResponse: function() {
+                _loginAjaxResponse: function() {
                     this.set('sendingData', false);
                     this._formReset();
                 }
