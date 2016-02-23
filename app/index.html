@@ -227,6 +227,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <span id="browser-sync-binding"></span>
         <template is="dom-bind" id="app">
 
+            <!-- Pages without header-drawer-panel layout -->
+            <iron-pages attr-for-selected="data-route" selected="{{route}}">
+                <section data-route="login">
+                    <div class="full-page">
+                        <div class="grid-row">
+                            <div class="logo-head text-center xs12">
+                                <app-logo verticalwhite></app-logo>
+                            </div>
+                            <div class="xs12">
+                                <login-page-element></login-page-element>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section data-route="register">                    
+                    <div class="full-page">
+                        <div class="grid-row">
+                            <div class="logo-head text-center xs12">
+                                <app-logo verticalwhite></app-logo>
+                            </div>
+                            <div class="xs12">
+                                <register-page-element></register-page-element>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </iron-pages>
+
+
             <paper-drawer-panel id="paperDrawerPanel">
                 <!-- Drawer Scroll Header Panel -->
                 <paper-scroll-header-panel drawer fixed>
@@ -492,10 +521,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                             <template-add-element data-route="add-template"></template-add-element>
 
-                            <login-page-element data-route="login"></login-page-element>
-
-                            <register-page-element data-route="register"></register-page-element>
-
+                            
                             <details-page-element data-route="details"></details-page-element>
 
                             <password-page-element data-route="password"></password-page-element>
