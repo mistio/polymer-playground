@@ -13,15 +13,15 @@
             <paper-material>
                 <h2>Register</h2>
                 <div class="form-content">
-                    <paper-input id="name" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
-                    <paper-input id="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
+                    <paper-input id="name" name="name" type="text" label="Name" required error-message="Please enter your name" value="{{user.name}}"></paper-input>
+                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
                 </div>
                 <div class="bottom-actions">
                     <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
                 </div>
             </paper-material>
         </div>
-        <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+        <iron-ajax id="registerAjax" url="/account" method="POST" on-request="_registerAjaxRequest" on-response="_registerAjaxResponse"></iron-ajax>
     </template>
     <script>
         (function() {
@@ -47,27 +47,29 @@
                     },
                     formReady: {
                         type: Boolean,
-                        computed: '_computeFormReady(user.name, user.email, sendingData)'
+                        value: false
                     }
                 },
-                ready: function() {
+                observers: [
+                    '_fieldsChanged(user.*, sendingData)'
+                ],
+                _fieldsChanged: function(user, sendingData) {
+                    var valid = false;
 
-                },
-                _computeFormReady: function(name, email, sendingData) {
-                    var formReady = false;
-
-                    if (name && email) {
-                        formReady = true;
+                    if (this.$.email.value && this.$.email.validate() && this.$.name.value && this.$.name.validate()) {
+                        valid = true;
                     }
 
-                    if (sendingData) {
-                        formReady = false;
-                    }
-
-                    return formReady;
+                    this.set('formReady', valid && !sendingData);
                 },
                 _submitForm: function(e) {
+                    var payload = {
+                        name: this.user.name,
+                        email: this.user.email
+                    };
 
+                    // this.$.registerAjax.body = payload;
+                    // this.$.registerAjax.generateRequest();
                 },
                 _formReset: function() {
                     this.set('user.name', '');
@@ -75,10 +77,10 @@
                     this.$.name.invalid = false;
                     this.$.email.invalid = false;
                 },
-                _ajaxRequest: function() {
+                _registerAjaxRequest: function() {
                     this.set('sendingData', true);
                 },
-                _ajaxResponse: function() {
+                _registerAjaxResponse: function() {
                     this.set('sendingData', false);
                     this._formReset();
                 }
