@@ -37,30 +37,35 @@
             <div class="card-content">
                 <div class="info-table">
                     <div class="info-body info-group">
-                        <div class="info-item flex-horizontal-with-ratios">
-                            <div hidden$="[[!script.description]]" class="flexchild">Description</div>
-                            <div class="flexchild">[[script.description]]</div>
-                        </div>
+                        <template is="dom-if" if="[[script.description]]">
+                            <div class="info-item flex-horizontal-with-ratios">
+                                <div hidden$="[[!script.description]]" class="flexchild">Description</div>
+                                <div class="flexchild">[[script.description]]</div>
+                            </div>
+                        </template>
 
                         <div class="info-item flex-horizontal-with-ratios">
                             <div class="flexchild">Type</div>
                             <div class="flexchild">[[script.type]]</div>
                         </div>
-
-                        <div hidden$=[[!script.entrypoint]] class="info-item flex-horizontal-with-ratios">
-                            <div class="flexchild">Status</div>
-                            <div class="flexchild">[[script.entrypoint]]</div>
-                        </div>
-
-                        <div hidden$=[[!isInline]] class="info-item flex-horizontal-with-ratios">
-                            <div class="flexchild">Script</div>
-                            <div class="flexchild command-container">[[script.script]]</div>
-                        </div>
-
-                        <div hidden$=[[isInline]] class="info-item flex-horizontal-with-ratios">
-                            <div class="flexchild">Url</div>
-                            <div class="flexchild">[[script.script]]</div>
-                        </div>
+                        <template is="dom-if" if="[[script.entrypoint]]">
+                            <div class="info-item flex-horizontal-with-ratios">
+                                <div class="flexchild">Status</div>
+                                <div class="flexchild">[[script.entrypoint]]</div>
+                            </div>
+                        </template>
+                        <template is="dom-if" if="[[isInline]]">
+                            <div class="info-item flex-horizontal-with-ratios">
+                                <div class="flexchild">Script</div>
+                                <div class="flexchild command-container">[[script.script]]</div>
+                            </div>
+                        </template>
+                        <template is="dom-if" if="[[isInline]]">
+                            <div class="info-item flex-horizontal-with-ratios">
+                                <div class="flexchild">Url</div>
+                                <div class="flexchild">[[script.script]]</div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
