@@ -14,35 +14,36 @@
         </style>
         <paper-material class="form">
             <h2>Account Details</h2>
-            <iron-grid>
-                <paper-input class="s12 l6" label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
-                <paper-input class="s12 l6" label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
-                <paper-input class="s12 l6" label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
-                <paper-dropdown-menu class="dropdown-block s12 l6" label="Where is your business located?" horizontal-align="left">
+            <div class="grid-row">
+                <paper-input class="xs12 l6" label="What's your first name?" required error-message="Please enter your first name" value="{{user.firstName}}"></paper-input>
+                <paper-input class="xs12 l6" label="What's your last name?" required error-message="Please enter your last name" value="{{user.lastName}}"></paper-input>
+                <paper-input class="xs12 l6" label="What's your company's name?" required error-message="Please enter your company's name" value="{{user.companyName}}"></paper-input>
+                <paper-dropdown-menu class="dropdown-block xs12 l6" label="Where is your business located?" horizontal-align="left">
                     <paper-menu attr-for-selected="value" selected="{{user.country}}" class="dropdown-content">
                         <template is="dom-repeat" items="[[countriesOptions]]" as="country">
                             <paper-item value="[[country]]">[[country]]</paper-item>
                         </template>
                     </paper-menu>
                 </paper-dropdown-menu>
-                <paper-dropdown-menu class="dropdown-block s12 l6" label="How many people work there?" horizontal-align="left">
+                <paper-dropdown-menu class="dropdown-block xs12 l6" label="How many people work there?" horizontal-align="left">
                     <paper-menu attr-for-selected="value" selected="{{user.numberOfPeople}}" class="dropdown-content">
                         <template is="dom-repeat" items="[[numberOfPeopleOptions]]" as="people">
                             <paper-item value="[[people]]">[[people]]</paper-item>
                         </template>
                     </paper-menu>
                 </paper-dropdown-menu>
-                <paper-dropdown-menu class="dropdown-block s12 l6" label="How many servers do you have?" horizontal-align="left">
+                <paper-dropdown-menu class="dropdown-block xs12 l6" label="How many servers do you have?" horizontal-align="left">
                     <paper-menu attr-for-selected="value" selected="{{user.numberOfServers}}" class="dropdown-content">
                         <template is="dom-repeat" items="[[numberOfServersOptions]]" as="servers">
                             <paper-item value="[[servers]]">[[servers]]</paper-item>
                         </template>
                     </paper-menu>
                 </paper-dropdown-menu>
-                <div class="bottom-actions s12">
+                <hr class="xs12"/>
+                <div class="bottom-actions xs12">
                     <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
                 </div>
-            </iron-grid>
+            </div>
         </paper-material>
         <iron-ajax id="ajax" url="/account" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
     </template>
