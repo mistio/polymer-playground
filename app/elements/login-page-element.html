@@ -13,8 +13,8 @@
             <paper-material>
                 <h2>Login</h2>
                 <div class="form-content">
-                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}"></paper-input>
-                    <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}"></paper-input>
+                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" auto-validate></paper-input>
+                    <paper-input id="password" name="password" type="password" label="Password" required error-message="Please enter your password" value="{{user.password}}" auto-validate></paper-input>
                 </div>
                 <div class="bottom-actions">
                     <paper-button disabled type="submit" on-tap="_submitForm" disabled$="[[!formReady]]" raised>Submit</paper-button>
@@ -54,19 +54,22 @@
                     '_fieldsChanged(user.*, sendingData)'
                 ],
                 _fieldsChanged: function(user, sendingData) {
-                    var valid = false;
+                    this.async(function() {
+                        var keys = Object.keys(user.base),
+                            valid = keys.every(function(key) {
+                                var el = this.querySelector('#' + key);
+                                return el.value && !el.invalid;
+                            }, this);
 
-                    if (this.$.email.value && this.$.email.validate() && this.$.password.value && this.$.password.validate()) {
-                        valid = true;
-                    }
-
-                    this.set('formReady', valid && !sendingData);
+                        this.set('formReady', valid && !sendingData);
+                    });
                 },
                 _submitForm: function(e) {
                     var payload = {
                         email: this.user.email,
                         password: this.user.password
                     };
+                    console.log(payload);
 
                     // this.$.loginAjax.body = payload;
                     // this.$.loginAjax.generateRequest();
