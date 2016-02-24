@@ -3,6 +3,7 @@
 
 <dom-module id="script-run-element">
     <template>
+        <style is="custom-style" include="forms"></style>
         <style include="shared-styles">
             :host {
                 display: block;
@@ -22,6 +23,7 @@
         <paper-card heading="[[cardTitleText]]">
             <div class="card-content">
                 <div hidden$=[[!hasMachines]]>
+                    
                     <template is="dom-repeat" items="{{fields}}" as="field">
                         <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
                             <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
@@ -38,28 +40,30 @@
                         <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
                             <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
                         </template>
-
+                        
+                        <div class="grid-row">
                         <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
-                            <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
-                                <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
-                                    <template is="dom-repeat" items="[[field.options]]" as="option">
-                                        <paper-item value="[[option.val]]">[[option.title]]</paper-item>
-                                    </template>
-                                </paper-menu>
-                            </paper-dropdown-menu>
+                            
+                                <paper-dropdown-menu class="dropdown-block xs12 l6" label="[[field.label]]" horizontal-align="left">
+                                    <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                                        <template is="dom-repeat" items="[[field.options]]" as="option">
+                                            <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                                        </template>
+                                    </paper-menu>
+                                </paper-dropdown-menu>
                         </template>
+                        </div>
 
                         <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
                             <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
                         </template>
                     </template>
-
+                    <hr/>
                     <div class="clearfix">
                         <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
                         <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
                     </div>
-                </div>
-
+                </div>                
                 <div hidden$=[[hasMachines]]>
                     <p>Please add some machines first!</p>
                 </div>
