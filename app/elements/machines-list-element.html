@@ -99,6 +99,10 @@
                         type: Object,
                         value: null
                     },
+                    moreThanOneSelected: {
+                        type: Boolean,
+                        value: false
+                    },
                     selectAll: {
                         type: Boolean,
                         value: false
@@ -188,6 +192,8 @@
                     this.set('showDeleteOption', selectedMachines.base.length > 0);
 
                     this.set('showEditOption', selectedMachines.base.length == 1);
+
+                    this.set('moreThanOneSelected', selectedMachines.base.length > 1);
 
                     this.set('hasMachines', machines.base.length > 0);
 

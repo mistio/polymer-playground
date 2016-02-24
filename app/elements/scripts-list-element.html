@@ -36,7 +36,7 @@
                     <paper-tooltip for="deleteScriptBtn" position="top">Delete</paper-tooltip>
                     <paper-icon-button id="deleteScriptBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
                     <span hidden$="[[!showDeleteOption]]" class="label">
-                    Delete [[selectedScripts.length]] script<span hidden$="[[!moreThanOneSelected(selectedScripts)]]">s</span> </span>
+                    Delete [[selectedScripts.length]] script<span hidden$="[[!moreThanOneSelected]]">s</span> </span>
                     </span>
                 </div>
                 <div hidden$="[[!hasScripts]]" class="info-list">
@@ -102,6 +102,10 @@
                 selectedScript: {
                     type: Object,
                     value: null
+                },
+                moreThanOneSelected: {
+                    type: Boolean,
+                    value: false
                 },
                 clouds: {
                     type: Array,
@@ -202,6 +206,8 @@
                 this.set('showRunOption', selectedScripts.base.length == 1);
 
                 this.set('showEditOption', selectedScripts.base.length == 1);
+
+                this.set('moreThanOneSelected', selectedScripts.base.length > 1);
 
                 this.set('hasScripts', scripts.base.length > 0);
 
@@ -306,10 +312,6 @@
                 var notification = document.querySelector('notification-element');
                 notification.title = title;
                 notification._openToast();
-            },
-            moreThanOneSelected: function(selectedScripts) {
-                //does not work. label should hide 's' when only one key is selected
-                return (selectedScripts.length > 1 ? false : true);
             }
         });
     })();

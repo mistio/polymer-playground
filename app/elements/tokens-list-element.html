@@ -7,19 +7,19 @@
         :host {
             display: block;
         }
-        
+
         paper-card {
             display: block;
         }
-        
+
         .search {
             display: inline-block;
         }
-        
+
         .flex-horizontal-with-ratios {
             @apply(--layout-horizontal);
         }
-        
+
         .flexchild {
             @apply(--layout-flex);
         }
@@ -34,7 +34,7 @@
                     <paper-tooltip for="deleteTokenBtn" position="top">Delete</paper-tooltip>
                     <paper-icon-button id="deleteTokenBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedTokens" icon="delete"></paper-icon-button>
                     <span hidden$="[[!showDeleteOption]]" class="label">
-                    Delete [[selectedTokens.length]] token<span hidden$="[[!moreThanOneSelected(selectedTokens)]]">s</span> </span>
+                    Delete [[selectedTokens.length]] token<span hidden$="[[!moreThanOneSelected]]">s</span> </span>
                     </span>
                 </div>
                 <div hidden$="[[!hasTokens]]" class="info-list">
@@ -83,6 +83,10 @@
                     type: Object,
                     value: null
                 },
+                moreThanOneSelected: {
+                    type: Boolean,
+                    value: false
+                },
                 hasTokens: {
                     type: Boolean,
                     value: false
@@ -120,6 +124,8 @@
                 this.set('hasTokens', tokens.base.length > 0);
 
                 this.set('selectedToken', selectedTokens.base.length == 1 ? selectedTokens.base[0] : null);
+
+                this.set('moreThanOneSelected', selectedTokens.base.length > 1);
 
                 if (selectedTokens.base.length < tokens.base.length || tokens.base.length === 0) {
                     this.set('selectAll', false);
@@ -232,10 +238,6 @@
                 var notification = document.querySelector('notification-element');
                 notification.title = title;
                 notification._openToast();
-            },
-            moreThanOneSelected: function(selectedTokens) {
-                //does not work. label should hide 's' when only one key is selected
-                return (selectedTokens.length > 1 ? false : true);
             }
         });
     })();
