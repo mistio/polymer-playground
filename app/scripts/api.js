@@ -163,6 +163,33 @@ var Mist = {
         source: "github",
         type: "executable",
         user: "marios@mist.io"
+    }, {
+        description: "",
+        entrypoint: "",
+        id: "448082e761c94660acfe54427c5ca461",
+        name: "install scipt",
+        script: "#!/bin/bash\necho 'hello world '",
+        source: "inline",
+        type: "executable",
+        user: "marios@mist.io",
+    }, {
+        description: "test",
+        entrypoint: "",
+        id: "576bf98fe7e14d87b2b9075f099eeebe",
+        name: "custom script",
+        script: "owner/repo",
+        source: "github",
+        type: "inline",
+        user: "marios@mist.io"
+    }, {
+        description: "test",
+        entrypoint: "",
+        id: "576bf98fe7e14d87b2b9075f099eeebe",
+        name: "update script",
+        script: "owner/repo",
+        source: "github",
+        type: "inline",
+        user: "marios@mist.io"
     }],
     networks: [{
         domain_type: 0,
