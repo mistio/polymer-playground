@@ -20,8 +20,10 @@
             @apply(--layout-flex);
         }
         </style>
-        <paper-card heading="Scripts">
-            <div class="card-content">
+        <!-- <paper-card heading="Scripts"> 
+            <div class="card-content"> -->
+            <h2>[[presentedScripts.length]] Scripts</h2>
+            <div class="list">
                 <div hidden$="[[!hasScripts]]" class="list-options">
                     <paper-tooltip for="searchScriptBtn" position="top">Toggle Search</paper-tooltip>
                     <paper-icon-button id="searchScriptBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
@@ -74,7 +76,8 @@
                     No scripts found here. You can add some by using the action button!
                 </p>
             </div>
-        </paper-card>
+            <!-- </div>
+        </paper-card> -->
         <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptPage"></paper-fab>
         <script-edit-element script="[[selectedScript]]"></script-edit-element>
         <dialog-element></dialog-element>
