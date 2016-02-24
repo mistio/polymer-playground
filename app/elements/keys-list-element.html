@@ -36,7 +36,7 @@
                     </paper-tooltip>
                     <paper-icon-button id="deleteKeyBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
                     <span hidden$="[[!showDeleteOption]]" class="label">
-                    Delete [[selectedKeys.length]] key<span hidden$="[[!moreThanOneSelected(selectedKeys)]]">s</span> </span>
+                    Delete [[selectedKeys.length]] key<span hidden$="[[!moreThanOneSelected]]">s</span> </span>
                     </span>
                 </div>
                 <div hidden$="[[!hasKeys]]" class="info-list">
@@ -103,6 +103,10 @@
                     selectedKey: {
                         type: Object,
                         value: null
+                    },
+                    moreThanOneSelected: {
+                        type: Boolean,
+                        value: false
                     },
                     selectAll: {
                         type: Boolean,
@@ -197,6 +201,8 @@
                     this.set('showMakeDefaultOption', selectedKeys.base.length == 1);
 
                     this.set('showEditOption', selectedKeys.base.length == 1);
+
+                    this.set('moreThanOneSelected', selectedKeys.base.length > 1);
 
                     this.set('hasKeys', keys.base.length > 0);
 
@@ -313,10 +319,6 @@
                     var notification = document.querySelector('notification-element');
                     notification.title = title;
                     notification._openToast();
-                },
-                moreThanOneSelected: function(selectedKeys) {
-                    //does not work. label should hide 's' when only one key is selected
-                    return (selectedKeys.length > 1 ? false : true);
                 }
             });
         })();

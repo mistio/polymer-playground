@@ -4,21 +4,21 @@
     <template>
         <style is="custom-style" include="lists"></style>
         <style include="shared-styles">
-        :host {
-            display: block;
-        }
-        
-        paper-card {
-            display: block;
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
         </style>
         <paper-card heading="Subscription History">
             <div class="card-content">
@@ -40,22 +40,22 @@
         </paper-card>
     </template>
     <script>
-    (function() {
-        'use strict';
+        (function() {
+            'use strict';
 
-        Polymer({
-            is: 'subscriptions-list-element',
+            Polymer({
+                is: 'subscriptions-list-element',
 
-            properties: {
-                subscriptions: {
-                    type: Array,
-                    value: []
+                properties: {
+                    subscriptions: {
+                        type: Array,
+                        value: []
+                    }
+                },
+                ready: function() {
+                    this.set('subscriptions', USER_PLANS);
                 }
-            },
-            ready: function() {
-                this.set('subscriptions', USER_PLANS);
-            }
-        });
-    })();
+            });
+        })();
     </script>
 </dom-module>

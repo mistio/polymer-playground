@@ -108,7 +108,6 @@
                     var keys = Object.keys(user.base),
                         valid = keys.every(function(key) {
                             var el = this.querySelector('#' + key);
-                            console.log(el.value, el.invalid);
                             return el.value && !el.invalid;
                         }, this);
 
