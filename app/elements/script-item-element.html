@@ -18,10 +18,25 @@
             .flexchild {
                 @apply(--layout-flex);
             }
+            .check {
+                width: 26px;
+                display: inline-block;
+            }
+            
+            paper-checkbox {
+                display: none;
+            }
+            
+            :host:hover paper-checkbox,
+            paper-checkbox[checked] {
+              display: inline-block;
+            }
         </style>
         <paper-item on-tap="_viewScript" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
-                <paper-checkbox checked="{{selected}}" on-tap="_selectScript"></paper-checkbox>
+                <span class="check">
+                    <paper-checkbox checked="{{selected}}" on-tap="_selectScript"></paper-checkbox>
+                </span>
                 <span class="name">[[script.name]]</span>
             </div>
             <div class="flexchild">[[script.type]]</div>
