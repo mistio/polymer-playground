@@ -177,6 +177,18 @@ paper-dropdown-menu.dropdown-block {
     margin-bottom: 16px;
 }
 
+paper-toolbar {
+    overflow: hidden;
+}
+
+.toolbar-logo {
+    overflow: hidden;
+    position: absolute;
+    left: 9px;
+    bottom: -220px;
+    opacity: 0.1;
+    transform: rotate(25deg);
+}
 
 /* Lists Basic Styling */
 
