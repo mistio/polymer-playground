@@ -5,7 +5,7 @@
         <style is="custom-style" include="lists"></style>
         <style include="shared-styles">
         :host {
-            display: block;
+            display: block;            
         }
 
         paper-card {
@@ -69,12 +69,12 @@
                                 </div>
                             </template>
                         </iron-list>
-                    </div>
-                    <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptPage"></paper-fab>
+                    </div>                    
                 </div>
                 <p hidden$="[[hasScripts]]">
                     No scripts found here. You can add some by using the action button!
                 </p>
+                <paper-fab id="addBtn" icon="add" on-tap="_openAddScriptPage"></paper-fab>
             </div>
             </div>
         </paper-card>        
