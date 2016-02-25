@@ -15,6 +15,7 @@
         <paper-card heading="Add Script">
             <div class="card-content">
                 <div class="grid-row">
+                    <paper-progress class="xs12" value="10"></paper-progress>
                     <template is="dom-repeat" items="{{fields}}" as="field">
                         <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
                             <paper-input class="xs12" id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
