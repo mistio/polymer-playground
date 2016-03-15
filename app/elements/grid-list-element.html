@@ -149,12 +149,10 @@
                     });
                 },
                 _selectedItemsChanged: function(e) {
-                    console.log(e);
                     var selected = grid.selection.selected(),
                     selectedScripts = this.scripts.filter(function(script, index) {
                         return selected.indexOf(index) > -1;
                     });
-                    console.log(selectedScripts);
                     this.set('selectedScripts', selectedScripts);
                 },
                 _scriptsChanged: function(scripts, selectedScripts) {
@@ -214,7 +212,6 @@
                         index = this.scripts.indexOf(script);
                     this.set('scripts.' + index + '.name', script.name);
                     this.set('scripts.' + index + '.description', script.description);
-                    this.querySelector('iron-list').selectItem(script);
                 },
                 _openAddScriptPage: function(e) {
                     page.show('/add-script');
