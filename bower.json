@@ -11,7 +11,8 @@
     "app-router": "^2.6.1",
     "iron-routes": "*",
     "gravatar-component": "^1.0.3",
-    "iron-grid": "*"
+    "iron-grid": "*",
+    "vaadin-grid": "^1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
