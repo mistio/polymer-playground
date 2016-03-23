@@ -21,7 +21,7 @@
         </style>
         <paper-item on-tap="_viewTeam" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
-                <paper-checkbox checked="{{selected}}" on-tap="_selectTeam"></paper-checkbox> <span class="name">[[team.name]]</span>
+                <paper-checkbox checked="{{selected}}" disabled$="[[isOwners]]" on-tap="_selectTeam"></paper-checkbox> <span class="name">[[team.name]]</span>
             </div>
             <div class="flexchild">[[membersText]]</div>
             <content></content>
@@ -53,6 +53,10 @@
                         type: String,
                         computed: '_computeIsIndexClass(index, count)'
                     },
+                    isOwners: {
+                        type: Boolean,
+                        computed: '_computeIsOwners(team.name)'
+                    },
                     membersText: {
                         type: String,
                         computed: '_computeMembersText(team.members.*)'
@@ -69,19 +73,26 @@
                     );
                     return classes.join(' ');
                 },
+                _computeIsOwners: function(name) {
+                    return name.toLowerCase() == 'owners';
+                },
                 _computeMembersText: function(members) {
                     var len = members.base.length;
                     return len != 1 ? len + ' Members' : len + ' Member';
                 },
                 _selectTeamChanged: function(e) {
-                    var selected = e.detail.value;
-                    this.fire('toggleSelectedTeam', {
-                        team: this.team,
-                        selected: selected
-                    });
+                    if (!this.isOwners) {
+                        var selected = e.detail.value;
+                        this.fire('toggleSelectedTeam', {
+                            team: this.team,
+                            selected: selected
+                        });
+                    } else {
+                        this.set('selected', false);
+                    }
                 },
                 _viewTeam: function(e) {
-                    page.show('/teams/' + this.team.id);
+                    // page.show('/teams/' + this.team.id);
                 },
                 _selectTeam: function(e) {
                     // This is used to prevent event bubbling

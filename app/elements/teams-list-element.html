@@ -100,11 +100,19 @@
                         type: Boolean,
                         value: false
                     },
+                    selectableTeams: {
+                        type: Array,
+                        computed: '_computeSelectableTeams(teams.*)'
+                    },
                     selectAll: {
                         type: Boolean,
                         value: false
                     },
                     hasTeams: {
+                        type: Boolean,
+                        value: false
+                    },
+                    hasSelectableTeams: {
                         type: Boolean,
                         value: false
                     },
@@ -131,7 +139,7 @@
                     }
                 },
                 observers: [
-                    '_teamsChanged(teams.*, selectedTeams.*)',
+                    '_teamsChanged(teams.*, selectableTeams.*, selectedTeams.*)',
                     '_presentedTeamsChanged(teams.*, searchTerm, sortByTerm)'
                 ],
                 listeners: {
@@ -139,6 +147,11 @@
                     'addTeam': '_addTeam',
                     'updateSelectedTeam': '_updateSelectedTeam',
                     'confirmation': '_deleteSelectedResponse'
+                },
+                _computeSelectableTeams: function(teams) {
+                    return teams.base.filter(function(team) {
+                        return team.name.toLowerCase() != 'owners';
+                    });
                 },
                 _presentedTeamsChanged: function(teams, searchTerm, sortByTerm) {
                     var presentedTeams = [],
@@ -174,7 +187,7 @@
                 _computeIsActiveSort: function(sortByTerm, sortOption) {
                     return sortByTerm == sortOption ? 'active-sort' : null;
                 },
-                _teamsChanged: function(teams, selectedTeams) {
+                _teamsChanged: function(teams, selectableTeams, selectedTeams) {
                     this.set('showDeleteOption', selectedTeams.base.length > 0);
 
                     this.set('selectedTeam', selectedTeams.base.length == 1 ? selectedTeams.base[0] : null);
@@ -185,11 +198,13 @@
 
                     this.set('hasTeams', teams.base.length > 0);
 
-                    if (selectedTeams.base.length < teams.base.length || teams.base.length === 0) {
+                    this.set('hasSelectableTeams', selectableTeams.base.length > 0);
+
+                    if (selectedTeams.base.length < selectableTeams.base.length || selectableTeams.base.length === 0) {
                         this.set('selectAll', false);
                     }
 
-                    if (selectedTeams.base.length == teams.base.length && selectedTeams.base.length != 0) {
+                    if (selectedTeams.base.length == selectableTeams.base.length && selectedTeams.base.length != 0) {
                         this.set('selectAll', true);
                     }
                 },
@@ -247,8 +262,11 @@
                 _updateSelectedTeam: function(e) {
                     var team = e.detail.team,
                         index = this.teams.indexOf(team);
-                    this.set('teams.' + index + '.id', team.id);
+                    this.set('teams.' + index + '.name', team.name);
+                    this.set('teams.' + index + '.description', team.description);
                     this.querySelector('iron-list').selectItem(team);
+                    this.querySelector('iron-list').fire('iron-resize');
+                    console.log(index, this.teams);
                 },
                 _openAddTeamModal: function(e) {
                     var el = this.querySelector('team-add-element');
@@ -256,15 +274,15 @@
                 },
                 _addTeam: function(e) {
                     var team = e.detail.team,
-                    newTeam = {
-                        id: -1,
-                        name: team.name,
-                        members: [],
-                        policy: {
-                            operator: 'DENY',
-                            rules: []
-                        }
-                    };
+                        newTeam = {
+                            id: -1,
+                            name: team.name,
+                            members: [],
+                            policy: {
+                                operator: 'DENY',
+                                rules: []
+                            }
+                        };
                     this.push('teams', newTeam);
                 },
                 _showDialog: function(info) {

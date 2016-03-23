@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="team-edit-element">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+
+            paper-dialog {
+                width: 300px;
+            }
+        </style>
+
+        <paper-dialog id="editTeamModal" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+            <h2>Edit Team</h2>
+            <paper-icon-button class="close" icon="clear" dialog-dismiss></paper-icon-button>
+            <paper-dialog-scrollable>
+                <paper-input id="name" name="name" type="text" label="Name" required error-message="Please enter team's name" value="{{team.name}}" auto-validate></paper-input>
+
+                <paper-textarea id="description" name="description" label="Description (optional)" rows="5" max-rows="5" error-message="Please enter team's description" value="{{team.description}}"></paper-textarea>
+
+                <paper-button class="submit-btn btn-block" disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+            </paper-dialog-scrollable>
+        </paper-dialog>
+
+        <iron-ajax id="editTeamAjax" url="/teams/[[team.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'team-edit-element',
+
+                properties: {
+                    team: {
+                        type: Object,
+                        value: {
+                            name: null,
+                            description: null
+                        },
+                        notify: true
+                    },
+                    sendingData: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formReady: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+                listeners: {
+                    'iron-overlay-closed': '_modalClosed'
+                },
+                observers: [
+                    '_fieldsChanged(team.*, sendingData)'
+                ],
+                ready: function() {
+
+                },
+                _fieldsChanged: function(team, sendingData) {
+                    this.async(function() {
+                        var keys = ['name', 'description'],
+                            valid = keys.every(function(key) {
+                                var el = this.querySelector('#' + key);
+                                return el.required ? el.value && !el.invalid : !el.invalid;
+                            }, this);
+
+                        this.set('formReady', valid && !sendingData);
+                    });
+                },
+                _openEditTeamModal: function(e) {
+                    this.$.editTeamModal.open();
+                },
+                _closeEditTeamModal: function(e) {
+                    this.$.editTeamModal.close();
+                },
+                _modalClosed: function() {
+                    this._formReset();
+                },
+                _submitForm: function(e) {
+                    console.log(this.team)
+                    this.fire('updateSelectedTeam', {
+                        team: this.team
+                    });
+                    this._closeEditTeamModal();
+                },
+                _formReset: function() {
+                    //   this.set('team.id', '');
+                },
+                _editTeamAjax: function(e) {
+                    //   this.$.editTeamAjax.generateRequest();
+                },
+                _editTeamRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _editTeamResponse: function(e) {
+                    this.set('sendingData', false);
+                }
+            });
+        })();
+    </script>
+</dom-module>
