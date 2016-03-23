@@ -220,6 +220,81 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 "id": "568159523260490d7461e63c",
                 "user_agent": "python-requests/2.7.0 CPython/2.7.10 Darwin/14.5.0"
             }];
+            var ORG = {
+                id: 12345,
+                name: 'org',
+                members: [
+                    {
+                        id: 1,
+                        name: 'Marios Fakiolas',
+                        email: 'marios@mist.io'
+                    }, {
+                        id: 2,
+                        name: 'Markos Gogoulos',
+                        email: 'marko@mist.io'
+                    }, {
+                        id: 3,
+                        name: 'Dimitris Rozakis',
+                        email: 'dr@mist.io'
+                    }, {
+                        id: 4,
+                        name: 'Pablo Tziano',
+                        email: 'pablo@mist.io'
+                    }
+                ],
+                teams: [
+                    {
+                        id: 1,
+                        name: 'Owners',
+                        members: [1,2,3],
+                        policy: {
+                            operator: 'ALLOW',
+                            rules: []
+                        }
+                    }, {
+                        id: 2,
+                        name: 'QA Team',
+                        members: [4],
+                        policy: {
+                            operator: 'DENY',
+                            rules: [
+                                {
+                                    operator: 'ALLOW',
+                                    rtype: 'machine',
+                                    action: 'read',
+                                    rid: 1,
+                                    rtags: {}
+                                }
+                            ]
+                        }
+                    }, {
+                        id: 3,
+                        name: 'Dev Team',
+                        members: [1,2,3],
+                        policy: {
+                            operator: 'DENY',
+                            rules: [
+                                {
+                                    operator: 'ALLOW',
+                                    rtype: 'machine',
+                                    action: 'read',
+                                    rid: 1,
+                                    rtags: {}
+                                }, {
+                                    operator: 'ALLOW',
+                                    rtype: 'machine',
+                                    action: 'edit',
+                                    rid: '',
+                                    rtags: {
+                                        marios: 'faki',
+                                        fak: null
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            };
         </script>
     </head>
 
@@ -406,6 +481,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <iron-icon icon="done" class="done-icon"></iron-icon>
                         </a>
 
+                        <a data-route="teams" href="/teams">
+                            <iron-icon icon="supervisor-account"></iron-icon>
+                            <span>Teams List</span>
+                            <iron-icon icon="done" class="done-icon"></iron-icon>
+                        </a>
+
                         <a data-route="members" href="/members">
                             <iron-icon icon="supervisor-account"></iron-icon>
                             <span>Members List</span>
@@ -449,7 +530,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <div class="bottom-title">We build Mist.io UI on top of web components using Polymer</div>
                         </div> -->
                         <div class="toolbar-logo">
-                            <img src="images/logos/logo-solo.svg" width="300px;" height="300px"/>
+                            <img src="images/logos/logo-solo.svg" width="300px;" height="300px" />
                         </div>
                     </paper-toolbar>
 
@@ -543,6 +624,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <sessions-list-element data-route="sessions"></sessions-list-element>
 
                             <tokens-list-element data-route="tokens"></tokens-list-element>
+
+                            <teams-list-element data-route="teams"></teams-list-element>
 
                             <members-list-element data-route="members"></members-list-element>
 
