@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-<dom-module id="team-item-element">
+<dom-module id="team-member-item-element">
     <template>
         <style include="shared-styles">
             :host {
@@ -19,11 +19,11 @@
                 @apply(--layout-flex);
             }
         </style>
-        <paper-item on-tap="_viewTeam" class$="info-item flex-horizontal-with-ratios [[indexClass]]">
+        <paper-item class$="info-item flex-horizontal-with-ratios [[indexClass]]">
             <div class="flexchild">
-                <paper-checkbox checked="{{selected}}" disabled$="[[isOwners]]" on-tap="_selectTeam"></paper-checkbox> <span class="name">[[team.name]]</span>
+                <paper-checkbox checked="{{selected}}" on-tap="_selectMember"></paper-checkbox> <span class="name">[[member.name]]</span>
             </div>
-            <div class="flexchild">[[membersText]]</div>
+            <div class="flexchild">[[member.email]]</div>
             <content></content>
         </paper-item>
     </template>
@@ -32,10 +32,10 @@
             'use strict';
 
             Polymer({
-                is: 'team-item-element',
+                is: 'team-member-item-element',
 
                 properties: {
-                    team: {
+                    member: {
                         type: Object
                     },
                     selected: {
@@ -52,18 +52,10 @@
                     indexClass: {
                         type: String,
                         computed: '_computeIsIndexClass(index, count)'
-                    },
-                    isOwners: {
-                        type: Boolean,
-                        computed: '_computeIsOwners(team.name)'
-                    },
-                    membersText: {
-                        type: String,
-                        computed: '_computeMembersText(team.members.*)'
                     }
                 },
                 listeners: {
-                    'selected-changed': '_selectTeamChanged'
+                    'selected-changed': '_selectMemberChanged'
                 },
                 _computeIsIndexClass: function(index, count) {
                     var classes = [];
@@ -73,28 +65,18 @@
                     );
                     return classes.join(' ');
                 },
-                _computeIsOwners: function(name) {
-                    return name.toLowerCase() == 'owners';
-                },
                 _computeMembersText: function(members) {
                     var len = members.base.length;
                     return len != 1 ? len + ' Members' : len + ' Member';
                 },
-                _selectTeamChanged: function(e) {
-                    if (!this.isOwners) {
-                        var selected = e.detail.value;
-                        this.fire('toggleSelectedTeam', {
-                            team: this.team,
-                            selected: selected
-                        });
-                    } else {
-                        this.set('selected', false);
-                    }
+                _selectMemberChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedMember', {
+                        member: this.member,
+                        selected: selected
+                    });
                 },
-                _viewTeam: function(e) {
-                    page.show('/teams/' + this.team.id);
-                },
-                _selectTeam: function(e) {
+                _selectMember: function(e) {
                     // This is used to prevent event bubbling
                     e.stopPropagation();
                 }

@@ -74,6 +74,7 @@
         </paper-card>
         <team-add-element></team-add-element>
         <team-edit-element team="[[selectedTeam]]"></team-edit-element>
+        <dialog-element></dialog-element>
     </template>
     <script>
         (function() {
@@ -286,9 +287,8 @@
                     this.push('teams', newTeam);
                 },
                 _showDialog: function(info) {
-                    var dialog = this.querySelector('dialog-element'),
-                        i;
-                    for (i in info) {
+                    var dialog = this.querySelector('dialog-element');
+                    for (var i in info) {
                         dialog[i] = info[i];
                     }
                     dialog._openDialog();
@@ -300,7 +300,7 @@
                     var selectedTeams = this.selectedTeams,
                         names = selectedTeams
                         .map(function(team) {
-                            return team.id;
+                            return team.name;
                         })
                         .join(', ');
 

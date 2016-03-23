@@ -187,6 +187,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             app.route = 'teams';
         });
 
+        page('/teams/:id', function(data) {
+            app.route = 'team';
+            app.params = data.params;
+        });
+
         page('/members', function() {
             app.route = 'members';
         });
