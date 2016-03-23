@@ -1,0 +1,202 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="team-rules-list-element">
+    <template>
+        <style is="custom-style" include="lists"></style>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+                margin-bottom: 50px;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
+        </style>
+        <paper-card heading="Rules List">
+            <div class="card-content">
+                <div hidden$="[[!hasRules]]" class="info-list">
+                    <div class="info-head flex-horizontal-with-ratios">
+                        <div class="flexchild">
+                            <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+                            <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox>
+                            Νame
+                        </div>
+                        <div class="flexchild">Rules</div>
+                    </div>
+                    <div class="info-body">
+                        <iron-list items="[[policy.rules]]" as="rule" selected-items="{{selectedRules}}" multi-selection>
+                            <template>
+                                <div class="row">
+                                    <team-rule-item-element selected="{{selected}}" rule="[[rule]]" index="[[index]]" count="[[policy.rules.length]]">
+                                        <div class="row-actions">
+                                            <paper-tooltip for="deleteRuleBtn" position="top">Delete</paper-tooltip>
+                                            <paper-icon-button id="deleteRuleBtn" on-tap="_deleteSelected" icon="delete"></paper-icon-button>
+                                        </div>
+                                    </team-rule-item-element>
+                                </div>
+                            </template>
+                        </iron-list>
+                    </div>
+                </div>
+                <p hidden$="[[hasRules]]">
+                    No rules found here. You can add some by using the action button!
+                </p>
+            </div>
+        </paper-card>
+        <dialog-element></dialog-element>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'team-rules-list-element',
+
+                properties: {
+                    policy: {
+                        type: Array
+                    },
+                    selectedRule: {
+                        type: Object,
+                        value: null
+                    },
+                    moreThanOneSelected: {
+                        type: Boolean,
+                        value: false
+                    },
+                    selectAll: {
+                        type: Boolean,
+                        value: false
+                    },
+                    hasRules: {
+                        type: Boolean,
+                        value: false
+                    },
+                    showDeleteOption: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+                observers: [
+                    '_rulesChanged(policy.rules.*, selectedRules.*)'
+                ],
+                listeners: {
+                    'toggleSelectedRule': '_toggleSelectedRule',
+                    'addRule': '_addRule',
+                    'updateSelectedRule': '_updateSelectedRule',
+                    'confirmation': '_deleteSelectedResponse'
+                },
+                _rulesChanged: function(rules, selectedRules) {
+                    console.log(rules)
+                    this.set('showDeleteOption', selectedRules.base.length > 0);
+
+                    this.set('selectedRule', selectedRules.base.length == 1 ? selectedRules.base[0] : null);
+
+                    this.set('showEditOption', selectedRules.base.length == 1);
+
+                    this.set('moreThanOneSelected', selectedRules.base.length > 1);
+
+                    this.set('hasRules', rules.base.length > 0);
+
+                    if (selectedRules.base.length < rules.base.length || rules.base.length === 0) {
+                        this.set('selectAll', false);
+                    }
+
+                    if (selectedRules.base.length == rules.base.length && selectedRules.base.length != 0) {
+                        this.set('selectAll', true);
+                    }
+                },
+                _selectAllChanged: function(e) {
+                    var selectAll = !this.selectAll,
+                        els = this.querySelectorAll('team-rule-item-element');
+
+                    this.set('selectAll', selectAll);
+                    [].forEach.call(els, function(el, index) {
+                        el.selected = selectAll;
+                    });
+                },
+                _toggleSelectedRule: function(e) {
+                    var selected = e.detail.selected,
+                        rule = e.detail.rule;
+                    if (selected) {
+                        this.querySelector('iron-list').selectItem(rule);
+                    } else {
+                        this.querySelector('iron-list').deselectItem(rule);
+                    }
+                },
+                _deleteSelected: function(e) {
+                    this._showDialog({
+                        title: this._formatTitle(),
+                        body: this._formatBody(),
+                        danger: true,
+                        reason: "delete_rules"
+                    });
+                },
+                _deleteSelectedResponse: function(e) {
+                    var reason = e.detail.reason,
+                        response = e.detail.response;
+
+                    if (response.confirmed && reason == "delete_rules") {
+                        this._showNotification(this.selectedRules.length > 1 ? 'Rules were deleted!' : 'Rule was deleted!');
+
+                        this.selectedRules.slice().forEach(function(el, index) {
+                            var index = this.rules.indexOf(el);
+                            this.splice('rules', index, 1);
+                        }, this);
+                    }
+                },
+                _openAddRuleModal: function(e) {
+                    var el = this.querySelector('rule-add-element');
+                    el._openAddRuleModal();
+                },
+                _addRule: function(e) {
+                    var rule = e.detail.rule,
+                        newRule = {
+                            id: -1,
+                            name: rule.name,
+                            rules: [],
+                            policy: {
+                                operator: 'DENY',
+                                rules: []
+                            }
+                        };
+                    this.push('rules', newRule);
+                },
+                _showDialog: function(info) {
+                    var dialog = this.querySelector('dialog-element');
+                    for (var i in info) {
+                        dialog[i] = info[i];
+                    }
+                    dialog._openDialog();
+                },
+                _formatTitle: function() {
+                    return this.selectedRules.length > 1 ? "Delete Rules" : "Delete Rule";
+                },
+                _formatBody: function() {
+                    var selectedRules = this.selectedRules,
+                        names = selectedRules
+                        .map(function(rule) {
+                            return rule.name;
+                        })
+                        .join(', ');
+
+                    return (selectedRules.length > 1 ? "Are you sure you want to delete these rules: " : "Are you sure you want to delete this rule: ") + names + "?";
+                },
+                _showNotification: function(title) {
+                    var notification = document.querySelector('notification-element');
+                    notification.title = title;
+                    notification._openToast();
+                }
+            });
+        })();
+    </script>
+</dom-module>

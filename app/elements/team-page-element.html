@@ -52,11 +52,14 @@
 
         <team-members-list-element members="[[team.members]]"></team-members-list-element>
 
+        <team-rules-list-element policy="[[team.policy]]"></team-rules-list-element>
+
         <paper-menu-button class="fab-menu" horizontal-align="right" vertical-align="bottom">
             <paper-fab icon="add" class="dropdown-trigger"></paper-fab>
             <paper-menu class="dropdown-content">
                 <paper-button on-tap="_editTeam">Edit Team</paper-button>
                 <paper-button on-tap="_deleteTeam">Delete Team</paper-button>
+                <paper-button on-tap="_inviteMember">Invite Member</paper-button>
             </paper-menu>
         </paper-menu-button>
         <team-edit-element team="[[team]]"></team-edit-element>
@@ -124,6 +127,10 @@
                         danger: true,
                         reason: "delete_team"
                     });
+                },
+                _inviteMember: function() {
+                    var el = this.querySelector('team-member-invite-element');
+                    el._openInviteMemberModal();
                 },
                 _deleteTeamResponse: function(e) {
                     var reason = e.detail.reason,
