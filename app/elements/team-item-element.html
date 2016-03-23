@@ -23,7 +23,7 @@
             <div class="flexchild">
                 <paper-checkbox checked="{{selected}}" on-tap="_selectTeam"></paper-checkbox> <span class="name">[[team.name]]</span>
             </div>
-            <div class="flexchild">[[team.role]]</div>
+            <div class="flexchild">[[membersText]]</div>
             <content></content>
         </paper-item>
     </template>
@@ -52,6 +52,10 @@
                     indexClass: {
                         type: String,
                         computed: '_computeIsIndexClass(index, count)'
+                    },
+                    membersText: {
+                        type: String,
+                        computed: '_computeMembersText(team.members.*)'
                     }
                 },
                 listeners: {
@@ -64,6 +68,10 @@
                         index + 1 == count ? 'last' : null
                     );
                     return classes.join(' ');
+                },
+                _computeMembersText: function(members) {
+                    var len = members.base.length;
+                    return len != 1 ? len + ' Members' : len + ' Member';
                 },
                 _selectTeamChanged: function(e) {
                     var selected = e.detail.value;
