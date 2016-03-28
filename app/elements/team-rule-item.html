@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="team-rule-item">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-item:hover {
+                cursor: pointer;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
+        </style>
+        <paper-item class$="info-item flex-horizontal-with-ratios [[indexClass]]">
+            <div class="flexchild">
+                <paper-checkbox checked="{{selected}}" on-tap="_selectRule"></paper-checkbox> <span class="name">[[rule.name]]</span>
+            </div>
+            <div class="flexchild">[[rule.email]]</div>
+            <content></content>
+        </paper-item>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'team-rule-item',
+
+                properties: {
+                    rule: {
+                        type: Object
+                    },
+                    selected: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    index: {
+                        type: Number
+                    },
+                    count: {
+                        type: Number
+                    },
+                    indexClass: {
+                        type: String,
+                        computed: '_computeIsIndexClass(index, count)'
+                    }
+                },
+                listeners: {
+                    'selected-changed': '_selectRuleChanged'
+                },
+                _computeIsIndexClass: function(index, count) {
+                    var classes = [];
+                    classes.push(
+                        (index + 1) % 2 == 0 ? 'even' : 'odd',
+                        index + 1 == count ? 'last' : null
+                    );
+                    return classes.join(' ');
+                },
+                _selectRuleChanged: function(e) {
+                    var selected = e.detail.value;
+                    this.fire('toggleSelectedRule', {
+                        rule: this.rule,
+                        selected: selected
+                    });
+                },
+                _selectRule: function(e) {
+                    // This is used to prevent event bubbling
+                    e.stopPropagation();
+                }
+            });
+        })();
+    </script>
+</dom-module>

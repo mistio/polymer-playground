@@ -1,0 +1,94 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="register-page">
+    <template>
+        <style is="custom-style" include="forms"></style>
+        <style is="custom-style" include="login-and-register"></style>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
+        <div class="centering-parent">
+            <paper-material>
+                <h2>Register</h2>
+                <div class="form-content">
+                    <paper-input id="name" name="name" type="text" label="Name" required error-message="Please enter your name" value="{{user.name}}" auto-validate></paper-input>
+
+                    <paper-input id="email" name="email" type="email" label="Email" required error-message="Please enter a valid email address" value="{{user.email}}" auto-validate></paper-input>
+                </div>
+                <div class="bottom-actions">
+                    <paper-button disabled$="[[!formReady]]" raised on-tap="_submitForm">Submit</paper-button>
+                </div>
+            </paper-material>
+        </div>
+        <iron-ajax id="registerAjax" url="/account" method="POST" on-request="_registerAjaxRequest" on-response="_registerAjaxResponse"></iron-ajax>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'register-page',
+
+                properties: {
+                    user: {
+                        type: Object,
+                        value: function() {
+                            return {
+                                name: '',
+                                email: ''
+                            }
+                        },
+                        notify: true
+                    },
+                    sendingData: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formReady: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+                observers: [
+                    '_fieldsChanged(user.*, sendingData)'
+                ],
+                _fieldsChanged: function(user, sendingData) {
+                    this.async(function() {
+                        var keys = Object.keys(user.base),
+                            valid = keys.every(function(key) {
+                                var el = this.querySelector('#' + key);
+                                return el.value && !el.invalid;
+                            }, this);
+
+                        this.set('formReady', valid && !sendingData);
+                    });
+                },
+                _submitForm: function(e) {
+                    var payload = {
+                        name: this.user.name,
+                        email: this.user.email
+                    };
+                    console.log(payload);
+
+                    // this.$.registerAjax.body = payload;
+                    // this.$.registerAjax.generateRequest();
+                },
+                _formReset: function() {
+                    this.set('user.name', '');
+                    this.set('user.email', '');
+                    this.$.name.invalid = false;
+                    this.$.email.invalid = false;
+                },
+                _registerAjaxRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _registerAjaxResponse: function() {
+                    this.set('sendingData', false);
+                    this._formReset();
+                }
+            });
+        })();
+    </script>
+</dom-module>

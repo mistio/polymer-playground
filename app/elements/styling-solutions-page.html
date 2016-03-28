@@ -1,0 +1,282 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="styling-solutions-page">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            #demodialog,
+            #demodialog3 {
+                max-width: 450px;
+            }
+
+            #demodialog3::content #scrollable {
+                width: 100%;
+            }
+            /*paper-dialog paper-button {
+            margin-top:0;
+        }
+        paper-card {
+            display: block;
+        }
+        paper-material {
+            padding-bottom: 8px;
+        }
+        paper-material > h2,
+        paper-material > p {
+            padding: 16px;
+        }
+        paper-material .top-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
+        paper-material .bottom-actions {
+            padding-bottom: 2px;
+            padding-left: 8px;
+        }*/
+        </style>
+        <paper-card>
+            <div class="card-content">
+                <h2 id="card-actions">Cards Actions</h2>
+                <p>
+                    According to MD card guidelines, cards should be used as a 'means of displaying content composed of different elements' and 'Cards are unnecessary in [...] displaying homogeneous content'. In our case the page that includes heterogenous elements is the
+                    dashboard.
+                </p>
+                <p>
+                    Cards can have many actions in a specially designed aread of .card-actions, whereas tiles can only have two. In our case Dashboard cards have one action at most: namely the navigation of left counting cards, the links to machine pages from incidents.
+                </p>
+                <p>
+                    However cards bring in functionalty not needed to us such as placeholder for images etc. So the implementation of our elements should avoid using paper-cards per se, and instead use other visualy similar paper elemenets such as paper-material and paper-item.
+                    These give us the basic visual appearence without the overhead.
+                </p>
+                <p>
+                    Actions then can be placed with custom css, where we need them to be.
+                </p>
+                <p>
+                    Examples:
+                </p>
+                <paper-material>
+                    <h2>Title</h2>
+                    <p>Lorem ipsum</p>
+                    <div class="top-actions">
+                        <paper-icon-button icon="clear" on-tap="do"></paper-icon-button>
+                        <paper-icon-button icon="communication:vpn-key" on-tap="do"></paper-icon-button>
+                    </div>
+                </paper-material>
+                <paper-material>
+                    <h2>Title</h2>
+                    <paper-item>a paper item</paper-item>
+                    <paper-item>a paper item</paper-item>
+                    <paper-item>a paper item</paper-item>
+                    <div class="top-actions">
+                        <paper-icon-button icon="delete" on-tap="do"></paper-icon-button>
+                    </div>
+                    <hr/>
+                    <div class="bottom-actions">
+                        <paper-icon-button icon="clear" on-tap="do"></paper-icon-button>
+                        <paper-icon-button icon="communication:vpn-key" on-tap="do"></paper-icon-button>
+                        <paper-button on-tap="do">Action Button</paper-button>
+                    </div>
+                </paper-material>
+                <p>Use of paper-icon-button gives us the rippleeffect on click</p>
+                <p>Note that custom mist colors will be included in the styles. Also the app-forms element of polymist takes care of the looks and can be used like so:</p>
+                <marked-element>
+                    <div class="markdown-html markdown-body"></div>
+                    <script type="text/markdown">
+                        ```
+                        <app-forms formtitle="form title">
+                            <!-- form content -->
+                            <form is="iron-form" id="form1">
+                                <paper-input name="name" label="name" error-message="Invalid input!"></paper-input>
+                            </form>
+                        </app-forms>
+                        ``` which will then be wraped in a paper-material element ```
+                        <paper-material>
+                            <!-- form title taken form the form title ettribute-->
+                            <h3> { { formtitle } } </h3>
+                            <paper-icon-button id="close-this-form" suffix icon="clear"></paper-icon-button>
+                            <!-- in <content> comes the form content -->
+                            <content></content>
+                        </paper-material>
+                        ```
+                    </script>
+                </marked-element>
+                <p> Example of app-forms</p>
+                <app-forms formtitle="Add Cloud">
+                    <form is="iron-form" id="form1">
+                        <paper-input name="name" label="name" error-message="Invalid input!"></paper-input>
+                        <paper-dropdown-menu label="Provider">
+                            <paper-menu class="dropdown-content">
+                                <paper-item>EC2</paper-item>
+                                <paper-item>Docker</paper-item>
+                                <paper-item>Openstack</paper-item>
+                                <paper-item>Linode</paper-item>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                        <hr/>
+                        <paper-button onclick="do">add cloud</paper-button>
+                    </form>
+                </app-forms>
+                <h2 id="sorting">Collections Sorting Options</h2>
+                <p>
+                    Collections in mist are mainlinly lists. The element-table.html is now used in polymist branch which implements a header area throught a css class. Sorting can be incorporated in the header and other sorting options can be provided above.
+                </p>
+                <p>
+                    A design implementation is soon to be available in polymist.
+                </p>
+                <p>
+                    Note that a filtering through searching, is available and placed in the top of the page-list.
+                </p>
+                <h2 id="dialogs">Dialogs</h2>
+                <p>
+                    Dialogs will be needed in short forms that will appear in place whithout changing page url. As such paper dialogs should never have much content.
+                    <p>
+                        Note that material design guidelines in cards' section suggest NOT to use scrollable elements apart from the page itself (especially in mobile) but instead let their content expanded so as to scroll with the screen movement, thus avoiding double scrollers.
+                        In dialogs's section they suggest that 'Dialogs should avoid [...] Containing scrolling content'
+                    </p>
+                    However when we must a dialog containing long text, a scrollable dialog is suggested. The defaults give:
+                </p>
+                <paper-button on-tap="opendemodialog" role="button" data-dialog="demodialog">dialog with scrollable</paper-button>
+                <paper-dialog id="demodialog">
+                    <h2>Header</h2>
+                    <paper-dialog-scrollable>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class
+                        aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl
+                        ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur. Vivamus ultrices erat nisi, ut aliquam
+                        magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat
+                        sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus. Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie
+                        libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim.
+                        Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac. Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et
+                        bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc
+                        auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus. Vestibulum id maximus massa. Mauris
+                        consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus
+                        libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
+                    </paper-dialog-scrollable>
+                    <div class="buttons">
+                        <paper-button dialog-dismiss>Cancel</paper-button>
+                        <paper-button dialog-confirm>Accept</paper-button>
+                    </div>
+                </paper-dialog>
+                <paper-button on-tap="opendemodialog" role="button" data-dialog="demodialog2">dialog WITHOUT scrollable</paper-button>
+                <paper-dialog id="demodialog2">
+                    <h2>Header</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class
+                        aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl
+                        ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur. Vivamus ultrices erat nisi, ut aliquam
+                        magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat
+                        sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus. Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie
+                        libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim.
+                        Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac. Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et
+                        bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc
+                        auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus. Vestibulum id maximus massa. Mauris
+                        consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus
+                        libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
+                    </p>
+                    <div class="buttons">
+                        <paper-button dialog-dismiss>Cancel</paper-button>
+                        <paper-button dialog-confirm>Accept</paper-button>
+                    </div>
+                </paper-dialog>
+                <p>
+                    There is a miscalculation of div '.scrollable's width in small screens and simple dialog without scrollable appear with overfloating content in small screens.
+                </p>
+                <p>
+                    A way to avoid this set .scrollable's width to 100%. Example:
+                </p>
+                <paper-button on-tap="opendemodialog" role="button" data-dialog="demodialog3">scrollable and width: 100%;</paper-button>
+                <paper-dialog id="demodialog3">
+                    <h2>Header</h2>
+                    <paper-dialog-scrollable>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam porttitor risus at aliquam posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam nec libero dapibus, ornare lacus at, auctor sapien. Class
+                        aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras ultrices eros pellentesque turpis pellentesque porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean pretium, nisl
+                        ac sodales accumsan, lectus risus faucibus diam, vel facilisis lorem dolor nec nisi. Ut lorem mauris, rhoncus non tristique et, sollicitudin a ex. Morbi vestibulum nec lorem eu efficitur. Vivamus ultrices erat nisi, ut aliquam
+                        magna laoreet ut. Nulla non lorem ut mi condimentum consectetur. Integer et ante ac est cursus dictum. Nam in tincidunt sapien, eu dictum erat. Vivamus accumsan massa pellentesque accumsan lobortis. Quisque nec leo ac turpis volutpat
+                        sodales at at dui. Nulla varius quam nec mattis congue. Maecenas a est purus. Vivamus lorem enim, aliquam at aliquet in, accumsan ac sem. Vivamus dignissim enim id libero faucibus, nec gravida ligula lobortis. Donec aliquet molestie
+                        libero, at consectetur dui ornare eget. Praesent egestas elementum orci, in dignissim dolor fermentum in. Etiam faucibus libero enim, id efficitur libero tincidunt id. Proin nibh erat, posuere vel odio in, congue pulvinar enim.
+                        Fusce nec interdum nulla, sollicitudin elementum risus. Nam tempor tellus augue, ut hendrerit enim posuere ac. Donec eget enim eget nisl rhoncus molestie. Nam eu commodo eros, non congue lacus. Vivamus placerat varius nisl, et
+                        bibendum enim semper sit amet. Donec egestas blandit lectus eu ornare. Aenean in magna eget velit elementum interdum sit amet sollicitudin diam. Nunc eu nibh vitae purus iaculis aliquam hendrerit non felis. Aenean imperdiet nunc
+                        auctor, iaculis sem vel, interdum diam. Fusce eu consequat felis, auctor viverra augue. Sed vestibulum lacus fermentum lacus feugiat cursus. In id felis eget eros consectetur iaculis eu eu tellus. Vestibulum id maximus massa. Mauris
+                        consequat turpis eu interdum ultrices. Cras venenatis quis ligula ac sollicitudin. Maecenas non metus turpis. Sed sodales nec ex vitae rutrum. Aenean suscipit ligula id lorem interdum, sit amet ultricies risus consequat. Vivamus
+                        libero tellus, tempus in sodales nec, aliquet tristique eros. Nulla placerat auctor lectus vitae imperdiet.
+                    </paper-dialog-scrollable>
+                    <div class="buttons">
+                        <paper-button dialog-dismiss>Cancel</paper-button>
+                        <paper-button dialog-confirm>Accept</paper-button>
+                    </div>
+                </paper-dialog>
+                <p>Changes in the scrolable's width messes the rececntering of the dialog while resizing. Available resing events can be used to trigger repositioning of dialog. Need to look closer into it.</p>
+                <h2>Forms</h2>
+                <p>Following the MD dialog guidelines, we should 'Use dialogs sparingly because they are interruptive.'</p>
+                <p>MD quote: Disambiguation of Dialogs from Snackbars (Toasts): Snackbars present optional information after an action, such as confirming the discarding of a draft. They often allow a user to undo an action just taken.
+                </p>
+                <p>
+                    So dialogs should not be used to simple confirm an action previously taken.
+                </p>
+                <h2>Dropdown options styling</h2>
+                <p>
+                    Dropdowns are easily styled when both of the following values are available:
+                    <br/> - width of the input (the trigger of the dropdown)
+                    <br/> - height of the trigger
+                </p>
+                <p>
+                    Example within app-forms (it currently holds the related styling):
+                </p>
+                <app-forms>
+                    <paper-dropdown-menu label="Provider">
+                        <paper-menu class="dropdown-content">
+                            <paper-item>EC2</paper-item>
+                            <paper-item>Docker</paper-item>
+                            <paper-item>Openstack</paper-item>
+                            <paper-item>Linode</paper-item>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </app-forms>
+                <p>
+                    Care should be taken when default width and height are not used. A dynamic styling might be better.
+                </p>
+                <h2>Tables styling</h2>
+                <p>
+                    Zebra styling is implemented in list pages of polymist, as well as the different single pages.
+                </p>
+                <h2>Preloader position / styling</h2>
+                <p>
+                    Default paper spinner:
+                </p>
+                <paper-spinner active></paper-spinner>
+
+            </div>
+        </paper-card>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'styling-solutions-page',
+
+                properties: {
+
+                },
+                ready: function() {
+
+                },
+                do: function() {
+                    // do nothing
+                },
+                opendemodialog: function(e) {
+                    var button = e.target;
+                    var id = button.getAttribute('data-dialog');
+                    var dialog = document.getElementById(id);
+                    if (dialog) {
+                        dialog.open();
+                    }
+                }
+
+            });
+        })();
+    </script>
+</dom-module>

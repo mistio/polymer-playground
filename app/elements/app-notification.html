@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="app-notification">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            .clear {
+                position: absolute;
+                right: 10px;
+                top: 6px;
+            }
+
+            :host[toast-type="danger"] paper-toast {
+                background-color: #dd0000;
+                color: #fff;
+            }
+
+            :host[toast-type="success"] paper-toast {
+                background-color: green;
+                color: #fff;
+            }
+        </style>
+
+        <paper-toast id="toast" text="[[title]]" duration="[[duration]]">
+            <paper-icon-button on-tap="_closeToast" icon="clear" class="clear"></paper-icon-button>
+        </paper-toast>
+
+        <iron-signals on-iron-signal-notification="_openToast"></iron-signals>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'app-notification',
+
+                properties: {
+                    title: {
+                        type: String,
+                        value: null
+                    },
+                    duration: {
+                        type: String,
+                        value: 3000
+                    },
+                    toastType: {
+                        type: String,
+                        value: 'default',
+                        reflectToAttribute: true
+                    }
+                },
+                ready: function() {
+
+                },
+                _openToast: function(e) {
+                    this.$.toast.open();
+                },
+                _closeToast: function(e) {
+                    this.$.toast.close();
+                }
+            });
+        })();
+    </script>
+</dom-module>

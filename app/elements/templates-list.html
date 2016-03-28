@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="templates-list">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+        </style>
+
+        <paper-card heading="Templates">
+            <div class="card-content">
+                <p>Templates list here</p>
+            </div>
+        </paper-card>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'templates-list',
+
+                properties: {
+                    templates: {
+                        type: Array,
+                        value: function() {
+                            return [];
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

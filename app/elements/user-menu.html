@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="user-menu">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            user-menu {
+                display: inline-block;
+            }
+
+            .name,
+            .org {
+                /*line-height: 44px;*/
+                margin-right: 10px;
+                font-weight: 300;
+            }
+
+            .org {
+                font-size: .9em;
+                color: #999;
+            }
+
+            gravatar-component >::content img {
+                border-radius: 50%;
+                border: 2px solid #039BE5;
+            }
+
+            .user-menu {
+                text-transform: none;
+            }
+
+            .user-menu:hover >::content img {
+                border: 2px solid #fff;
+            }
+        </style>
+
+        <paper-menu-button horizontal-align="right">
+            <paper-button class="user-menu dropdown-trigger" noink>
+                <gravatar-component class="pull-right" email="[[user.email]]" retina size="40" alt-text="[[menuText]]"></gravatar-component>
+                <span class="name pull-right">[[menuText]]</span>
+                <template is="dom-if" if="[[team]]">
+                    <br><span class="org pull-right">[[organization.name]] | [[team.name]]</span>
+                </template>
+            </paper-button>
+
+            <paper-menu class="dropdown-content">
+                <paper-item>
+                    <a href="#">Link</a>
+                </paper-item>
+                <paper-item>
+                    <a href="#">Link</a>
+                </paper-item>
+                <paper-item>
+                    <a href="#">Link</a>
+                </paper-item>
+            </paper-menu>
+        </paper-menu-button>
+
+        <iron-signals on-iron-signal-user-menu="_updateUser"></iron-signals>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'user-menu',
+
+                properties: {
+                    user: {
+                        type: Object,
+                        value: function() {
+                            return {
+                                firstName: FIRST_NAME,
+                                lastName: LAST_NAME,
+                                email: EMAIL
+                            }
+                        }
+                    },
+                    organization: {
+                        type: Object,
+                        value: function() {
+                            return ORG;
+                        }
+                    },
+                    hasOrg: {
+                        type: Boolean,
+                        value: function() {
+                            return Object.keys(ORG).length > 0;
+                        }
+                    },
+                    team: {
+                        type: Object,
+                        value: function() {
+                            var org = ORG;
+                            if (Object.keys(org).length) {
+                                return org.teams.slice().shift();
+                            }
+
+                            return null;
+                        }
+                    },
+                    menuText: {
+                        type: String,
+                        computed: '_computeMenuText(user.firstName, user.lastName, user.email)'
+                    }
+                },
+                ready: function() {
+
+                },
+                _computeMenuText: function(firstName, lastName, email) {
+                    return (!firstName || !lastName) ? email : firstName + ' ' + lastName;
+                },
+                _updateUser: function(e) {
+                    this.set('user.firstName', e.detail.firstName);
+                    this.set('user.lastName', e.detail.lastName);
+                }
+            });
+        })();
+    </script>
+</dom-module>

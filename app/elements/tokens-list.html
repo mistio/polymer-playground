@@ -1,0 +1,245 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="tokens-list">
+    <template>
+        <style is="custom-style" include="lists"></style>
+        <style include="shared-styles">
+        :host {
+            display: block;
+        }
+
+        paper-card {
+            display: block;
+        }
+
+        .search {
+            display: inline-block;
+        }
+
+        .flex-horizontal-with-ratios {
+            @apply(--layout-horizontal);
+        }
+
+        .flexchild {
+            @apply(--layout-flex);
+        }
+        </style>
+        <paper-card heading="API Tokens">
+            <div class="card-content">
+                <div hidden$="[[!hasTokens]]" class="list-options">
+                    <paper-tooltip for="searchTokenBtn" position="top">Toggle Search</paper-tooltip>
+                    <paper-icon-button id="searchTokenBtn" icon="search" on-tap="_toggleSearchSelected"></paper-icon-button>
+                    <paper-input hidden$="[[!showSearchOption]]" type="search" value="{{searchTerm}}" placeholder="Search..." no-label-float class="search"></paper-input>
+                    <span hidden$="[[showSearchOption]]" class="label">Search tokens</span>
+                    <paper-tooltip for="deleteTokenBtn" position="top">Delete</paper-tooltip>
+                    <paper-icon-button id="deleteTokenBtn" hidden$="[[!showDeleteOption]]" on-tap="_deleteSelectedTokens" icon="delete"></paper-icon-button>
+                    <span hidden$="[[!showDeleteOption]]" class="label">
+                    Delete [[selectedTokens.length]] token<span hidden$="[[!moreThanOneSelected]]">s</span> </span>
+                    </span>
+                </div>
+                <div hidden$="[[!hasTokens]]" class="info-list">
+                    <div class="info-head flex-horizontal-with-ratios">
+                        <div class="flexchild">
+                            <paper-tooltip for="selectAllBtn" position="top">Select all</paper-tooltip>
+                            <paper-checkbox id="selectAllBtn" checked="[[selectAll]]" on-tap="_selectAllChanged"></paper-checkbox> Νame
+                        </div>
+                        <div class="flexchild">Last Accessed</div>
+                        <div class="flexchild"></div>
+                        <div class="flexchild"></div>
+                    </div>
+                    <div class="info-body">
+                        <template is="dom-repeat" items=[[tokens]] as="token" filter="{{_searchTokens(searchTerm)}}">
+                            <div class="row">
+                                <token-item token="[[token]]" index="[[index]]" count="[[tokens.length]]"></token-item>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <p hidden$="[[hasTokens]]">
+                    No tokens found here. You can add some by using the action button!
+                </p>
+            </div>
+        </paper-card>
+        <array-selector id="selector" items="[[tokens]]" selected="{{selectedTokens}}" multi toggle></array-selector>
+        <paper-fab id="addBtn" icon="add" on-tap="_openAddTokenModal"></paper-fab>
+        <token-add tokens="[[tokens]]"></token-add>
+        <app-dialog></app-dialog>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'tokens-list',
+
+            properties: {
+                tokens: {
+                    type: Array,
+                    value: function() {
+                        return TOKENS;
+                    }
+                },
+                selectedToken: {
+                    type: Object,
+                    value: null
+                },
+                moreThanOneSelected: {
+                    type: Boolean,
+                    value: false
+                },
+                hasTokens: {
+                    type: Boolean,
+                    value: false
+                },
+                selectAll: {
+                    type: Boolean,
+                    value: false
+                },
+                showDeleteOption: {
+                    type: Boolean,
+                    value: false
+                },
+                showSearchOption: {
+                    type: Boolean,
+                    value: false
+                },
+                searchTerm: {
+                    type: String,
+                    value: '',
+                    notify: true
+                }
+            },
+            observers: [
+                '_tokensChanged(tokens.*, selectedTokens.*)'
+            ],
+            listeners: {
+                'revokeToken': '_deleteSelectedToken',
+                'toggleSelectedToken': '_toggleSelectedToken',
+                'addToken': '_addToken',
+                'confirmation': '_revokeTokenResponse'
+            },
+            _tokensChanged: function(tokens, selectedTokens) {
+                this.set('showDeleteOption', selectedTokens.base.length > 0);
+
+                this.set('hasTokens', tokens.base.length > 0);
+
+                this.set('selectedToken', selectedTokens.base.length == 1 ? selectedTokens.base[0] : null);
+
+                this.set('moreThanOneSelected', selectedTokens.base.length > 1);
+
+                if (selectedTokens.base.length < tokens.base.length || tokens.base.length === 0) {
+                    this.set('selectAll', false);
+                }
+
+                if (selectedTokens.base.length == tokens.base.length && selectedTokens.base.length != 0) {
+                    this.set('selectAll', true);
+                }
+            },
+            _searchTokens: function(searchTerm) {
+                if (searchTerm) {
+                    searchTerm = searchTerm.toLowerCase();
+                    return function(token) {
+                        var name = token.name.toLowerCase();
+                        return name.indexOf(searchTerm) != -1;
+                    };
+                }
+            },
+            _openAddTokenModal: function(e) {
+                var el = Polymer.dom(this.root).querySelector('token-add');
+                el._openAddTokenModal();
+            },
+            _toggleSearchSelected: function() {
+                var showSearchOption = !this.showSearchOption;
+                this.set('showSearchOption', showSearchOption);
+
+                if (!showSearchOption) {
+                    this.set('searchTerm', '');
+                }
+            },
+            _selectAllChanged: function(e) {
+                var selectAll = !this.selectAll,
+                    els = Polymer.dom(this.root).querySelectorAll('token-item');
+
+                this.set('selectAll', selectAll);
+                [].forEach.call(els, function(el, index) {
+                    el.selected = selectAll;
+                });
+            },
+            _toggleSelectedToken: function(e) {
+                this.$.selector.select(e.detail.token);
+            },
+            _deleteSelectedToken: function(e) {
+                this.set('selectedToken', e.detail.token);
+
+                this._showDialog({
+                    title: "Revoke Token",
+                    body: "Are you sure you want to revoke this token: " + this.selectedToken.name + " ?",
+                    danger: true,
+                    reason: "revoke_token"
+                });
+            },
+            _deleteSelectedTokens: function(e) {
+                this._showDialog({
+                    title: this._formatTitle(),
+                    body: this._formatBody(),
+                    danger: true,
+                    reason: "revoke_tokens"
+                });
+            },
+            _revokeTokenResponse: function(e) {
+                var reason = e.detail.reason,
+                    response = e.detail.response;
+
+                if (response.confirmed && reason == "revoke_token") {
+                    var token = this.selectedToken,
+                        index = this.tokens.indexOf(token);
+                    this.splice('tokens', index, 1);
+                    this.$.selector.deselect(token);
+
+                    this._showNotification('Token was deleted!');
+                }
+
+                if (response.confirmed && reason == "revoke_tokens") {
+                    this.selectedTokens.forEach(function(token, index) {
+                        var index = this.tokens.indexOf(token);
+                        this.splice('tokens', index, 1);
+                    }, this);
+                    this.$.selector.clearSelection();
+
+                    this._showNotification('Tokens were deleted!');
+                }
+            },
+            _addToken: function(e) {
+                var token = e.detail.token;
+                this.push('tokens', token);
+            },
+            _showDialog: function(info) {
+                var dialog = this.querySelector('app-dialog'),
+                    i;
+                for (i in info) {
+                    dialog[i] = info[i];
+                }
+                dialog._openDialog();
+            },
+            _formatTitle: function() {
+                return this.selectedTokens.length > 1 ? "Revoke Tokens" : "Revoke Token";
+            },
+            _formatBody: function() {
+                var selectedTokens = this.selectedTokens,
+                    names = selectedTokens
+                    .map(function(token) {
+                        return token.name;
+                    })
+                    .join(', ');
+
+                return (selectedTokens.length > 1 ? "Are you sure you want to revoke these tokens: " : "Are you sure you want to revoke this token: ") + names + "?";
+            },
+            _showNotification: function(title) {
+                var notification = document.querySelector('app-notification');
+                notification.title = title;
+                notification._openToast();
+            }
+        });
+    })();
+    </script>
+</dom-module>

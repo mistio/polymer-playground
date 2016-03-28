@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<dom-module id="dashboard-page">
+    <template>
+        <style is="custom-style" include="dialogs"></style>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+            }
+        </style>
+
+        <paper-card heading="Dashboard">
+            <div class="card-content">
+                <p>Clouds: [[clouds.length]]</p>
+                <p>Machines: [[machines.length]]</p>
+                <p>Keys: [[keys.length]]</p>
+                <p>Networks: [[networks.length]]</p>
+                <p>Scripts: [[scripts.length]]</p>
+            </div>
+        </paper-card>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'dashboard-page',
+
+                properties: {
+                    clouds: {
+                        type: Array,
+                        value: function() {
+                            return Mist.clouds;
+                        }
+                    },
+                    machines: {
+                        type: Array,
+                        value: function() {
+                            var machines = Mist.clouds
+                                .filter(function(cloud) {
+                                    return cloud.enabled;
+                                })
+                                .map(function(cloud) {
+                                    return cloud.machines;
+                                })
+                                .reduce(function(a, b) {
+                                    return a.concat(b);
+                                }, []);
+
+                            return machines;
+                        }
+                    },
+                    keys: {
+                        type: Array,
+                        value: function() {
+                            return Mist.keys;
+                        }
+                    },
+                    networks: {
+                        type: Array,
+                        value: function() {
+                            return Mist.networks;
+                        }
+                    },
+                    scripts: {
+                        type: Array,
+                        value: function() {
+                            return Mist.scripts;
+                        }
+                    }
+                },
+                ready: function() {
+
+                }
+            });
+        })();
+    </script>
+</dom-module>

@@ -1,0 +1,154 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="team-page">
+    <template>
+        <style is="custom-style" include="single-page"></style>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            paper-card {
+                display: block;
+                margin-bottom: 50px;
+            }
+
+            paper-menu-button paper-button {
+                display: block;
+            }
+
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
+        </style>
+
+        <paper-card heading='Basic Info'>
+            <div class="card-content">
+                <div class="info-table">
+                    <div class="info-body info-group">
+                        <div class="info-item flex-horizontal-with-ratios">
+                            <div class="flexchild">Name</div>
+                            <div class="flexchild">[[team.name]]</div>
+                        </div>
+                        <template is="dom-if" if="[[team.description]]">
+                            <div class="info-item flex-horizontal-with-ratios">
+                                <div hidden$="[[!team.description]]" class="flexchild">Description</div>
+                                <div class="flexchild">[[team.description]]</div>
+                            </div>
+                        </template>
+                        <div class="info-item flex-horizontal-with-ratios">
+                            <div class="flexchild">Organization</div>
+                            <div class="flexchild">[[team.organization.id]]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </paper-card>
+
+        <team-members-list members="[[team.members]]"></team-members-list>
+
+        <team-rules-list policy="[[team.policy]]"></team-rules-list>
+
+        <paper-menu-button class="fab-menu" horizontal-align="right" vertical-align="bottom">
+            <paper-fab icon="add" class="dropdown-trigger"></paper-fab>
+            <paper-menu class="dropdown-content">
+                <paper-button on-tap="_editTeam">Edit Team</paper-button>
+                <paper-button on-tap="_deleteTeam">Delete Team</paper-button>
+                <paper-button on-tap="_inviteMember">Invite Member</paper-button>
+            </paper-menu>
+        </paper-menu-button>
+        <team-edit team="[[team]]"></team-edit>
+        <app-dialog></app-dialog>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'team-page',
+
+                properties: {
+                    team: {
+                        type: Object,
+                        computed: '_computeTeam(id)'
+                    },
+                    id: {
+                        type: String
+                    },
+                    isOwners: {
+                        type: Boolean,
+                        computed: '_computeIsOwners(team.name)'
+                    }
+                },
+                listeners: {
+                    'confirmation': '_deleteTeamResponse',
+                    'updateSelectedTeam': '_updateTeam'
+                },
+                _computeTeam: function(id) {
+                    var team = ORG.teams
+                        .find(function(team) {
+                            return team.id == id;
+                        }, this);
+
+                    team.members = ORG.members.filter(function(member) {
+                        return team.members.indexOf(member.id) > -1;
+                    });
+
+                    team.organization = {
+                        id: ORG.id,
+                        name: ORG.name
+                    };
+                    console.log(team)
+
+                    return team;
+                },
+                _computeIsOwners: function(name) {
+                    return name.toLowerCase() == 'owners';
+                },
+                _editTeam: function(e) {
+                    var el = this.querySelector('team-edit');
+                    el._openEditTeamModal();
+                },
+                _updateTeam: function(e) {
+                    var team = e.detail.team;
+                    this.set('team.name', team.name);
+                    this.set('team.description', team.description);
+                },
+                _deleteTeam: function(e) {
+                    this._showDialog({
+                        title: 'Delete Team',
+                        body: "Are you sure you want to delete this team: " + this.team.name + "?",
+                        danger: true,
+                        reason: "delete_team"
+                    });
+                },
+                _inviteMember: function() {
+                    var el = this.querySelector('team-member-invite');
+                    el._openInviteMemberModal();
+                },
+                _deleteTeamResponse: function(e) {
+                    var reason = e.detail.reason,
+                        response = e.detail.response;
+
+                    if (response.confirmed && reason == "delete_team") {
+                        console.log('i ll delete the team');
+                        page.show('/teams');
+                    }
+                },
+                _showDialog: function(info) {
+                    var dialog = this.querySelector('app-dialog')
+                    for (var i in info) {
+                        dialog[i] = info[i];
+                    }
+                    dialog._openDialog();
+                }
+            });
+        })();
+    </script>
+</dom-module>
