@@ -57,17 +57,17 @@ var POLICY_FORM_FIELDS = [{
         fieldName: "source",
         fieldOptions: {
             cloud: [{
-                title: "cloud1",
-                val: "cloud2"
+                title: "All",
+                val: "all"
             }, {
-                title: "cloud2",
-                val: "cloud2"
+                title: "add",
+                val: "add"
             }],
             machine: [{
-                title: "Create",
-                val: "Create"
+                title: "create",
+                val: "create"
             }, {
-                title: "Read",
+                title: "read",
                 val: "Read"
             }, {
                 title: "Edit",
@@ -187,8 +187,10 @@ var POLICY_FORM_FIELDS = [{
     }
 }];
 
-var CLOUD_ADD_FORM_FIELDS = {
-    azure: [{
+var CLOUD_ADD_FORM_FIELDS = [{
+    title: 'Azure',
+    val: 'azure',
+    options: [{
         name: "title",
         label: "Title *",
         type: "text",
@@ -220,8 +222,11 @@ var CLOUD_ADD_FORM_FIELDS = {
         buttonFilledText: "Certificate",
         helpText: "Your Azure certificate PEM file",
         helpHref: "http://docs.mist.io/article/18-adding-microsoft-azure"
-    }],
-    coreos: [{
+    }]
+}, {
+    title: 'CoreOS',
+    val: 'coreos',
+    options: [{
         name: "title",
         label: "Title *",
         type: "text",
@@ -285,13 +290,16 @@ var CLOUD_ADD_FORM_FIELDS = {
             fieldName: "machine_key",
             fieldExists: true
         }
-    }],
-    digitalocean: [{
+    }]
+}, {
+    title: 'Digital Ocean',
+    val: 'digitalocean',
+    options: [{
         name: "title",
         label: "Title *",
         type: "text",
-        value: "DigitalOcean",
-        defaultValue: "DigitalOcean",
+        value: "Digital Ocean",
+        defaultValue: "Digital Ocean",
         show: true,
         required: true,
         errorMessage: "Please enter title"
@@ -306,8 +314,11 @@ var CLOUD_ADD_FORM_FIELDS = {
         errorMessage: "Please enter token",
         helpText: 'You can find your API Token on the Digital Ocean portal',
         helpHref: 'http://docs.mist.io/article/19-adding-digital-ocean'
-    }],
-    docker: [{
+    }]
+}, {
+    title: 'Docker',
+    val: 'docker',
+    options: [{
         name: "title",
         label: "Title *",
         type: "text",
@@ -402,7 +413,188 @@ var CLOUD_ADD_FORM_FIELDS = {
             fieldValues: ["tls"]
         }
     }]
-};
+}, {
+    title: 'HostVirtual',
+    val: 'hostvirtual',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "HostVirtual",
+        defaultValue: "HostVirtual",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can find your API Token on the HostVirtual portal',
+        helpHref: 'http://docs.mist.io/article/22-adding-hostvirtual'
+    }]
+}, {
+    title: 'Packet',
+    val: 'packet',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "Packet.net",
+        defaultValue: "Packet.net",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can find your API Token on the Packet.net portal',
+        helpHref: 'http://docs.mist.io/article/100-adding-packet'
+    }, {
+        name: "project_id",
+        label: "Project",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: false,
+        errorMessage: "Please enter title",
+        helpText: 'Optionally specify the project name'
+    }]
+}, {
+    title: 'Vultr',
+    val: 'vultr',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "Vultr",
+        defaultValue: "Vultr",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can find your API Token on the Vultr portal',
+        helpHref: 'http://docs.mist.io/article/72-adding-vultr'
+    }]
+}, {
+    title: 'Other Server',
+    val: 'baremetal',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "machine_ip",
+        label: "Hostname",
+        type: "text",
+        value: "Vultr",
+        defaultValue: "Vultr",
+        placeholder: 'DNS or IP',
+        show: true,
+        required: false,
+        helpText: 'The URL or IP adress that your server listens to',
+        helpHref: 'http://docs.mist.io/article/28-adding-other-servers'
+    }, {
+        name: "operating_system",
+        label: "Operating System",
+        type: "dropdown",
+        value: "unix",
+        defaultValue: "unix",
+        show: true,
+        required: false,
+        options: [{
+            title: "Unix",
+            val: "unix"
+        }, {
+            title: "Windows",
+            val: "windows"
+        }]
+    }, {
+        name: "machine_key",
+        label: "SSH Key",
+        type: "ssh_key",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: false,
+        options: [],
+        showIf: {
+            fieldName: "operating_system",
+            fieldValues: ["unix"]
+        }
+    }, {
+        name: "machine_user",
+        label: "User",
+        type: "text",
+        value: "root",
+        defaultValue: "root",
+        show: true,
+        required: false,
+        errorMessage: "Please enter user",
+        showIf: {
+            fieldName: "machine_key",
+            fieldExists: true
+        }
+    }, {
+        name: "machine_port",
+        label: "Port",
+        type: "text",
+        value: 22,
+        defaultValue: 22,
+        show: true,
+        required: false,
+        errorMessage: "Please enter port",
+        showIf: {
+            fieldName: "machine_key",
+            fieldExists: true
+        }
+    }, {
+        name: "remote_desktop_port",
+        label: "Remote Desktop Port",
+        type: "text",
+        value: 3389,
+        defaultValue: 3389,
+        errorMessage: "Please enter remote desktop's port",
+        show: true,
+        required: true,
+        showIf: {
+            fieldName: "operating_system",
+            fieldValues: ["windows"]
+        }
+    }, {
+        name: "monitoring",
+        label: "Enable monitoring",
+        type: "switch",
+        value: true,
+        defaultValue: true,
+        show: true,
+        required: false
+    }]
+}];
 
 var SCRIPT_RUN_FORM_FIELDS = [{
     name: "machine",

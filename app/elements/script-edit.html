@@ -29,7 +29,7 @@
             </paper-dialog-scrollable>
         </paper-dialog>
 
-        <iron-ajax id="editScriptAjax" url="/scripts/[[script.id]]" method="POST" on-request="_ajaxRequest" on-response="_ajaxResponse"></iron-ajax>
+        <iron-ajax id="editScriptAjax" url="/scripts/[[script.id]]" method="POST" on-request="_editScriptRequest" on-response="_editScriptResponse"></iron-ajax>
     </template>
 
     <script>

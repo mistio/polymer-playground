@@ -22,13 +22,16 @@
             paper-checkbox {
                 margin-top: 20px;
             }
+
             paper-material {
                 background-color: #fff;
                 padding: 16px;
             }
+
             .dropdown-with-logos paper-item img {
                 margin-right: 16px;
             }
+
             .dropdown-with-logos paper-item {
                 text-transform: capitalize;
                 opacity: 0.87;
@@ -40,7 +43,7 @@
                 <paper-dropdown-menu class="dropdown-block l6 xs12 dropdown-with-logos" label="Providers" horizontal-align="left">
                     <paper-menu attr-for-selected="value" selected="{{selectedProvider}}" class="dropdown-content">
                         <template is="dom-repeat" items="[[providersList]]" as="provider">
-                            <paper-item value="[[provider]]"><img src="[[providerlogosrc(provider)]]" width="24px"/>[[provider]]</paper-item>
+                            <paper-item value="[[provider.val]]"><img src="[[_computeProviderLogo(provider.val)]]" width="24px" />[[provider.title]]</paper-item>
                         </template>
                     </paper-menu>
                 </paper-dropdown-menu>
@@ -58,41 +61,53 @@
                 <p>Select a provider above first!!</p>
             </div> -->
 
-                <template is="dom-repeat" items="{{providerFields}}" as="field">
-                    <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
-                        <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
-                    </template>
-
-                    <template is="dom-if" if="[[_computeFieldType(field, 'password', field.show)]]">
-                        <paper-input id="[[field.name]]" type="password" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
-                    </template>
-
-                    <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
-                        <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
-                    </template>
-
-                    <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
-                        <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
-                            <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
-                                <template is="dom-repeat" items="[[field.options]]" as="option">
-                                    <paper-item value="[[option.val]]">[[option.title]]</paper-item>
-                                </template>
-                            </paper-menu>
-                        </paper-dropdown-menu>
-                    </template>
-
-                    <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
-                        <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
-                    </template>
+            <template is="dom-repeat" items="{{providerFields}}" as="field">
+                <template is="dom-if" if="[[_computeFieldType(field, 'text', field.show)]]">
+                    <paper-input id="[[field.name]]" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
                 </template>
 
-                <hr/>
+                <template is="dom-if" if="[[_computeFieldType(field, 'password', field.show)]]">
+                    <paper-input id="[[field.name]]" type="password" placeholder="[[field.placeholder]]" label="[[field.label]]" value="{{field.value}}" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-input>
+                </template>
 
-                <div class="clearfix">
-                    <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
-                    <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
-                </div>
+                <template is="dom-if" if="[[_computeFieldType(field, 'textarea', field.show)]]">
+                    <paper-textarea id="[[field.name]]" label="[[field.label]]" rows="5" max-rows="15" value="{{field.value}}" placeholder="[[field.placeholder]]" auto-validate required="[[field.required]]" error-message="[[field.errorMessage]]"></paper-textarea>
+                </template>
+
+                <template is="dom-if" if="[[_computeFieldType(field, 'dropdown', field.show)]]">
+                    <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+                        <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[field.options]]" as="option">
+                                <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </template>
+
+                <template is="dom-if" if="[[_computeFieldType(field, 'ssh_key', field.show)]]">
+                    <paper-dropdown-menu class="dropdown-block" label="[[field.label]]" horizontal-align="left">
+                        <paper-menu id="[[field.name]]" attr-for-selected="value" selected="{{field.value}}" class="dropdown-content">
+                            <template is="dom-repeat" items="[[field.options]]" as="option">
+                                <paper-item value="[[option.val]]">[[option.title]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                </template>
+
+                <template is="dom-if" if="[[_computeFieldType(field, 'switch', field.show)]]">
+                    <paper-toggle-button checked="{{field.value}}">[[field.label]]</paper-toggle-button>
+                </template>
+            </template>
+
+            <hr/>
+
+            <div class="clearfix">
+                <paper-button class="submit-btn pull-left" disabled$="[[!formReady]]" raised on-tap="_submitForm">Add</paper-button>
+                <paper-button class="submit-btn pull-right" raised on-tap="_resetForm">Reset</paper-button>
+            </div>
         </paper-material>
+
+        <iron-ajax id="addCloudAjax" url="/api/v1/clouds" method="POST" on-request="_addCloudRequest" on-response="_addCloudResponse"></iron-ajax>
     </template>
 
     <script>
@@ -149,11 +164,11 @@
                 ready: function() {
 
                 },
-                providerlogosrc: function(provider) {
-                    return '../images/providers/provider-'+ provider +'.png';
+                _computeProviderLogo: function(provider) {
+                    return '../images/providers/provider-' + provider + '.png';
                 },
                 _computeProvidersList: function(fields) {
-                    return Object.keys(fields);
+                    return fields;
                 },
                 _computeFieldType: function(field, value, show) {
                     if (!(field.showIf && !field.show)) {
@@ -161,7 +176,12 @@
                     }
                 },
                 _providerChanged: function(selectedProvider, fields) {
-                    this.set('providerFields', fields[selectedProvider]);
+                    var providerFields = fields
+                        .filter(function(pFields) {
+                            return pFields.val == selectedProvider;
+                        });
+
+                    this.set('providerFields', providerFields.length ? providerFields.shift().options : []);
                 },
                 _keysChanged: function(keys, providerFields) {
                     var keysOptions = keys.base.map(function(key) {
@@ -221,6 +241,14 @@
                 },
                 _submitForm: function(e) {
                     console.log(this.cloud);
+                    // this.$.addCloudAjax.body = this.cloud;
+                    // this.$.addCloudAjax.generateRequest();
+                },
+                _addCloudRequest: function() {
+                    this.set('sendingData', true);
+                },
+                _addCloudResponse: function(e) {
+                    this.set('sendingData', false);
                 },
                 _resetForm: function(e) {
                     // Reset cloud
