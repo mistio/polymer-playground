@@ -340,7 +340,7 @@ var CLOUD_ADD_FORM_FIELDS = [{
         name: "authentication",
         label: "Authentication",
         type: "dropdown",
-        value: "",
+        value: "basic",
         defaultValue: "basic",
         options: [{
             val: "basic",
@@ -470,6 +470,83 @@ var CLOUD_ADD_FORM_FIELDS = [{
         required: false,
         errorMessage: "Please enter title",
         helpText: 'Optionally specify the project name'
+    }]
+}, {
+    title: 'Rackspace',
+    val: 'rackspace',
+    options: [{
+        name: "region",
+        label: "Region *",
+        type: "dropdown",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        options: []
+    }, {
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "Rackspace",
+        defaultValue: "Rackspace",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "username",
+        label: "Username *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title",
+        helpText: 'The username you use to connect to the RackSpace portal'
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can find your API key on your RackSpace portal',
+        helpHref: 'http://docs.mist.io/article/29-adding-rackspace'
+    }]
+}, {
+    title: 'Softlayer',
+    val: 'softlayer',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "SoftLayer",
+        defaultValue: "SoftLayer",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "username",
+        label: "Username *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title",
+        helpText: 'The username you use to connect to the SoftLayer portal'
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can find your API key on your SoftLayer portal',
+        helpHref: 'http://docs.mist.io/article/30-adding-softlayer'
     }]
 }, {
     title: 'Vultr',
