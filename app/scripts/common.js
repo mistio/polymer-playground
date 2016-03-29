@@ -461,6 +461,42 @@ var CLOUD_ADD_FORM_FIELDS = [{
         helpHref: 'http://docs.mist.io/article/17-adding-amazon-ec2'
     }]
 }, {
+    title: 'GCE',
+    val: 'gce',
+    className: 'provider-gce',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "GCE",
+        defaultValue: "GCE",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "project_id",
+        label: "Project ID *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter project's ID",
+        helpText: 'You can find your project ID on your GCE portal',
+        helpHref: 'http://docs.mist.io/article/21-adding-google-compute-engine'
+    }, {
+        name: "private_key",
+        label: "Private Key *",
+        type: "textarea",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter private key",
+        helpText: 'You can create a new key on your GCE portal',
+        helpHref: 'http://docs.mist.io/article/21-adding-google-compute-engine'
+    }]
+}, {
     title: 'HostVirtual',
     val: 'hostvirtual',
     className: 'provider-hostvirtual',
@@ -606,6 +642,65 @@ var CLOUD_ADD_FORM_FIELDS = [{
         show: true,
         required: false,
         helpText: 'The path that your disk or iso images are located, example /var/lib/libvirt/images'
+    }]
+}, {
+    title: 'Linode',
+    val: 'linode',
+    className: 'provider-linode',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "Linode",
+        defaultValue: "Linode",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "api_key",
+        label: "API Key *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter API Key",
+        helpText: 'You can create an API key on your Linode portal',
+        helpHref: 'http://docs.mist.io/article/25-adding-linode'
+    }]
+}, {
+    title: 'Nephoscale',
+    val: 'nephoscale',
+    className: 'provider-nephoscale',
+    options: [{
+        name: "title",
+        label: "Title *",
+        type: "text",
+        value: "Nephoscale",
+        defaultValue: "Nephoscale",
+        show: true,
+        required: true,
+        errorMessage: "Please enter title"
+    }, {
+        name: "username",
+        label: "Username *",
+        type: "text",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter username",
+        helpText: 'The username you use to connect to the Nephoscale portal'
+    }, {
+        name: "password",
+        label: "Password *",
+        type: "password",
+        value: "",
+        defaultValue: "",
+        show: true,
+        required: true,
+        errorMessage: "Please enter password",
+        helpText: 'The password you use to connect to the Nephoscale portal'
     }]
 }, {
     title: 'Openstack',

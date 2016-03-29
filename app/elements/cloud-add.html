@@ -42,7 +42,7 @@
             <div class="grid-row">
                 <paper-dropdown-menu class="dropdown-block l6 xs12 dropdown-with-logos" label="Providers" horizontal-align="left">
                     <paper-menu attr-for-selected="value" selected="{{selectedProvider}}" class="dropdown-content">
-                        <template is="dom-repeat" items="[[providersList]]" as="provider">
+                        <template is="dom-repeat" items="[[providersFields]]" as="provider">
                             <paper-item value="[[provider.val]]"><img src="[[_computeProviderLogo(provider.className)]]" width="24px" />[[provider.title]]</paper-item>
                         </template>
                     </paper-menu>
@@ -121,15 +121,11 @@
                         value: null,
                         notify: true
                     },
-                    providersList: {
-                        type: Array,
-                        computed: '_computeProvidersList(fields)'
-                    },
                     providerFields: {
                         type: Array,
                         value: []
                     },
-                    fields: {
+                    providersFields: {
                         type: Array,
                         value: function() {
                             return CLOUD_ADD_FORM_FIELDS;
@@ -151,7 +147,7 @@
                     }
                 },
                 observers: [
-                    '_providerChanged(selectedProvider, fields)',
+                    '_providerChanged(selectedProvider, providersFields)',
                     '_fieldsChanged(providerFields.*, sendingData)',
                     '_keysChanged(keys.*, providerFields)'
                 ],
@@ -161,18 +157,16 @@
                 _computeProviderLogo: function(className) {
                     return '../images/providers/' + className + '.png';
                 },
-                _computeProvidersList: function(fields) {
-                    return fields;
-                },
                 _computeFieldType: function(field, value, show) {
                     if (!(field.showIf && !field.show)) {
                         return field.type == value;
                     }
                 },
-                _providerChanged: function(selectedProvider, fields) {
-                    var providerFields = fields
-                        .filter(function(pFields) {
-                            return pFields.val == selectedProvider;
+                _providerChanged: function(selectedProvider, providersFields) {
+                    this._resetForm();
+                    var providerFields = providersFields
+                        .filter(function(fields) {
+                            return fields.val == selectedProvider;
                         });
 
                     this.set('providerFields', providerFields.length ? providerFields.shift().options : []);
@@ -193,42 +187,44 @@
                     this.set('providerFields.' + index + '.value', '');
                 },
                 _fieldsChanged: function(providerFields, sendingData) {
-                    var cloud = this.cloud,
-                        show = true,
-                        dependency;
+                    this.async(function() {
+                        var cloud = this.cloud,
+                            show = true,
+                            dependency;
 
-                    providerFields.base.forEach(function(el, index) {
-                        this.set('cloud.' + el.name, el.value);
+                        providerFields.base.forEach(function(el, index) {
+                            this.set('cloud.' + el.name, el.value);
 
-                        if (el.showIf) {
-                            if (el.showIf.fieldExists) {
-                                dependency = cloud[el.showIf.fieldName],
-                                    show = dependency;
-                                this.set('providerFields.' + index + '.show', show);
-                            } else {
-                                dependency = cloud[el.showIf.fieldName],
-                                    show = el.showIf.fieldValues.indexOf(dependency) != -1;
-                                this.set('providerFields.' + index + '.show', show);
+                            if (el.showIf) {
+                                if (el.showIf.fieldExists) {
+                                    dependency = cloud[el.showIf.fieldName],
+                                        show = dependency;
+                                    this.set('providerFields.' + index + '.show', show);
+                                } else {
+                                    dependency = cloud[el.showIf.fieldName],
+                                        show = el.showIf.fieldValues.indexOf(dependency) != -1;
+                                    this.set('providerFields.' + index + '.show', show);
+                                }
+
+                                if (!show) {
+                                    this._resetField(el, index);
+                                }
                             }
 
-                            if (!show) {
-                                this._resetField(el, index);
+                            if (el.placeholderIf) {
+                                dependency = cloud[el.placeholderIf.fieldName];
+                                this.set('providerFields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
                             }
-                        }
+                        }, this);
 
-                        if (el.placeholderIf) {
-                            dependency = cloud[el.placeholderIf.fieldName];
-                            this.set('providerFields.' + index + '.placeholder', el.placeholderIf.fieldOptions[dependency]);
-                        }
-                    }, this);
+                        var valid = providerFields.base.every(function(el, index) {
+                            return el.show && el.required ? el.value : true;
+                        }, this);
 
-                    var valid = providerFields.base.every(function(el, index) {
-                        return el.show && el.required ? el.value : true;
-                    }, this);
-
-                    this.set('cloud', cloud);
-                    // console.log(cloud, providerFields.base);
-                    this.set('formReady', valid && !sendingData);
+                        this.set('cloud', cloud);
+                        // console.log(cloud, providerFields.base);
+                        this.set('formReady', valid && !sendingData);
+                    });
                 },
                 _providerReset: function() {
                     this.set('provider', null);
